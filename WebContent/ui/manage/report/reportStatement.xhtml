@@ -1,0 +1,217 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="Report Statemnent" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="reportStatementForm">
+			<p:growl globalOnly="true" id="messages" showDetail="true" />
+			<h:panelGroup rendered="#{ReportStatementActionBean.reportTypeSelection}">
+				<h:outputText value="#{label['REPORT_STATEMENT_SELECT_LABEL']}" styleClass="title" />
+				<p:panel>
+					<p:selectOneRadio id="reportTypes" value="#{ReportStatementActionBean.reportType}" layout="pageDirection">
+						<f:selectItems value="#{ReportStatementActionBean.reportTypes}" var="type" itemValue="#{type}" itemLabel="#{type.label}" />
+					</p:selectOneRadio>
+				</p:panel>
+				<p:commandButton id="reportTypeNextBtn" value="#{label['COMMON_NEXT_BTN']}" action="#{ReportStatementActionBean.selectReportType}" update="@form"
+					style="margin :10px;width: 80px;" />
+			</h:panelGroup>
+			<h:panelGroup rendered="#{ReportStatementActionBean.currencySelection}" id="currencyPanel">
+				<h:outputText value="#{label['REPORT_STATEMENT_CUR_SELECT_LABEL']}" styleClass="title" />
+				<p:panel>
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="curType" />
+						<h:outputText for="curType" styleClass="input-label" value="#{label['REPORT_STATEMENT_CUR_TYPE_LABEL']}" />
+						<p:selectOneRadio id="curType" value="#{ReportStatementActionBean.currencyType}">
+							<f:selectItems value="#{ReportStatementActionBean.curTypes}" var="type" itemValue="#{type}" itemLabel="#{type.label}" />
+							<p:ajax event="change" update="@form" />
+						</p:selectOneRadio>
+						<h:outputText value="" />
+						<p:message display="text" for="cur" />
+						<h:outputText for="cur" value="#{label['REPORT_STATEMENT_CUR_LABEL']}" styleClass="input-label mandatory" />
+						<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="cur" value="#{ReportStatementActionBean.currency}"
+							disabled="#{ReportStatementActionBean.currencyType == 'HOMECURRENCY'}" required="true">
+							<f:selectItem itemLabel=" (consult) " noSelectionOption="true" />
+							<f:selectItems itemLabel="#{cur.currencyCode}" itemValue="#{cur}" value="#{ReportStatementActionBean.currencies}" var="cur" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+				</p:panel>
+				<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+					<p:commandButton id="currencyBackBtn" value="#{label['COMMON_BACK_LINK']}" action="#{ReportStatementActionBean.back}" immediate="true" style="width: 80px;" update="@form " />
+					<p:commandButton id="currencyNextBtn" value="#{label['COMMON_NEXT_BTN']}" action="#{ReportStatementActionBean.selectCurrency}" update="@form" style="width: 80px;" />
+				</p:panelGrid>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{ReportStatementActionBean.isLacSelection}" id="liabilitiesAcCodeForm">
+				<h:outputText value="#{label['REPORT_STATEMENT_LAC_LABEL']}" styleClass="title" />
+				<p:separator style="height:3px" />
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputText value="#{label['REPORT_STATEMENT_PLAC_LABEL']}" styleClass="title" />
+					<h:outputText value="" />
+					<h:outputText value="" />
+					<p:message display="text" for="plAcode" />
+					<h:outputText for="plAcode" styleClass="input-label" value="#{label['REPORT_STATEMENT_ACODE_LABEL']}" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="plAcode" value="#{ReportStatementActionBean.plAcode}" required="true" filter="true"
+						filterMatchMode="startsWith">
+						<f:selectItem itemLabel=" Select One " />
+						<f:selectItems itemLabel="#{var.acCode}     #{var.dCode}" itemValue="#{var}" value="#{ReportStatementActionBean.lAcodeDtos}" var="var" />
+						<p:ajax process="@this" update="@this" />
+					</p:selectOneMenu>
+					<h:outputText value="#{label['REPORT_STATEMENT_TXAC_LABEL']}" styleClass="title" />
+					<h:outputText value="" />
+					<h:outputText value="" />
+					<p:message display="text" for="taxAcode" />
+					<h:outputText for="taxAcode" styleClass="input-label" value="#{label['REPORT_STATEMENT_ACODE_LABEL']}" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="taxAcode" value="#{ReportStatementActionBean.taxAcode}" required="true" filter="true"
+						filterMatchMode="startsWith">
+						<f:selectItem itemLabel=" Select One " />
+						<f:selectItems itemLabel="#{var.acCode}     #{var.dCode}" itemValue="#{var}" value="#{ReportStatementActionBean.lAcodeDtos}" var="var" />
+						<p:ajax process="@this" update="@this" />
+					</p:selectOneMenu>
+					<br />
+				</p:panelGrid>
+				<p:commandButton id="lacOkayBtn" value="#{label['COMMON_OKAY_BTN']}" action="#{ReportStatementActionBean.submitLAC()}" update=":reportStatementForm" style="width:73px;" />
+				<p:commandButton id="lacBackBtn" value="#{label['COMMON_BACK_LINK']}" oncomplete="PF('confirmationDialog').show()" style="width: 75px;"
+					update=":reportStatementForm :confirmationForm" />
+				<h:outputText value="#{label['COMMON_MSG_MANDATORY_LABEL']}" style="color:red;" styleClass="input-label" />
+				<br />
+				<p:separator style="height:3px;" />
+			</h:panelGroup>
+			<h:panelGroup rendered="#{ReportStatementActionBean.reportSelection}">
+				<h:outputText value="#{label['MANAGE_FORMAT_REPORT_LABEL']} #{ReportStatementActionBean.reportType.label}" styleClass="title" />
+				<p:panel>
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+							<h:outputText value="" />
+							<p:message display="text" for="branch" />
+							<h:outputText for="branch" styleClass="input-label" value="#{label['REPORT_STATEMENT_BRANCH_LABEL']}" />
+							<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="branch" value="#{ReportStatementActionBean.branch}"
+								disabled="#{ReportStatementActionBean.branchDisabled}">
+								<f:selectItem itemLabel=" All branches " noSelectionOption="true" />
+								<f:selectItems itemLabel="#{branch.name}" itemValue="#{branch}" value="#{ReportStatementActionBean.branches}" var="branch" />
+								<p:ajax process="@this" update="@this" />
+							</p:selectOneMenu>
+							<h:outputText value="" />
+							<p:message display="text" for="heading" />
+							<h:outputText for="heading" value="#{label['REPORT_STATEMENT_HEADING_LABEL']}" styleClass="input-label" />
+							<p:inputTextarea id="heading" value="#{ReportStatementActionBean.heading}" />
+						</p:panelGrid>
+						<p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+							<h:outputText value="" />
+							<p:message display="text" for="budgetYear" />
+							<h:outputText for="budgetYear" value="#{label['MANAGE_ALLOCATECODE_BUDGETYEAR_LABEL']}" styleClass="input-label" />
+							<p:selectOneMenu id="budgetYear" value="#{ReportStatementActionBean.budgetYear}" converter="omnifaces.SelectItemsConverter">				
+								<f:selectItems value="#{ReportStatementActionBean.budgetYearList}" var="budget">
+								</f:selectItems>
+							    <p:ajax event="valueChange" listener="#{ReportStatementActionBean.changeBudgetYear}" update="reportStatementForm month year budgetEnd"></p:ajax>
+							</p:selectOneMenu>
+							<h:outputText value="" />
+							<p:message display="text" for="month" />
+							<h:outputText for="month" value="#{label['REPORT_STATEMENT_DATE_LABEL']}" styleClass="input-label mandatory" />
+							<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+								<p:selectOneMenu id="month" value="#{ReportStatementActionBean.reportMonth}" converter="omnifaces.SelectItemsIndexConverter">
+									
+									<f:selectItems value="#{ReportStatementActionBean.monthSet}" var="month" itemValue="#{month.value}"/>
+								</p:selectOneMenu> 
+								<p:selectOneMenu id="year" value="#{ReportStatementActionBean.reportYear}" converter="omnifaces.SelectItemsConverter">	
+									<f:selectItems value="#{ReportStatementActionBean.yearList}" var="year"/>
+								</p:selectOneMenu>
+							</p:panelGrid>
+							<h:outputText value="" />
+							<p:message display="text" for="reportFormatDto" />
+							<h:outputText styleClass="input-label mandatory" value="#{label['REPORT_STATEMENT_FORMATFILE_LABEL']}" />
+							<p:panelGrid styleClass="ui-panelgrid-blank" id="formatFilePanel">
+								<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="formatFilePanel">
+									<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+										<p:commandButton styleClass="green-button" icon="fa fa-search" update=":formatFileDialogForm" oncomplete="PF('formatFileDialog').show()" id="selectDialogLink"
+											process="@this" />
+										<p:inputText id="reportFormatDto" readonly="#{ReportStatementActionBean.reportFormatDto == null ? facesContext.currentPhaseId.ordinal eq 6 : true}" required="true"
+											value="#{ReportStatementActionBean.reportFormatDto == null ? '' : ReportStatementActionBean.reportFormatDto.formatType}" />
+										<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ReportStatementActionBean.setReportFormatDto(null)}" immediate="true" update="reportFormatDto" />
+									</div>
+								</div>
+							</p:panelGrid>
+						</p:panelGrid>
+					</p:panelGrid>
+					<p:fieldset legend="#{label['REPORT_STATEMENT_REPORT_FIELDSET']}">
+						<p:panelGrid id="selectFormatPanel" columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+							<!-- DISABLED because BF format doesn't work (in vb6 , no report file) -->
+							<p:selectOneRadio id="reportFormat" value="#{ReportStatementActionBean.reportFormat}" layout="pageDirection" disabled="true">
+								<f:selectItems value="#{ReportStatementActionBean.reportFormats}" var="type" itemValue="#{type}" itemLabel="#{type.label}" />
+							</p:selectOneRadio>
+						</p:panelGrid>
+					</p:fieldset>
+					<br />
+					<p:fieldset legend="#{label['REPORT_STATEMENT_STYLE_FIELDSET']}">
+						<p:panelGrid id="selectStylePanel" columns="2" columnClasses="ui-grid-col-3,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+							<p:selectOneRadio id="formatStyle" value="#{ReportStatementActionBean.formatStyle}" layout="pageDirection">
+								<f:selectItems value="#{ReportStatementActionBean.formatStyles}" var="type" itemValue="#{type}" itemLabel="#{type.label}" />
+							</p:selectOneRadio>
+							<p:selectBooleanCheckbox value="#{ReportStatementActionBean.includeObal}" itemLabel="#{label['REPORT_STATEMENT_OBAL']}" />
+							<h:outputText value="" />
+							<p:selectBooleanCheckbox id="budgetEnd" value="#{ReportStatementActionBean.beforeBudgetEnd}" itemLabel="#{label['REPORT_STATEMENT_BEFOREBUDGETEND']}" disabled="#{ReportStatementActionBean.beforeDisabled}">
+							<!-- <p:ajax process="@this" update="@form" listener="#{ReportStatementActionBean.changeBudgetYear}" />
+							<p:ajax process="@this" update="@this" /> -->
+							</p:selectBooleanCheckbox>
+						</p:panelGrid>
+					</p:fieldset>
+				</p:panel>
+				<p:panelGrid columns="3" styleClass="ui-panelgrid-blank">
+					<p:commandButton id="backBtn" value="#{label['COMMON_BACK_LINK']}" action="#{ReportStatementActionBean.back}" immediate="true" style="width:80px;"
+						update=":reportStatementForm " />
+					<p:commandButton id="searchBtn" value="#{label['COMMON_PREVIEW_BTN']}" action="#{ReportStatementActionBean.preview()}" update=":reportStatementForm  :reportStatementPdfForm"
+						style="width:80px;" />
+					<p:commandButton id="downloadLink" value="Download" ajax="false">
+						<p:fileDownload value="#{ReportStatementActionBean.getDownload()}" />
+					</p:commandButton>
+					<h:outputText value="#{label['COMMON_MSG_MANDATORY_LABEL']}" style="color:red;" styleClass="input-label" />
+				</p:panelGrid>
+			</h:panelGroup>
+		</h:form>
+		<!-- Account Code Dialog -->
+		<p:dialog appendTo="@(body)" dynamic="true" modal="true" responsive="true" header="#{label['REPORT_STATEMENT_SELECT_FORMAT_FILE']}" height="500" hideEffect="explode"
+			id="formatFileDialog" showEffect="fade" widgetVar="formatFileDialog" width="700">
+			<h:form id="formatFileDialogForm">
+				<p:dataTable id="formatFileTable" paginator="true" paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="index" rows="10"
+					rowsPerPageTemplate="5,10, 15" value="#{ReportStatementActionBean.reportFormatDtoList}" var="ffDto" widgetVar="formatFileTable"
+					filteredValue="#{ReportStatementActionBean.filteredList}" emptyMessage="Nothing found with given criteria">
+					<p:column headerText="No" width="8%">
+						<h:outputText value="#{index + 1}" />
+					</p:column>
+					<p:column filterStyle="width:80%" filterBy="#{ffDto.formatType}" filterMatchMode="contains" headerText="#{label['REPORT_STATEMENT_FORMAT_TYPE']}">
+						<h:outputText value="#{ffDto.formatType}" />
+					</p:column>
+					<p:column filterBy="#{ffDto.formatName}" filterMatchMode="contains" headerText="#{label['REPORT_STATEMENT_FORMAT_NAME']}">
+						<h:outputText value="#{ffDto.formatName}" />
+					</p:column>
+					<p:column filterStyle="width:80%" width="8%">
+						<p:commandButton styleClass="green-button" icon="fa fa-check" action="#{ReportStatementActionBean.selectFormatFileDto(ffDto)}"
+							oncomplete="PF('formatFileDialog').hide();PF('formatFileTable').clearFilters();" immediate="true" update=":reportStatementForm:reportFormatDto :formatFileDialogForm" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+		<!-- Confirmation Dialog -->
+		<h:form id="confirmationForm">
+			<p:dialog appendTo="@(body)" dynamic="true" modal="true" responsive="true" header="#{label['REPORT_STATEMENT_CONFIRM']}" widgetVar="confirmationDialog" resizable="false"
+				draggable="false" width="400" height="100" showEffect="explode" hideEffect="explode" id="confirmationDialog">
+				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2,ui-grid-col-8">
+					<h:graphicImage name="images/warning.png" styleClass="command-image" />
+					<h:outputText value="#{label['REPORT_STATEMENT_CONFIRM_MESSAGE']}" style="padding-top:-10px;text-decoration: none;font-size: 12px;" />
+					<f:facet name="footer">
+						<p:commandButton value="#{label['COMMON_YES_BTN']}" style="width:50px;" action="#{ReportStatementActionBean.back}" update=":reportStatementForm"
+							oncomplete="PF('confirmationDialog').hide()" immediate="true" />
+						<p:spacer></p:spacer>
+						<p:commandButton value="#{label['COMMON_NO_BTN']}" style="width:50px;" oncomplete="PF('confirmationDialog').hide()" immediate="true" />
+					</f:facet>
+				</p:panelGrid>
+			</p:dialog>
+		</h:form>
+		<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" id="reportStatementPdfDialog" widgetVar="reportStatementPdfDialog" width="1070" height="600">
+			<p:ajax event="close" listener="#{ReportStatementActionBean.handleClose}" update=":reportStatementPdfForm :reportStatementForm" />
+			<h:form enctype="multipart/form-data" id="reportStatementPdfForm">
+				<p:media cache="false" id="pdfPlayer" player="pdf" value="#{ReportStatementActionBean.stream}" width="1050" height="550" />
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

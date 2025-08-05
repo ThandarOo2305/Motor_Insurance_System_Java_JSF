@@ -1,0 +1,270 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="Report Format Management"/>
+   	<ui:param name="headerRendered" value="true"/>
+	<ui:define name="content">
+		<h:form id="reportTypeForm">
+			<p:growl globalOnly="true" id="messages" showDetail="true"/>
+			<h:panelGroup rendered="#{ReportFormatActionBean.selection}">
+				<h:outputText value="#{label['MANAGE_FORMAT_SELECT_LABEL']}" styleClass="title" />
+				<p:panel>
+					<p:selectOneRadio id="reportTypes" value="#{ReportFormatActionBean.reportType}" layout="pageDirection">
+						<f:selectItems value="#{ReportFormatActionBean.reportTypes}" var="type" itemValue="#{type}" itemLabel="#{type.label}" />
+					</p:selectOneRadio>
+				</p:panel>
+				<p:commandButton id="nextBtn" value="#{label['COMMON_NEXT_BTN']}" action="#{ReportFormatActionBean.selectReportType}" update=":reportTableForm :reportTypeForm" 
+					style="margin :10px;width: 80px;" />
+			</h:panelGroup>
+			<h:panelGroup rendered="#{!ReportFormatActionBean.selection}">
+				<h:outputText value="#{label['MANAGE_FORMAT_ADDNEW_LABEL']} #{ReportFormatActionBean.reportType.label}" styleClass="title" rendered="#{ReportFormatActionBean.createNew}" />
+				<h:outputText value="#{label['MANAGE_FORMAT_EDIT_LABEL']} #{ReportFormatActionBean.reportType.label}" styleClass="title" rendered="#{!ReportFormatActionBean.createNew}" />
+				
+				<p:panel>
+					<p:panelGrid id="panelReportFormat" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="formatType" />
+						<h:outputText value="#{label['MANAGE_FORMAT_TYPE_LABEL']}" styleClass="input-label mandatory" escape="false" />
+						<p:inputText value="#{ReportFormatActionBean.formatFile.formatType}" id="formatType" required="true">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						<h:outputText value="" />
+						<p:message display="text" for="formatName" />
+						<h:outputText value="#{label['MANAGE_FORMAT_NAME_LABEL']}" escape="false" styleClass="input-label mandatory" />
+						<p:inputTextarea value="#{ReportFormatActionBean.formatFile.formatName}" id="formatName" required="true">
+							<f:validateLength maximum="100" />
+						</p:inputTextarea>
+						<h:outputText value="" />
+						<p:message display="text" for="formatEntryPanel" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:panelGroup>
+							<p:fieldset legend="#{label['MANAGE_FORMAT_FORMULA_LABEL']}">
+								<h:panelGroup id="formatEntryPanel">
+									<p:dataTable var="ff" value="#{ReportFormatActionBean.selectableFFList}" id="formatEntryTable" widgetVar="formatEntryTable" editable="true" editMode="cell"
+										rowKey="#{ff.id}" emptyMessage="Nothing found with given criteria" rowIndexVar="var" filteredValue="#{ReportFormatActionBean.ffFilteredList}" reflow="true"
+										selectionMode="single" >
+										<p:ajax event="rowEdit" update="formatEntryTable" />
+										<p:ajax event="rowEditCancel" update="formatEntryTable" />
+										<p:ajax event="rowSelectRadio" listener="#{ReportFormatActionBean.onRowSelect}" />
+										<p:ajax event="rowSelect" listener="#{ReportFormatActionBean.onRowSelect}"/>
+										<p:column filterBy="#{ff.lNo}" filterMatchMode="contains" headerText="#{label['MANAGE_FORMAT_LINE_LABEL']}" style="width:30px;" styleClass="textOnCenter">
+											<h:outputText value="#{ff.lNo}" />
+										</p:column>
+										<p:column filterBy="#{ff.chartOfAccount.acCode}" filterStyle="width:80%" filterMatchMode="contains" headerText="#{label['MANAGE_FORMAT_ACCODE_LABEL']}" style="width:130px">
+											<h:panelGroup id="panelCoa">
+												<div class="ui-g ui-fluid" id="panelCoa">
+													<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+														<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{ReportFormatActionBean.selectFFCoa}" immediate="true">
+															<f:setPropertyActionListener target="#{ReportFormatActionBean.ffListVar}" value="#{var}" />
+															<p:ajax event="dialogReturn" listener="#{ReportFormatActionBean.returnCoa}" update="formatEntryTable" />
+														</p:commandButton>
+													  	<p:inputText id="district" readonly="true" value="#{ff.chartOfAccount == null ? '' : ff.chartOfAccount.acCode}"/>
+													    <p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ReportFormatActionBean.resetFormatFile(ff)}" process="@this" update="formatEntryTable"/>
+													</div>
+												</div>
+											</h:panelGroup>
+										</p:column>
+										<p:column headerText="#{label['MANAGE_FORMAT_DEPT_LABEL']}" style="width:70px;">
+											<h:outputText value="#{ff.department.dCode}" />
+										</p:column>
+										<p:column headerText="#{label['MANAGE_FORMAT_DESC_LABEL']}" style="width:300px !important;">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{ff.desp}" />
+												</f:facet>
+												<f:facet name="input">
+													<p:inputText value="#{ff.desp}">
+														<p:ajax event="blur" update=":reportTypeForm" />
+													</p:inputText>
+												</f:facet>
+											</p:cellEditor>
+										</p:column>
+										<p:column headerText="#{label['MANAGE_FORMAT_HIDE_LABEL']}" style="width:50px !important;text-align: center;">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{ff.showHide ? 'Show':'Hide'}" style="width:100%;text-align: center;"/>
+												</f:facet>
+												<f:facet name="input">
+													<p:selectBooleanButton value="#{ff.showHide}" onLabel="Show" offLabel="Hide" style="width:100% !important;">
+														<p:ajax update="formatEntryTable" />
+													</p:selectBooleanButton>
+												</f:facet>
+											</p:cellEditor>
+										</p:column>
+										<p:column headerText="#{label['MANAGE_FORMAT_COLTYPE_LABEL']}" style="width:60px;text-align: center;">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{ff.colType.label}"  style="width:100%;text-align: center;"/>
+												</f:facet>
+												<f:facet name="input">
+													<p:selectOneMenu converter="omnifaces.SelectItemsConverter" style="width:100% !important;" value="#{ff.colType}" immediate="true">
+														<f:selectItems value="#{ReportFormatActionBean.colTypes}" var="c" itemLabel="#{c.label}" itemValue="#{c}" />
+														<p:ajax update="formatEntryTable" />
+													</p:selectOneMenu>
+												</f:facet>
+											</p:cellEditor>
+										</p:column>
+										<p:column headerText="#{label['MANAGE_FORMAT_COL_LABEL']}" style="width:60px;text-align: center;">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{ff.amountTotal ? 'Amount' : 'Total' }"  style="width:100%;text-align: center;"/>
+												</f:facet>
+												<f:facet name="input">
+													<p:selectBooleanButton value="#{ff.amountTotal}" onLabel="Amount" offLabel="Total" style="width:100% !important;" immediate="true">
+														<p:ajax update="formatEntryTable" />
+													</p:selectBooleanButton>
+												</f:facet>
+											</p:cellEditor>
+										</p:column>
+										<p:column headerText="#{label['MANAGE_FORMAT_FORMULA_LABEL']}" styleClass="#{ff.invalidFormula ? 'errorCell' : ''}" style="width:200px">
+											<p:cellEditor>
+												<f:facet name="output">
+													<h:outputText value="#{ff.other}" />
+												</f:facet>
+												<f:facet name="input">
+													<p:inputText onkeypress="return isFormulaKey(event)" value="#{ff.other}">
+														<p:ajax event="blur" listener="#{ReportFormatActionBean.checkFormula(ff)}" update=":reportTypeForm" />
+													</p:inputText>
+												</f:facet>
+											</p:cellEditor>
+										</p:column>
+									</p:dataTable>
+									<br />
+									<p:commandButton value="#{label['MANAGE_FORMAT_INSERTLINE_LABEL']}" action="#{ReportFormatActionBean.addNewLine()}" style="width: 120px;"
+										update=":reportTypeForm :reportTableForm" immediate="true" />
+									<p:commandButton id="insertRangeBtn" value="#{label['MANAGE_FORMAT_INSERTRANGE_LABEL']}" oncomplete="PF('lineRangeDialog').show()" style="width: 120px;"
+										update=":rangeSelectionForm" immediate="true"/>
+									<p:commandButton value="#{label['MANAGE_FORMAT_DELETELINE_LABEL']}" action="#{ReportFormatActionBean.deleteLine()}" style="width: 120px;"
+										update=":reportTypeForm :reportTableForm" immediate="true" />
+									<p:commandButton value="#{label['MANAGE_FORMAT_DELETERANGE_LABEL']}" oncomplete="PF('deleteRangeDialog').show()" style="width: 120px;"
+										 update=":deleteRangeSelectionForm" immediate="true"/>
+								</h:panelGroup>
+							</p:fieldset>
+						</h:panelGroup>
+					</p:panelGrid>
+				</p:panel>
+				<h:panelGrid columns="3" style="margin:10px;">
+					<p:commandButton id="addBtn" value="#{label['COMMON_ADDNEW_BTN']}" action="#{ReportFormatActionBean.addNewFormatFile}" rendered="#{ReportFormatActionBean.createNew}"
+						update=":reportTypeForm :reportTableForm" style="width: 75px;" oncomplete="PF('reportFormatTable').clearFilters()" />
+					<p:commandButton id="editBtn" value="#{label['COMMON_UPDATE_BTN']}" action="#{ReportFormatActionBean.updateFormatFile}" rendered="#{!ReportFormatActionBean.createNew}"
+						update=":reportTypeForm :reportTableForm" style="width: 75px;" oncomplete="PF('reportFormatTable').clearFilters()" />
+					<p:commandButton id="backBtn" value="#{label['COMMON_BACK_LINK']}" action="#{ReportFormatActionBean.back}" immediate="true" style="width: 75px;"
+						update=":reportTypeForm :reportTableForm" />
+				</h:panelGrid>
+				<h:outputText value="#{label['COMMON_MSG_MANDATORY_LABEL']}" style="color:red;" styleClass="input-label" />
+				<br />
+				<p:separator style="height:2px;" />
+			</h:panelGroup>
+		</h:form>
+		<h:form id="reportTableForm">
+			<h:panelGroup rendered="#{!ReportFormatActionBean.selection}">
+				<h:panelGrid>
+					<p:commandLink action="#{ReportFormatActionBean.createNewFormatFile}" ajax="fasle">
+					<h:panelGrid columns="2">
+						<h:graphicImage name="images/add.png" styleClass="addIcon" />
+						<h:outputText value="#{label['COMMON_ADDNEW_LINK']}" styleClass="command-link" />
+					</h:panelGrid>
+				</p:commandLink>
+				</h:panelGrid>
+				<p:dataTable var="dto" value="#{ReportFormatActionBean.dtoList}" id="reportFormatTable" paginator="true" rows="10" style="width:100%;" widgetVar="reportFormatTable"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10, 15"
+					rowKey="index" emptyMessage="Nothing found with given criteria" filteredValue="#{ReportFormatActionBean.filteredList}" reflow="true">
+					<p:column filterBy="#{dto.formatType}" filterStyle="width:80%" filterMatchMode="contains" headerText="#{label['MANAGE_FORMAT_TYPE_LABEL']}" style="width:25%">
+						<h:outputText value="#{dto.formatType}" />
+					</p:column>
+					<p:column filterBy="#{dto.formatName}" filterStyle="width:80%" filterMatchMode="contains" headerText="#{label['MANAGE_FORMAT_NAME_LABEL']}" style="width:55%">
+						<h:outputText value="#{dto.formatName}" />
+					</p:column>
+					<p:column style="width:4%;">
+				   		<p:commandButton styleClass="green-button" icon="fa fa-paint-brush" action="#{ReportFormatActionBean.prepareUpdateDto(dto)}" update=":reportTypeForm"/>
+				    </p:column>
+				    <p:column style="width:4%;">
+					    <p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ReportFormatActionBean.deleteDto(dto)}" oncomplete="PF('reportFormatTable').clearFilters();" update=":reportTypeForm :reportTableForm">
+					    	<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+					    </p:commandButton>
+				    </p:column>
+				</p:dataTable>
+			</h:panelGroup>
+		</h:form>
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		 	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+		
+		<p:dialog modal="true" dynamic="true" appendTo="@(body)" responsive="true"  header="#{label['MANAGE_FORMAT_SELECTRANGE_LABEL']}" 
+				widgetVar="lineRangeDialog" resizable="false" width="450" height="300" showEffect="explode" hideEffect="explode" id="lineRangeDialog">
+			<h:form id="rangeSelectionForm">
+				<p:panel>
+					<p:panelGrid id="rangeSelectionPanel" columns="2" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" columnClasses="ui-grid-col-4,ui-grid-col-8">
+						
+						<h:outputText value="" />
+						<p:message display="text" for="rangeStart" />
+						<h:outputText value="#{label['MANAGE_FORMAT_STARTRANGE_LABEL']}" styleClass="input-label mandatory" />
+						<p:panelGrid styleClass="ui-panelgrid-blank" id="rangeStartPanelGroup">
+							<div style="margin-top:-5px; margin-left:-5px;" class="ui-g ui-fluid" id="rangeStartPanelGroup">
+								<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+									<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{ReportFormatActionBean.selectFFCoa}" id="selectRangeStartDialogLink" process="@this">
+								       <p:ajax event="dialogReturn" listener="#{ReportFormatActionBean.returnRangeStart}" update="rangeStart"/>
+								    </p:commandButton>
+								  	<p:inputText id="rangeStart" readonly="#{ReportFormatActionBean.rangeStart == null ? facesContext.currentPhaseId.ordinal eq 6 : true}" required="true" 
+								  		value="#{ReportFormatActionBean.rangeStart == null ? '' : ReportFormatActionBean.rangeStart.acCode}"/>
+								    <p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ReportFormatActionBean.setRangeStart(null)}" process="@this" update="rangeStart"/>
+								</div>
+							</div>
+					  	</p:panelGrid>
+						
+						<h:outputText value="" />
+						<p:message display="text" for="rangeEnd" />
+						<h:outputText value="#{label['MANAGE_FORMAT_ENDRANGE_LABEL']}" styleClass="input-label mandatory"/>
+						<p:panelGrid styleClass="ui-panelgrid-blank" id="rangeEndPanelGroup">
+							<div style="margin-top:-5px; margin-left:-5px;" class="ui-g ui-fluid" id="rangeEndPanelGroup">
+								<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+									<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{ReportFormatActionBean.selectFFCoa}" id="selectRangeEndDialogLink" process="@this">
+								       <p:ajax event="dialogReturn" listener="#{ReportFormatActionBean.returnRangeEnd}" update="rangeEnd"/>
+								    </p:commandButton>
+								  	<p:inputText id="rangeEnd" readonly="#{ReportFormatActionBean.rangeEnd == null ? facesContext.currentPhaseId.ordinal eq 6 : true}" required="true" 
+								  		value="#{ReportFormatActionBean.rangeEnd == null ? '' : ReportFormatActionBean.rangeEnd.acCode}"/>
+								    <p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ReportFormatActionBean.setRangeStart(null)}" process="@this" update="rangeEnd"/>
+								</div>
+							</div>
+					  	</p:panelGrid>
+					</p:panelGrid>
+				</p:panel>
+				<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="#{label['COMMON_SELECT_BTN']}" action="#{ReportFormatActionBean.selectRange()}" update="rangeSelectionPanel :reportTypeForm"/>
+					<p:commandButton value="#{label['COMMON_BACK_LINK']}" oncomplete="PF('lineRangeDialog').hide()" immediate="true"/>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog modal="true" dynamic="true" appendTo="@(body)" responsive="true"  header="#{label['MANAGE_FORMAT_SELECTRANGE_LABEL']}" widgetVar="deleteRangeDialog" resizable="false"
+			width="450"  height="300" showEffect="explode" hideEffect="explode" id="deleteRangeDialog">
+			<h:form id="deleteRangeSelectionForm">
+				<p:panel>
+					<p:panelGrid id="deleteRangeSelectionPanel" columns="2" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" columnClasses="ui-grid-col-4,ui-grid-col-8">
+						
+						<h:outputText value="" /> 
+						<p:message display="text" for="lineStart" />
+						<h:outputText value="#{label['MANAGE_FORMAT_STARTLINE_LABEL']}" styleClass="input-label mandatory" />
+						<p:inputNumber id="lineStart" decimalPlaces="0" value="#{ReportFormatActionBean.lineStart}" required="true">
+							<f:validateLongRange minimum="1"/>
+						</p:inputNumber>
+						
+						<h:outputText value="" /> 
+						<p:message display="text" for="lineEnd" />
+						<h:outputText value="#{label['MANAGE_FORMAT_ENDLINE_LABEL']}" styleClass="input-label mandatory" />
+						<p:inputNumber decimalPlaces="0" id="lineEnd" value="#{ReportFormatActionBean.lineEnd}" required="true">
+							<f:validateLongRange minimum="1"/>
+						</p:inputNumber>
+					
+					</p:panelGrid>
+				</p:panel>
+				<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+					<p:commandButton value="#{label['COMMON_SELECT_BTN']}" action="#{ReportFormatActionBean.deleteRange()}" update="deleteRangeSelectionPanel :reportTypeForm" />
+					<p:commandButton value="#{label['COMMON_BACK_LINK']}" oncomplete="PF('deleteRangeDialog').hide()" immediate="true" />
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

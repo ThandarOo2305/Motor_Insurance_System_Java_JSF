@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="#{label['MANAGE_GENLEDGERLISTING_TITLE']}" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="genLedgerListingForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<p:panelGrid id="genLedgerListingPanel" columns="5" columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-1,ui-grid-col-2,ui-grid-col-3" layout="grid"
+				styleClass="ui-panelgrid-blank ui-fluid">
+				<h:outputText value="" />
+				<p:selectOneRadio id="currencyOption" value="#{GenLedgerSummaryActionBean.currencyType}" converter="omnifaces.SelectItemsIndexConverter" styleClass="input-label">
+					<f:selectItems value="#{GenLedgerSummaryActionBean.currencyTypes}" var="curType" itemLabel="#{curType.label}" itemValue="#{curType}"></f:selectItems>
+					<p:ajax event="change" listener="#{GenLedgerSummaryActionBean.changeCurrencyType}" update="currencyOption currency homeCurrency">
+					</p:ajax>
+				</p:selectOneRadio>
+				<h:outputText value="" />
+				<h:outputText value="" />
+				<h:outputText value="" />
+				<h:outputText id="currencyLabel" value="#{label['MANAGE_GENLEDGERLISTING_CURRENCY_LABEL']}" styleClass="input-label" />
+				<p:selectOneMenu id="currency" value="#{GenLedgerSummaryActionBean.criteria.currency}" converter="omnifaces.SelectItemsIndexConverter"
+					disabled="#{GenLedgerSummaryActionBean.criteria.homeCurrency}">
+					<f:selectItems value="#{GenLedgerSummaryActionBean.currencyList}" var="currency" itemValue="#{currency}" itemLabel="#{currency.currencyCode}"></f:selectItems>
+				</p:selectOneMenu>
+				<h:outputText value="" />
+				<p:outputPanel>
+					<p:selectBooleanCheckbox id="homeCurrency" value="#{GenLedgerSummaryActionBean.criteria.homeCurrencyConverted}" converter="omnifaces.SelectItemsIndexConverter"
+						disabled="#{GenLedgerSummaryActionBean.criteria.homeCurrency}">
+					</p:selectBooleanCheckbox>
+					<h:outputText value="#{label['MANAGE_GENLEDGERLISTING_HOMECURRENCYCONVERTED_LABEL']}" styleClass="input-label" />
+				</p:outputPanel>
+				<h:outputText value="" />
+				<h:outputText value="#{label['MANAGE_GENLEDGERLISTING_BRANCH_LABEL']}" styleClass="input-label" />
+				<p:selectOneMenu id="branch" value="#{GenLedgerSummaryActionBean.criteria.branch}" converter="omnifaces.SelectItemsIndexConverter"
+					disabled="#{GenLedgerSummaryActionBean.criteria.allBranch}">
+					<f:selectItems value="#{GenLedgerSummaryActionBean.branchList}" var="branch" itemLabel="#{branch.name}" itemValue="#{branch}"></f:selectItems>
+				</p:selectOneMenu>
+				<h:outputText value="" />
+				<p:outputPanel>
+					<p:selectBooleanCheckbox value="#{GenLedgerSummaryActionBean.criteria.allBranch}" converter="omnifaces.SelectItemsIndexConverter" rendered="true">
+						<p:ajax update="branch"></p:ajax>
+					</p:selectBooleanCheckbox>
+					<h:outputText value="#{label['MANAGE_GENLEDGERLISTING_ALLBRANCH_LABEL']}" styleClass="input-label" rendered="true" />
+				</p:outputPanel>
+				<h:outputText value="" />
+				<h:outputText value="" />
+				<h:outputText value="" />
+			</p:panelGrid>
+			<fieldset>
+				<legend style="font-size: 14px;">Select Date</legend>
+				<p:panelGrid id="selectDatePanel" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputText value="" />
+					<p:message display="text" for="startDate" />
+					<h:outputText value="#{label['MANAGE_GENLEDGERLISTING_STARTDATE_LABEL']}" styleClass="input-label" />
+					<p:calendar id="startDate" value="#{GenLedgerSummaryActionBean.criteria.startDate}" required="true" showOn="button" pattern="#{ApplicationSetting.dateFormat}"
+						timeZone="#{ApplicationSetting.timeZone}" mask="true" maxdate="#{GenLedgerSummaryActionBean.todayDate}" />
+					<h:outputText value="#{label['MANAGE_GENLEDGERLISTING_ENDDATE_LABEL']}" styleClass="input-label" />
+					<p:calendar id="endDate" value="#{GenLedgerSummaryActionBean.criteria.endDate}" required="true" showOn="button" pattern="#{ApplicationSetting.dateFormat}"
+						timeZone="#{ApplicationSetting.timeZone}" mask="true" maxdate="#{GenLedgerSummaryActionBean.todayDate}" />
+				</p:panelGrid>
+			</fieldset>
+			<p:commandButton id="previewBtn" value="#{label['COMMON_PREVIEW_BTN']}" style="width: 80px;" action="#{GenLedgerSummaryActionBean.searchReportList}"
+				update="genLedgerListingForm :genLedgerListingDialogForm" />
+			<p:commandButton id="detailsBtn" value="Generate Details" style="width: 200px;" action="#{GenLedgerSummaryActionBean.searchGenLedgerDetailsList}"
+				update="genLedgerListingForm :genLedgerListingDialogForm" />
+			<p:commandButton id="cancelBtn" action="genLedgerListing" style="width: 80px;" value="#{label['COMMON_CANCEL_BTN']}" immediate="true" ajax="false" />
+		</h:form>
+		<h:form enctype="multipart/form-data" id="genLedgerListingDialogForm">
+			<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" id="genLedgerListingPdfDialog" resizable="false" widgetVar="genLedgerListingPdfDialog" width="95%"
+				height="600">
+				<p:media cache="false" id="pdfPlayer" player="pdf" value="#{GenLedgerSummaryActionBean.stream}" width="100%" height="99%" />
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

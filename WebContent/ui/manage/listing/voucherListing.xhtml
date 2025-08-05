@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="#{label['VL_VL_LABEL']}" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="voucherListingForm">
+			<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			<p:panel>
+				<p:panelGrid id="voucherListingPanel" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputText value="" />
+					<p:message display="text" for="vTypeSelection" />
+					<p:outputLabel for="vTypeSelection" value="#{label['VL_VTYPE_SELECTION_LABEL']}" styleClass="input-label mandatory" escape="false" />
+					<p:selectOneRadio id="vTypeSelection" value="#{VoucherListingActionBean.type}" layout="grid" columns="2">
+						<f:selectItems value="#{VoucherListingActionBean.voucherListingTypes}" var="var" itemLabel="#{var.label}" itemValue="#{var}" />
+						<p:ajax update="@form" listener="#{VoucherListingActionBean.changeVType}" />
+					</p:selectOneRadio>
+					<h:outputText value="" />
+					<p:message display="text" for="transactionType" />
+					<h:outputText for="transactionType" value="Transaction Type" escape="false" styleClass="input-label mandatory" />
+					<p:selectOneRadio id="transactionType" value="#{VoucherListingActionBean.onlyVoucher}" layout="grid" columns="2" disabled="#{VoucherListingActionBean.allVoucherType}">
+						<f:selectItem itemLabel="Voucher Only" itemValue="true"/>
+						<f:selectItem itemLabel="Transaction Only" itemValue="false"/>
+						<p:ajax update="@form" process="@this" />
+					</p:selectOneRadio>
+					<h:outputText value="" />
+					<p:selectBooleanCheckbox value="#{VoucherListingActionBean.allVoucherType}" itemLabel="All VoucherType">
+            		<p:ajax update="@form" process="@this" />
+        			</p:selectBooleanCheckbox>
+        			<h:outputText value="" />
+        			<p:selectBooleanCheckbox value="#{VoucherListingActionBean.reverse}" itemLabel="Is Reverse">
+            		<p:ajax update="@form" process="@this" />
+        			</p:selectBooleanCheckbox>
+        			
+					<h:outputText value="" />
+					<p:message display="text" for="startDate" />
+					<h:outputText for="startDate" value="#{label['VL_STARTDATE_LABEL']}" escape="false" styleClass="input-label mandatory" />
+					<p:calendar id="startDate" value="#{VoucherListingActionBean.startDate}" showOn="button" pattern="#{ApplicationSetting.dateFormat}" mask="true" required="true"
+						disabled="#{empty VoucherListingActionBean.type}" maxdate="#{VoucherListingActionBean.todayDate}">
+						<p:ajax event="dateSelect" process="@this" update="@this" />
+					</p:calendar>
+					<h:outputText value="" />
+					<p:message display="text" for="endDate" />
+					<h:outputText for="endDate" value="#{label['VL_ENDDATE_LABEL']}" escape="false" styleClass="input-label mandatory" />
+					<p:calendar id="endDate" value="#{VoucherListingActionBean.endDate}" showOn="button" pattern="#{ApplicationSetting.dateFormat}" mask="true" required="true"
+						disabled="#{empty VoucherListingActionBean.type}" maxdate="#{VoucherListingActionBean.todayDate}">
+						<p:ajax event="dateSelect" process="@this" update="@this" />
+					</p:calendar>
+					<h:outputText value="" />
+					<p:message display="text" for="branch" />
+					<h:outputText for="branch" styleClass="input-label" value="#{label['VL_BRANCH_LABEL']}" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="branch" value="#{VoucherListingActionBean.branch}"
+						disabled="#{empty VoucherListingActionBean.type or !sessionScope.LoginUser.admin}">
+						<f:selectItem itemLabel=" All branches " />
+						<f:selectItems itemLabel="#{type.name}" itemValue="#{type}" value="#{VoucherListingActionBean.branches}" var="type" />
+						<p:ajax event="valueChange" update="@this" process="@this"></p:ajax>
+					</p:selectOneMenu>
+					<h:outputText value="" />
+					<p:message display="text" for="currency" />
+					<h:outputText for="currency" styleClass="input-label" value="#{label['VL_CURRENCY_LABEL']}" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="currency" value="#{VoucherListingActionBean.currency}" disabled="#{empty VoucherListingActionBean.type}">
+						<f:selectItem itemLabel=" All currencies " />
+						<f:selectItems itemLabel="#{type.currencyCode}" itemValue="#{type}" value="#{VoucherListingActionBean.currencies}" var="type" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+			</p:panel>
+			<br />
+			<p:commandButton id="searchBtn" value="#{label['COMMON_SEARCH_BTN']}" action="#{VoucherListingActionBean.search()}" update="voucherListingForm :voucherListingPdfFrom"
+				disabled="#{empty VoucherListingActionBean.type}" style="width:70px;text-align:center;" />
+			<!-- <h:outputText value="#{label['COMMON_MSG_MANDATORY_LABEL']}" style="color:red;" styleClass="input-label" /> -->
+			<p:commandButton id="downloadLink" value="Download" ajax="false" disabled="#{empty VoucherListingActionBean.type}" >
+				<p:fileDownload value="#{VoucherListingActionBean.getDownload()}" />
+			</p:commandButton>
+			<br />
+			<p:separator style="height:3px;" />
+		</h:form>
+		<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" id="voucherListingPdfDialog" resizable="false" widgetVar="voucherListingPdfDialog" width="1070"
+			height="505">
+			<p:ajax event="close" listener="#{VoucherListingActionBean.handleClose}" update=":voucherListingPdfFrom :voucherListingForm" />
+			<h:form enctype="multipart/form-data" id="voucherListingPdfFrom">
+				<p:media cache="false" id="pdfPlayer" player="pdf" value="#{VoucherListingActionBean.stream}" width="1050" height="500" />
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

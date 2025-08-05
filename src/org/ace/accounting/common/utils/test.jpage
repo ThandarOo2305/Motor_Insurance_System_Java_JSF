@@ -1,0 +1,2 @@
+String str = "2014";
+str.substring(2);(java.lang.String) 14

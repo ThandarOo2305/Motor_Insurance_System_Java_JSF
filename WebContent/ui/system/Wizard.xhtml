@@ -1,0 +1,145 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/commonLayout.xhtml">
+   <ui:define name="content">
+   		
+		    <h:form id="studentEntryForm">
+		
+		        <p:growl id="growl" sticky="true" showDetail="true"/>
+		
+		        <p:wizard flowListener="#{ManageStudentActionBean.onFlowProcess}">
+		 			<p:tab id="personal" title="Personal">
+		                <p:panel header="Student Details">
+		                    <p:messages/>
+		                    <h:panelGrid columns="2" columnClasses="label, value">
+		                        <h:outputText value="Name *"/>
+		                        <p:inputText value="#{ManageStudentActionBean.student.name}" required="true" label="Name"/>
+		
+		                        <h:outputText value="Age *"/>
+		                        <p:inputText value="#{ManageStudentActionBean.student.age}" required="true" label="Age"/>
+		
+								<h:outputText value="birthDate *"/>
+		                        <p:datePicker value="#{ManageStudentActionBean.student.dateOfBirth}" required="true" label="Date of Birth"/>
+		
+		                        <h:outputText value="Address *"/>
+		                        <p:inputText value="#{ManageStudentActionBean.student.address}"/>
+		                        
+		                        <h:outputText value="Skip to last: "/>
+                        		<h:selectBooleanCheckbox value="#{ManageStudentActionBean.skip}"/>
+		                    </h:panelGrid>
+		                </p:panel>
+		            </p:tab>
+            
+		            <p:tab id="contact" title="Contact">
+		                <p:panel header="General Information">
+		                    <p:messages/>
+		                    <h:panelGrid columns="2" columnClasses="label, value">
+		                        <h:outputText value="Course :"/>
+		                        <p:selectOneMenu id="course" required="true" value="#{ManageStudentActionBean.student.course}">
+									<f:selectItem itemLabel="Select Course" itemValue="" noSelectionOption="true"/>
+									<f:selectItems value="#{ManageStudentActionBean.courses}" var="item" itemLabel="#{item.label}"/>
+								</p:selectOneMenu>
+		
+		                        <h:outputText value="Gender :"/>
+		                        <p:selectOneRadio id="gender" value="#{ManageStudentActionBean.student.gender}" var="item" layout="lineDirection" required="true">
+									<f:selectItems value="#{ManageStudentActionBean.gender}" var="item" itemLabel="#{item.label}"/>
+								</p:selectOneRadio>
+		                    </h:panelGrid>
+		                </p:panel>
+		            </p:tab>
+		            
+		            
+		            <p:tab id="confirm" title="Confirmation">
+		                <p:panel header="Confirmation">
+		                    <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+		 						<h:panelGrid columns="2" columnClasses="label, value">
+			                        <h:outputText value="Name *"/>
+			                        <p:inputText value="#{ManageStudentActionBean.student.name}" styleClass="outputLabel"/>
+			
+			                        <h:outputText value="Age *"/>
+			                        <p:inputText value="#{ManageStudentActionBean.student.age}" styleClass="outputLabel"/>
+			
+									<h:outputText value="birthDate *"/>
+			                        <p:datePicker value="#{ManageStudentActionBean.student.dateOfBirth}" styleClass="outputLabel"/>
+			
+			                        <h:outputText value="Address *"/>
+			                        <p:inputText value="#{ManageStudentActionBean.student.address}" styleClass="outputLabel"/>
+			                    </h:panelGrid>
+			                    
+			                    <h:panelGrid columns="2" columnClasses="label, value">
+			                        <h:outputText value="Course :"/>
+			                        <p:inputText value="#{ManageStudentActionBean.student.course}" styleClass="outputLabel"/>
+			
+			                        <h:outputText value="Gender :"/>
+			                        <p:inputText value="#{ManageStudentActionBean.student.gender}" styleClass="outputLabel"/>
+			                    </h:panelGrid>
+		                    
+		 					</h:panelGrid>
+		 					
+				 			<p:commandButton id="addBtn" value="Submit" action="#{ManageStudentActionBean.addNewStudent}" rendered="#{ManageStudentActionBean.createNew}"
+								update=":studentEntryForm :studentTableForm" style="width:65px;" oncomplete="PF('studentTable').clearFilters();" />
+							<p:commandButton id="editBtn" value="Update" action="#{ManageStudentActionBean.updateStudent}" rendered="#{!ManageStudentActionBean.createNew}"
+								update=":studentEntryForm :studentTableForm" style="width:70px;" oncomplete="PF('studentTable').clearFilters();" />
+							<p:commandButton id="cancelButton" immediate="true" process="@this" value="Cancel" action="#{ManageStudentActionBean.createNewStudent}" update=":studentEntryForm"
+								style="width:70px;margin-left:-3px;" />
+			                </p:panel>
+		            </p:tab>
+				 </p:wizard>
+				
+			</h:form>
+			<h:form id="studentTableForm">
+					
+				<p:dataTable var="student" value="#{ManageStudentActionBean.students}" id="studentTable" paginator="true" rows="10" style="width:100%" widgetVar="studentTable"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15"
+					rowKey="#{student.id}" reflow="true" rowIndexVar="var" paginatorPosition="bottom">
+					<p:column headerText="No" width="2%">
+						<h:outputText value="#{var + 1}" />
+					</p:column>
+					<p:column headerText="Name" filterBy="#{student.name}" filterMatchMode="contains">
+						<h:outputText value="#{student.name}" />
+					</p:column>
+					<p:column headerText="Age" filterBy="#{student.age}" filterMatchMode="contains">
+						<h:outputText value="#{student.age}" />
+					</p:column>
+					<p:column headerText="Course">
+						<h:outputText value="#{student.course}" />
+					</p:column>
+					<p:column headerText="Address">
+						<h:outputText value="#{student.address}" />
+					</p:column>
+					<p:column style="width:4%;">
+						<p:commandButton styleClass="green-button" icon="fa fa-paint-brush" action="#{ManageStudentActionBean.prepareUpdateStudent(student)}" process="@this" update=":studentEntryForm" />
+					</p:column>
+					<p:column style="width:4%;">
+						<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ManageStudentActionBean.deleteStudent(student)}" oncomplete="PF('studentTable').filter();"
+							update=":studentEntryForm :studentTableForm">
+							<p:confirm header="Confirmation" message="are you sure to delete??" icon="fa fa-exclamation-triangle" />
+						</p:commandButton>
+					</p:column>
+					<p:column style="width:4%;">
+						 <p:commandButton type="black-button" icon="fa fa-print" action="#{ManageStudentActionBean.generateReport(student)}" oncomplete="PF('pdfDialog').show()"
+						 update="pdfForm" style="float:right;"/>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			
+			<!-- Confirmation Dialog -->
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+			</p:confirmDialog>
+			
+			<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" id="pdfDialog" resizable="false" widgetVar="pdfDialog" width="60%" height="550">
+	            <h:form enctype="multipart/form-data" id="pdfForm">
+	                <p:media cache="false" id="pdfPlayer" player="pdf" value="#{ManageStudentActionBean.stream}" width="99%" height="500" />
+	            </h:form>
+	        </p:dialog>
+	
+   </ui:define>             
+           
+</ui:composition>
+
+		

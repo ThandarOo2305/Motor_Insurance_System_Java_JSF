@@ -1,0 +1,151 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="Opening Balance Entry" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:outputScript name="js/leaveConfirm.js" />
+		<h:form id="openingBalanceEntryForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<h:outputText value="#{label['MANAGE_OBAL_INSERT_LABEL']}" styleClass="title" />
+			<p:panel>
+				<p:panelGrid id="paneldialogDept" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:outputLabel />
+						<p:message display="text" for="branchCode" />
+						<h:outputText styleClass="input-label" value="#{label['MANAGE_BRANCH_CODE_LABEL']}" />
+						<p:panelGrid styleClass="ui-panelgrid-blank" id="branchCodePanelGroup">
+							<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="branchCodePanelGroup">
+								<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+									<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{OpeningBalanceActionBean.selectBranch()}" id="selectBranchDialogLink" process="@this">
+										<p:ajax event="dialogReturn" listener="#{OpeningBalanceActionBean.returnBranch}" update="branchCode" />
+									</p:commandButton>
+									<p:inputText id="branchCode" value="#{OpeningBalanceActionBean.dto.branchCode == null ? '' : OpeningBalanceActionBean.dto.branchCode }" readonly="true" />
+									<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{OpeningBalanceActionBean.dto.setBranchCode(null)}" process="@this" update="branchCode" />
+								</div>
+							</div>
+						</p:panelGrid>
+						<p:outputLabel />
+						<p:message display="text" for="dCode" />
+						<h:outputText styleClass="input-label" value="#{label['MANAGE_DCODE_LABEL']}" />
+						<p:panelGrid styleClass="ui-panelgrid-blank" id="dCodePanelGroup">
+							<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="dCodePanelGroup">
+								<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+									<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{OpeningBalanceActionBean.selectDepartment()}" id="selectDepartmentDialogLink"
+										process="@this">
+										<p:ajax event="dialogReturn" listener="#{OpeningBalanceActionBean.returnDepartment}" update="dCode" />
+									</p:commandButton>
+									<p:inputText id="dCode" value="#{OpeningBalanceActionBean.dto.deptCode == null ? '' : OpeningBalanceActionBean.dto.deptCode }" readonly="true" />
+									<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{OpeningBalanceActionBean.dto.setDeptCode(null)}" process="@this" update="dCode" />
+								</div>
+							</div>
+						</p:panelGrid>
+					</p:panelGrid>
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText for="currencyCode" value="#{label['MANAGE_CURRENCY_CURRENCYCODE_LABEL']}" styleClass="input-label" />
+						<p:selectOneMenu id="currencyCode" value="#{OpeningBalanceActionBean.dto.curId}">
+							<f:selectItem itemLabel="Select One" />
+							<f:selectItems itemLabel="#{currency.currencyCode}" itemValue="#{currency.id}" value="#{OpeningBalanceActionBean.currencyList}" var="currency" />
+							<p:ajax process="@this" update="@this" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<br />
+			<p:commandButton id="searchBtn" value="#{label['COMMON_SEARCH_BTN']}" action="#{OpeningBalanceActionBean.search()}" style="width:80px;"
+				update=":openingBalanceEntryForm openingBalanceForm" oncomplete="PF('openingBalanceTable').clearFilters()" />
+			<p:commandButton id="cancelBtn" value="#{label['COMMON_CANCEL_BTN']}" action="home" style="width:80px;" />
+		</h:form>
+		<br />
+		<h:form id="openingBalanceForm">
+			<p:message for="openingBalanceTable" display="text"></p:message>
+			<p:separator style="height:3px" />
+			<p:dataTable id="openingBalanceTable" value="#{OpeningBalanceActionBean.dtoList}" var="dto" widgetVar="openingBalanceTable" rowKey="index" editable="true" editMode="cell"
+				rowIndexVar="var" filteredValue="#{OpeningBalanceActionBean.filteredList}" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rows="10"
+				rowsPerPageTemplate="5,10,15,20" reflow="true" paginatorPosition="bottom">
+				<p:column style="width:35px;">
+					<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{OpeningBalanceActionBean.delete(dto)}" oncomplete="PF('openingBalanceTable').filter();"
+						update=":openingBalanceEntryForm :openingBalanceForm">
+						<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+				<p:column style="width:130px;" headerText="#{label['MANAGE_OBAL_ACCODE_LABEL']}" filterBy="#{dto.acCode}" filterMatchMode="contains">
+					<h:outputText value="#{dto.acCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_OBAL_DES_LABEL']}" style="width:150px">
+					<h:outputText value="#{dto.acName}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_OBAL_ACTYPE_LABEL']}" style="width:50px">
+					<h:outputText value="#{dto.acType}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_OBAL_BRH_LABEL']}" style="width:90px">
+					<h:outputText value="#{dto.branch.branchCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_OBAL_DEPT_LABEL']}" style="width:90px">
+					<h:outputText value="#{dto.department == null ? '' : dto.department.dCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_OBA_CUR_LABEL']}" style="width:90px">
+					<h:outputText value="#{dto.currency.currencyCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_OBAL_OBAL_LABEL']}" style="width:120px" styleClass="#{dto.error and dto.oBalDoubleValue==0 ? 'errorCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.oBal}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.oBal}">
+								<p:ajax process="@this" update="openingBalanceTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_OBAL_HOBAL_LABEL']}" style="width:120px;" styleClass="#{dto.error and dto.hoBalDoubleValue==0 ? 'errorCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.hoBal}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.hoBal}">
+								<p:ajax process="@this" update="openingBalanceTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+			</p:dataTable>
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-8"></div>
+					<div class="ui-grid-col-2" style="text-align: right;">
+						<h:outputText styleClass="input-label" value="#{label['MANAGE_OBAL_DIFF_LABEL']} :" style="width:100px;" />
+					</div>
+					<div class="ui-grid-col-2">
+						<p:inputText value="#{OpeningBalanceActionBean.balDiff}" readonly="true" styleClass="#{OpeningBalanceActionBean.balDiff != 0 ? 'errorCell' : 'textOnRight'}">
+							<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+						</p:inputText>
+					</div>
+				</div>
+			</div>
+			<p:separator style="height:3px" />
+			<p:commandButton id="btnSave" value="#{label['COMMON_SAVE_BTN']}" action="#{OpeningBalanceActionBean.save}" oncomplete="PF('openingBalanceTable').filter();"
+				update="openingBalanceForm" style="width:70px;">
+				<p:confirm header="Confirmation" message="#{label['COMMON_MSG_SAVE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+			</p:commandButton>
+			<p:commandButton id="btnDeleteAll" value="#{label['COMMON_DELETE_ALL_BTN']}" action="#{OpeningBalanceActionBean.deleteAll}" oncomplete="PF('openingBalanceTable').filter"
+				style="width:100px;" update="openingBalanceForm">
+				<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+			</p:commandButton>
+			<p:commandButton id="btnReset" value="#{label['COMMON_RESET_BTN']}" action="manageOpeningBalance" ajax="false" style="width:70px;" />
+		</h:form>
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>

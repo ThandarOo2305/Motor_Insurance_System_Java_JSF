@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+
+	<application>
+		<action-listener>org.primefaces.application.DialogActionListener</action-listener>
+		<navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+		<view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+		<message-bundle>MESSAGES</message-bundle>
+		<resource-bundle>
+			<base-name>LANGUAGE</base-name>
+			<var>label</var>
+		</resource-bundle>
+		<locale-config>
+			<default-locale>en</default-locale>
+			<supported-locale>jp</supported-locale>
+		</locale-config>
+	</application>
+
+	<converter>
+		<converter-id>theme</converter-id>
+		<converter-class>org.ace.java.web.convert.ThemeConverter</converter-class>
+	</converter>
+
+	<converter>
+		<converter-for-class>java.lang.Enum</converter-for-class>
+		<converter-class>javax.faces.convert.EnumConverter</converter-class>
+	</converter>
+
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/ui/system/home.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>roleDialog</from-outcome>
+			<to-view-id>/dialog/roleDialog.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>branchDialog</from-outcome>
+			<to-view-id>/dialog/branchDialog.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>occupationDialog</from-outcome>
+			<to-view-id>/dialog/occupationDialog.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>departmentDialog</from-outcome>
+			<to-view-id>/dialog/departmentDialog.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>ccoaAcountDialog</from-outcome>
+			<to-view-id>/dialog/ccoaAcountDialog.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>voucherNoDialog</from-outcome>
+			<to-view-id>/dialog/voucherNoDialog.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>coaDialog</from-outcome>
+			<to-view-id>/dialog/coaDialog.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>formatFileCoaDialog</from-outcome>
+			<to-view-id>/dialog/formatFileCoaDialog.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>yearlyPostingCoaDialog</from-outcome>
+			<to-view-id>/dialog/yearlyPostingCoaDialog.xhtml</to-view-id>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>editVoucherPasswordDialog</from-outcome>
+			<to-view-id>/dialog/editVoucherPasswordDialog.xhtml</to-view-id>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>changePassword</from-outcome>
+			<to-view-id>/ui/system/changePassword.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<!-- Setup Entry -->
+		<navigation-case>
+			<from-outcome>coaCodeEntry</from-outcome>
+			<to-view-id>/ui/system/manageCOACode.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>branchCOACodeEntry</from-outcome>
+			<to-view-id>/ui/system/manageBranchCOACode.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>currencyCodeEntry</from-outcome>
+			<to-view-id>/ui/system/manageCurrency.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>departmentCodeEntry</from-outcome>
+			<to-view-id>/ui/system/manageDepartment.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>passwordEntry</from-outcome>
+			<to-view-id>/ui/system/managePassword.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<!-- Currency Rate Entry -->
+
+		<navigation-case>
+			<from-outcome>dailyRate</from-outcome>
+			<to-view-id>/ui/system/rateDailyCurrency.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>monthlyRate</from-outcome>
+			<to-view-id>/ui/system/rateMonthlyCurrency.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+
+		<!-- Opening Balance Entry -->
+
+		<navigation-case>
+			<from-outcome>openingBalanceEntry</from-outcome>
+			<to-view-id>/ui/system/manageOpeningBalance.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+
+		<!-- Budget Entry -->
+		<navigation-case>
+			<from-outcome>yearlyBudgetEntry</from-outcome>
+			<to-view-id>/ui/system/manageYBudget.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>monthlyBudgetEntry</from-outcome>
+			<to-view-id>/ui/system/manageMBudget.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>monthlyBudgetEntry(homeCurrency)</from-outcome>
+			<to-view-id>/ui/system/manageMHCBudget.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<!-- Report Format Entry -->
+		<navigation-case>
+			<from-outcome>reportFormatEntry</from-outcome>
+			<to-view-id>/ui/system/manageReportFormat.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<!-- Allocate Code Entry -->
+
+		<navigation-case>
+			<from-outcome>allocateCodeEntry</from-outcome>
+			<to-view-id>/ui/system/manageAllocateCode.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>exchangeConfig</from-outcome>
+			<to-view-id>/ui/system/exchangeConfig.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<!-- System Setup -->
+
+		<navigation-case>
+			<from-outcome>branchEntry</from-outcome>
+			<to-view-id>/ui/system/manageBranch.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>userEntry</from-outcome>
+			<to-view-id>/ui/system/manageUser.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>roleEntry</from-outcome>
+			<to-view-id>/ui/system/manageRole.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>motorPage</from-outcome>
+			<to-view-id>/ui/system/manageMotorPolicyInfo.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<!-- Transaction Entry -->
+		<navigation-case>
+			<from-outcome>creditVoucher</from-outcome>
+			<to-view-id>/ui/manage/transaction/manageCreditVoucher.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>debitVoucher</from-outcome>
+			<to-view-id>/ui/manage/transaction/manageDebitVoucher.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>journalVoucher</from-outcome>
+			<to-view-id>/ui/manage/transaction/manageJournalVoucher.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>voucherEdit</from-outcome>
+			<to-view-id>/ui/manage/transaction/editVoucher.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<!-- Enquiry -->
+		<navigation-case>
+			<from-outcome>enquiryOnLedger</from-outcome>
+			<to-view-id>/ui/manage/enquiry/manageEnquiryLedger.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<!-- Listing -->
+
+		<navigation-case>
+			<from-outcome>vocherListing</from-outcome>
+			<to-view-id>/ui/manage/listing/voucherListing.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>accountLedgerListing</from-outcome>
+			<to-view-id>/ui/manage/listing/accLedgerListing.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>generalLedgerListing</from-outcome>
+			<to-view-id>/ui/manage/listing/genLedgerListing.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>generalLedgerSummaryListing</from-outcome>
+			<to-view-id>/ui/manage/listing/genLedgerSummaryListing.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cashBookListing</from-outcome>
+			<to-view-id>/ui/manage/listing/cashBookListing.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>coaListing</from-outcome>
+			<to-view-id>/ui/manage/listing/coaListing.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>voucherPrinting</from-outcome>
+			<to-view-id>/ui/manage/listing/voucherPrinting.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>generalJournalListing</from-outcome>
+			<to-view-id>/ui/manage/listing/generalJournalListing.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+
+		<!-- Posting -->
+		<navigation-case>
+			<from-outcome>dailyPosting</from-outcome>
+			<to-view-id>/ui/manage/posting/dailyPosting.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>ibsClosing</from-outcome>
+			<to-view-id>/ui/manage/posting/ibsClosing.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>yearlyPosting</from-outcome>
+			<to-view-id>/ui/manage/posting/yearlyPosting.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>dataCloning</from-outcome>
+			<to-view-id>/ui/manage/posting/dataCloning.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<!-- Report -->
+
+
+		<navigation-case>
+			<from-outcome>dayBook</from-outcome>
+			<to-view-id>/ui/manage/report/dayBook.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>bankCash</from-outcome>
+			<to-view-id>/ui/manage/report/bankCash.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>cleanCash</from-outcome>
+			<to-view-id>/ui/manage/report/cleanCash.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>trialBalance</from-outcome>
+			<to-view-id>/ui/manage/report/trialBalance.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>incomeAndExpenditure</from-outcome>
+			<to-view-id>/ui/manage/report/incomeAndExpenditure.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>balanceSheet</from-outcome>
+			<to-view-id>/ui/manage/report/balanceSheetReport.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>reportStatement</from-outcome>
+			<to-view-id>/ui/manage/report/reportStatement.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>costAllocation</from-outcome>
+			<to-view-id>/ui/manage/report/costAllocation.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>rateDifference</from-outcome>
+			<to-view-id>/ui/manage/report/rateDifference.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/ui/*</from-view-id>
+		<navigation-case>
+			<from-outcome>rateMonthlyCurrency</from-outcome>
+			<to-view-id>/ui/system/rateMonthlyCurrency.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>manageOpeningBalance</from-outcome>
+			<to-view-id>/ui/system/manageOpeningBalance.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>yearlyBudget</from-outcome>
+			<to-view-id>/ui/system/manageYBudget.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>monthlyBudget</from-outcome>
+			<to-view-id>/ui/system/manageMBudget.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>monthlyBudgetHomeCur</from-outcome>
+			<to-view-id>/ui/system/manageMHCBudget.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>manageCreditVoucher</from-outcome>
+			<to-view-id>/ui/manage/transaction/manageCreditVoucher.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>manageDebitVoucher</from-outcome>
+			<to-view-id>/ui/manage/transaction/manageDebitVoucher.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>manageJournalVoucher</from-outcome>
+			<to-view-id>/ui/manage/transaction/manageJournalVoucher.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>manageUser</from-outcome>
+			<to-view-id>/ui/system/manageUser.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>studentEntry</from-outcome>
+			<to-view-id>/ui/system/manageStudent.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<!-- for wizard tap -->
+		<navigation-case>
+			<from-outcome>wizard</from-outcome>
+			<to-view-id>/ui/system/Wizard.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>customerList</from-outcome>
+			<to-view-id>/ui/manage/listing/customerListing.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>manageOccupation</from-outcome>
+			<to-view-id>/ui/system/manageOccupation.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>manageCustomer</from-outcome>
+			<to-view-id>/ui/system/manageCustomer.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>manageProposal</from-outcome>
+			<to-view-id>/ui/system/manageProposal.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>newProposal</from-outcome>
+			<to-view-id>/ui/system/NewProposal.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>excelUploadProposal</from-outcome>
+			<to-view-id>/ui/system/ExcelUploadProposal.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>proposalList</from-outcome>
+			<to-view-id>/ui/system/ProposalList.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>searchProposal</from-outcome>
+			<to-view-id>/ui/system/SearchByGroupName.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>excel</from-outcome>
+			<to-view-id>/ui/system/Excel.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>proposalListing</from-outcome>
+			<to-view-id>/ui/system/ProposalListing.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>incomeAndExpenditure</from-outcome>
+			<to-view-id>/ui/manage/report/incomeAndExpenditure.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+</faces-config>

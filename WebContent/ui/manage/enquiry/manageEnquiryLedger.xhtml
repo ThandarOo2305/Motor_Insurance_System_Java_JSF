@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+   <ui:param name="header" value="#{label['MANAGE_ENQUIRY_LEDGER_LABEL']}" />
+   <ui:param name="headerRendered" value="true"/> 
+	<ui:define name="content">
+		<h:form id="enquiryLedgerForm">
+		
+			<p:panel>
+				<p:panelGrid id="panelEnquiryLedger" columns="3" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-9" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						
+						<h:outputText value="" />
+						<p:message display="text" for="acCode" />
+						<h:outputText for="acCode" value="#{label['MANAGE_ACCOUNT_CODE_LABEL']}" styleClass="input-label" />
+						<p:panelGrid styleClass="ui-panelgrid-blank" id="coaPanelGroup">
+							<div style="margin-top:-5px; margin-left:-5px;" class="ui-g ui-fluid" id="coaPanelGroup">
+								<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+									<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{EnquiryOnLedgerActionBean.openCoaDialog()}" id="selectCoaDialogLink" process="@this">
+								       <p:ajax event="dialogReturn" listener="#{EnquiryOnLedgerActionBean.returnCoa}" update="acCode"/>
+								    </p:commandButton>
+								  	<p:inputText id="acCode" value="#{EnquiryOnLedgerActionBean.dto.coa == null ? '': EnquiryOnLedgerActionBean.dto.coa.acCode}" readonly="true" />
+								    <p:commandButton styleClass="red-button" icon="fa fa-times" action="#{EnquiryOnLedgerActionBean.dto.setCoa(null)}" process="@this" update="acCode"/>
+								</div>
+							</div>
+						</p:panelGrid>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-9" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					
+						<h:outputText value="" />
+						<p:message display="text" for="currencyCode" />
+						<h:outputText for="currencyCode" value="#{label['MANAGE_CURRENCY_CURRENCYCODE_LABEL']}" styleClass="input-label" />
+						<p:selectOneMenu id="currencyCode" value="#{EnquiryOnLedgerActionBean.dto.curid}">
+							<f:selectItem itemLabel="All"/>
+							<f:selectItems itemLabel="#{currency.currencyCode}" itemValue="#{currency.id}" value="#{EnquiryOnLedgerActionBean.currencyList}" var="currency" />
+							<p:ajax process="@this" update="@this" />
+						</p:selectOneMenu>
+						
+					</p:panelGrid>
+					
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-9" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					
+						<h:outputText value="" />
+						<p:message display="text" for="branchCode" />
+						<h:outputText for="branchCode" value="#{label['MANAGE_BRANCH_BRANCHCODE_LABEL']}" styleClass="input-label" />
+						<p:selectOneMenu id="branchCode" value="#{EnquiryOnLedgerActionBean.dto.branchid}" disabled="#{EnquiryOnLedgerActionBean.branchDisable}">
+							<f:selectItem itemLabel="All" />
+							<f:selectItems itemLabel="#{branch.name}" itemValue="#{branch.id}" value="#{EnquiryOnLedgerActionBean.branchList}" var="branch" />
+							<p:ajax process="@this" update="@this" />
+						</p:selectOneMenu>
+					
+					</p:panelGrid>
+				
+				</p:panelGrid>
+			</p:panel>
+			<p:commandButton id="searchBtn" value="#{label['COMMON_SEARCH_BTN']}" action="#{EnquiryOnLedgerActionBean.search()}" style="width:80px;"
+				update=":enquiryLedgerForm :enquiryLedgerTableForm" oncomplete="PF('enquiryTable').clearFilters()" />
+		</h:form>
+		<h:form id="enquiryLedgerTableForm">
+			<br/>
+			<p:dataTable paginatorPosition="bottom" var="dto" value="#{EnquiryOnLedgerActionBean.dtoList}" id="enquiryTable" paginator="true" rows="10" style="width:100%;" widgetVar="enquiryTable"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10, 15"
+				rowKey="#{dto.id}" emptyMessage="Nothing found with given criteria" reflow="true" rowIndexVar="indexVar">
+				<p:column headerText="No." width="5%">
+					<h:outputText value="#{indexVar+1}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_ACCOUNT_CODE_LABEL']}" filterBy="#{dto.acCode}" filterMatchMode="contains">
+					<h:outputText value="#{dto.acCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_DESC_LABEL']}" filterBy="#{dto.acName}" filterMatchMode="contains" width="30%">
+					<h:outputText value="#{dto.acName}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_CURRENCY_CURRENCYCODE_LABEL']}" filterBy="#{dto.currencyCode}" filterMatchMode="contains">
+					<h:outputText value="#{dto.currencyCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_BRANCH_BRANCHCODE_LABEL']}" filterBy="#{dto.branchCode}" filterMatchMode="contains">
+					<h:outputText value="#{dto.branchCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_BALANCE_LABEL']}">
+					<h:outputText value="#{dto.m}" style="float:right;">
+						<f:convertNumber pattern="#{ApplicationSetting.currencyFormat}"/>
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

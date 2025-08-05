@@ -1,0 +1,189 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="Monthly Currency Rate" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="monthlyCurrencyRateForm">
+			<p:growl escape="false" globalOnly="true" life="5000" showDetail="true" />
+			<p:dataTable id="monthlyCurrencyTable" value="#{RateMonthlyCurActionBean.currencyList}" var="cur" widgetVar="monthlyCurrencyTable" rowKey="index" editable="true" editMode="cell"
+				scrollable="true" scrollWidth="100%" reflow="true" style="margin-top:4px;">
+				<p:column style="width:35px;">
+					<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{RateMonthlyCurActionBean.deleteCurrency(cur)}" oncomplete="PF('monthlyCurrencyTable').filter();"
+						update="monthlyCurrencyRateForm">
+						<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_MONTHLYCURRENCY_CUR_LABEL']}" style="width:80px">
+					<h:outputText value="#{cur.currencyCode}" style="width:80px" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_MONTHLYCURRENCY_DES_LABEL']}" style="width:220px">
+					<h:outputText value="#{cur.description}" style="width:200px" />
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_4']}" style="width:120px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outM4" value="#{cur.m4}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpM4" value="#{cur.m4}" onkeypress="isDecimalKey(event,this)" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_5']}" style="width:120px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outM5" value="#{cur.m5}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpM5" value="#{cur.m5}" onkeypress="isDecimalKey(event,this)" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_6']}" style="width:120px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outM6" value="#{cur.m6}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpM6" value="#{cur.m6}" onkeypress="isDecimalKey(event,this)" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_7']}" style="width:120px;">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outM7" value="#{cur.m7}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpM7" value="#{cur.m7}" onkeypress="isDecimalKey(event,this)" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_8']}" style="width:120px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outM8" value="#{cur.m8}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpM8" value="#{cur.m8}" onkeypress="isDecimalKey(event,this)" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_9']}" style="width:120px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outM9" value="#{cur.m9}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpM9" value="#{cur.m9}" onkeypress="isDecimalKey(event,this)" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_10']}" style="width:120px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outM10" value="#{cur.m10}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpM10" value="#{cur.m10}" onkeypress="isDecimalKey(event,this)" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_11']}" style="width:120px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outM11" value="#{cur.m11}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpM11" value="#{cur.m11}" onkeypress="isDecimalKey(event,this)" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_12']}" style="width:120px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outM12" value="#{cur.m12}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpM12" value="#{cur.m12}" onkeypress="isDecimalKey(event,this)" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_1']}" style="width:120px">
+
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outM1" value="#{cur.m1}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpM1" onkeypress="isDecimalKey(event,this)" value="#{cur.m1}">
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_2']}" style="width:120px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outM2" value="#{cur.m2}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpM2" value="#{cur.m2}" onkeypress="isDecimalKey(event,this)" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_3']}" style="width:120px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outM3" value="#{cur.m3}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpM3" value="#{cur.m3}" onkeypress="isDecimalKey(event,this)" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				
+				<f:facet name="footer">
+					<p:commandButton id="btnSave" value="#{label['COMMON_SAVE_BTN']}" action="#{RateMonthlyCurActionBean.saveMonthlyCurrencyRate}"
+						oncomplete="PF('monthlyCurrencyTable').filter();" update="monthlyCurrencyRateForm" style="width:70px;">
+						<p:confirm header="Confirmation" message="#{label['COMMON_MSG_SAVE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+					</p:commandButton>
+					<p:commandButton id="btnDeleteAll" value="#{label['COMMON_DELETE_ALL_BTN']}" action="#{RateMonthlyCurActionBean.deleteAllCurrency}"
+						oncomplete="PF('monthlyCurrencyTable').filter" style="width:100px;" update="monthlyCurrencyRateForm">
+						<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+					</p:commandButton>
+					<p:commandButton id="btnReset" value="#{label['COMMON_RESET_BTN']}" action="rateMonthlyCurrency" ajax="false" style="width:70px;" />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rateDifferentReport" pageWidth="842" pageHeight="600" orientation="Landscape" columnWidth="822" leftMargin="10" rightMargin="10" topMargin="20" bottomMargin="20" resourceBundle="LANGUAGE_en" uuid="2f4946ae-1b86-4cc0-b8b5-92342e28dbed">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.2" value="title"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.3" value="PageHeader"/>
+	<property name="net.sf.jasperreports.export.pdf.exclude.origin.keep.first.band.1" value="columnHeader"/>
+	<property name="net.sf.jasperreports.export.pdf.exclude.origin.keep.first.report.1" value="*"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="rateDifferentDataset" uuid="c01312c7-2971-4281-8bc1-17fd053c889c">
+		<field name="homeAmount" class="java.math.BigDecimal"/>
+		<field name="monthlyAmount" class="java.math.BigDecimal"/>
+		<field name="differenceAmount" class="java.math.BigDecimal"/>
+		<field name="acCode" class="java.lang.String"/>
+		<field name="acName" class="java.lang.String"/>
+		<field name="currencyCode" class="java.lang.String"/>
+		<field name="branchName" class="java.lang.String"/>
+		<variable name="totaldifference" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{differenceAmount}]]></variableExpression>
+		</variable>
+		<variable name="totalhomeAmount" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{homeAmount}]]></variableExpression>
+		</variable>
+		<variable name="totalmontlyAmount" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{monthlyAmount}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="records" class="java.lang.Integer"/>
+	<parameter name="logoPath" class="java.lang.String"/>
+	<parameter name="reportDate" class="java.lang.String"/>
+	<parameter name="RATELIST" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="month" class="java.lang.String"/>
+	<parameter name="reportYear" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="108" splitType="Stretch">
+			<textField>
+				<reportElement x="254" y="43" width="311" height="28" uuid="f6b45001-19c5-4202-874f-55b24d30d7f5"/>
+				<textElement>
+					<font fontName="Zawgyi-One" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{CLIENT_COMPANY_LABEL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="275" y="68" width="169" height="20" isPrintInFirstWholeBand="true" uuid="761cdb28-220d-427a-b292-0f9421b5d9a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rate Different]]></text>
+			</staticText>
+			<image hAlign="Left">
+				<reportElement x="211" y="5" width="64" height="38" uuid="d14b85f9-3a77-4645-8024-96bf02fa441a"/>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="301" y="88" width="118" height="20" uuid="e8997a88-7bd6-467e-9a4f-eef6b9dd753f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{month}+"-"+$P{reportYear}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField pattern="">
+				<reportElement isPrintRepeatedValues="false" x="659" y="17" width="151" height="18" uuid="11ca21f8-219e-44ed-a2da-7e9610e3f9e1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date : "+$P{reportDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" mode="Transparent" x="10" y="0" width="800" height="100" backcolor="#3EE1FA" uuid="f8b8b9fa-d9ce-4fa6-b9c2-624f0bf631ec"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="rateDifferentDataset" uuid="bafb3eeb-aca3-4fb2-b0cd-e1166c6af8f1">
+						<dataSourceExpression><![CDATA[$P{RATELIST}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="35" uuid="532ef2cd-5a60-4d85-b516-e1984e3f5b6d">
+						<jr:tableHeader height="40" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" x="0" y="0" width="35" height="40" backcolor="#3EE1FA" uuid="936d9eb2-b84c-4ce7-81b4-13476cd62c19"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[Sr No.]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 1_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="35" height="30" uuid="31ff6504-cd66-4a37-987f-a2cdedc12661"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="db0f05c6-0035-43dc-94d4-259a66e73b53">
+						<jr:tableHeader height="40" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="70" height="40" backcolor="#3EE1FA" uuid="c7c7a8e1-c4f3-45b1-be71-eb819be1fc6a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[Account Code ]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="70" height="30" uuid="0a1d2e97-858c-46ae-be7b-c866e123a11d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{acCode}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="200" uuid="762dd641-cec1-4d42-923c-e64690bf54c0">
+						<jr:tableHeader height="40" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="200" height="40" backcolor="#3EE1FA" uuid="31aa91a2-b59c-43d8-9ab0-39be2f8960e6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[Account Name]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="200" height="30" uuid="ab0c3454-9183-4f17-99aa-ba291e05065b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{acName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="43" uuid="49fb3a54-9e75-492a-99c3-9b07ed4e62f4">
+						<jr:tableHeader height="40" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" x="0" y="0" width="43" height="40" backcolor="#3EE1FA" uuid="d94a587f-6008-4b41-ab66-bde1c0b1e67c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[Currency]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="43" height="30" uuid="8bd803b9-945d-4e0f-9bc7-64d3da8822ac"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{currencyCode}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="108" uuid="f9a8847c-8157-45a1-b4b7-4b102873d4a2">
+						<jr:tableHeader height="40" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" x="0" y="0" width="108" height="40" backcolor="#3EE1FA" uuid="0a434583-cf68-4abb-8073-9e1dfd44eb46"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[Branch]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" x="0" y="0" width="108" height="30" backcolor="#3EE1FA" uuid="1c550c95-d438-4343-95e0-a43bb7c495e5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="108" height="30" uuid="6176d6e1-9c34-4f74-820b-59f5a080ace0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{branchName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="119" uuid="a9f8b631-11aa-4573-9916-95a4b8e9a6a4">
+						<jr:tableHeader height="40" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="119" height="40" backcolor="#3EE1FA" uuid="28aea1d6-af47-43d1-9f40-af1fa057a7b2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[Monthly Amount]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter height="30" rowSpan="1">
+							<textField pattern="##,##0.00">
+								<reportElement style="table_TH" x="0" y="0" width="119" height="30" backcolor="#3EE1FA" uuid="02ec855e-1d62-4cbd-921f-2f15db34fc40"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="10" isStrikeThrough="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalmontlyAmount}.setScale(2,BigDecimal. ROUND_HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1">
+							<textField pattern="##,##0.00">
+								<reportElement x="0" y="0" width="119" height="30" uuid="e6ae7b7e-de2a-4ae6-9119-079773168fa6"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{monthlyAmount}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="119" uuid="eb0b0ac0-a6e6-4d15-8272-eeafe3e0183f">
+						<jr:tableHeader height="40" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="119" height="40" backcolor="#3EE1FA" uuid="c51d212a-3d52-4895-9edb-494e6b479d8c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[Home Amount]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter height="30" rowSpan="1">
+							<textField pattern="##,##0.00">
+								<reportElement style="table_TH" x="0" y="0" width="119" height="30" backcolor="#3EE1FA" uuid="c6c450af-ea9e-4c8b-9977-1aefbfdb9681"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalhomeAmount}.setScale(2,BigDecimal. ROUND_HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1">
+							<textField pattern="##,##0.00">
+								<reportElement x="0" y="0" width="119" height="30" uuid="2b4935da-ffc7-4908-b0fc-189e8d23f94a"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{homeAmount}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="119" uuid="43cf8d90-ca0e-4cec-a7a2-2442fbb27cfe">
+						<jr:tableHeader height="40" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="119" height="40" backcolor="#3EE1FA" uuid="1e32140f-c58f-4c8e-a706-82481910068b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[Difference]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter height="30" rowSpan="1">
+							<textField pattern="##,##0.00">
+								<reportElement style="table_TH" x="0" y="0" width="119" height="30" backcolor="#3EE1FA" uuid="d4b192b6-1e93-43b0-b83f-2eed9a07339d"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totaldifference}.setScale(2,BigDecimal. ROUND_HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1">
+							<textField pattern="##,##0.00">
+								<reportElement x="0" y="0" width="119" height="30" uuid="1894d0b2-06d4-4bac-aee5-23f53e7d78d3"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{differenceAmount}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="17" splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="50">
+			<textField>
+				<reportElement x="2" y="2" width="209" height="30" uuid="251e9c6f-f31f-42be-baca-5ce6c35f99c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total ( " + $P{records} + " ) records Found"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="722" y="0" width="100" height="30" uuid="1069e275-b723-4675-94df-ca4ff9eada91"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page No . "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

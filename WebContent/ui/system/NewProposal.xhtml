@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/commonLayout.xhtml">
+                
+   <ui:define name="content">
+   
+   <h:panelGrid>
+   				<p:commandLink action="manageProposal" immediate="true" >
+   					<h:panelGrid columns="2">
+   						<h:graphicImage name="images/add.png" styleClass="addIcon" />
+						<h:outputText value="Manual" styleClass="command-link" />
+   					</h:panelGrid>
+   				</p:commandLink>
+   	</h:panelGrid>
+   	
+   	<h:panelGrid>
+   				<p:commandLink action="excelUploadProposal" immediate="true" >
+   					<h:panelGrid columns="2">
+   						<h:graphicImage name="images/excel.jpg" styleClass="addIcon" />
+						<h:outputText value="Excel" styleClass="command-link" />
+   					</h:panelGrid>
+   				</p:commandLink>
+   	</h:panelGrid>
+   		
+   </ui:define>             
+           
+</ui:composition>

@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header"  value="#{label['YEARLY_POSTING_LABEL']}" />
+    <ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:outputScript name="js/leaveConfirm.js" />
+		<h:form id="yearlyPostingForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<p:panel>
+				<p:panelGrid id="yearlyPostingPanel" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+	
+					<h:outputText value="" />
+					<p:message display="text" for="postingDate" />
+	
+					<h:outputText for="postingDate" value="#{label['YEARLY_POSTING_DATE_LABEL']}" escape="false" styleClass="input-label" />
+					<p:calendar id="postingDate" value="#{YearlyPostingActionBean.postingDate}" showOn="button" pattern="#{ApplicationSetting.dateFormat}" mask="true" required="true"
+						onfocus="$('#ui-datepicker-div td').unbind();"/>
+				
+					<p:message display="text" for="closingType" />
+					<h:outputText value="" />
+					<p:outputLabel for="closingType" value="Closing Type" styleClass="input-label mandatory" escape="false" />
+					<p:selectOneRadio id="closingType" value="#{YearlyPostingActionBean.yearlyClosing}" layout="grid" columns="2">
+						<f:selectItem itemLabel="HO Closing" itemValue="true"/>
+						<f:selectItem itemLabel="Final Closing" itemValue="false"/>
+						<p:ajax update="@form"/>
+					</p:selectOneRadio>
+
+					<h:outputText value="" />
+					<p:message display="text" for="PLAcCode" />
+	
+					<h:outputText for="PLAcCode" value="#{label['YEARLY_POSTING_PLAC_LABEL']}" escape="false" styleClass="input-label mandatory" />
+					<p:panelGrid styleClass="ui-panelgrid-blank" id="PLAcCodePanel">
+						<div style="margin-top:-5px; margin-left:-5px;" class="ui-g ui-fluid" id="PLAcCodePanel">
+							<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+								<p:commandButton styleClass="green-button" icon="fa fa-search" disabled="#{YearlyPostingActionBean.PLAcDisabled}" actionListener="#{YearlyPostingActionBean.selectDto}" id="selectPLAcCodeLink" process="@this">
+							       <p:ajax event="dialogReturn" listener="#{YearlyPostingActionBean.returnPLdto}" update="yearlyPostingPanel"/>
+							    </p:commandButton>
+							  	<p:inputText id="PLAcCode" readonly="#{YearlyPostingActionBean.plDto == null ? facesContext.currentPhaseId.ordinal eq 6 : true}" disabled="#{YearlyPostingActionBean.PLAcDisabled}"
+									value="#{YearlyPostingActionBean.plDto == null ? '' : YearlyPostingActionBean.plDto.acCode }" required="true" />
+							    <p:commandButton styleClass="red-button" icon="fa fa-times" disabled="#{YearlyPostingActionBean.PLAcDisabled}" action="#{YearlyPostingActionBean.setPlDto(null)}" process="@this" update="yearlyPostingPanel"/>
+							</div>
+						</div>
+					</p:panelGrid>				
+					
+				</p:panelGrid>
+			</p:panel>
+			<br />
+			<p:commandButton id="postingBtn" value="#{label['YEARLY_POSTING_BUTTON_LABEL']}" action="#{YearlyPostingActionBean.checkPostDate()}" update="@form" style="width:75px;" disabled="#{!YearlyPostingActionBean.postingAccess}"/>
+			<h:outputText value="#{label['COMMON_MSG_MANDATORY_LABEL']}" style="color:red;" styleClass="input-label" />
+		</h:form>
+		<!-- Confirmation Dialog -->
+		<h:form id="confirmationForm">
+			<p:dialog appendTo="@(body)" dynamic="true" modal="true"  responsive="true"  header="#{label['YEARLY_POSTING_CONFIRM_LABEL']}" widgetVar="confirmationDialog" resizable="false" draggable="false" width="310" height="120" showEffect="explode"
+				 hideEffect="explode"   id="confirmationDialog" closable="false" closeOnEscape="false">
+				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
+					<h:graphicImage name="images/warning.png" styleClass="command-image" />
+					<h:outputText value="#{label['YEARLY_POSTING_MSG_CONFIRM_LABEL']}" style="padding-top:-10px;text-decoration: none;font-size: 12px;" />
+					<f:facet name="footer">
+						<p:progressBar ajax="true" widgetVar="progress" value="#{YearlyPostingActionBean.progress}" labelTemplate="{value}%" styleClass="animated" global="false">
+							<p:ajax event="complete" listener="#{YearlyPostingActionBean.onProgressComplete}"	update="yearlyPostingForm" oncomplete="PF('progress').cancel(); PF('yesBtn').enable(); PF('noBtn').enable();" />
+						</p:progressBar>
+						<br />
+						<p:commandButton widgetVar="yesBtn" value="#{label['COMMON_YES_BTN']}" action="#{YearlyPostingActionBean.post()}" process="@form" update=":yearlyPostingForm" immediate="true" style="width:50px;" 
+							onclick="PF('progress').setValue(1); PF('progress').start(); PF('yesBtn').disable(); PF('noBtn').disable();" oncomplete="PF('confirmationDialog').hide();"
+							disabled="#{!YearlyPostingActionBean.postingAccess}"/>
+						<p:spacer></p:spacer>
+						<p:commandButton widgetVar="noBtn" value="#{label['COMMON_NO_BTN']}" oncomplete="PF('confirmationDialog').hide();" immediate="true" style="width:50px;" />
+					</f:facet>
+				</p:panelGrid>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

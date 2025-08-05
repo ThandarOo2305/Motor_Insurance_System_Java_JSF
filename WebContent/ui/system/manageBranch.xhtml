@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="Branch Management" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="branchEntryForm">
+			<p:growl escape="false" globalOnly="true" life="5000" showDetail="true" />
+			<h:outputText value="#{label['MANAGE_BRANCH_ADDNEW_LABEL']}" styleClass="title" rendered="#{ManageBranchActionBean.createNew}" />
+			<h:outputText value="#{label['MANAGE_BRANCH_EDIT_LABEL']}" styleClass="title" rendered="#{!ManageBranchActionBean.createNew}" />
+			<p:panel>
+				<p:panelGrid id="panelDept" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="branchCode" />
+						<h:outputText for="branchCode" value="#{label['MANAGE_BRANCH_BRANCHCODE_LABEL']}" escape="false" styleClass="input-label mandatory" />
+						<p:inputText value="#{ManageBranchActionBean.branch.branchCode}" id="branchCode" required="true" >
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						<h:outputText value="" />
+						<p:message display="text" for="name" />
+						<h:outputText for="name" value="#{label['MANAGE_BRANCH_NAME_LABEL']}" escape="false" styleClass="input-label mandatory" />
+						<p:inputText value="#{ManageBranchActionBean.branch.name}" id="name" required="true">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						<h:outputText value="" />
+						<p:message display="text" for="prefix" />
+						<h:outputText for="prefix" value="Prefix" escape="false" styleClass="input-label mandatory" />
+						<p:inputText value="#{ManageBranchActionBean.branch.prefix}" id="prefix" required="true">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						<h:outputText value="" />
+						<p:message display="text" for="description" />
+						<h:outputText for="description" value="#{label['MANAGE_BRANCH_DESCRIPTION_LABEL']}" styleClass="input-label" />
+						<p:inputText value="#{ManageBranchActionBean.branch.description}" id="description">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						<h:outputText value="" />
+						<p:message display="text" for="address" />
+						<h:outputText value="#{label['MANAGE_BRANCH_ADDRESS_LABEL']}" styleClass="input-label" />
+						<p:inputTextarea value="#{ManageBranchActionBean.branch.address}" id="address">
+							<f:validateLength maximum="300" />
+						</p:inputTextarea>
+						<h:outputText value="" />
+						<h:outputText value="" />
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<br />
+			<h:panelGrid columns="3" style="margin-top:-2px;">
+				<p:commandButton id="addBtn" value="#{label['COMMON_ADDNEW_BTN']}" action="#{ManageBranchActionBean.addNewBranch}" rendered="#{ManageBranchActionBean.createNew}"
+					update=":branchTableForm :branchEntryForm" style="width:65px;" oncomplete="PF('branchTable').clearFilters();" />
+				<p:commandButton id="editBtn" value="#{label['COMMON_UPDATE_BTN']}" action="#{ManageBranchActionBean.updateBranch}" rendered="#{!ManageBranchActionBean.createNew}"
+					update=":branchTableForm :branchEntryForm" style="width:70px;" oncomplete="PF('branchTable').clearFilters();" />
+				<p:commandButton id="cancleButton" immediate="true" process="@this" value="Cancel" action="#{ManageBranchActionBean.createNewBranch}" update=":branchEntryForm"
+					style="width:70px;margin-left:-3px;" />
+			</h:panelGrid>
+			<p:separator style="height:3px" />
+		</h:form>
+		<h:form id="branchTableForm">
+		<h:panelGrid>
+			<p:commandLink action="#{ManageBranchActionBean.createNewBranch}" immediate="true" update=":branchEntryForm">
+				<h:panelGrid columns="2">
+					<h:graphicImage name="images/add.png" styleClass="addIcon" />
+					<h:outputText value="#{label['COMMON_ADDNEW_LINK']}" styleClass="command-link" />
+				</h:panelGrid>
+			</p:commandLink>
+			</h:panelGrid>
+			<br />
+			<p:dataTable var="branch" value="#{ManageBranchActionBean.branchList}" id="branchTable" paginator="true" rows="10" style="width:100%" widgetVar="branchTable"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15"
+				rowKey="index" reflow="true" rowIndexVar="var" paginatorPosition="bottom">
+				<p:column headerText="No" width="2%">
+					<h:outputText value="#{var + 1}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_BRANCH_BRANCHCODE_LABEL']}" filterBy="#{branch.branchCode}" filterMatchMode="contains">
+					<h:outputText value="#{branch.branchCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_BRANCH_NAME_LABEL']}" filterBy="#{branch.name}" filterMatchMode="contains">
+					<h:outputText value="#{branch.name}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_BRANCH_DESCRIPTION_LABEL']}">
+					<h:outputText value="#{branch.description}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_BRANCH_ADDRESS_LABEL']}">
+					<h:outputText value="#{branch.address}" />
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="green-button" icon="fa fa-paint-brush" action="#{ManageBranchActionBean.prepareUpdateBranch(branch)}" process="@this" update=":branchEntryForm" />
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ManageBranchActionBean.deleteBranch(branch)}" oncomplete="PF('branchTable').filter();"
+						update=":branchEntryForm :branchTableForm">
+						<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>

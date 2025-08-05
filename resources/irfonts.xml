@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontfamilies>
+<!--    <fontFamily name="Arial">
+<normal><![CDATA[fonts/Arial.ttf]]></normal>
+<bold><![CDATA[fonts/arialbd.ttf]]></bold>
+<italic><![CDATA[fonts/ariali.ttf]]></italic>
+<boldItalic><![CDATA[fonts/arialbi.ttf]]></boldItalic>
+<pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+<pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+</fontFamily>
+ 
+ 
+<fontFamily name="Tahoma">
+<normal><![CDATA[fonts/Tahoma.ttf]]></normal>
+<bold><![CDATA[fonts/tahomabd.ttf]]></bold>
+<pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+<pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+</fontFamily>
+
+<fontFamily name="Times New Roman">
+<normal><![CDATA[fonts/times.ttf]]></normal>
+<bold><![CDATA[fonts/timesbd.ttf]]></bold>
+<italic><![CDATA[fonts/timesi.ttf]]></italic>
+<boldItalic><![CDATA[fonts/timesbi.ttf]]></boldItalic>
+<pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+<pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+</fontFamily>
+
+<fontFamily name="Calibri">
+<normal><![CDATA[fonts/Calibri.ttf]]></normal>
+<bold><![CDATA[fonts/Calibrib.ttf]]></bold>
+<italic><![CDATA[fonts/Calibrii.ttf]]></italic>
+<boldItalic><![CDATA[fonts/Calibriz.ttf]]></boldItalic>
+<pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+<pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+</fontFamily> -->
+
+<fontFamily name="Zawgyi_One">
+<normal><![CDATA[fonts/Zawgyi-One-20051130.ttf]]></normal>
+<pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+<pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+</fontFamily>
+
+ <fontFamily name="Myanmar_3">
+<normal><![CDATA[fonts/myanmar3.ttf]]></normal>
+<pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+<pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+</fontFamily> 
+
+</fontfamilies>
+
+

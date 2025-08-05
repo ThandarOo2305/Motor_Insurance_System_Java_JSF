@@ -1,0 +1,288 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="Monthly Budget Entry" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="monthlyBudgetEntryForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<h:outputText value="#{label['MANAGE_MONTHLY_BUDGET_LABEL']}" styleClass="title" />
+			<p:panel>
+				<p:panelGrid id="paneldialogDept" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:outputLabel />
+						<p:message display="text" for="acCode" />
+						<h:outputText styleClass="input-label" value="#{label['MANAGE_ACCOUNT_CODE_LABEL']}" />
+						<p:panelGrid styleClass="ui-panelgrid-blank" id="acCodePanelGroup">
+							<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="acCodePanelGroup">
+								<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+									<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{MonthlyBudgetActionBean.openCoaDialog()}" id="selectCoaDialogLink" process="@this">
+										<p:ajax event="dialogReturn" listener="#{MonthlyBudgetActionBean.returnCoa}" update="acCode" />
+									</p:commandButton>
+									<p:inputText id="acCode" value="#{MonthlyBudgetActionBean.dto.acCode == null ? '': MonthlyBudgetActionBean.dto.acCode}" readonly="true" />
+									<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{MonthlyBudgetActionBean.dto.setAcCode(null)}" process="@this" update="acCode" />
+								</div>
+							</div>
+						</p:panelGrid>
+						<h:outputText value="" />
+						<p:message display="text" for="currencyCode" />
+						<h:outputText for="currencyCode" value="#{label['MANAGE_CURRENCY_CURRENCYCODE_LABEL']}" styleClass="input-label" />
+						<p:selectOneMenu id="currencyCode" value="#{MonthlyBudgetActionBean.dto.curid}">
+							<f:selectItem itemLabel="All" />
+							<f:selectItems itemLabel="#{currency.currencyCode}" itemValue="#{currency.id}" value="#{MonthlyBudgetActionBean.currencyList}" var="currency" />
+							<p:ajax process="@this" update="@this" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:outputLabel />
+						<p:message display="text" for="branchCode" />
+						<h:outputText styleClass="input-label" value="#{label['MANAGE_BRANCH_CODE_LABEL']}" />
+						<p:panelGrid styleClass="ui-panelgrid-blank" id="branchCodePanelGroup">
+							<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="branchCodePanelGroup">
+								<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+									<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{MonthlyBudgetActionBean.selectBranch()}" id="selectBranchDialogLink" process="@this">
+										<p:ajax event="dialogReturn" listener="#{MonthlyBudgetActionBean.returnBranch}" update="branchCode" />
+									</p:commandButton>
+									<p:inputText id="branchCode" value="#{MonthlyBudgetActionBean.dto.branchCode == null ? '' : MonthlyBudgetActionBean.dto.branchCode }" readonly="true" />
+									<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{MonthlyBudgetActionBean.dto.setBranchCode(null)}" process="@this" update="branchCode" />
+								</div>
+							</div>
+						</p:panelGrid>
+						<p:outputLabel />
+						<p:message display="text" for="dCode" />
+						<h:outputText styleClass="input-label" value="#{label['MANAGE_DCODE_LABEL']}" />
+						<p:panelGrid styleClass="ui-panelgrid-blank" id="dCodePanelGroup">
+							<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="dCodePanelGroup">
+								<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+									<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{MonthlyBudgetActionBean.selectDepartment()}" id="selectDepartmentDialogLink"
+										process="@this">
+										<p:ajax event="dialogReturn" listener="#{MonthlyBudgetActionBean.returnDepartment}" update="dCode" />
+									</p:commandButton>
+									<p:inputText id="dCode" value="#{MonthlyBudgetActionBean.dto.dCode == null ? '' : MonthlyBudgetActionBean.dto.dCode }" readonly="true" />
+									<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{MonthlyBudgetActionBean.dto.setdCode(null)}" process="@this" update="dCode" />
+								</div>
+							</div>
+						</p:panelGrid>
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<br />
+			<p:commandButton id="searchBtn" value="#{label['COMMON_SEARCH_BTN']}" action="#{MonthlyBudgetActionBean.search()}" style="width:80px;"
+				update=":monthlyBudgetEntryForm :monthlyBudgetForm" oncomplete="PF('monthlyBudgetTable').clearFilters()" />
+			<p:commandButton id="cancelBtn" value="#{label['COMMON_CANCEL_BTN']}" action="monthlyBudget" style="width:80px;" />
+		</h:form>
+		<br />
+		<p:separator style="height:3px" />
+		<h:form id="monthlyBudgetForm">
+			<p:dataTable id="monthlyBudgetTable" value="#{MonthlyBudgetActionBean.dtoList}" var="dto" paginator="true" rows="10" widgetVar="monthlyBudgetTable"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10, 15,20,50"
+				rowKey="index" emptyMessage="Nothing found with given criteria" filteredValue="#{MonthlyBudgetActionBean.filterList}" scrollable="true" scrollWidth="98.5%" editable="true"
+				editMode="cell" reflow="true" paginatorPosition="bottom">
+				<p:ajax event="cellEdit" listener="#{dto.checkBF(dto.bfRate)}" />
+				<p:column style="width:35px;">
+					<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{MonthlyBudgetActionBean.deleteCurrentBudget(dto)}" oncomplete="PF('monthlyBudgetTable').filter();"
+						update=":monthlyBudgetEntryForm :monthlyBudgetForm">
+						<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_MONTHLYBUDGET_ACCOUNT_LABEL']}" filterMatchMode="contains" filterBy="#{dto.acCode}" style="width:130px;"
+					styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<h:outputText value="#{dto.acCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_MONTHLYBUDGET_DEPARTMENT_LABEL']}" style="width:110px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<h:outputText value="#{dto.dCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_MONTHLYBUDGET_BRANCH_LABEL']}" style="width:80px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<h:outputText value="#{dto.branchCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_MONTHLYBUDGET_CURRENCY_LABEL']}" style="width:110px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<h:outputText value="#{dto.currencyCode}" />
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_1']}" style="width:130px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.bfRate.bf1}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.bfRate.bf1}">
+								<p:ajax process="@this" update="monthlyBudgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_2']}" style="width:130px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.bfRate.bf2}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.bfRate.bf2}">
+								<p:ajax process="@this" update="monthlyBudgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_3']}" style="width:130px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.bfRate.bf3}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.bfRate.bf3}">
+								<p:ajax process="@this" update="monthlyBudgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_4']}" style="width:130px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.bfRate.bf4}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.bfRate.bf4}">
+								<p:ajax process="@this" update="monthlyBudgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_5']}" style="width:130px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.bfRate.bf5}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.bfRate.bf5}">
+								<p:ajax process="@this" update="monthlyBudgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_6']}" style="width:130px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.bfRate.bf6}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.bfRate.bf6}">
+								<p:ajax process="@this" update="monthlyBudgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_7']}" style="width:130px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.bfRate.bf7}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.bfRate.bf7}">
+								<p:ajax process="@this" update="monthlyBudgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_8']}" style="width:130px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.bfRate.bf8}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.bfRate.bf8}">
+								<p:ajax process="@this" update="monthlyBudgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_9']}" style="width:130px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.bfRate.bf9}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.bfRate.bf9}">
+								<p:ajax process="@this" update="monthlyBudgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_10']}" style="width:130px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.bfRate.bf10}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.bfRate.bf10}">
+								<p:ajax process="@this" update="monthlyBudgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_11']}" style="width:130px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.bfRate.bf11}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.bfRate.bf11}">
+								<p:ajax process="@this" update="monthlyBudgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{label['COMMON_MONTH_12']}" style="width:130px;" styleClass="#{dto.edit? 'rowCell' : 'textOnRight'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{dto.bfRate.bf12}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText onkeypress="isDecimalKey(event,this)" value="#{dto.bfRate.bf12}">
+								<p:ajax process="@this" update="monthlyBudgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+			</p:dataTable>
+			<p:separator style="height:3px" />
+			<p:commandButton id="btnSave" value="#{label['COMMON_SAVE_BTN']}" action="#{MonthlyBudgetActionBean.saveMonthlyBudget}" oncomplete="PF('monthlyBudgetTable').filter();"
+				update="monthlyBudgetForm" style="width:70px;">
+				<p:confirm header="Confirmation" message="#{label['COMMON_MSG_SAVE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+			</p:commandButton>
+			<p:commandButton id="btnDeleteAll" value="#{label['COMMON_DELETE_ALL_BTN']}" action="#{MonthlyBudgetActionBean.deleteAllBudgetMonth}"
+				oncomplete="PF('monthlyBudgetTable').filter" style="width:100px;" update="monthlyBudgetForm">
+				<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+			</p:commandButton>
+			<p:commandButton id="btnReset" action="monthlyBudget" value="#{label['COMMON_RESET_BTN']}" style="width:70px;" />
+		</h:form>
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>

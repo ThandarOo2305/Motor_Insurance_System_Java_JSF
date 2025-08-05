@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="accLedgerListingReport" pageWidth="700" pageHeight="842" columnWidth="660" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" resourceBundle="LANGUAGE_en" uuid="dbc8a22b-019f-4dde-a193-e84279b442c6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.4" value="columnHeader"/>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<pen lineWidth="0.5" lineColor="#000000"/>
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF" fontName="Zawgyi-One" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="accountLedgerListDataSet" uuid="fbf38fc0-4e84-4556-b711-a106ecbe494b">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="srNo" class="java.lang.Integer"/>
+		<field name="settlementDate" class="java.util.Date"/>
+		<field name="narration" class="java.lang.String"/>
+		<field name="debit" class="java.math.BigDecimal"/>
+		<field name="credit" class="java.math.BigDecimal"/>
+		<field name="dblBalance" class="java.math.BigDecimal"/>
+		<field name="eNo" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="reportTitle" class="java.lang.String"/>
+	<parameter name="startDate" class="java.util.Date"/>
+	<parameter name="endDate" class="java.util.Date"/>
+	<parameter name="branches" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="coa" class="org.ace.accounting.system.chartaccount.ChartOfAccount"/>
+	<parameter name="reportDate" class="java.lang.String"/>
+	<parameter name="logoPath" class="java.lang.String"/>
+	<parameter name="ledgerList" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="coa" class="org.ace.accounting.system.chartaccount.ChartOfAccount"/>
+	<field name="accountLedgerList" class="java.util.List"/>
+	<group name="groupCOA Group Header">
+		<groupExpression><![CDATA[$F{coa}]]></groupExpression>
+		<groupHeader>
+			<band height="38">
+				<textField>
+					<reportElement x="4" y="14" width="54" height="21" isPrintWhenDetailOverflows="true" printWhenGroupChanges="groupCOA Group Header" uuid="0f5beaa8-1062-4850-a81e-3d44c1e25a8e">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{coa}.getAcCode()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="58" y="14" width="492" height="20" uuid="f7c414de-4c71-4e2a-a1dc-0c138bf5519c"/>
+					<textFieldExpression><![CDATA[$F{coa}.getAcName()]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="113" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="191" y="7" width="311" height="20" uuid="e703593e-5fda-48cb-9e45-0217a4f504a9"/>
+				<textElement textAlignment="Justified">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{CLIENT_COMPANY_LABEL}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="146" y="0" width="42" height="27" uuid="1df1a6d9-396a-47b2-a271-9b1c32cad76e"/>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
+			</image>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="384" y="38" width="100" height="20" uuid="97717c8e-dcf1-409f-8a40-1bb50a4c91c8"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="366" y="38" width="17" height="20" uuid="96ad023e-056b-4665-8585-78466f447266"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[To]]></text>
+			</staticText>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="286" y="38" width="80" height="20" uuid="0b0a95f2-6966-4830-9be8-8d7761407182"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="146" y="38" width="140" height="20" uuid="3cc9a1a3-16b6-4777-8a14-24892fcf87dc"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Account Ledger Listing]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="576" y="95" width="29" height="18" uuid="b5d628ac-1681-41ef-af50-1458acade933"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="605" y="95" width="53" height="18" uuid="20c6a6aa-7460-4e4f-89b6-6ca65ffa857f"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="77" width="203" height="18" uuid="640e08c5-dbd4-402e-acc5-d812b146c4c3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Branch     : "+$P{branches}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="95" width="203" height="18" uuid="6baf20c5-045f-4fc8-b0a0-63f81fda385b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Currency  : "+$P{currency}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="50">
+			<componentElement>
+				<reportElement key="table" x="0" y="0" width="660" height="50" backcolor="#BFE1FF" uuid="2c1c4856-c8f0-4a62-ac30-058f70cc0f8c"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="accountLedgerListDataSet" uuid="fa0c0365-fe7a-4939-a728-1eca61a0a376">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{accountLedgerList})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="43" uuid="d6f83358-58ad-42dd-9ed6-1941bfca5c03">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement isPrintRepeatedValues="false" mode="Opaque" x="0" y="0" width="43" height="20" isPrintInFirstWholeBand="true" backcolor="#BFE1FF" uuid="6cbd66c6-6d23-4fb4-b20c-e7079331e514"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Sr No.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TH" height="28" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="43" height="28" isPrintWhenDetailOverflows="true" uuid="57aa6d6c-1ce2-42df-bea4-9b4a8d2c994a"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="false" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{srNo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="73" uuid="48a4fc89-4fb9-41cf-8e45-88ef24da1a8d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement isPrintRepeatedValues="false" mode="Opaque" x="0" y="0" width="73" height="20" isPrintInFirstWholeBand="true" backcolor="#BFE1FF" uuid="ee7729ae-6260-4457-8480-d8e03fdac45d"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Date]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TH" height="28" rowSpan="1">
+							<textField pattern="dd-MM-yyyy">
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="73" height="28" isPrintWhenDetailOverflows="true" uuid="fb6bc955-0743-4716-aee8-c297a1d9d6b8"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="6" isBold="false" isPdfEmbedded="true"/>
+									<paragraph leftIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{settlementDate}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="edcac2f8-f50d-42e3-8037-0af29fcfca94">
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement isPrintRepeatedValues="false" mode="Opaque" x="0" y="0" width="90" height="20" isPrintInFirstWholeBand="true" backcolor="#BFE1FF" uuid="68da4b6c-987f-4d13-97f0-6f6d6bbe9eb6"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Voucher No.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TH" height="28" rowSpan="1">
+							<textField pattern="dd-MM-yyyy">
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="90" height="28" isPrintWhenDetailOverflows="true" uuid="77f20c43-ebc1-4f27-9b23-1c2520ee0b93"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font isBold="false" isPdfEmbedded="true"/>
+									<paragraph leftIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{eNo} == null? "": $F{eNo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="163" uuid="7dc4f7a8-7cb4-4e19-a5dc-a716e05b9e39">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement isPrintRepeatedValues="false" mode="Opaque" x="0" y="0" width="163" height="20" isPrintInFirstWholeBand="true" backcolor="#BFE1FF" uuid="ac5e9c47-6447-48d0-b8a9-7cd128d1cd57"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Transaction Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TH" height="28" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField textAdjust="StretchHeight">
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="163" height="28" isPrintWhenDetailOverflows="true" uuid="92f31f6f-0135-43ca-a845-df695b972102"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Justified" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6" isBold="false" isPdfEmbedded="true"/>
+									<paragraph leftIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{narration}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="94" uuid="14eeeadd-5821-42f7-b1e4-83158def8bf9">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement isPrintRepeatedValues="false" mode="Opaque" x="0" y="0" width="94" height="20" isPrintInFirstWholeBand="true" backcolor="#BFE1FF" uuid="8bdd652e-2604-41dd-b7e6-eddb1c2d7db2"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Debit]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TH" height="28" rowSpan="1">
+							<textField pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="94" height="28" isPrintWhenDetailOverflows="true" uuid="218f1aad-3696-46bd-b2a6-f10ff9d672b0">
+									<printWhenExpression><![CDATA[$F{debit}.equals(BigDecimal.ZERO) ? Boolean.FALSE : Boolean.TRUE]]></printWhenExpression>
+								</reportElement>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6" isBold="false" isPdfEmbedded="true"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{debit}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="97" uuid="d63f0b62-913f-43a5-ada8-5c022ebf1aaa">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement isPrintRepeatedValues="false" mode="Opaque" x="0" y="0" width="97" height="20" isPrintInFirstWholeBand="true" backcolor="#BFE1FF" uuid="8c250797-58ba-4e4d-9ebb-055a7237d7bb"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Credit]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TH" height="28" rowSpan="1">
+							<textField pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="97" height="28" isPrintWhenDetailOverflows="true" uuid="dad77338-6ab0-4542-8c30-8c8b1b921bd2">
+									<printWhenExpression><![CDATA[$F{credit}.equals(BigDecimal.ZERO) ? Boolean.FALSE : Boolean.TRUE]]></printWhenExpression>
+								</reportElement>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6" isBold="false" isPdfEmbedded="true"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{credit}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="84" uuid="4754f4e1-c128-4400-9f7b-c21de1e4fd42">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement isPrintRepeatedValues="false" mode="Opaque" x="0" y="0" width="84" height="20" isPrintInFirstWholeBand="true" backcolor="#BFE1FF" uuid="e5c0b34c-34ed-41e6-98f1-9d8e15e614ee"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Balance]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TH" height="28" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="84" height="28" isPrintWhenDetailOverflows="true" uuid="9405dace-800b-4161-941b-be6a9eddceb4"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6" isBold="false" isPdfEmbedded="true"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{dblBalance}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="16">
+			<textField>
+				<reportElement x="1" y="0" width="264" height="16" uuid="cc0b0eb3-9ba3-4bb3-b15f-9beec24384d4">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total ( "+$V{REPORT_COUNT}+" ) records found."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="473" y="0" width="84" height="16" uuid="2257f303-fd30-41ea-8976-abcd3a7143f1">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page No . "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="34" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/commonLayout.xhtml">
+   <ui:param name="header" value="Department Management"/>
+   <ui:param name="headerRendered" value="true"/>             
+   <ui:define name="content">
+   		<h:form id="departmentEntryForm">
+   			<p:growl escape="false" globalOnly="true" life="5000" showDetail="true"/>
+   			<h:outputText value="Department Management" rendered="#{ManageDepartmentActionBean.createNew}" styleClass="title"/>
+			<h:outputText value="Update Department" rendered="#{!ManageDepartmentActionBean.createNew}" styleClass="title"/>
+			<p:message display="text" for="panelDept" />
+			<p:panel>
+				<p:panelGrid id="panelDept" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						
+						<h:outputText value=""/>
+						<p:message display="text" for="dCode"/>
+						<h:outputText for="dCode" value="#{label['MANAGE_PRODUCT_DCODE_LABEL']}" escape="false" styleClass="input-label mandatory" />
+						<p:inputText value="#{ManageDepartmentActionBean.department.dCode}" id="dCode" required="true">
+							<f:validateLength maximum="50"/>
+						</p:inputText>
+						
+					</p:panelGrid>
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						
+						<h:outputText value=""/>
+						<p:message display="text" for="description"/>
+						<h:outputText for="description" value="#{label['MANAGE_PRODUCT_DESCRIPTION_LABEL']}" escape="false" styleClass="input-label mandatory" />
+						<p:inputTextarea value="#{ManageDepartmentActionBean.department.description}" required="true" id="description" rows="4">
+							<f:validateLength maximum="200"/>
+						</p:inputTextarea>
+						
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<br/>
+			<h:panelGrid columns="3" style="margin-top:-2px;">
+	   			<p:commandButton id="addBtn" value="#{label['COMMON_ADDNEW_BTN']}" action="#{ManageDepartmentActionBean.addNewDepartment}" rendered="#{ManageDepartmentActionBean.createNew}" 
+	   				oncomplete="PF('departmentTable').clearFilters();"  update=":departmentTableForm :departmentEntryForm" style="width:65px;" />
+				<p:commandButton id="editBtn" value="#{label['COMMON_UPDATE_BTN']}" action="#{ManageDepartmentActionBean.updateDepartment}" rendered="#{!ManageDepartmentActionBean.createNew}" 
+					oncomplete="PF('departmentTable').filter();" update="@form" style="width:70px;" />
+				<p:commandButton id="cancleButton" immediate="true" process="@this" value="Cancel" action="#{ManageDepartmentActionBean.createNewDepartment}" 
+								update="@form" style="width:70px;margin-left:-3px;"/>
+			</h:panelGrid>
+			<br/>
+			<p:separator style="height:3px"/>
+   		</h:form>
+   		
+   		<h:form id="departmentTableForm">
+   		<h:panelGrid>
+   			<p:commandLink action="#{ManageDepartmentActionBean.createNewDepartment}" immediate="true" update=":departmentEntryForm">
+				<h:panelGrid columns="2">
+					<h:graphicImage name="images/add.png" styleClass="addIcon"/>
+					<h:outputText value="#{label['COMMON_ADDNEW_LINK']}" styleClass="command-link"/>
+				</h:panelGrid>
+			</p:commandLink>
+			</h:panelGrid>
+			
+			<p:dataTable var="department" value="#{ManageDepartmentActionBean.departmentList}" id="departmentTable" paginator="true" 
+						 rows="10" style="width:100%" widgetVar="departmentTable"  paginatorPosition="bottom"
+						 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						 rowsPerPageTemplate="5,10,15"  rowKey="#{department.id}" reflow="true"  rowIndexVar="var">
+				<p:column headerText="No" width="3%">
+					<h:outputText value="#{var + 1}"/>
+				</p:column>
+				<p:column filterBy="#{department.dCode}" filterMatchMode="contains" width="35%" headerText="#{label['MANAGE_PRODUCT_DCODE_LABEL']}">
+					<h:outputText value="#{department.dCode}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_DEPARTMENT_DESCRIPTION_LABEL']}" >
+					<h:outputText value="#{department.description}"/>
+				</p:column>
+				<p:column style="width:4%;">
+					 <p:commandButton styleClass="green-button" icon="fa fa-paint-brush" action="#{ManageDepartmentActionBean.prepareUpdateDepartment(department)}" process="@this" update=":departmentEntryForm"/>
+				</p:column>
+				<p:column style="width:4%;">
+				    <p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ManageDepartmentActionBean.deleteDepartment(department)}" oncomplete="PF('departmentTable').filter();" update=":departmentTableForm :departmentEntryForm">
+				    	<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+				    </p:commandButton>
+				</p:column>
+			</p:dataTable>   			
+   		</h:form>
+   		
+   		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		 	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+   		
+		
+   </ui:define>             
+           
+</ui:composition>

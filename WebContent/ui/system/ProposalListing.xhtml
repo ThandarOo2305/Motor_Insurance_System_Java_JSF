@@ -1,0 +1,150 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/commonLayout.xhtml">
+                
+   <ui:define name="content">
+   
+   			
+   
+   			<h:form id="searchForm" style="margin-bottom: 10px;">
+   			
+   			<p:panel>
+				<p:panelGrid id="panelDept" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+   				<!-- <p:commandButton icon="fa fa-search" action="#{ManageProposalActionBean.searchByStartDate}" update=":proposalTable :searchForm" /> -->
+   				<h:outputText value=""/>
+   				
+   				<p:message display="text" for="startDate" />
+   				<h:outputText for="startDate" value="Start Date"
+					styleClass="input-label mandatory" escape="false" />
+			    <p:datePicker id="startDate" value="#{ManageProposalActionBean.proposalSearchDTO.startDate}" pattern="yyyy-MM-dd" maxdate="#{ManageProposalActionBean.maxDate}" required="true" showIcon="true"/>
+			    
+			    <h:outputText value=""/>
+   				
+   				<p:message display="text" for="endDate" />
+   				<h:outputText for="endDate" value="End Date"
+					styleClass="input-label mandatory" escape="false" />
+			    <p:datePicker id="endDate" value="#{ManageProposalActionBean.proposalSearchDTO.endDate}" pattern="yyyy-MM-dd" required="true" showIcon="true"/>
+			    
+			</p:panelGrid>
+			<p:panelGrid columns="2"
+			     columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid"
+				 styleClass="ui-panelgrid-blank ui-fluid">
+			    
+			    <h:outputText value="" />
+
+				<p:message display="text" for="groupName" />
+				<h:outputText for="groupName" value="Group Name"
+					styleClass="input-label" escape="false" />
+				<p:inputText value="#{ManageProposalActionBean.proposalSearchDTO.groupName}"
+					id="groupName" >
+				</p:inputText>
+			    
+			    <h:outputText value="" />
+
+				<p:message display="text" for="policy" />
+				<h:outputText for="policy" value="Policy No"
+					styleClass="input-label" escape="false" />
+				<p:inputText value="#{ManageProposalActionBean.proposalSearchDTO.policyNo}"
+					id="policy">
+				</p:inputText>
+				
+				</p:panelGrid>
+			</p:panelGrid>
+			</p:panel>
+				<h:panelGrid columns="3" style="margin-top:-2px;">
+				    <p:commandButton value="Search" action="#{ManageProposalActionBean.search}" update=":proposalTable :searchForm" />
+				</h:panelGrid>
+			</h:form>
+			
+			<!-- <p:commandButton type="black-button" icon="fa fa-print" action="#{ManageProposalActionBean.generateReport}" oncomplete="PF('pdfDialog').show()" update="pdfForm" style="float:right;" /> -->
+					    
+		    <h:form id="proposalTable" > <!--  rendered="#{ManageProposalActionBean.showManual}" -->
+		    <h:panelGrid>
+			    <p:commandLink action="#{ManageProposalActionBean.generateReport1}" oncomplete="PF('pdfDialog').show()" update="pdfForm" >
+   					<h:panelGrid columns="2">
+   						<h:graphicImage name="images/pdf.jpg" styleClass="addIcon" />
+						<h:outputText value="PDF" styleClass="command-link" />
+   					</h:panelGrid>
+   				</p:commandLink>
+   			</h:panelGrid>
+   			<h:panelGrid>
+   				<p:commandLink action="#{ManageProposalActionBean.exportToExcel}" >
+   					<h:panelGrid columns="2">
+   						<h:graphicImage name="images/excel.jpg" styleClass="addIcon" />
+						<h:outputText value="Excel" styleClass="command-link" />
+   					</h:panelGrid>
+   				</p:commandLink> 
+   			</h:panelGrid>
+   				 
+   				<!-- <p:panelGrid name="header">
+					<h:commandLink action="#{ManageProposalActionBean.exportExcel}" immediate="true">
+						<p:graphicImage value="/images/excel.png" />
+					</h:commandLink>
+				</p:panelGrid> -->
+			
+			<p:dataTable var="proposal"
+				value="#{ManageProposalActionBean.proposalSearchList}" id="proposalId"
+				paginator="true" rows="10" style="width:100%;margin-bottom: 10px"
+				widgetVar="studentTable"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" rowKey="#{proposal.id}" reflow="true"
+				rowIndexVar="var" paginatorPosition="bottom">
+				
+				
+				<p:column headerText="No" width="2%">
+					<h:outputText value="#{var+1}" />
+				</p:column>
+				<p:column headerText="Group Name"
+					filterBy="#{proposal.groupName}" filterMatchMode="contains">
+					<h:outputText value="#{proposal.groupName}" />
+				</p:column>
+				<p:column headerText="Insured Name"
+					filterBy="#{proposal.insuredName}" filterMatchMode="contains">
+					<h:outputText value="#{proposal.insuredName}" />
+				</p:column>
+				<p:column headerText="Bank" filterMatchMode="contains">
+					<h:outputText value="#{proposal.bank}" />
+				</p:column>
+				<p:column headerText="Address">
+					<h:outputText value="#{proposal.address}" />
+				</p:column>
+				<p:column headerText="Policy NO">
+					<h:outputText value="#{proposal.policyNo}" />
+				</p:column>
+				<p:column headerText="Sum Insured">
+					<h:outputText value="#{proposal.sumInsured}" />
+				</p:column>
+				<p:column headerText="Rate">
+					<h:outputText value="#{proposal.rate}" />
+				</p:column>
+				<p:column headerText="Premium">
+					<h:outputText value="#{proposal.premium}" />
+				</p:column>
+				<p:column headerText="Start Date">
+					<h:outputText value="#{proposal.startDate}" />
+				</p:column>
+				<p:column headerText="End Date">
+					<h:outputText value="#{proposal.endDate}" />
+				</p:column>
+
+			</p:dataTable>
+
+			<!-- <p:commandButton id="cancelButton" immediate="true" process="@this" value="Cancel" action="#{ManageProposalActionBean.createNewProposal}" update=":proposalTable"
+					style="width:70px;margin-left:-3px;" /> -->
+		</h:form>
+		
+	    <p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" id="pdfDialog" resizable="false" widgetVar="pdfDialog" width="60%" height="550">
+            <h:form enctype="multipart/form-data" id="pdfForm">
+                <p:media cache="false" id="pdfPlayer" player="pdf"  width="99%" height="500" value="#{ManageProposalActionBean.stream}"/>
+            </h:form>
+        </p:dialog>
+		    
+   		
+   </ui:define>             
+           
+</ui:composition>

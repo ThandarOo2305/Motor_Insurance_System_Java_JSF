@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/dialogLayout.xhtml">
+   	<ui:define name="content">
+   	<title><ui:insert name="title">Select CCOA</ui:insert></title>
+      	<h:form>
+      		<p:dataTable id="ccoaTable" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+      			rowIndexVar="index"  rows="10"  value="#{CCOAAccountDialogActionBean.ccoaList}" var="ccoa" paginatorPosition="bottom" widgetVar="ccoaTable"
+				emptyMessage="Nothing found with given criteria" rowKey="#{ccoa.id}" style="padding : 10px 10px;">
+				<p:column headerText="No" style="width:5%;">
+					<h:outputText value="#{index + 1}"/>
+				</p:column>
+				<p:column filterBy="#{ccoa.acCode}" filterMatchMode="contains"  width="15%"
+							headerText="#{label['MANAGE_VOUCHER_ACCOUNTCODE_LABEL']}">
+					<h:outputText value="#{ccoa.acCode}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_VOUCHER_ACCOUNTNAME_LABEL']}" width="30%" filterBy="#{ccoa.acName}" filterMatchMode="contains">
+					<h:outputText value="#{ccoa.acName}"/>
+				</p:column>
+				<p:column headerText="Type" width="15%" filterBy="#{ccoa.accountType}" filterMatchMode="contains">
+					<h:outputText value="#{ccoa.accountType}"/>
+				</p:column>
+				<p:column headerText="Currency" width="15%" filterBy="#{ccoa.currency}" filterMatchMode="contains">
+					<h:outputText value="#{ccoa.currency}"/>
+				</p:column>
+				<p:column headerText="Department" width="15%" filterBy="#{ccoa.department}" filterMatchMode="contains">
+					<h:outputText value="#{ccoa.department}"/>
+				</p:column>
+				<p:column width="7%">
+				<p:commandButton action="#{CCOAAccountDialogActionBean.selectCCOAAccount(ccoa)}" immediate="true" styleClass="green-button" icon="fa fa-check"/>
+				</p:column>
+			</p:dataTable>
+      	</h:form>
+   	</ui:define>
+</ui:composition>

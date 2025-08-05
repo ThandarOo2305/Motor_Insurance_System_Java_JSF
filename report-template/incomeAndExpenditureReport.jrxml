@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="incomeAndExpenditureReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" resourceBundle="LANGUAGE_en" uuid="7c89f7b9-11d9-49cb-af93-beeb9a019ec3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="columnFooter"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="incomeExpenseDataSet" uuid="94759dc7-49d9-49b9-b784-5b9e16362588">
+		<field name="acCode" class="java.lang.String"/>
+		<field name="acName" class="java.lang.String"/>
+		<field name="thisMonth" class="java.math.BigDecimal"/>
+		<field name="yearToDate" class="java.math.BigDecimal"/>
+		<field name="acType" class="java.lang.String"/>
+		<variable name="totalThisMonth" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{thisMonth}]]></variableExpression>
+		</variable>
+		<variable name="totalYearToDate" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{yearToDate}]]></variableExpression>
+		</variable>
+		<group name="actypeGroup">
+			<groupExpression><![CDATA[$F{acType}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="logoPath" class="java.lang.String"/>
+	<parameter name="month" class="java.lang.String"/>
+	<parameter name="year" class="java.lang.Integer"/>
+	<parameter name="reportDate" class="java.lang.String"/>
+	<parameter name="reportTime" class="java.lang.String"/>
+	<parameter name="incomeAndExpenseList" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="branch" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<title>
+		<band height="98" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="100" height="52" uuid="e5343092-4035-42c1-bff0-4270d2fda93c"/>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="166" y="9" width="311" height="20" uuid="7c187001-1c15-489e-99e6-c4b97d69a304"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Zawgyi-One" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{CLIENT_COMPANY_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="32" width="447" height="20" uuid="ef97fb4f-9919-41af-b304-de4d351f3047"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Income and Expenditure Report For "+$P{month}+" - "+$P{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="55" width="151" height="18" uuid="e23f2c77-b6a6-413e-a8d7-270105436e77"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Date : "+$P{reportDate}]]></textFieldExpression>
+				<patternExpression><![CDATA[$R{DATE_FORMAT}]]></patternExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="76" width="151" height="18" uuid="9cd780a1-92fa-44f5-9825-d96fa945aa8b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Time : "+$P{reportTime}]]></textFieldExpression>
+				<patternExpression><![CDATA[$R{DATE_FORMAT}]]></patternExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="73" width="203" height="18" uuid="151d6c5b-a6b6-4371-a78c-9312738674c7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Currency  : "+$P{currency}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="55" width="203" height="18" uuid="5d48e423-3dde-45c7-8889-db7d81fce56e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Branch     : "+$P{branch}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="51" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="0" width="555" height="50" uuid="10dbb291-3ee2-4f94-8084-e598b264c739"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="incomeExpenseDataSet" uuid="c4f8b669-fbec-4beb-af71-ba61cfead833">
+						<dataSourceExpression><![CDATA[$P{incomeAndExpenseList}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="37" uuid="9b106f4b-e6dc-44cd-b6c7-0d1ee7e929f2">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" x="0" y="0" width="37" height="30" uuid="5e5a95af-ff6c-4ec8-8e3a-b9dd833fa12d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+								</textElement>
+								<text><![CDATA[Sr No.]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="37" height="20" uuid="4f6a3792-431c-4839-af83-247e77302e8f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="84cdeaa4-48f8-439d-b583-d25be36e83ba">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="90" height="30" backcolor="#BFE1FF" uuid="8e130303-0c58-4a47-80cd-bdae7e52de0b"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[A/C Code]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="90" height="20" uuid="bf1e481d-479e-4ab8-9f41-1fa9d096d0c8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{acCode}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="253" uuid="923d815b-9859-4b01-bb19-283f6d69b062">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="253" height="30" backcolor="#BFE1FF" uuid="19879a55-1714-4456-ace9-0ee65189c941"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[A/C Name]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell height="20" rowSpan="1">
+								<textField>
+									<reportElement style="table_CH" x="0" y="0" width="253" height="20" uuid="082510bd-525d-46be-a7e8-adb4e462026d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{acType}.equals("I")?"Income Total":"Expense Total"]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField textAdjust="StretchHeight">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="253" height="20" uuid="799a33c0-bc36-4fec-af35-38bb22a8af44"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{acName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="dd93eb89-fe9e-4974-8cae-846c6711a95f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="85" height="30" backcolor="#BFE1FF" uuid="d3839cca-96d8-4a46-bf2f-df46e735ad70"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[This Month]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement style="table_CH" x="0" y="0" width="85" height="20" uuid="06695384-be83-421b-a1a4-ba056eaa28e4"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="8"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalThisMonth}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="85" height="20" uuid="9323d87f-cefa-47c2-907a-12a9257bd325"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{thisMonth}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="71d30af7-1091-4b30-91d8-8f93d1301494">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="30" backcolor="#BFE1FF" uuid="e747f87e-77f3-4a02-9e31-690f042f799a"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Year To Date]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement style="table_CH" x="0" y="0" width="90" height="20" uuid="dbd1e241-0f56-4a0f-a2ce-43a9727d4c8c"/>
+									<box>
+										<topPen lineWidth="0.75"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="8"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalYearToDate}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="90" height="20" uuid="64dd003c-4257-4561-8d55-89a025b3da19"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{yearToDate}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="22">
+			<textField>
+				<reportElement x="457" y="2" width="95" height="18" uuid="05209bb9-b42e-4e52-867f-0550e549dbc9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page : "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

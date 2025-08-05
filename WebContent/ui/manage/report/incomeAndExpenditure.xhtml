@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="#{label['INCOME_AND_EXPENDITURE_REPORT_TITLE']}" />
+    <ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="incomeExpenseForm" enctype="multipart/form-data">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<p:panelGrid id="incomeExpensePanel" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<h:outputText value="#{label['INCOME_AND_EXPENDITURE_REPORTTYPE_LABEL']}" styleClass="input-label" />
+				<p:selectOneRadio id="reportType" value="#{IncomeAndExpenditureActionBean.criteria.quarterly}" styleClass="input-label">
+					<f:selectItem itemLabel="Monthly" itemValue="false" />
+					<f:selectItem itemLabel="Quarterly" itemValue="true" />
+					<p:ajax event="change" update="@form" />
+				</p:selectOneRadio>
+				<h:outputText value="" />
+				<p:selectOneRadio id="currencyOption" value="#{IncomeAndExpenditureActionBean.criteria.currencyType}" converter="omnifaces.SelectItemsIndexConverter" styleClass="input-label">
+					<f:selectItems value="#{IncomeAndExpenditureActionBean.currencyTypes}" var="curType" itemLabel="#{curType.label}" itemValue="#{curType}" />
+					<p:ajax event="change" listener="#{IncomeAndExpenditureActionBean.changeCurrencyType}" update="currencyOption currency homeCurrency" process="@this"/>
+				</p:selectOneRadio>
+				<h:outputText id="currencyLabel" value="#{label['INCOME_AND_EXPENDITURE_CURRENCY_LABEL']}" styleClass="input-label" />
+				<p:selectOneMenu id="currency" value="#{IncomeAndExpenditureActionBean.criteria.currency}" converter="omnifaces.SelectItemsIndexConverter"
+					disabled="#{IncomeAndExpenditureActionBean.criteria.homeCur}">
+					<f:selectItems value="#{IncomeAndExpenditureActionBean.currencyList}" var="currency" itemValue="#{currency}" itemLabel="#{currency.currencyCode}" />
+					<p:ajax event="valueChange" process="@this"></p:ajax>
+				</p:selectOneMenu>
+				<h:outputText value="" />
+				<p:outputPanel>
+					<p:selectBooleanCheckbox id="homeCurrency" value="#{IncomeAndExpenditureActionBean.criteria.homeConverted}" converter="omnifaces.SelectItemsIndexConverter"
+						disabled="#{IncomeAndExpenditureActionBean.criteria.homeCur}" />
+					<p:outputLabel value="#{label['INCOME_AND_EXPENDITURE_HOME_CURRENCY_CONVERTED_LABEL']}" styleClass="input-label" />
+				</p:outputPanel>
+				<h:outputText value="#{label['INCOME_AND_EXPENDITURE_BRANCH_LABEL']}" styleClass="input-label" />
+				<p:selectOneMenu id="branch" value="#{IncomeAndExpenditureActionBean.criteria.branch}" converter="omnifaces.SelectItemsIndexConverter"
+					disabled="#{IncomeAndExpenditureActionBean.isBranchDisabled}">
+					<f:selectItem itemLabel="ALL" />
+					<f:selectItems value="#{IncomeAndExpenditureActionBean.branchList}" var="branch" itemLabel="#{branch.name}" itemValue="#{branch}" />
+				</p:selectOneMenu>
+				<h:outputText value="" />
+				<p:outputPanel>
+					<p:selectBooleanCheckbox value="#{IncomeAndExpenditureActionBean.criteria.group}" converter="omnifaces.SelectItemsIndexConverter" />
+					<h:outputText value="#{label['INCOME_AND_EXPENDITURE_GROUP_LABEL']}" styleClass="input-label" />
+				</p:outputPanel>
+				<h:outputText />
+				<p:message display="text" for="year" />
+				<h:outputText value="#{label['INCOME_AND_EXPENDITURE_REPORT_MONTH_LABEL']}" styleClass="input-label" />
+				<h:panelGroup style="width:500px;">
+					<p:selectOneMenu id="month" value="#{IncomeAndExpenditureActionBean.criteria.month}" converter="omnifaces.SelectItemsIndexConverter" style="width:150px;text-align: right;"
+						rendered="#{!IncomeAndExpenditureActionBean.criteria.quarterly}">
+						<f:selectItems value="#{IncomeAndExpenditureActionBean.monthSet}" var="month" itemLabel="#{month}" itemValue="#{month.value}" />
+					</p:selectOneMenu>
+					<p:selectOneMenu id="year" value="#{IncomeAndExpenditureActionBean.criteria.year}" style="width:70px;" required="true">
+						<f:selectItems value="#{IncomeAndExpenditureActionBean.yearList}" />
+					</p:selectOneMenu>
+					<p:selectOneRadio id="monthQuarter" value="#{IncomeAndExpenditureActionBean.criteria.quarter}" converter="omnifaces.SelectItemsIndexConverter"
+						rendered="#{IncomeAndExpenditureActionBean.criteria.quarterly}" style="width:350px;">
+						<f:selectItem itemLabel="3 months" itemValue="1" />
+						<f:selectItem itemLabel="6 months" itemValue="2" />
+						<f:selectItem itemLabel="9 months" itemValue="3" />
+						<f:selectItem itemLabel="12 months" itemValue="4" />
+					</p:selectOneRadio>
+				</h:panelGroup>
+			</p:panelGrid>
+			<br />
+			<p:commandButton id="previewBtn" value="#{label['COMMON_PREVIEW_BTN']}" style="width: 80px;" action="#{IncomeAndExpenditureActionBean.previewReport}" update="incomeExpenseDialogForm" />
+			<p:commandButton id="downloadLink" value="Download" ajax="false" >
+				<p:fileDownload value="#{IncomeAndExpenditureActionBean.getDownload()}" />
+			</p:commandButton>
+			<p:commandButton id="cancelBtn" action="incomeAndExpenditure" style="width: 80px;" value="#{label['COMMON_CANCEL_BTN']}" ajax="false" immediate="true" />
+		</h:form>
+		<h:form enctype="multipart/form-data" id="incomeExpenseDialogForm">
+			<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" id="IEPdfDialog" resizable="false" widgetVar="IEPdfDialog" width="95%" height="600">
+				<p:media cache="false" id="pdfPlayer" player="pdf" value="#{IncomeAndExpenditureActionBean.stream}" width="100%" height="99%" />
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

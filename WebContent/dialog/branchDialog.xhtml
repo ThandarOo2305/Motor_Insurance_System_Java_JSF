@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/dialogLayout.xhtml">
+	<ui:define name="content">
+		<title><ui:insert name="title">Select Branch</ui:insert></title>
+		<h:form style="margin">
+			<p:dataTable id="branchTable" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="index" rows="15"
+				rowsPerPageTemplate="5,10,15,20,25,30" value="#{BranchDialogActionBean.branchList}" var="branch" widgetVar="branchTable" emptyMessage="Nothing found with given criteria"
+				style="padding: 10px 10px;" paginatorPosition="bottom">
+				<p:column headerText="No" style="width:50px;">
+					<h:outputText value="#{index + 1}" />
+				</p:column>
+				<p:column filterBy="#{branch.branchCode}" filterMatchMode="contains" headerText="#{label['MANAGE_BRANCH_CODE_LABEL']}">
+					<h:outputText value="#{branch.branchCode}" />
+				</p:column>
+				<p:column filterBy="#{branch.name}" filterMatchMode="contains" headerText="#{label['MANAGE_BRANCH_NAME_LABEL']}">
+					<h:outputText value="#{branch.name}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_BRANCH_DESCRIPTION_LABEL']}">
+					<h:outputText value="#{branch.description}" />
+				</p:column>
+				<p:column style="width:30px;text-align: center;">
+					<p:commandButton action="#{BranchDialogActionBean.selectBranch(branch)}" styleClass="green-button" icon="fa fa-check" immediate="true" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

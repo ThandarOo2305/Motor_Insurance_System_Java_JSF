@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="Balance Sheet" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<!-- NEW -->
+		<h:form id="balanceSheet" enctype="multipart/form-data">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<p:panelGrid id="balanceSheetPanel" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<h:outputText value="#{label['INCOME_AND_EXPENDITURE_REPORTTYPE_LABEL']}" styleClass="input-label" />
+				<p:selectOneRadio id="reportType" value="#{BalanceSheetReportActionBean.criteria.reportType}" styleClass="input-label">
+					<f:selectItem itemLabel="Balance Sheet" itemValue="B" />
+					<f:selectItem itemLabel="Profit And Loss" itemValue="P" />
+					<p:ajax update="@form" process="@this" />
+				</p:selectOneRadio>
+				<h:outputText value="Format Type" styleClass="input-label" />
+				<p:selectOneRadio id="formatType" value="#{BalanceSheetReportActionBean.criteria.month}" styleClass="input-label">
+					<f:selectItem itemLabel="Date" itemValue="false" />
+					<f:selectItem itemLabel="Monthly" itemValue="true" />
+					<p:ajax event="change" listener="#{BalanceSheetReportActionBean.changeFormatType}" update="balanceSheet  budgetEnd"></p:ajax>
+				</p:selectOneRadio>
+				<h:outputText value="" />
+				<p:message display="text" for="budgetYear" />
+				<h:outputText for="budgetYear" value="#{label['MANAGE_ALLOCATECODE_BUDGETYEAR_LABEL']}" styleClass="input-label" rendered="#{BalanceSheetReportActionBean.criteria.month}" />
+				<p:selectOneMenu id="budgetYear" value="#{BalanceSheetReportActionBean.criteria.budgetYear}" converter="omnifaces.SelectItemsConverter"
+					rendered="#{BalanceSheetReportActionBean.criteria.month}">
+					<f:selectItems value="#{BalanceSheetReportActionBean.budgetYearList}" var="budget">
+					</f:selectItems>
+				    <p:ajax event="valueChange" listener="#{BalanceSheetReportActionBean.changeBudgetYear}" update="balanceSheet budgetEnd"></p:ajax>
+				</p:selectOneMenu>
+				<h:outputText value="" />
+				<p:message display="text" for="startDate" />
+				<h:outputText for="startDate" value="#{label['VL_STARTDATE_LABEL']}" escape="false" styleClass="input-label mandatory"
+					rendered="#{!BalanceSheetReportActionBean.criteria.month}" />
+				<p:calendar id="startDate" value="#{BalanceSheetReportActionBean.criteria.startDate}" showOn="button" pattern="#{ApplicationSetting.dateFormat}" mask="true" required="true"
+					rendered="#{!BalanceSheetReportActionBean.criteria.month}">
+					<p:ajax event="dateSelect" listener="#{BalanceSheetReportActionBean.dateSelect}" update="balanceSheet budgetEnd"></p:ajax>
+					<p:ajax event="change" listener="#{BalanceSheetReportActionBean.dateChange}" update="balanceSheet budgetEnd"></p:ajax>
+				</p:calendar>
+				<h:outputText value="" />
+				<p:message display="text" for="endDate" />
+				<h:outputText for="endDate" value="#{label['VL_ENDDATE_LABEL']}" escape="false" styleClass="input-label mandatory" rendered="#{!BalanceSheetReportActionBean.criteria.month}" />
+				<p:calendar id="endDate" value="#{BalanceSheetReportActionBean.criteria.endDate}" showOn="button" pattern="#{ApplicationSetting.dateFormat}" mask="true" required="true"
+					rendered="#{!BalanceSheetReportActionBean.criteria.month}">
+					<!-- <p:ajax event="dateSelect" process="@this" update="@this" /> -->
+					<p:ajax event="dateSelect" listener="#{BalanceSheetReportActionBean.changeBudgetYear}" update="balanceSheet budgetEnd"></p:ajax>
+				</p:calendar>
+				<h:outputText value="" />
+				<p:selectBooleanCheckbox id="budgetEnd" value="#{BalanceSheetReportActionBean.beforeBudgetEnd}" itemLabel="#{label['REPORT_STATEMENT_BEFOREBUDGETEND']}"
+					disabled="#{BalanceSheetReportActionBean.beforeDisabled}" >
+				</p:selectBooleanCheckbox>
+				<h:outputText value="" />
+				<p:selectOneRadio id="currencyOption" value="#{BalanceSheetReportActionBean.criteria.currencyType}" converter="omnifaces.SelectItemsIndexConverter" styleClass="input-label">
+					<f:selectItems value="#{BalanceSheetReportActionBean.currencyTypes}" var="curType" itemLabel="#{curType.label}" itemValue="#{curType}" />
+					<p:ajax event="change" listener="#{BalanceSheetReportActionBean.changeCurrencyType}" update="currencyOption currency homeCurrency" process="@this" />
+				</p:selectOneRadio>
+				<h:outputText id="currencyLabel" value="#{label['INCOME_AND_EXPENDITURE_CURRENCY_LABEL']}" styleClass="input-label" />
+				<p:selectOneMenu id="currency" value="#{BalanceSheetReportActionBean.criteria.currency}" converter="omnifaces.SelectItemsIndexConverter"
+					disabled="#{BalanceSheetReportActionBean.criteria.homeCur}">
+					<f:selectItems value="#{BalanceSheetReportActionBean.currencyList}" var="currency" itemValue="#{currency}" itemLabel="#{currency.currencyCode}" />
+					<p:ajax event="valueChange" process="@this"></p:ajax>
+				</p:selectOneMenu>
+				<h:outputText value="" />
+				<p:outputPanel>
+					<p:selectBooleanCheckbox id="homeCurrency" value="#{BalanceSheetReportActionBean.criteria.homeConverted}" converter="omnifaces.SelectItemsIndexConverter"
+						disabled="#{BalanceSheetReportActionBean.criteria.homeCur}" />
+					<p:outputLabel value="#{label['INCOME_AND_EXPENDITURE_HOME_CURRENCY_CONVERTED_LABEL']}" styleClass="input-label" />
+				</p:outputPanel>
+				<h:outputText value="#{label['INCOME_AND_EXPENDITURE_BRANCH_LABEL']}" styleClass="input-label" />
+				<p:selectOneMenu id="branch" value="#{BalanceSheetReportActionBean.criteria.branch}" converter="omnifaces.SelectItemsIndexConverter"
+					disabled="#{BalanceSheetReportActionBean.branchDisabled}">
+					<f:selectItem itemLabel="ALL" />
+					<f:selectItems value="#{BalanceSheetReportActionBean.branchList}" var="branch" itemLabel="#{branch.name}" itemValue="#{branch}" />
+				</p:selectOneMenu>
+				<h:outputText value="" />
+			</p:panelGrid>
+			<br />
+			<p:commandButton id="previewBtn" value="#{label['COMMON_PREVIEW_BTN']}" style="width: 80px;" action="#{BalanceSheetReportActionBean.previewReport}"
+				update="balanceSheetDialogForm balanceSheet" />
+			<p:commandButton id="downloadLink" value="Download" ajax="false">
+				<p:fileDownload value="#{BalanceSheetReportActionBean.getDownload()}" />
+			</p:commandButton>
+			<p:commandButton id="cancelBtn" action="balanceSheet" style="width: 80px;" value="#{label['COMMON_CANCEL_BTN']}" ajax="false" immediate="true" />
+		</h:form>
+		<!-- OLD -->
+		<!-- <h:form id="balanceSheet">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<p:commandButton id="previewBtn" value="#{label['COMMON_PREVIEW_BTN']}" style="width: 80px;" action="#{BalanceSheetReportActionBean.previewReport}" update="balanceSheetDialogForm balanceSheet" />
+			<p:commandButton id="downloadLink" value="Download" ajax="false" >
+				<p:fileDownload value="#{BalanceSheetReportActionBean.getDownload()}" />
+			</p:commandButton>
+			<p:commandButton id="cancelBtn" action="balanceSheet" style="width: 80px;" value="#{label['COMMON_CANCEL_BTN']}" ajax="false" immediate="true" />
+		</h:form> -->
+		<h:form enctype="multipart/form-data" id="balanceSheetDialogForm">
+			<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" id="balanceSheetDialog" resizable="false" widgetVar="balanceSheetDialog" width="95%" height="600">
+				<p:media cache="false" id="pdfPlayer" player="pdf" value="#{BalanceSheetReportActionBean.stream}" width="100%" height="99%" />
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

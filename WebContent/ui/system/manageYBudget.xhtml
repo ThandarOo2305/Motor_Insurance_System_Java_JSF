@@ -1,0 +1,122 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="Yearly Budget Entry" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="yearlyBudgetForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<h:outputText value="#{label['MANAGE_YEARLYBUDGET_LABEL']}" styleClass="title" />
+			<p:panel>
+				<p:panelGrid id="paneldialogDept" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<p:outputLabel />
+						<p:message display="text" for="accountCode" />
+						<h:outputText styleClass="input-label" value="#{label['MANAGE_YEARLYBUDGET_ACCOUNT_LABEL']}" />
+						<p:panelGrid styleClass="ui-panelgrid-blank" id="accountCodePanelGroup">
+							<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="accountCodePanelGroup">
+								<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+									<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{YearlyBudgetActionBean.openCoaDialog()}" id="selectAccountCodeDialogLink" process="@this">
+										<p:ajax event="dialogReturn" listener="#{YearlyBudgetActionBean.returnCoa}" update="accountCode" />
+									</p:commandButton>
+									<p:inputText id="accountCode" value="#{YearlyBudgetActionBean.dto.acCode == null ? '': YearlyBudgetActionBean.dto.acCode}" readonly="true" />
+									<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{YearlyBudgetActionBean.dto.setAcCode(null)}" process="@this" update="accountCode" />
+								</div>
+							</div>
+						</p:panelGrid>
+						<h:outputText for="currencyCode" value="#{label['MANAGE_CURRENCY_CURRENCYCODE_LABEL']}" styleClass="input-label" />
+						<p:selectOneMenu id="currencyCode" value="#{YearlyBudgetActionBean.dto.curId}">
+							<f:selectItem itemLabel="Select All" />
+							<f:selectItems itemLabel="#{currency.currencyCode}" itemValue="#{currency.id}" value="#{YearlyBudgetActionBean.currencyList}" var="currency" />
+							<p:ajax process="@this" update="@this" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value=""></h:outputText>
+						<p:message display="text" for="branchCode" />
+						<h:outputText value="#{label['MANAGE_BRANCH_CODE_LABEL']}" escape="false" styleClass="input-label" />
+						<p:selectOneMenu id="branchCode" value="#{YearlyBudgetActionBean.dto.branchId}" disabled="#{!YearlyBudgetActionBean.admin}">
+							<f:selectItem itemLabel="Select All" />
+							<f:selectItems itemLabel="#{branch.branchCode}  #{branch.name}" itemValue="#{branch.id}" value="#{YearlyBudgetActionBean.branchList}" var="branch" />
+							<p:ajax process="@this" update="@this" />
+						</p:selectOneMenu>
+						<h:outputText value=""></h:outputText>
+						<p:message display="text" for="deptCode" />
+						<h:outputText value="#{label['MANAGE_DCODE_LABEL']}" styleClass="input-label" />
+						<p:selectOneMenu id="deptCode" value="#{YearlyBudgetActionBean.dto.departmentId}">
+							<f:selectItem itemLabel="Select All" />
+							<f:selectItems itemLabel="#{dept.dCode}" itemValue="#{dept.id}" value="#{YearlyBudgetActionBean.deptList}" var="dept" />
+							<p:ajax process="@this" update="@this" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<br />
+			<p:commandButton id="searchBtn" value="#{label['COMMON_SEARCH_BTN']}" action="#{YearlyBudgetActionBean.search()}" style="width:80px;" update=":yearlyBudgetForm :budgetTableForm"
+				oncomplete="PF('budgetTable').clearFilters()" />
+			<p:commandButton id="cancelBtn" value="#{label['COMMON_CANCEL_BTN']}" action="yearlyBudget" style="width:80px;" />
+			<br />
+			<br />
+		</h:form>
+		<p:separator style="height:3px" />
+		<h:form id="budgetTableForm">
+			<p:dataTable id="budgetTable" value="#{YearlyBudgetActionBean.dtoList}" var="dto" widgetVar="budgetTable" rowKey="index" rowStyleClass="#{dto.edit? 'rowCell' : 'textOnRight'}"
+				emptyMessage="Nothing found with given criteria" filteredValue="#{YearlyBudgetActionBean.filterList}" editable="true" editMode="cell" paginator="true" rows="10" reflow="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10, 15"
+				paginatorPosition="bottom">
+				<p:ajax event="cellEdit" listener="#{dto.checkBF(dto.bF)}" />
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{YearlyBudgetActionBean.deleteCurrentBudget(dto)}" oncomplete="PF('budgetTable').filter();"
+						update=":yearlyBudgetForm :budgetTableForm">
+						<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_YEARLYBUDGET_ACCOUNT_LABEL']}" filterMatchMode="contains" filterBy="#{dto.acCode}">
+					<h:outputText value="#{dto.acCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_YEARLYBUDGET_DEPARTMENT_LABEL']}" style="width:120px;">
+					<h:outputText value="#{dto.dCode}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_YEARLYBUDGET_DESCRIPTION_LABEL']}">
+					<h:outputText value="#{dto.acName}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_YEARLYBUDGET_BRANCH_LABEL']}" style="width:80px;">
+					<h:outputText value="#{dto.branchCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_YEARLYBUDGET_CURRENCY_LABEL']}">
+					<h:outputText value="#{dto.currencyCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_YEARLYBUDGET_BUDGETFIGURE_LABEL']}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText id="outbudgetFigure" value="#{dto.bF}">
+								<f:convertNumber pattern="#{ApplicationSetting.currencyFormat2}"></f:convertNumber>
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="inpbudgetFigure" onkeypress="isDecimalKey(event,this)" value="#{dto.bF}">
+								<p:ajax process="@this" update="budgetTable" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+			</p:dataTable>
+			<p:separator style="height:3px" />
+			<p:commandButton id="btnSave" value="#{label['COMMON_SAVE_BTN']}" action="#{YearlyBudgetActionBean.saveBudgetYear}" oncomplete="PF('budgetTable').filter();" style="width:70px;"
+				update="yearlyBudgetForm :budgetTableForm">
+				<p:confirm header="Confirmation" message="#{label['COMMON_MSG_SAVE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+			</p:commandButton>
+			<p:commandButton id="btnDeleteAll" value="#{label['COMMON_DELETE_ALL_BTN']}" action="#{YearlyBudgetActionBean.deleteAllBudgetYear}" oncomplete="PF('budgetTable').filter();"
+				style="width:100px;" update="yearlyBudgetForm :budgetTableForm">
+				<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+			</p:commandButton>
+			<p:commandButton id="btnReset" action="yearlyBudget" value="#{label['COMMON_RESET_BTN']}" style="width:70px;" ajax="false" />
+		</h:form>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>

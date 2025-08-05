@@ -1,0 +1,364 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/commonLayout.xhtml">
+                
+   <ui:define name="content">
+   		<h:form id="customerEntryForm">
+		
+		        <p:growl globalOnly="true" showDetail="true" escape="false"/>
+		        <p:messages autoUpdate="true" />
+		
+		        <p:wizard flowListener="#{ManageCustomerActionBean2.onFlowProcess}">  <!-- flowListener="#{ManageStudentActionBean.onFlowProcess}" -->
+		        	<p:tab id="personal" title="Personal Info">
+				        <p:panelGrid id="panelDept" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						
+							<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+								<h:outputText value="" />
+								
+								<p:message display="text" for="Salutation" />
+								<h:outputText for="Salutation" value="Salutation" styleClass="input-label mandatory" escape="false" />
+								<p:selectOneMenu id="Salutation" required="true" value="#{ManageCustomerActionBean2.customerDTO.salutation}">
+									<f:selectItem itemLabel="Select Salutation" itemValue="" noSelectionOption="true"/>
+									<f:selectItems value="#{ManageCustomerActionBean2.salutations}" var="item" itemLabel="#{item.label}"/>
+								</p:selectOneMenu>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="firstName" />
+								<h:outputText for="firstName" value="First Name" styleClass="input-label mandatory" escape="false" />
+								<p:inputText  id="firstName" required="true" value="#{ManageCustomerActionBean2.customerDTO.firstName}" >
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="middleName" />
+								<h:outputText for="middleName" value="Middle Name" styleClass="input-label" escape="false" />
+								<p:inputText id="middleName" value="#{ManageCustomerActionBean2.customerDTO.middleName}">
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="lastName" />
+								<h:outputText for="lastName" value="Last Name" styleClass="input-label mandatory" escape="false" />
+								<p:inputText  id="lastName" value="#{ManageCustomerActionBean2.customerDTO.lastName}" required="true">
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="fatherName" />
+								<h:outputText for="fatherName" value="Father Name" styleClass="input-label mandatory" escape="false" />
+								<p:inputText  id="fatherName" value="#{ManageCustomerActionBean2.customerDTO.fatherName}" required="true">
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="gender" />
+								<h:outputText for="gender" value="Gender" styleClass="input-label" escape="false" />
+								<p:selectOneRadio id="gender"  var="item" layout="lineDirection" value="#{ManageCustomerActionBean2.customerDTO.gender}">
+									<f:selectItems value="#{ManageStudentActionBean.gender}" var="item" itemLabel="#{item.label}"/>
+								</p:selectOneRadio>
+								
+							</p:panelGrid>
+							<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">	
+								<h:outputText value="" />
+								
+								<p:message display="text" for="dateOfBirth" />
+								<h:outputText for="dateOfBirth" value="Date Of Birth" styleClass="input-label mandatory"  escape="false" />
+								<p:datePicker id="dateOfBirth"  value="#{ManageCustomerActionBean2.customerDTO.dateOfBirth}" required="true" pattern="dd-MM-yyyy"
+								showIcon="true"/>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="birthMark" />
+								<h:outputText for="birthMark" value="Birth Mark" styleClass="input-label" escape="false" />
+								<p:inputText  id="birthMark" value="#{ManageCustomerActionBean2.customerDTO.birthMark}">
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="marital" />
+								<h:outputText for="marital" value="Marital Status" styleClass="input-label" escape="false" />
+								<p:selectOneMenu id="marital" value="#{ManageCustomerActionBean2.customerDTO.maritalStatus}" > 
+									<f:selectItem itemLabel="Select Marital Status" itemValue="" noSelectionOption="true"/>
+									<f:selectItems value="#{ManageCustomerActionBean2.maritalStatus}" var="item" itemLabel="#{item.label}"/>
+								</p:selectOneMenu>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="occupation" />
+								<h:outputText for="occupation" value="Occupation" styleClass="input-label"  escape="false"/>
+								<p:panelGrid styleClass="ui-panelgrid-blank" id="occupationPanelGroup">
+									<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="occupationPanelGroup">
+										<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+											<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{ManageCustomerActionBean2.selectOccupation()}" process="@this">
+												<p:ajax event="dialogReturn" listener="#{ManageCustomerActionBean2.returnOccupation}" update="occupation" />
+											</p:commandButton>
+											<p:inputText id="occupation" value="#{ManageCustomerActionBean2.customerDTO.occupation == null ? '' : ManageCustomerActionBean2.customerDTO.occupation.name}"  readonly="true" /> <!--  -->
+											<p:commandButton styleClass="red-button" icon="fa fa-times"  process="@this" update="occupation" action="#{ManageCustomerActionBean2.customerDTO.setOccupation(null)}" /> <!--  -->
+										</div>
+									</div>
+								</p:panelGrid>
+						
+							</p:panelGrid>
+							<h:outputText value="* - mandatory fields"  style="color: red;"/>
+						</p:panelGrid>
+		        	</p:tab>
+		        	<p:tab id="contact" title="Contact Info">
+		        		<p:panelGrid id="panelDept1" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						
+							<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+								<h:outputText value="" />
+								
+								<p:message display="text" for="residentAddress" />
+								<h:outputText for="residentAddress" value="Resident Address" styleClass="input-label mandatory" escape="false" />
+								<p:inputText id="residentAddress" required="true" value="#{ManageCustomerActionBean2.customerDTO.residentAddress}" onchange="">
+									<f:validateLength maximum="50" />
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="residentTownship" />
+								<h:outputText for="residentTownship" value="Resident Township" styleClass="input-label mandatory" escape="false" />
+								<p:inputText id="residentTownship" required="true" value="#{ManageCustomerActionBean2.customerDTO.residentTownship}" >
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="permanentAddress" />
+								<h:outputText for="permanentAddress" value="Permanent Address" styleClass="input-label" escape="false" />
+								<p:inputText id="permanentAddress" value="#{ManageCustomerActionBean2.customerDTO.permanentAddress}" >
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="permanentTownship" />
+								<h:outputText for="permanentTownship" value="Permanent Township" styleClass="input-label" escape="false" />
+								<p:inputText id="permanentTownship" value="#{ManageCustomerActionBean2.customerDTO.permanentTownship}" >
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="officeAddress" />
+								<h:outputText for="officeAddress" value="Office Address" styleClass="input-label" escape="false" />
+								<p:inputText  id="officeAddress" value="#{ManageCustomerActionBean2.customerDTO.officeAddress}" >
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="officeTownship" />
+								<h:outputText for="officeTownship" value="Office Township" styleClass="input-label" escape="false" />
+								<p:inputText  id="officeTownship" value="#{ManageCustomerActionBean2.customerDTO.officeTownship}" >
+								</p:inputText>
+							</p:panelGrid>
+							<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">	
+								<h:outputText value="" />
+								
+								<p:message display="text" for="Phone" />
+								<h:outputText for="Phone" value="Phone" styleClass="input-label mandatory" escape="false" />
+								<p:inputText id="Phone" rendered="true" value="#{ManageCustomerActionBean2.customerDTO.phone}" required="true" validatorMessage="value must be number">
+									<f:validateRegex pattern="^[0-9\\W-]+$" />
+								</p:inputText>  
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="Fax" />
+								<h:outputText for="Fax" value="Fax" styleClass="input-label" escape="false" />
+								<p:inputText id="Fax" value="#{ManageCustomerActionBean2.customerDTO.fax}" >
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="Mobile" />
+								<h:outputText for="Mobile" value="Mobile" styleClass="input-label" escape="false" />
+								<p:inputText  id="Mobile" value="#{ManageCustomerActionBean2.customerDTO.mobile}" >
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="Email" />
+								<h:outputText for="Email" value="Email" styleClass="input-label mandatory"  escape="false"/>
+								<p:inputText id="Email"  required="true" value="#{ManageCustomerActionBean2.customerDTO.email}" validatorMessage="Invalid email format">
+									<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+								</p:inputText>
+								
+								<h:outputText value="Skip to last : " />
+								<h:selectBooleanCheckbox value="#{ManageCustomerActionBean2.skip}" />
+							</p:panelGrid>
+							<h:outputText value="* - mandatory fields"  style="color: red;"/>
+						</p:panelGrid>
+					<!-- 	<p:commandButton value="Next" action="#{ManageCustomerActionBean2.saveContactInfo}" style="display: none;"/> -->
+		        	</p:tab>
+		        	<p:tab id="family" title="Family Info" >
+		        		<p:panelGrid id="panelDept2" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" >
+						
+							<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+								<h:outputText value="" />
+								
+								<p:message display="text" for="rsSalutation" />
+								<h:outputText for="rsSalutation" value="Salutation" styleClass="input-label mandatory" escape="false" />
+								<p:selectOneMenu id="rsSalutation" required="true" value="#{ManageCustomerActionBean2.customerDTO.relativeSalutation}">
+									<f:selectItem itemLabel="Select Salutation" itemValue="" noSelectionOption="true"/>
+									<f:selectItems value="#{ManageCustomerActionBean2.salutations}" var="item" itemLabel="#{item.label}"/>
+								</p:selectOneMenu>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="rsfirstName" />
+								<h:outputText for="rsfirstName" value="First Name" styleClass="input-label mandatory" escape="false" />
+								<p:inputText  id="rsfirstName" required="true" value="#{ManageCustomerActionBean2.customerDTO.relativeFirstName}" >
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="rsmiddleName" />
+								<h:outputText for="rsmiddleName" value="Middle Name" styleClass="input-label" escape="false" />
+								<p:inputText id="rsmiddleName" value="#{ManageCustomerActionBean2.customerDTO.relativeMiddleName}" >
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="rslastName" />
+								<h:outputText for="rslastName" value="Last Name" styleClass="input-label" escape="false" />
+								<p:inputText  id="rslastName" value="#{ManageCustomerActionBean2.customerDTO.relativeLastName}" >
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="relationship" />
+								<h:outputText for="relationship" value="Relationship" styleClass="input-label" escape="false" />
+								<p:inputText  id="relationship" value="#{ManageCustomerActionBean2.customerDTO.relationship}" >
+								</p:inputText>
+								
+								<h:outputText value="" />
+								
+								<p:message display="text" for="rsdateOfBirth" />
+								<h:outputText for="rsdateOfBirth" value="Date Of Birth" styleClass="input-label"  escape="false" />
+								<p:datePicker id="rsdateOfBirth"  value="#{ManageCustomerActionBean2.customerDTO.relativeDOB}" pattern="dd-MM-yyyy"
+								showIcon="true"/>
+								
+								<h:outputText value="* - mandatory fields"  style="color: red;"/>
+								
+							</p:panelGrid>
+						</p:panelGrid>
+	        		</p:tab>
+	        		<p:tab id="confirm" title="Confirmation">
+		                <p:panel header="Confirmation">
+		                    <p:panelGrid id="panelDeptCon" columns="3" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" cellspacing="20">
+		                        <h:panelGrid columns="2" columnClasses="label, value" cellpadding="10">
+		                        
+		                        	<h:outputText value="Personal Info"
+                                     style="font-size: 20px" />
+                                    <h:outputText />
+                                                    
+		                            <h:outputText value="Salutation: "/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.salutation}" styleClass="outputLabel"/>
+		
+		                            <h:outputText value="First Name: "/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.firstName}" styleClass="outputLabel"/>
+		
+		                            <h:outputText value="Middle Name: " rendered="#{not empty ManageCustomerActionBean2.customerDTO.middleName}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.middleName}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.middleName}"/>
+		                           		        
+		                            <h:outputText value="Last Name: " rendered="#{not empty ManageCustomerActionBean2.customerDTO.lastName}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.lastName}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.lastName}"/>
+		
+		                            <h:outputText value="Father Name: " rendered="#{not empty ManageCustomerActionBean2.customerDTO.fatherName}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.fatherName}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.fatherName}"/>
+		
+									<h:outputText value="Gender: " rendered="#{not empty ManageCustomerActionBean2.customerDTO.gender}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.gender}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.gender}"/>
+		
+		                            <h:outputText value="Date Of Birth: " rendered="#{not empty ManageCustomerActionBean2.customerDTO.dateOfBirth}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.dateOfBirth}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.dateOfBirth}"/>
+		                      
+		                            <h:outputText value="Birth Mark: " rendered="#{not empty ManageCustomerActionBean2.customerDTO.birthMark}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.birthMark}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.birthMark}"/>
+		
+		                            <h:outputText value="Marial Status: " rendered="#{not empty ManageCustomerActionBean2.customerDTO.maritalStatus}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.maritalStatus}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.maritalStatus}"/>
+		
+		                            <h:outputText value="Occupation: " rendered="#{not empty ManageCustomerActionBean2.customerDTO.occupation.name}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.occupation.name}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.occupation.name}"/>
+
+		                        </h:panelGrid>
+		                         <h:panelGrid columns="2" columnClasses="label, value" cellpadding="10">
+		                         	<h:outputText value="Contact Info"
+                                     style="font-size: 20px" />
+                                    <h:outputText />
+                                    
+		                            <h:outputText value="residentAddress : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.residentAddress}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.residentAddress}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.residentAddress}"/>
+		
+		                            <h:outputText value="residentTownship : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.residentTownship}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.residentTownship}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.residentTownship}"/>
+		
+		                            <h:outputText value="permanentAddress : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.permanentAddress}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.permanentAddress}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.permanentAddress}"/>
+		                            
+		                            <h:outputText value="permanentTownship : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.permanentTownship}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.permanentTownship}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.permanentTownship}"/>
+		        
+		                            <h:outputText value="officeAddress : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.officeAddress}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.officeAddress}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.officeAddress}"/>
+		
+		                            <h:outputText value="officeTownship : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.officeTownship}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.officeTownship}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.officeTownship}"/>
+		
+		                            <h:outputText value="Phone : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.phone}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.phone}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.phone}"/>
+		
+		                            <h:outputText value="Fax : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.fax}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.fax}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.fax}"/>
+		
+		                            <h:outputText value="Mobile " rendered="#{not empty ManageCustomerActionBean2.customerDTO.mobile}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.mobile}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.mobile}"/>
+
+		                        </h:panelGrid>
+		                         <h:panelGrid columns="2" columnClasses="label, value" cellpadding="10">
+		                         	<h:outputText value="Family Info" rendered="#{not empty ManageCustomerActionBean2.customerDTO.relativeSalutation}"
+                                     style="font-size: 20px" />
+                                    <h:outputText />
+                                    
+		                            <h:outputText value="Salutation : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.relativeSalutation}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.relativeSalutation}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.relativeSalutation}"/>
+		
+		                            <h:outputText value="First Name : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.relativeFirstName}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.relativeFirstName}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.relativeFirstName}"/>
+		
+		                            <h:outputText value="Middle Name : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.relativeMiddleName}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.relativeMiddleName}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.relativeMiddleName}"/>
+		                            
+		                            <h:outputText value="Last Name : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.relativeLastName}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.relativeLastName}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.relativeLastName}"/>
+		        
+		                            <h:outputText value="Relationship : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.relationship}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.relationship}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.relationship}"/>
+		
+		                            <h:outputText value="Date Of Birth : " rendered="#{not empty ManageCustomerActionBean2.customerDTO.relativeDOB}"/>
+		                            <h:outputText value="#{ManageCustomerActionBean2.customerDTO.relativeDOB}" styleClass="outputLabel" rendered="#{not empty ManageCustomerActionBean2.customerDTO.relativeDOB}"/>
+		
+									<h:outputText value="Personal Info: #{ManageCustomerActionBean2.getFormData('personal')}" />
+							        <h:outputText value="Contact Info: #{ManageCustomerActionBean2.getFormData('contact')}" />
+							        <h:outputText value="Family Info: #{ManageCustomerActionBean2.getFormData('family')}" />
+							        
+		                            </h:panelGrid>
+		                    </p:panelGrid>
+		
+		                    <p:commandButton id="addBtn" value="Submit"  style="width: 65px;margin-right: 15px;"  action="#{ManageCustomerActionBean2.addNewCustomer}" rendered="#{ManageCustomerActionBean2.createNew}" 
+							  update=":customerEntryForm"/>
+		                    <!--oncomplete="PF('studentTable').clearFilters();"  -->
+							<p:commandButton id="editBtn" value="Update" action="#{ManageCustomerActionBean2.updateCustomer()}" update=":customerEntryForm"
+							   rendered="#{!ManageCustomerActionBean2.createNew}"	 style="width:70px;margin-right: 15px;" />  <!--  -->
+							<p:commandButton id="cancelButton" immediate="true" process="@this" value="Cancel" action="#{ManageCustomerActionBean2.createNewCustomer}"
+								style="width:70px;margin-left:-3px;" update=":customerEntryForm"/>  <!--   -->
+		                </p:panel>
+		            </p:tab>
+				 </p:wizard>
+				
+			</h:form>
+   </ui:define>            
+           
+</ui:composition>

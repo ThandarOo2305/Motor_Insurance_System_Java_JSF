@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="Allocate Code Management" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="allocateCodeForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<h:outputText value="#{label['MANAGE_ALLOCATECODE_LABEL']}" rendered="#{!AllocateCodeActionBean.editData}" styleClass="title" />
+			<h:outputText value="#{label['MANAGE_ALLOCATECODE_EDIT_LABEL']}" rendered="#{AllocateCodeActionBean.editData}" styleClass="title" />
+			<p:panel>
+				<p:panelGrid id="panelCur" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputText value="" />
+					<p:message display="text" for="budgetYear" />
+					<h:outputText for="budgetYear" value="#{label['MANAGE_ALLOCATECODE_BUDGETYEAR_LABEL']}" styleClass="input-label" />
+					<p:selectOneMenu id="budgetYear" value="#{AllocateCodeActionBean.budgetYear}" converter="omnifaces.SelectItemsConverter">
+						<f:selectItem itemLabel="---"></f:selectItem>
+						<f:selectItems value="#{AllocateCodeActionBean.budgetYearList}" var="budget">
+						</f:selectItems>
+						<p:ajax event="valueChange" listener="#{AllocateCodeActionBean.changeBudgetYear}" update="allocateCodeForm"></p:ajax>
+					</p:selectOneMenu>
+					<h:outputText value="" />
+					<p:message display="text" for="basedOn" />
+					<h:outputText for="basedOn" value="#{label['MANAGE_ALLOCATECODE_BASEON_LABEL']}" styleClass="input-label"></h:outputText>
+					<p:inputText id="basedOn" value="#{AllocateCodeActionBean.baseOn}" readonly="true">
+						<f:convertNumber pattern="#{ApplicationSetting.percentFormat}"></f:convertNumber>
+					</p:inputText>
+				</p:panelGrid>
+			</p:panel>
+			<br />
+			<p:dataTable id="allocateTable" value="#{AllocateCodeActionBean.allocateCodeList}" var="allocateCode" paginator="true" rows="10" widgetVar="allocateTable"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10, 15"
+				rowKey="index" emptyMessage="Nothing found with given criteria" reflow="true" style="width:70%;" paginatorPosition="bottom">
+				<p:column headerText="#{label['MANAGE_ALLOCATECODE_DEPARTMENTCODE_LABEL']}" style="width:100px;">
+					<h:outputText value="#{allocateCode.department.dCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_ALLOCATECODE_DEPARTMENTNAME_LABEL']}" style="width:100px;">
+					<h:outputText value="#{allocateCode.department.description}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_ALLOCATECODE_PERCENT_LABEL']}" style="width:100px;">
+					<h:outputText value="#{allocateCode.amtPercent}" rendered="#{!AllocateCodeActionBean.editData}" />
+					<p:inputNumber id="percent" value="#{allocateCode.amtPercent}" rendered="#{AllocateCodeActionBean.editData}" padControl="false" decimalPlaces="2">
+					</p:inputNumber>
+				</p:column>
+			</p:dataTable>
+			<p:separator style="height:3px" />
+			<p:commandButton id="btnEdit" value="#{label['COMMON_EDIT_BTN']}" rendered="#{!AllocateCodeActionBean.editData}" style="width:70px;" update="allocateCodeForm">
+				<f:setPropertyActionListener target="#{AllocateCodeActionBean.editData}" value="true" />
+			</p:commandButton>
+			<p:commandButton id="btnSave" value="#{label['COMMON_SAVE_BTN']}" action="#{AllocateCodeActionBean.saveAllocateCode}" style="width:70px;"
+				rendered="#{AllocateCodeActionBean.editData}" update="allocateCodeForm :accountTreeListForm" />
+			<p:commandButton id="btnDeleteAll" value="#{label['COMMON_DELETE_BTN']}" oncomplete="PF('confirmationDialog').show()" rendered="#{AllocateCodeActionBean.editData}"
+				style="width:100px;" update="allocateCodeForm">
+				<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+			</p:commandButton>
+			<p:commandButton id="btnCancel" action="manageAllocateCode" value="#{label['COMMON_CANCEL_BTN']}" ajax="false" style="width:100px;" />
+		</h:form>
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			
+			<p:commandButton value="#{label['COMMON_YES_BTN']}" styleClass="ui-confirmdialog-yes" icon="fa fa-check" action="#{AllocateCodeActionBean.deleteAllocateCode}"
+				update=":allocateCodeForm" oncomplete="PF('confirmationDialog').hide()" immediate="true" />
+			<p:spacer></p:spacer>
+			<p:commandButton value="#{label['COMMON_NO_BTN']}" styleClass="ui-confirmdialog-no" icon="fa fa-times" oncomplete="PF('confirmationDialog').hide()" immediate="true" />
+		</p:confirmDialog>
+		
+		<p:dialog modal="true" appendTo="@(body)" responsive="true" header="#{label['MANAGE_ALLOCATECODE_ACCOUNTCODE_LABEL']}" height="300" width="400" hideEffect="explode"
+			id="accountListDialog" showEffect="fade" widgetVar="accountListDialog" dynamic="true">
+			<h:form id="accountTreeListForm">
+				<p:tree filterBy="#{node}" filterMatchMode="contains" value="#{AllocateCodeActionBean.root}" var="node" id="accountListTree" selectionMode="checkbox" selection="#{AllocateCodeActionBean.selectedNodes}">
+					<p:treeNode>
+						<h:outputText value="#{node}" />
+					</p:treeNode>
+				</p:tree>
+				<br/>
+				<div align="left">
+					<p:commandButton id="btnSaveAllocate" value="#{label['COMMON_SAVE_BTN']}" action="#{AllocateCodeActionBean.addAccountType}" oncomplete="PF('accountListDialog').hide()"
+						style="width:70px;" process="@form" update=":allocateCodeForm"></p:commandButton>
+					<p:spacer></p:spacer>
+					<p:commandButton id="btnCancelAllocate" value="#{label['COMMON_CANCEL_BTN']}" action="manageAllocateCode" style="width:70px;" ajax="false"></p:commandButton>
+				</div>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

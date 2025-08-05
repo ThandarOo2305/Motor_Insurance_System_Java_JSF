@@ -1,0 +1,130 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="#{label['MANAGE_ACCLEDGERLISTING_TITLE']}" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="accLedgerListingForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<p:panelGrid id="accLedgerListingPanel" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputText value="" />
+					<p:selectOneRadio id="currencyOption" value="#{AccLedgerListActionBean.ledgerDto.currencyType}" converter="omnifaces.SelectItemsIndexConverter" styleClass="input-label">
+						<f:selectItems value="#{AccLedgerListActionBean.currencyTypes}" var="curType" itemLabel="#{curType.label}" itemValue="#{curType}"></f:selectItems>
+						<p:ajax event="change" listener="#{AccLedgerListActionBean.changeCurrencyType}" update="currencyOption currency homeCurrency">
+						</p:ajax>
+					</p:selectOneRadio>
+					<h:outputText value="" />
+					<h:outputText value="" />
+					<h:outputText id="currencyLabel" value="#{label['MANAGE_ACCLEDGERLISTING_CURRENCY_LABEL']}" styleClass="input-label" />
+					<p:selectOneMenu id="currency" value="#{AccLedgerListActionBean.ledgerDto.currency}" converter="omnifaces.SelectItemsIndexConverter"
+						disabled="#{AccLedgerListActionBean.ledgerDto.homeCurrency}">
+						<f:selectItems value="#{AccLedgerListActionBean.currencyList}" var="currency" itemValue="#{currency}" itemLabel="#{currency.currencyCode}"></f:selectItems>
+					</p:selectOneMenu>
+					<h:outputText value="" />
+					<h:outputText value="" />
+					<h:outputText value="" />
+					<p:outputPanel>
+						<p:selectBooleanCheckbox id="homeCurrency" value="#{AccLedgerListActionBean.ledgerDto.homeCurrencyConverted}" converter="omnifaces.SelectItemsIndexConverter"
+							disabled="#{AccLedgerListActionBean.ledgerDto.homeCurrency}">
+						</p:selectBooleanCheckbox>
+						<h:outputText value="#{label['MANAGE_ACCLEDGERLISTING_HOMECURRENCYCONVERTED_LABEL']}" styleClass="input-label" />
+					</p:outputPanel>
+				</p:panelGrid>
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputText value="" />
+					<p:message display="text" for="acCode" />
+					<h:outputText value="#{label['MANAGE_ACCLEDGERLISTING_ACCOUNTCODE_LABEL']}" styleClass="input-label mandatory" />
+					<p:panelGrid styleClass="ui-panelgrid-blank" id="acCodePanel">
+						<p:tree style="width: 100%;height:150px;overflow: auto; display:block" value="#{AccLedgerListActionBean.root}" var="node" id="acCode" selectionMode="checkbox"
+							selection="#{AccLedgerListActionBean.selectedNodes}" filterBy="#{node}" filterMatchMode="contains" required="true">
+							<p:treeNode>
+								<h:outputText value="#{node}" />
+							</p:treeNode>
+						</p:tree>
+					</p:panelGrid>
+					<h:outputText value="#{label['MANAGE_ACCLEDGERLISTING_BRANCH_LABEL']}" styleClass="input-label" />
+					<p:selectOneMenu id="branch" value="#{AccLedgerListActionBean.ledgerDto.branch}" converter="omnifaces.SelectItemsIndexConverter"
+						disabled="#{AccLedgerListActionBean.ledgerDto.allBranch==true}">
+						<f:selectItems value="#{AccLedgerListActionBean.branchList}" var="branch" itemLabel="#{branch.name}" itemValue="#{branch}"></f:selectItems>
+					</p:selectOneMenu>
+					<h:outputText value="" />
+					<h:outputText value="" />
+					<h:outputText value="#{label['MANAGE_ACCLEDGERLISTING_ACCOUNTDESP_LABEL']}" styleClass="input-label" />
+					<p:inputText id="accDesp" value="#{AccLedgerListActionBean.coa.acName}" readonly="true"></p:inputText>
+					<h:outputText value="" />
+					<p:outputPanel>
+						<p:selectBooleanCheckbox value="#{AccLedgerListActionBean.ledgerDto.allBranch}" converter="omnifaces.SelectItemsIndexConverter"
+							rendered="#{AccLedgerListActionBean.ledgerDto.admin}">
+							<p:ajax update="branch"></p:ajax>
+						</p:selectBooleanCheckbox>
+						<h:outputText value="#{label['MANAGE_ACCLEDGERLISTING_ALLBRANCH_LABEL']}" styleClass="input-label" rendered="#{AccLedgerListActionBean.ledgerDto.admin}" />
+					</p:outputPanel>
+					<h:outputText value="" />
+				</p:panelGrid>
+			</p:panelGrid>
+			<fieldset>
+				<legend style="font-size: 14px;">Select Date</legend>
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="startDate" />
+						<h:outputText value="#{label['MANAGE_ACCLEDGERLISTING_STARTDATE_LABEL']}" styleClass="input-label" />
+						<p:calendar id="startDate" value="#{AccLedgerListActionBean.ledgerDto.startDate}" required="true" showOn="button" pattern="#{ApplicationSetting.dateFormat}"
+							timeZone="#{ApplicationSetting.timeZone}" mask="true" maxdate="#{AccLedgerListActionBean.todayDate}">
+							<p:ajax event="dateSelect" listener="#{AccLedgerListActionBean.dateSelect}"></p:ajax>
+							<p:ajax event="change" listener="#{AccLedgerListActionBean.dateChange}"></p:ajax>
+							</p:calendar>
+						<h:outputText value="" />
+						<p:message display="text" for="endDate" />
+						<h:outputText value="#{label['MANAGE_ACCLEDGERLISTING_ENDDATE_LABEL']}" styleClass="input-label" />
+						<p:calendar id="endDate" value="#{AccLedgerListActionBean.ledgerDto.endDate}" required="true" showOn="button" pattern="#{ApplicationSetting.dateFormat}"
+							timeZone="#{ApplicationSetting.timeZone}" mask="true" maxdate="#{AccLedgerListActionBean.todayDate}" />
+					</p:panelGrid>
+					<!-- <p:selectBooleanCheckbox id="budgetEnd" value="#{AccLedgerListActionBean.ledgerDto.beforeBudgetEnd}" itemLabel="#{label['REPORT_STATEMENT_BEFOREBUDGETEND']}"
+							disabled="#{AccLedgerListActionBean.ledgerDto.beforeDisabled}">
+						</p:selectBooleanCheckbox> -->
+				</p:panelGrid>
+			</fieldset>
+			<br />
+			<p:commandButton id="previewBtn" value="#{label['COMMON_PREVIEW_BTN']}" style="width: 80px;" action="#{AccLedgerListActionBean.previewReport}"
+				update="accLedgerListingForm :accLedgerListingDialogForm" />
+			<p:commandButton id="cancelBtn" action="accLedgerListing" style="width: 80px;" value="#{label['COMMON_CANCEL_BTN']}" ajax="false" immediate="true" />
+			<p:commandButton id="downloadLink" value="Download" ajax="false">
+				<p:fileDownload value="#{AccLedgerListActionBean.download}" />
+			</p:commandButton>
+		</h:form>
+		<!-- Account Code Dialog -->
+		<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" header="#{label['MANAGE_ACCLEDGERLISTING_ACCODESELECT_LABEL']}" height="300" hideEffect="explode"
+			id="accountCodeDialog" showEffect="fade" widgetVar="accountCodeDialog" width="700">
+			<h:form id="accountCodeDialogForm">
+				<p:dataTable id="accountCodeTable" paginator="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="index" rows="10"
+					rowsPerPageTemplate="5,10, 15" style="width:100%;" value="#{AccLedgerListActionBean.coaList}" var="coa" filteredValue="#{AccLedgerListActionBean.filterCoaList}"
+					widgetVar="accountCodeTable" emptyMessage="Nothing found with given criteria" paginatorPosition="bottom">
+					<p:column headerText="No" style="width:50px;">
+						<h:outputText value="#{index + 1}" />
+					</p:column>
+					<p:column filterBy="#{coa.acCode}" filterMatchMode="contains" headerText="#{label['MANAGE_ACCLEDGERLISTING_ACCOUNTCODE_LABEL']}">
+						<h:outputText value="#{coa.acCode}" />
+					</p:column>
+					<p:column filterBy="#{coa.acName}" filterMatchMode="contains" headerText="#{label['MANAGE_ACCLEDGERLISTING_ACCOUNTNAME_LABEL']}">
+						<h:outputText value="#{coa.acName}" />
+					</p:column>
+					<p:column style="width:30px;text-align: center;">
+						<p:commandButton action="#{AccLedgerListActionBean.selectAccountCode(coa)}" oncomplete="PF('accountCodeDialog').hide();PF('accountCodeTable').clearFilters();"
+							immediate="true" update="accLedgerListingForm " styleClass="green-button" icon="fa fa-check">
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+		<h:form enctype="multipart/form-data" id="accLedgerListingDialogForm">
+			<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" id="accLedgerListingPdfDialog" resizable="false" widgetVar="accLedgerListingPdfDialog" width="95%"
+				height="600">
+				<p:media cache="false" id="pdfPlayer" player="pdf" value="#{AccLedgerListActionBean.stream}" width="100%" height="99%" />
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,78 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fu="http://java.sun.com/jsf/fileUpload" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:define name="content">
+		<h:form id="loginForm">
+			<style>
+.ui-message-error {
+	width: 200px !important;
+}
+</style>
+			<center>
+				<div style="width: 400px; position: relative;">
+					<p:messages globalOnly="true" id="messages" showDetail="false" showSummary="true" />
+				</div>
+				<div style="position: absolute; top: 15%; left: 35%; width: 28%; background-color: white;">
+					<div style="position: relative; z-index: 1;">
+						<h:graphicImage style="width:320px;height:200px;" value="#{label['LOGO_LOGIN']}"/>
+					</div>
+					<h:panelGroup rendered="#{empty sessionScope.LoginUser ? true : false}">
+						<div style="position: relative; border: 2px solid #003368; width: 345px; margin-top: 0px;">
+							<table>
+								<tr>
+									<td align="left" colspan="2">
+										<h:outputText style="font-size:13px;font-weight:bold;" value="Login" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputText />
+									</td>
+									<td>
+										<div style="width: 220px; margin-left: -5px;">
+											<p:message for="username" />
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputText style="font-weight:bold;font-family: Adobe Garamond Pro;font-size: 13px" value="User Name" />
+									</td>
+									<td>
+										<p:inputText id="username" required="true" style="width:200px;" value="#{LoginBean.username}" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputText />
+									</td>
+									<td>
+										<div style="width: 220px; margin-left: -5px;">
+											<p:message for="password" />
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputText style="font-weight:bold;font-family: Adobe Garamond Pro;font-size: 13px" value="Password" />
+									</td>
+									<td>
+										<p:password id="password" required="true" style="width:200px;" value="#{LoginBean.password}" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<p:commandButton action="#{LoginBean.authenticate()}" update="@form" id="submit" style="font-family: Adobe Garamond Pro;font-size: 13px" value="Login" />
+									</td>
+									<td>
+										<h:outputText />
+									</td>
+								</tr>
+							</table>
+						</div>
+						<br />
+					</h:panelGroup>
+				</div>
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>

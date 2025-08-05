@@ -1,0 +1,148 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/commonLayout.xhtml">
+    <ui:param name="header" value="Currency Management"/>
+	<ui:param name="headerRendered" value="true"/>            
+    <ui:define name="content">
+   		<h:form id="currencyEntryForm">
+   			<p:growl escape="false" globalOnly="true" life="5000" showDetail="true"/>
+   			<h:outputText value="#{label['MANAGE_CURRENCY_ADDNEW_LABEL']}" rendered="#{ManageCurrencyActionBean.createNew}" styleClass="title" />
+			<h:outputText value="#{label['MANAGE_CURRENCY_EDIT_LABEL']}" rendered="#{!ManageCurrencyActionBean.createNew}" styleClass="title" />
+   			
+   			<p:message display="text" for="panelCur" />
+   			<p:panel>
+				<p:panelGrid id="panelCur" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+	   					<p:message display="text" for="currencyCode" />
+	   					<h:outputText for="currencyCode" styleClass="input-label mandatory" value="#{label['MANAGE_CURRENCY_CURRENCYCODE_LABEL']}" escape="false" />
+		   				<p:inputText id="currencyCode" required="true" value="#{ManageCurrencyActionBean.currency.currencyCode}">
+							<f:validateLength maximum="20" />
+						</p:inputText>
+						
+						<h:outputText value="" />
+						<p:message display="text" for="symbol" />
+						<h:outputText for="symbol"  styleClass="input-label mandatory" value="#{label['MANAGE_CURRENCY_SYMBOL_LABEL']}" escape="false" />
+						<p:inputText id="symbol" value="#{ManageCurrencyActionBean.currency.symbol}" required="true">
+							<f:validateLength maximum="5" />
+						</p:inputText>
+						
+						<h:outputText value="" />
+						<p:message display="text" for="description" />
+						<h:outputText for="description" styleClass="input-label mandatory" value="#{label['MANAGE_CURRENCY_DESCRIPTION_LABEL']}" escape="false" />
+						<p:inputText id="description" value="#{ManageCurrencyActionBean.currency.description}" required="true">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						
+						<h:outputText value="" />
+						<p:message display="text" for="isHomeCur" />
+						<h:outputText for="isHomeCur" styleClass="input-label" value="#{label['MANAGE_CURRENCY_HOMECURRENCY_LABEL']}" escape="false" />
+						<p:selectBooleanButton id="isHomeCur" value="#{ManageCurrencyActionBean.currency.isHomeCur}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:55px;" disabled="#{ManageCurrencyActionBean.homeCurDisable}">
+				        </p:selectBooleanButton>
+					</p:panelGrid>
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					
+						<h:outputText value=""/>
+	   					<h:outputText value=""/>
+	   					<h:outputText for="inwordDesp1" styleClass="input-label" value="#{label['MANAGE_CURRENCY_INWORDDESP1_LABEL']}" />
+						<p:inputText id="inwordDesp1" value="#{ManageCurrencyActionBean.currency.inwordDesp1}">
+							<f:validateLength maximum="20" />
+						</p:inputText>
+						
+						<h:outputText value=""/>
+	   					<h:outputText value=""/>
+						<h:outputText for="inwordDesp2" styleClass="input-label" value="#{label['MANAGE_CURRENCY_INWORDDESP2_LABEL']}" />
+						<p:inputText id="inwordDesp2" value="#{ManageCurrencyActionBean.currency.inwordDesp2}">
+							<f:validateLength maximum="20" />
+						</p:inputText>
+						
+						<h:outputText value=""/>
+	   					<h:outputText value=""/>
+						<h:outputText for="homeInwordDesp1" styleClass="input-label" value="#{label['MANAGE_CURRENCY_HOMEINWORDDESP1_LABEL']}" />
+						<p:inputText id="homeInwordDesp1" value="#{ManageCurrencyActionBean.currency.homeInwordDesp1}">
+							<f:validateLength maximum="20" />
+						</p:inputText>
+						
+						<h:outputText value=""/>
+	   					<h:outputText value=""/>
+						<h:outputText for="homeInwordDesp2" styleClass="input-label" value="#{label['MANAGE_CURRENCY_HOMEINWORDDESP2_LABEL']}" />
+						<p:inputText id="homeInwordDesp2" value="#{ManageCurrencyActionBean.currency.homeInwordDesp2}">
+							<f:validateLength maximum="20" />
+						</p:inputText>
+					
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<br/>
+   			<h:panelGrid columns="3" style="margin-top:-2px;">
+	   			<p:commandButton id="addBtn" value="#{label['COMMON_ADDNEW_BTN']}" action="#{ManageCurrencyActionBean.addNewCurrency}"
+								rendered="#{ManageCurrencyActionBean.createNew}" oncomplete="PF('currencyTable').clearFilters();" update=":currencyTableForm :currencyEntryForm" style="width:65px;" />
+				<p:commandButton id="editBtn" value="#{label['COMMON_UPDATE_BTN']}" action="#{ManageCurrencyActionBean.updateCurrency}"
+								rendered="#{!ManageCurrencyActionBean.createNew}" oncomplete="PF('currencyTable').filter();" update="@form" style="width:70px;" /><br/>
+				<p:commandButton id="cancleButton" immediate="true" process="@this" value="Cancel" action="#{ManageCurrencyActionBean.createNewCurrency}" update=":currencyEntryForm" style="width:70px;margin-left:-8px;"/>
+			</h:panelGrid>
+			<p:separator style="height:3px;"/>
+   		</h:form>
+   		<h:form id="currencyTableForm">
+   			<h:panelGrid>
+   			<p:commandLink action="#{ManageCurrencyActionBean.createNewCurrency}" immediate="true" update=":currencyEntryForm" >
+				<h:panelGrid columns="2">
+					<h:graphicImage name="images/add.png" styleClass="addIcon"/>
+					<h:outputText value="#{label['COMMON_ADDNEW_LINK']}" styleClass="comand-link"/>
+				</h:panelGrid>
+			</p:commandLink>
+   			</h:panelGrid>
+			<br/>
+			<p:dataTable var="currency" value="#{ManageCurrencyActionBean.currencyList}" id="currencyTable" paginator="true" rows="10" style="width:100%"
+			widgetVar="currencyTable" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15"  rowKey="index" reflow="true" rowIndexVar="var" paginatorPosition="bottom">
+				<p:column headerText="No." width="2%">
+					<h:outputText value="#{var + 1}"/>
+				</p:column>
+				<p:column filterBy="#{currency.currencyCode}" filterMatchMode="contains" headerText="#{label['MANAGE_CURRENCY_CURRENCYCODE_LABEL']}" width="10%">
+					<h:outputText value="#{currency.currencyCode}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_CURRENCY_DESCRIPTION_LABEL']}">
+					<h:outputText value="#{currency.description}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_CURRENCY_SYMBOL_LABEL']}">
+					<h:outputText value="#{currency.symbol}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_CURRENCY_INWORDDESP1_LABEL']}">
+					<h:outputText value="#{currency.inwordDesp1}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_CURRENCY_INWORDDESP2_LABEL']}">
+					<h:outputText value="#{currency.inwordDesp2}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_CURRENCY_HOMEINWORDDESP1_LABEL']}">
+					<h:outputText value="#{currency.homeInwordDesp1}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_CURRENCY_HOMEINWORDDESP2_LABEL']}">
+					<h:outputText value="#{currency.homeInwordDesp2}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_CURRENCY_HOMECURRENCY_LABEL']}">
+					<h:outputText value="#{currency.isHomeCur? 'Yes' : 'No' }"/>
+				</p:column>						
+				<p:column style="width:4%;">
+					 <p:commandButton styleClass="green-button" icon="fa fa-paint-brush" action="#{ManageCurrencyActionBean.prepareUpdateCurrency(currency)}" update=":currencyEntryForm"/>
+				</p:column>
+				<p:column style="width:4%;">
+				    <p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ManageCurrencyActionBean.deleteCurrency(currency)}" oncomplete="PF('currencyTable').filter();" update=":currencyEntryForm :currencyTableForm">
+				    	<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+				    </p:commandButton>
+				</p:column>
+				
+			</p:dataTable>
+   		</h:form>
+   		
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		 	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+		
+   </ui:define>                       
+</ui:composition>

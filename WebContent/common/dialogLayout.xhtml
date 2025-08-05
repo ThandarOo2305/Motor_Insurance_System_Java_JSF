@@ -1,0 +1,27 @@
+<!DOCTYPE html [
+    <!ENTITY nbsp "&#160;">
+    <!ENTITY bull "&#8226;">
+    <!ENTITY copy "&#169;">
+]>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" lang="#{LanguageActionBean.locale}">
+<h:head>
+	<link href="#{request.contextPath}/resources/css/theme-home.css" rel="stylesheet" type="text/css" />
+	<h:outputStylesheet name="css/app.css" />
+	<h:outputStylesheet name="css/sh.css" />
+	<h:outputStylesheet name="grid/grid.css" library="primefaces" />
+	<h:outputScript name="jquery/jquery.js" library="primefaces" />
+	<h:outputScript name="jquery/jquery-plugins.js" library="primefaces" />
+	<h:outputScript name="js/sh.js" />
+	<style type="text/css">
+body {
+	background-color: white !important;
+}
+</style>
+</h:head>
+<h:body>
+	<div class="ui-fluid">
+		<ui:insert name="content"></ui:insert>
+	</div>
+</h:body>
+</html>

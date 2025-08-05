@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<id-config>
+	<!-- System -->
+	<class prefix="ISSYS001" name="org.ace.accounting.user.User" /> 
+	<class prefix="ISSYS002" name="org.ace.accounting.role.Role" /> 
+    <class prefix="ISSYS003" name="org.ace.accounting.system.webPage.WebPage" />
+    <class prefix="ISSYS004" name="org.ace.accounting.system.allocatecode.AllocateCode" />
+    <class prefix="ISSYS005" name="org.ace.accounting.system.branch.Branch" />
+    <class prefix="ISSYS006" name="org.ace.accounting.system.currency.Currency" />
+    <class prefix="ISSYS007" name="org.ace.accounting.system.department.Department" />
+    <class prefix="ISSYS008" name="org.ace.accounting.system.formatfile.FormatFile" />
+    <class prefix="ISSYS009" name="org.ace.accounting.system.rateinfo.RateInfo" />
+    <class prefix="ISSYS010" name="org.ace.accounting.system.tlf.TLF" />
+    <class prefix="ISSYS011" name="org.ace.accounting.system.tlfhist.TLFHIST" />
+    <class prefix="ISSYS012" name="org.ace.accounting.student.Student" /> 
+    <class prefix="ISSYS013" name="org.ace.accounting.occupation.Occupation" />
+    <class prefix="ISSYS014" name="org.ace.accounting.customer.Customer" /> 
+    <class prefix="ISSYS015" name="org.ace.accounting.excelUpload.Proposal" />
+    
+    <!-- Chart Of Account -->
+    <class prefix="ISCOA001" name="org.ace.accounting.system.chartaccount.ChartOfAccount" />
+    
+    <!-- Currency Chart Of Account -->
+    <class prefix="ISCCOA001" name="org.ace.accounting.system.chartaccount.CurrencyChartOfAccount" />
+    <class prefix="ISCCOA002" name="org.ace.accounting.system.chartaccount.CCOA_History" />
+    <class prefix="EXC001" name="org.ace.accounting.system.gainloss.ExchangeConfig" />
+    <class prefix="CUSID" name="org.ace.java.component.idgen.IDGen" />
+   
+</id-config>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detailsReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f38579c3-3c8e-4c05-a8ce-e1c98a9b827c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="reportDataSet" uuid="1c51c161-63c0-48ba-b464-334e61957311">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="accountCode" class="java.lang.String"/>
+		<field name="accountName" class="java.lang.String"/>
+		<field name="openingBalance" class="java.math.BigDecimal"/>
+		<field name="detailsAccountDataSource" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	</subDataset>
+	<subDataset name="accountDetailsDataSet" uuid="2ca043d7-44f2-4630-8480-57eb0bf29ae1">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="accountCode" class="java.lang.String"/>
+		<field name="accountName" class="java.lang.String"/>
+		<field name="narration" class="java.lang.String"/>
+		<field name="accountType" class="org.ace.accounting.system.chartaccount.AccountType"/>
+		<field name="tranCode" class="org.ace.accounting.system.trantype.TranCode"/>
+		<field name="beginningBalance" class="java.math.BigDecimal"/>
+		<field name="creditAmount" class="java.math.BigDecimal"/>
+		<field name="debitAmount" class="java.math.BigDecimal"/>
+		<field name="netBalance" class="java.math.BigDecimal"/>
+		<field name="endingBalance" class="java.math.BigDecimal"/>
+		<field name="settlementDate" class="java.util.Date"/>
+	</subDataset>
+	<parameter name="reportList" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="detailsList" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="detailsAccountDataSource" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<columnHeader>
+		<band height="68" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout"/>
+			<staticText>
+				<reportElement x="0" y="15" width="40" height="30" uuid="3be5c1cc-a1e9-4ae4-b998-efee1b3c2ab3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="15" width="80" height="30" uuid="fffc7cca-8b27-4d0e-9794-1a46d4597c60"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Src]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="15" width="50" height="30" uuid="815235a6-0ffa-4b69-8b99-86f65c37b27f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="15" width="100" height="30" uuid="f13b48a0-a28f-4b50-a4a2-bf0e5edcaa93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Static Text]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="520" y="15" width="80" height="30" uuid="3feaf6a4-eb03-497e-afed-ce8ec96e4c2d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Credit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="600" y="15" width="80" height="30" uuid="7273eb11-42d7-4d3f-8667-76cacd2976f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Debit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="680" y="15" width="70" height="30" uuid="dec2d3b6-87fb-4a7a-9e3a-fd0596b222fe"/>
+				<text><![CDATA[Net 
+Activity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="720" y="15" width="82" height="30" uuid="5edd43b7-5e94-4884-827f-ffd42b16fc5a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Ending Balance]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="280" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.spreadsheet.SpreadsheetLayout"/>
+			<componentElement>
+				<reportElement x="0" y="0" width="802" height="120" uuid="d45e62bb-79c3-456f-b903-115d1483d3fa"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="reportDataSet" uuid="569c0bba-dd55-4cdc-b3a3-97add0d2f955">
+						<dataSourceExpression><![CDATA[$P{reportList}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="120" width="802">
+						<textField>
+							<reportElement x="0" y="0" width="80" height="30" uuid="5dba4d47-173d-4cc4-8cb4-d83efa0289b5"/>
+							<textFieldExpression><![CDATA[$F{accountCode}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="140" y="0" width="100" height="30" uuid="0206b698-2fa2-4ab4-a878-74c8d4d4e86f"/>
+							<textFieldExpression><![CDATA[$F{accountName}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="140" y="30" width="100" height="20" uuid="55d1f266-3e29-411a-9b29-3319320a6c04"/>
+							<textFieldExpression><![CDATA[$F{openingBalance}]]></textFieldExpression>
+						</textField>
+						<staticText>
+							<reportElement x="0" y="30" width="120" height="20" uuid="394cafb9-dab8-4b33-9452-6b1655358a10"/>
+							<text><![CDATA[OPENING BALANCE]]></text>
+						</staticText>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="234" y="70" width="572" height="140" uuid="501de20d-df17-4671-af53-2e596aae0d09"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="accountDetailsDataSet" uuid="6e5b3603-04d1-4aed-8e61-b2979e39a94d">
+						<datasetParameter name="REPORT_DATA_SOURCE">
+							<datasetParameterExpression><![CDATA[$F{detailsAccountDataSource}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{REPORT_CONNECTION}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="140" width="572">
+						<textField>
+							<reportElement x="9" y="0" width="51" height="30" uuid="93852bed-8353-436a-a4b4-d564538f5a71"/>
+							<textFieldExpression><![CDATA[$F{settlementDate}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="70" y="0" width="250" height="30" uuid="1d1312b5-bdc3-4809-9f9b-a011099fadf8"/>
+							<textFieldExpression><![CDATA[$F{narration}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="330" y="0" width="30" height="30" uuid="87c7d5d2-957c-4423-b878-1c45c594ead9"/>
+							<textFieldExpression><![CDATA[$F{creditAmount}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="390" y="0" width="30" height="30" uuid="e2ce55e0-5478-4b84-83dc-175dc1b2e68f"/>
+							<textFieldExpression><![CDATA[$F{debitAmount}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="450" y="0" width="30" height="30" uuid="65001b3b-5792-4169-95ff-34c899979440"/>
+							<textFieldExpression><![CDATA[$F{netBalance}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="500" y="0" width="70" height="30" uuid="c8c888c6-26a3-4295-b4e2-a1cdc9a429e8"/>
+							<textFieldExpression><![CDATA[$F{endingBalance}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

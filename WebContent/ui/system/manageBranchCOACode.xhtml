@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/commonLayout.xhtml">
+  	<ui:param name="header" value="Currency Chart Of Account Management"/>
+	<ui:param name="headerRendered" value="true"/>
+    <ui:define name="content">
+   		<h:form id="ccoaEntryForm">
+   			<p:growl escape="false" globalOnly="true" id="messages" showDetail="true"/>
+			<h:outputText value="#{label['MANAGE_CCOA_EDIT_LABEL']}"  styleClass="title" />
+			<p:panel>
+				<p:panelGrid id="panelBranchCur" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="acCode" />
+						<h:outputText for="acCode" value="#{label['MANAGE_ACCOUNT_CODE_LABEL']}" styleClass="input-label mandatory" escape="false" />
+						<p:inputText value="#{ManageBCOAActionBean.ccoa.coa.acCode}" id="acCode" disabled="true" readonly="#{ManageBCOAActionBean.ccoa.coa == null ? facesContext.currentPhaseId.ordinal eq 6 : true}">
+							<f:validateLength maximum="20"/>
+						</p:inputText>
+								
+						<h:outputText value=""/>
+						<p:message display="text" for="branch"/>
+						<h:outputText for="branch" styleClass="input-label" value="#{label['MANAGE_CCOA_BRANCH_LABEL']}" />
+						<p:inputText value="#{ManageBCOAActionBean.ccoa.branch.branchCode}" disabled="true" readonly="true" id="branch"/>
+						
+						<h:outputText value=""/>
+						<p:message display="text" for="dCode"/>
+						<h:outputText for="dCode" value="#{label['MANAGE_DCODE_LABEL']}" styleClass="input-label" />
+						<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="dCode" value="#{ManageBCOAActionBean.ccoa.department}">
+		                    <f:selectItem itemLabel="---"/>
+							<f:selectItems itemLabel="#{department.dCode}" itemValue="#{department}" value="#{ManageBCOAActionBean.departments}" var="department" />
+							<p:ajax process="@this" update="@this"/>
+						</p:selectOneMenu>
+						
+					</p:panelGrid>
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					
+						<h:outputText value="" />
+						<p:message display="text" for="acName" />
+						<h:outputText for="acName" value="#{label['MANAGE_DESC_LABEL']}" styleClass="input-label" />
+						<p:inputTextarea value="#{ManageBCOAActionBean.ccoa.acName}" rows="6" id="acName">
+							<f:validateLength maximum="150"/>
+						</p:inputTextarea>
+						
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<br/>
+			<p:commandButton id="editBtn" value="#{label['COMMON_UPDATE_BTN']}" action="#{ManageBCOAActionBean.updateCcoa}" 
+				update=":ccoaEntryForm" style="width:70px;" oncomplete="PF('ccoaTable').filter();" />
+			<p:spacer></p:spacer>
+			<p:commandButton id="cancelBtn" value="#{label['COMMON_CANCEL_BTN']}" update=":ccoaEntryForm" action="#{ManageBCOAActionBean.createNewCcoa}"  
+			 oncomplete="PF('ccoaTable').filter();" style="width:70px;" />
+			<br/>
+			
+			<p:separator style="height:3px;"/>
+   		</h:form>
+   		<h:form id="ccoaEntryTableForm">
+   			<p:dataTable var="dto" rowIndexVar="index"  value="#{ManageBCOAActionBean.ccoaDtoList}" id="ccoaTable" paginatorPosition="bottom" paginator="true" rows="10" widgetVar="ccoaTable"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10, 15,20,50" 
+				rowKey="#{dto.id}" emptyMessage="Nothing found with given criteria" reflow="true">
+				<p:column width="5%" headerText="No.">
+					<h:outputText value="#{index + 1}" />
+				</p:column>
+				<p:column filterBy="#{dto.acCode}" filterMatchMode="contains" headerText="#{label['MANAGE_ACCOUNT_CODE_LABEL']}">
+					<h:outputText value="#{dto.acCode}" />
+				</p:column>
+				<p:column filterBy="#{dto.acName}" filterMatchMode="contains" headerText="#{label['MANAGE_DESC_LABEL']}">
+					<h:outputText value="#{dto.acName}" />
+				</p:column>
+				<p:column filterBy="#{dto.acType.label}" filterMatchMode="contains" headerText="#{label['MANAGE_ACTYPE_LABEL']}">
+					<h:outputText value="#{dto.acType.label}"/>
+				</p:column>
+				<p:column filterBy="#{dto.department}" filterStyle="width:80%" filterMatchMode="exact" headerText="#{label['MANAGE_DCODE_LABEL']}">
+					<f:facet name="filter">
+		                <p:selectOneMenu converter="omnifaces.SelectItemsConverter"  onchange="PF('ccoaTable').filter()" >
+		                    <f:selectItem itemLabel="All" itemValue="#{null}" noSelectionOption="true" />
+		                    <f:selectItems value="#{ManageBCOAActionBean.departments}" itemValue="#{dept.dCode}"  itemLabel="#{dept.dCode}" var="dept"/>
+		                </p:selectOneMenu>
+		            </f:facet>
+					<h:outputText value="#{dto.department}" />
+				</p:column>
+				<p:column width="10%"  filterBy="#{dto.currency}" filterStyle="width:80%" filterMatchMode="exact" headerText="#{label['MANAGE_CURRENCY_CURRENCYCODE_LABEL']}">
+					<f:facet name="filter">
+		                <p:selectOneMenu converter="omnifaces.SelectItemsConverter"  onchange="PF('ccoaTable').filter()" >
+		                    <f:selectItem itemLabel="All" itemValue="#{null}" noSelectionOption="true" />
+		                    <f:selectItems value="#{ManageBCOAActionBean.currencyList}" itemValue="#{cur.currencyCode}"  itemLabel="#{cur.currencyCode}" var="cur"/>
+		                </p:selectOneMenu>
+		            </f:facet>
+					<h:outputText value="#{dto.currency}" />
+				</p:column>
+				<p:column width="10%" filterBy="#{dto.branch}" filterStyle="width:80%"  filterMatchMode="contains" headerText="#{label['MANAGE_CCOA_BRANCH_LABEL']}">
+					<h:outputText value="#{dto.branch}" />
+				</p:column>
+				<p:column style="width:4%;">
+			   		<p:commandButton styleClass="green-button" icon="fa fa-paint-brush" action="#{ManageBCOAActionBean.prepareUpdateCcoa(dto)}" update=":ccoaEntryForm"/>
+			    </p:column>
+			</p:dataTable>
+   		</h:form>
+   </ui:define>             
+           
+</ui:composition>

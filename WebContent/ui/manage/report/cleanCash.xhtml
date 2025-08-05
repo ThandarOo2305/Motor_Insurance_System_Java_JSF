@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="#{label['CLEAN_CASH_REPORT_TITLE']}" />
+    <ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form enctype="multipart/form-data" id="cleanCashReportForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<p:panelGrid id="criteriaPanel" columns="3" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:message display="text" for="date" />
+				<p:message display="text" for="currency" />
+				<p:message display="text" for="branch" />
+				<h:panelGrid columns="2" id="selectDatePanelGrid">
+					<h:outputLabel for="date" value="&lt;font color='red'&gt;*&lt;/font&gt;#{label['REPORT_CRITERIA_DATE_LABEL']}" escape="false" styleClass="input-label" />
+					<p:calendar id="date" pattern="#{ApplicationSetting.dateFormat}" mask="true" showOn="button" size="30" timeZone="#{ApplicationSetting.timeZone}" required="true"
+						requiredMessage="Date must be selected." value="#{CleanCashActionBean.criteria.date}" maxdate="#{CleanCashActionBean.criteriaMaxDate}" />
+				</h:panelGrid>
+				<h:panelGrid columns="3" id="selectCurrencyPanelGrid">
+					<h:outputText value="#{label['REPORT_CRITERIA_CURRENCY_LABEL']}" escape="false" styleClass="input-label" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="currency" value="#{CleanCashActionBean.criteria.currency}" style="width:220px;">
+						<f:selectItem itemLabel="ALL" />
+						<f:selectItems value="#{CleanCashActionBean.currencyList}" itemValue="#{currency}" var="currency" itemLabel="#{currency.description}" />
+						<p:ajax event="change" update="byHomeCurPanelGrid" listener="#{CleanCashActionBean.configHomeCurrency()}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			<!-- 	<h:panelGrid columns="4" id="selectBranchPanelGrid">
+					<h:outputText value="#{label['REPORT_CRITERIA_BRANCH_LABEL']}" escape="false" styleClass="input-label" />
+					<p:inputText id="branch" readonly="true" value="#{CleanCashActionBean.criteria.branch == null ? 'ALL' : CleanCashActionBean.criteria.branch.name}" style="width:220px;" />
+					<p:commandLink actionListener="#{CleanCashActionBean.selectBranch()}" id="selectBranchDialogLink" immediate="true">
+						<h:graphicImage name="images/search.png" styleClass="command-image" />
+						<p:ajax event="dialogReturn" listener="#{CleanCashActionBean.returnBranch}" update="selectBranchPanelGrid" />
+					</p:commandLink>
+					<p:commandLink action="#{CleanCashActionBean.criteria.setBranch(null)}" update=":cleanCashReportForm:branch">
+						<h:graphicImage name="images/delete.png" styleClass="command-image" />
+					</p:commandLink>
+				</h:panelGrid> -->
+				
+				<h:panelGrid columns="2">
+				<h:outputText for="branch" styleClass="input-label" value="#{label['REPORT_CRITERIA_BRANCH_LABEL']}" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="branch" value="#{CleanCashActionBean.criteria.branch}">
+						<f:selectItem itemLabel=" All branches " noSelectionOption="true" />
+						<f:selectItems itemLabel="#{type.name}" itemValue="#{type}" value="#{CleanCashActionBean.branches}" var="type" />
+						<p:ajax process="@this" update="@this" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				
+				<h:panelGrid id="byHomeCurPanelGrid" columns="2">
+					<p:selectBooleanCheckbox id="byHomeCur" value="#{CleanCashActionBean.criteria.byHome}" escepe="false" disabled="#{CleanCashActionBean.allCurrency}" />
+					<h:outputText value="#{label['REPORT_CRITERIA_ISBYHOME_LABEL']}" />
+				</h:panelGrid>
+				<h:panelGrid />
+				<h:panelGrid />
+			</p:panelGrid>
+			<br />
+			<p:commandButton action="#{CleanCashActionBean.filter()}" style="width:65px;" update=":cleanCashReportForm" value="#{label['COMMON_SEARCH_BTN']}" />
+			<p:commandButton id="downloadLink" value="Download" ajax="false" >
+				<p:fileDownload value="#{CleanCashActionBean.getDownload()}" />
+			</p:commandButton>
+			<br />
+			<h:outputText value="#{label['COMMON_MSG_MANDATORY_LABEL']}" style="color:red;" styleClass="input-label" />
+			<br />
+			<p:separator style="height:3px;" />
+			<h:panelGroup id="cleanCashTablePanel">
+				<p:dataTable id="cleanCashTable" paginator="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rows="10"
+					rowsPerPageTemplate="10,20, 30" style="width: 100%" value="#{CleanCashActionBean.cleanCashList}" var="cleanCash" rowIndexVar="index">
+					<f:facet name="header">
+						<p:commandLink id="previewBtn" action="#{CleanCashActionBean.previewReport()}" update=":pdfPreviewForm">
+							<h:graphicImage name="images/print.png" styleClass="command-image" />
+						</p:commandLink>
+					</f:facet>
+					<p:columnGroup type="header">
+						<p:row>
+							<p:column headerText="#{label['REPORT_DATATABLE_NO_LABEL']}" style="width:50px;text-align:center;" />
+							<p:column headerText="#{label['CLEAN_CASH_REPORT_ACCOUNT_LABEL']}" />
+							<p:column headerText="#{label['CLEAN_CASH_REPORT_PARTICULAR_LABEL']}" />
+							<p:column headerText="#{label['CLEAN_CASH_REPORT_DR_LABEL']}" />
+							<p:column headerText="#{label['CLEAN_CASH_REPORT_CR_LABEL']}" />
+						</p:row>
+					</p:columnGroup>
+					<p:column>
+						<h:outputText value="#{index + 1}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{cleanCash.aCode}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{cleanCash.acName}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{cleanCash.debit}" style="float:right;">
+							<f:convertNumber pattern="#{ApplicationSetting.currencyFormat}" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<h:outputText value="#{cleanCash.credit}" style="float:right;">
+							<f:convertNumber pattern="#{ApplicationSetting.currencyFormat}" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+			</h:panelGroup>
+		</h:form>
+		<!-- PDF Print Preview Form -->
+		<h:form enctype="multipart/form-data" id="pdfPreviewForm">
+			<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" header="Print Preview (PDF)" hideEffect="fade" id="pdfPreviewDialog" resizable="false" showEffect="fade"
+				widgetVar="pdfPreviewDialog" width="95%" height="600">
+				<p:media cache="false" player="pdf" value="#{CleanCashActionBean.stream}" width="100%" height="99%" />
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" template="/common/commonLayout.xhtml" xmlns:o="http://omnifaces.org/ui">
+	<ui:param name="header" value="#{label['MANAGE_DEBITVOUCHER_DEBIT_LABEL']}" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="voucherForm">
+			<p:growl globalOnly="true" showDetail="true" sticky="true" life="50000000" />
+			<p:panel>
+				<p:panelGrid id="creditVoucherPanel" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputText value="" />
+					<p:message display="text" for="currency" />
+					<h:outputText value="#{label['MANAGE_DEBITVOUCHER_CURRENCY_LABEL']}" styleClass="input-label mandatory" />
+					<p:selectOneMenu id="currency" value="#{DebitVoucherActionBean.voucherDto.currency}" converter="omnifaces.SelectItemsConverter"
+						required="#{not empty param[isRequired.clientId]}">
+						<f:selectItems value="#{DebitVoucherActionBean.currencyList}" var="cur" itemLabel="#{cur.currencyCode}" itemValue="#{cur}"></f:selectItems>
+						<p:ajax listener="#{DebitVoucherActionBean.changeCurrency}" update="currency accountCode description exchangeRate" />
+					</p:selectOneMenu>
+					<h:outputText value="" />
+					<p:message display="text" for="accountCode" />
+					<h:outputText value="#{label['MANAGE_DEBITVOUCHER_ACCOUNTCODE_LABEL']}" styleClass="input-label mandatory" />
+					<p:panelGrid styleClass="ui-panelgrid-blank" id="accountCodePanel">
+						<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="accountCodePanel">
+							<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+								<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{DebitVoucherActionBean.selectCCOAAccountCode()}" id="selectAccountCodeDialogLink"
+									process="@this">
+									<p:ajax event="dialogReturn" listener="#{DebitVoucherActionBean.returnCCOAAccountCode}" update="accountCode description" />
+								</p:commandButton>
+								<p:inputText id="accountCode" readonly="#{DebitVoucherActionBean.voucherDto.ccoa.coa == null ? facesContext.currentPhaseId.ordinal eq 6 : true}"
+									required="#{not empty param[isRequired.clientId]}" value="#{DebitVoucherActionBean.voucherDto.ccoa.coa == null ? ' ' : DebitVoucherActionBean.voucherDto.ccoa.coa.acCode}" />
+								<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{DebitVoucherActionBean.voucherDto.setCcoa(null)}" process="@this" update=" accountCode description" />
+							</div>
+						</div>
+					</p:panelGrid>
+					<h:outputText value="" />
+					<p:message display="text" for="startDate" />
+					<h:outputText for="startDate" value="Voucher Date" escape="false" />
+					<p:calendar id="startDate" value="#{DebitVoucherActionBean.voucherDto.settlementDate}" showOn="button" pattern="#{ApplicationSetting.dateFormat}" mask="true"
+						maxdate="#{DebitVoucherActionBean.todayDate}" mindate="#{DebitVoucherActionBean.beforeBudgetSDate}">
+						<p:ajax event="dateSelect" listener="#{DebitVoucherActionBean.changeDate}" update="startDate exchangeRate" />
+					</p:calendar>
+					<h:outputText value="" />
+					<p:message display="text" for="exchangeRate" />
+					<h:outputText value="#{label['MANAGE_DEBITVOUCHER_EXCHANGERATE_LABEL']}" styleClass="input-label mandatory" />
+					<p:inputNumber id="exchangeRate" value="#{DebitVoucherActionBean.voucherDto.homeExchangeRate}" decimalPlaces="2" />
+					<h:outputText value="" />
+					<p:message display="text" for="description" />
+					<h:outputText value="#{label['MANAGE_CREDITVOUCHER_DESP_LABEL']}" styleClass="input-label"></h:outputText>
+					<p:inputTextarea id="description" readonly="true" value="#{DebitVoucherActionBean.voucherDto.ccoa.coa.acName}" />
+					<h:outputText value="#{label['MANAGE_DEBITVOUCHER_NARRATION_LABEL']}" styleClass="input-label mandatory" />
+					<p:inputTextarea id="narration" value="#{DebitVoucherActionBean.voucherDto.narration}" required="#{not empty param[isRequired.clientId]}" />
+					<h:outputText value="" />
+					<p:message display="text" for="debitAmount" />
+					<h:outputText value="#{label['MANAGE_DEBITVOUCHER_DEBITAMOUNT_LABEL']}" styleClass="input-label mandatory" />
+					<p:inputNumber id="debitAmount" value="#{DebitVoucherActionBean.voucherDto.amount}" required="#{not empty param[isRequired.clientId]}">
+					</p:inputNumber>
+				</p:panelGrid>
+			</p:panel>
+			<br />
+			<p:commandButton id="btnSave" value="#{label['COMMON_ADDNEW_BTN']}" binding="#{isRequired}" action="#{DebitVoucherActionBean.addVoucher}" update="voucherForm"
+				style="width:65px;" />
+			<p:spacer></p:spacer>
+			<p:commandButton id="btnCancel" value="#{label['COMMON_CANCEL_BTN']}" action="#{DebitVoucherActionBean.createNewDebitVoucher}" immediate="true" process="@this"
+				style="width:80px;" update="voucherForm" />
+			<br />
+			<h:outputText value="#{label['COMMON_MSG_MANDATORY_LABEL']}" style="color:red;" styleClass="input-label" />
+		</h:form>
+		
+		<!-- Password Dialog -->
+		
+			<p:dialog modal="true" responsive="true" dynamic="true" appendTo="@(body)" 
+				widgetVar="passwordDialog" resizable="false" draggable="false" closable="false" width="350" height="200" showEffect="explode" hideEffect="explode" id="passwordDialog">
+				<h:form id="passwordForm">
+				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
+					
+						<p:outputLabel/>
+						<p:message id="passwordMessage" display="text" for="password"/>
+						<h:outputText styleClass="input-label" value="Password" />
+						<p:password id="password" value="#{DebitVoucherActionBean.editPassword}" required="true" >
+							<p:ajax event="valueChange" process="@this"/>
+						</p:password> 
+			
+					<p:commandButton value="Submit" actionListener="#{DebitVoucherActionBean.authenticatePage}" update="passwordForm :voucherForm">
+						</p:commandButton>
+					<!-- <p:commandButton value="Cancel" action="home" immediate="true"> -->
+					<p:commandButton value="Cancel" oncomplete="PF('passwordDialog').hide()" style="width:50px" immediate="true">
+						</p:commandButton>
+						</p:panelGrid>
+			</h:form>
+			</p:dialog>
+	</ui:define>
+</ui:composition>

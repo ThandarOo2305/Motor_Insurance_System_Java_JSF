@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cleanCashReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" resourceBundle="LANGUAGE_en" uuid="dbc8a22b-019f-4dde-a193-e84279b442c6">
+	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.3" value="pageHeader"/>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<pen lineWidth="0.5" lineColor="#000000"/>
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF" fontName="Zawgyi-One" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="CleanCashList" uuid="fbf38fc0-4e84-4556-b711-a106ecbe494b">
+		<parameter name="cashDebit" class="java.math.BigDecimal"/>
+		<parameter name="cashCredit" class="java.math.BigDecimal"/>
+		<field name="aCode" class="java.lang.String"/>
+		<field name="acName" class="java.lang.String"/>
+		<field name="debit" class="java.math.BigDecimal"/>
+		<field name="credit" class="java.math.BigDecimal"/>
+		<variable name="totalDebit" class="java.math.BigDecimal" resetType="Group" resetGroup="totalDebitGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{debit}]]></variableExpression>
+		</variable>
+		<variable name="totalCredit" class="java.math.BigDecimal" resetType="Group" resetGroup="totalCreditGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{credit}]]></variableExpression>
+		</variable>
+		<group name="totalDebitGroup"/>
+		<group name="totalCreditGroup"/>
+	</subDataset>
+	<parameter name="date" class="java.util.Date"/>
+	<parameter name="branch" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="reportDate" class="java.util.Date"/>
+	<parameter name="logoPath" class="java.lang.String"/>
+	<parameter name="cleanCashList" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="cashDebit" class="java.math.BigDecimal"/>
+	<parameter name="cashCredit" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch">
+			<textField>
+				<reportElement x="172" y="10" width="311" height="20" uuid="e703593e-5fda-48cb-9e45-0217a4f504a9"/>
+				<textElement>
+					<font fontName="Zawgyi-One" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{CLIENT_COMPANY_LABEL}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="1" y="0" width="149" height="63" uuid="1df1a6d9-396a-47b2-a271-9b1c32cad76e"/>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
+			</image>
+			<textField pattern="">
+				<reportElement x="312" y="35" width="84" height="20" uuid="0b0a95f2-6966-4830-9be8-8d7761407182"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Zawgyi-One" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
+				<patternExpression><![CDATA[$R{DATE_FORMAT}]]></patternExpression>
+			</textField>
+			<staticText>
+				<reportElement x="153" y="35" width="149" height="20" uuid="3cc9a1a3-16b6-4777-8a14-24892fcf87dc"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Zawgyi-One" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cleancash Scroll Report By Date]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="37">
+			<textField>
+				<reportElement x="53" y="0" width="100" height="18" uuid="4e58aec2-8593-48ba-9e32-96f3839ecf5b"/>
+				<textElement>
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{branch}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="53" y="19" width="203" height="18" uuid="2a93a820-3dcb-40e7-9f8c-5b2e51818c88"/>
+				<textElement>
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currency}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="469" y="18" width="10" height="18" uuid="b5d628ac-1681-41ef-af50-1458acade933"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="479" y="18" width="76" height="18" uuid="20c6a6aa-7460-4e4f-89b6-6ca65ffa857f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportDate}]]></textFieldExpression>
+				<patternExpression><![CDATA[$R{DATE_FORMAT}]]></patternExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="18" width="41" height="18" uuid="0a993ee5-4fb4-4499-9240-fa3e4ef16fb3"/>
+				<textElement>
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<text><![CDATA[Currency]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="18" width="25" height="18" uuid="b5d628ac-1681-41ef-af50-1458acade933"/>
+				<textElement textAlignment="Right">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="18" width="10" height="18" uuid="2250815b-d348-4ee1-a1af-3d717c454043"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="0" width="41" height="18" uuid="86397af6-d432-417e-adc8-46001e30208e"/>
+				<textElement>
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<text><![CDATA[Branch]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="0" width="10" height="18" uuid="291b4ee5-a7dc-42ef-b08c-41d259703ea4"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<summary>
+		<band height="35" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" x="1" y="0" width="554" height="33" backcolor="#BFE1FF" uuid="2c1c4856-c8f0-4a62-ac30-058f70cc0f8c"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="CleanCashList" uuid="e301e36d-63eb-40d6-9cb0-2117985eac12">
+						<datasetParameter name="cashDebit">
+							<datasetParameterExpression><![CDATA[$P{cashDebit}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="cashCredit">
+							<datasetParameterExpression><![CDATA[$P{cashCredit}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{cleanCashList}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="43" uuid="d6f83358-58ad-42dd-9ed6-1941bfca5c03">
+						<jr:tableFooter height="45" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="43" height="15" uuid="4155902c-824f-4f20-a2ef-811a8ae26d80"/>
+								<box>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[]]></text>
+							</staticText>
+							<staticText>
+								<reportElement positionType="Float" x="0" y="15" width="43" height="15" uuid="c74f10bc-052c-4252-9ba2-c8c961c23b42"/>
+								<box>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[]]></text>
+							</staticText>
+							<staticText>
+								<reportElement positionType="Float" x="0" y="30" width="43" height="15" uuid="f8ec5215-eb29-4292-8f4b-fd2f3934f53a"/>
+								<box>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="43" height="19" backcolor="#BFE1FF" uuid="6cbd66c6-6d23-4fb4-b20c-e7079331e514"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Sr No.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TH" height="15" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="43" height="15" isPrintWhenDetailOverflows="true" uuid="57aa6d6c-1ce2-42df-bea4-9b4a8d2c994a"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9" isBold="false" isPdfEmbedded="true"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="91" uuid="48a4fc89-4fb9-41cf-8e45-88ef24da1a8d">
+						<jr:tableFooter height="45" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="91" height="15" uuid="af2a2164-ec48-4b3c-9f34-07ec7763b1d9"/>
+								<box>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[]]></text>
+							</staticText>
+							<staticText>
+								<reportElement positionType="Float" x="0" y="15" width="91" height="15" uuid="def04c55-81a3-401f-83d5-671c0c6992cd"/>
+								<box>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[]]></text>
+							</staticText>
+							<staticText>
+								<reportElement positionType="Float" x="0" y="30" width="91" height="15" uuid="25db8830-0d29-4cb8-8a01-2c2cf2a94b8f"/>
+								<box>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="91" height="19" backcolor="#BFE1FF" uuid="ee7729ae-6260-4457-8480-d8e03fdac45d"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Account]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TH" height="15" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="91" height="15" uuid="ecd0b038-4872-416b-81ac-eafc71132566"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{aCode}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="189" uuid="7dc4f7a8-7cb4-4e19-a5dc-a716e05b9e39">
+						<jr:tableFooter height="45" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="30" width="189" height="15" uuid="b80f25fb-29fb-4434-ad45-f1608ced0a1f"/>
+								<box>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+								</textElement>
+								<text><![CDATA[Grand Total]]></text>
+							</staticText>
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="189" height="15" uuid="1d92d1c3-fcd1-4ed8-93e1-58e6e4a230fe"/>
+								<box>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+							<staticText>
+								<reportElement positionType="Float" x="0" y="15" width="189" height="15" uuid="7ea4d45f-ec24-4520-b588-debfcb88a10c"/>
+								<box>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+								</textElement>
+								<text><![CDATA[Cash Balance]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="189" height="19" backcolor="#BFE1FF" uuid="ac5e9c47-6447-48d0-b8a9-7cd128d1cd57"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Particular]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TH" height="15" rowSpan="1">
+							<textField  isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="189" height="15" isPrintWhenDetailOverflows="true" uuid="eb2c98d6-c3ec-4915-96ba-2cc43030cbc5"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{acName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="113" uuid="14eeeadd-5821-42f7-b1e4-83158def8bf9">
+						<jr:tableFooter height="45" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="113" height="15" uuid="7347d317-7f4a-480f-a251-414617fd206a"/>
+								<box>
+									<bottomPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalDebit}]]></textFieldExpression>
+								<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+							</textField>
+							<textField>
+								<reportElement positionType="Float" x="0" y="30" width="113" height="15" uuid="4982e939-95c8-4564-90fb-c3d8e3f4f893"/>
+								<box>
+									<bottomPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalDebit}.add($P{cashDebit})]]></textFieldExpression>
+								<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+							</textField>
+							<textField>
+								<reportElement x="0" y="15" width="113" height="15" uuid="b7558542-add4-44a5-b5f1-d8a628cf38bd"/>
+								<box>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{cashDebit}]]></textFieldExpression>
+								<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="113" height="19" backcolor="#BFE1FF" uuid="8bdd652e-2604-41dd-b7e6-eddb1c2d7db2"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Debit]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TH" height="15" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="113" height="15" uuid="d0f3eae4-a075-44ab-9868-a3a22da77bfc"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{debit}]]></textFieldExpression>
+								<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="118" uuid="d63f0b62-913f-43a5-ada8-5c022ebf1aaa">
+						<jr:tableFooter height="45" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="118" height="15" uuid="5a86efe7-3823-47bd-b532-e910dfbe1d13"/>
+								<box>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalCredit}]]></textFieldExpression>
+								<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+							</textField>
+							<textField>
+								<reportElement positionType="Float" x="0" y="30" width="118" height="15" uuid="b00c91da-ba06-4929-9c0e-9f65c169d99f"/>
+								<box>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalCredit}.add($P{cashCredit})]]></textFieldExpression>
+								<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+							</textField>
+							<textField>
+								<reportElement x="0" y="15" width="118" height="15" uuid="bb1f0b69-ae99-4999-aa04-84b987315cb1"/>
+								<box>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{cashCredit}]]></textFieldExpression>
+								<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="118" height="19" backcolor="#BFE1FF" uuid="8c250797-58ba-4e4d-9ebb-055a7237d7bb"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Credit]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TH" height="15" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="118" height="15" uuid="b4aa147f-537c-4d7a-afd2-26b8feaa7f85"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="9"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{credit}]]></textFieldExpression>
+								<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

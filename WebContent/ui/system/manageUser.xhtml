@@ -1,0 +1,210 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="User Management" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="userEntryForm">
+			<h:outputText value="#{label['MANAGE_USER_ADDNEW_LABEL']}"
+				styleClass="title" rendered="#{ManageUserActionBean.createNew}" />
+			<h:outputText value="#{label['MANAGE_USER_EDIT_LABEL']}" styleClass="title" rendered="#{!ManageUserActionBean.createNew}" />
+			<p:message display="text" for="panelDept" />
+			<p:panel>
+				<p:panelGrid id="panelDept" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="name" />
+						<h:outputText for="name" value="#{label['MANAGE_USER_NAME_LABEL']}" styleClass="input-label mandatory" escape="false" />
+						<p:inputText value="#{ManageUserActionBean.user.name}" id="name" required="true" >
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						<h:outputText value="" />
+						<p:message display="text" for="dob" />
+						<h:outputText for="dob" styleClass="input-label mandatory" value="#{label['MANAGE_USER_DATEOFBIRTH']}" escape="false" />
+						<p:inputMask id="dob" mask="99-99-9999" value="#{ManageUserActionBean.user.dateOfBirth}" required="true">
+							<f:convertDateTime pattern="#{ApplicationSetting.dateFormat}" timeZone="#{ApplicationSetting.timeZone}" />
+						</p:inputMask>
+						<h:outputText value="" />
+						<p:message display="text" for="code" />
+						<h:outputText for="code" value="#{label['MANAGE_USER_CODE_LABEL']}" styleClass="input-label mandatory" escape="false" />
+						<p:inputText value="#{ManageUserActionBean.user.userCode}" id="code" required="true">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						<h:outputText value="" />
+						<p:message display="text" for="email" />
+						<h:outputText for="email" value=" #{label['MANAGE_USER_EMAIL']}" styleClass="input-label mandatory" escape="false" />
+						<p:inputText value="#{ManageUserActionBean.user.contactInfo.email}" id="email" required="true">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						<h:outputText value="" />
+						<p:message display="text" for="pass" />
+						<h:outputText for="pass" value="#{label['MANAGE_USER_PASSWORD_LABEL']}" styleClass="input-label mandatory" escape="false" />
+						<p:password value="#{ManageUserActionBean.user.password}" id="pass" redisplay="true" required="true">
+							<f:validateLength maximum="50" />
+						</p:password>
+					</p:panelGrid>
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="phone" />
+						<h:outputText for="phone" value="#{label['MANAGE_USER_PHONE']}" styleClass="input-label" />
+						<p:inputText value="#{ManageUserActionBean.user.contactInfo.phone}" id="phone">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						<h:outputText value="" />
+						<p:message display="text" for="mobile" />
+						<h:outputText for="mobile" value="#{label['MANAGE_USER_MOBILE']}" styleClass="input-label" />
+						<p:inputText value="#{ManageUserActionBean.user.contactInfo.mobile}" id="mobile">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						<h:outputText value="" />
+						<p:message display="text" for="admin" />
+						<h:outputText for="admin" value="#{label['MANAGE_USER_ISADMIN_LABEL']}" styleClass="input-label" />
+						<p:selectBooleanButton id="admin" value="#{ManageUserActionBean.user.admin}" onLabel="Yes" offLabel="No" style="width:60px">
+							<p:ajax process="@this" update="@this" />
+						</p:selectBooleanButton>
+						<h:outputText value="" />
+						<p:message display="text" for="fax" />
+						<h:outputText for="fax" styleClass="input-label" value="#{label['MANAGE_USER_FAX']}" />
+						<p:inputText value="#{ManageUserActionBean.user.contactInfo.fax}" id="fax">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						<p:outputLabel />
+						<p:message display="text" for="branchId" />
+						<h:outputText styleClass="input-label" value="#{label['MANAGE_USER_BRANCH']}" />
+						<p:panelGrid styleClass="ui-panelgrid-blank" id="branchPanelGroup">
+							<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="branchPanelGroup">
+								<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+									<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{ManageUserActionBean.selectBranch()}" id="selectBranchDialogLink" process="@this">
+										<p:ajax event="dialogReturn" listener="#{ManageUserActionBean.returnBranch}" update="branchId" />
+									</p:commandButton>
+									<p:inputText id="branchId" value="#{ManageUserActionBean.user.branch == null ? '' : ManageUserActionBean.user.branch.branchCode}" readonly="true" />
+									<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ManageUserActionBean.user.setBranch(null)}" process="@this" update="branchId" />
+								</div>
+							</div>
+						</p:panelGrid>
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:message display="text" for="selectRoleListLink" />
+				<h:panelGroup>
+					<fieldset>
+						<legend>
+							<table>
+								<tr>
+									<td><h:outputText style="color:red;" value="*" /> <h:outputText styleClass="input-label" value="#{label['MANAGE_USER_ROLE_LIST_LABEL']}" /></td>
+									<td><p:commandLink id="selectRoleListLink" immediate="true" oncomplete="PF('roleListDialog').show()" update=":roleDialogForm">
+											<h:graphicImage name="images/add.png" styleClass="addIcon" />
+										</p:commandLink></td>
+								</tr>
+							</table>
+						</legend>
+						<h:panelGroup id="roleListPanelGroup">
+							<h:outputText rendered="#{empty ManageUserActionBean.selectedRoleList}" styleClass="input-label" value="There is no selected roles." />
+							<p:dataTable id="userRoleDataTable" rendered="#{!empty ManageUserActionBean.selectedRoleList}" value="#{ManageUserActionBean.selectedRoleList}" var="role" reflow="true">
+								<p:column headerText="#{label['MANAGE_USER_ROLE_NAME']}">
+									<h:outputText value="#{role.name}" />
+								</p:column>
+								<p:column headerText="#{label['MANAGE_USER_ROLE_DESCRIPTION']}">
+									<h:outputText value="#{role.description}" />
+								</p:column>
+								<p:column style="width:10%;">
+									<p:commandButton styleClass="red-button" icon="fa fa-times" id="removeCompanyListLink" action="#{ManageUserActionBean.removeWebPage(role)}"
+										update=":userEntryForm:roleListPanelGroup" process="@this">
+										<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</h:panelGroup>
+					</fieldset>
+				</h:panelGroup>
+			</p:panelGrid>
+			<br />
+			<p:commandButton id="addBtn" value="#{label['COMMON_ADDNEW_BTN']}" action="#{ManageUserActionBean.addNewUser}" rendered="#{ManageUserActionBean.createNew}"
+				update="userEntryForm :userEntryTableForm" style="width: 65px;" oncomplete="PF('userTable').clearFilters()" />
+			<p:commandButton id="editBtn" value="#{label['COMMON_UPDATE_BTN']}" action="#{ManageUserActionBean.updateUser}" rendered="#{!ManageUserActionBean.createNew}"
+				update="userEntryForm :userEntryTableForm" oncomplete="PF('userTable').clearFilters()" style="width: 70px;" />
+			<br />
+			<br />
+			<p:separator style="height:3px;" />
+		</h:form>
+		<h:form id="userEntryTableForm">
+		<h:panelGrid>
+			<p:commandLink action="#{ManageUserActionBean.createNewUser}" ajax="false">
+				<h:panelGrid columns="2">
+					<h:graphicImage name="images/add.png" styleClass="addIcon" />
+					<h:outputText value="#{label['COMMON_ADDNEW_LINK']}" styleClass="command-link" />
+				</h:panelGrid>
+			</p:commandLink>
+			</h:panelGrid>
+			<p:dataTable var="user" value="#{ManageUserActionBean.userList}" id="userTable" paginator="true" rows="15" style="width:100%;" widgetVar="userTable"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10, 15,20,25,30" rowKey="index" emptyMessage="Nothing found with given criteria" reflow="true" paginatorPosition="bottom">
+				<p:column filterBy="#{user.name}" filterMatchMode="contains" headerText="#{label['MANAGE_USER_NAME_LABEL']}">
+					<h:outputText value="#{user.name}" />
+				</p:column>
+				<p:column filterBy="#{user.userCode}" filterMatchMode="contains" headerText="#{label['MANAGE_USER_CODE_LABEL']}">
+					<h:outputText value="#{user.userCode}" />
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton id="detailItem" styleClass="green-button" icon="fa fa-laptop" oncomplete="PF('SelectedRoleDialog').show()" update=":roleDetailForm">
+						<f:setPropertyActionListener target="#{ManageUserActionBean.roles}" value="#{user.roles}" />
+					</p:commandButton>
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="green-button" icon="fa fa-paint-brush" action="#{ManageUserActionBean.prepareUpdateUser(user)}" process="@this" update=":userEntryForm" />
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ManageUserActionBean.deleteUser(user)}" oncomplete="PF('userTable').filter();"
+						update=":userEntryForm :userEntryTableForm">
+						<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+		<!-- Web Page Dialog -->
+		<p:dialog appendTo="@(body)" dynamic="true" modal="true" responsive="true" header="WebPage List" height="565" width="880" hideEffect="explode" id="roleListDialog"
+			showEffect="fade" widgetVar="roleListDialog">
+			<p:ajax event="close" listener="#{ManageUserActionBean.handleDialogClose}"/>
+			<h:form id="roleDialogForm">
+				<p:dataTable id="webPageListTable" paginator="true" rows="30" selection="#{ManageUserActionBean.tempSelectedRoleList}" value="#{ManageUserActionBean.roleList}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,30,50"
+					var="role" rowKey="#{role.id}" widgetVar="webPageListTable" reflow="true" paginatorPosition="top">
+					<p:column selectionMode="multiple" style="width:16px;" />
+					<p:column headerText="#{label['MANAGE_USER_ROLE_NAME']}">
+						<h:outputText value="#{role.name}" />
+					</p:column>
+					<p:column headerText="#{label['MANAGE_USER_ROLE_DESCRIPTION']}">
+						<h:outputText value="#{role.description}" />
+					</p:column>
+					<f:facet name="footer">
+						<p:commandLink id="webPageLink" action="#{ManageUserActionBean.addRoleWebPage}" oncomplete="PF('roleListDialog').hide()" process="@form"
+							update=":userEntryForm:roleListPanelGroup">
+							<h:graphicImage name="images/add.png" styleClass="addIcon" />
+						</p:commandLink>
+					</f:facet>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+		<!--  Role Detail Dialog -->
+		<p:dialog appendTo="@(body)" dynamic="true" modal="true" responsive="true" id="SelectedRoleDialog" widgetVar="SelectedRoleDialog" header="Role Detail List" width="550">
+			<p:ajax event="close" listener="#{ManageUserActionBean.roleDetailClose}" />
+			<h:form id="roleDetailForm">
+				<p:dataTable rowIndexVar="index" var="role" value="#{ManageUserActionBean.roleList}" id="roleDetail" paginator="true" rows="30" style="width:100%;"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,30,50"
+					rowKey="index" reflow="true" paginatorPosition="bottom">
+					<p:column headerText="No.">
+						#{index + 1}
+					</p:column>
+					<p:column headerText="Role">
+						<h:outputText value="#{role.name}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

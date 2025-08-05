@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="#{label['DAYBOOK_TITLE_LABEL']}" />
+    <ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="dayBookForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<p:panelGrid id="dayBookPanel" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<h:outputText value="" />
+				<p:message display="text" for="requiredDate"></p:message>
+				<h:outputText value="#{label['DAYBOOK_TITLE_LABEL']}">
+				</h:outputText>
+				<p:calendar id="requiredDate" value="#{DayBookActionBean.dayBookDto.requiredDate}" required="true" showOn="button" pattern="#{ApplicationSetting.dateFormat}"
+					timeZone="#{ApplicationSetting.timeZone}" mask="true" maxdate="#{DayBookActionBean.todayDate}" />
+				<h:outputText value="" />
+				<p:outputPanel>
+					<p:selectBooleanCheckbox id="allBranch" value="#{DayBookActionBean.dayBookDto.allBranch}" converter="omnifaces.SelectItemsIndexConverter"
+						rendered="#{DayBookActionBean.dayBookDto.admin}">
+						<p:ajax update="branch"></p:ajax>
+					</p:selectBooleanCheckbox>
+					<h:outputText value="#{label['DAYBOOK_ALLBRANCH_LABEL']}" styleClass="input-label" rendered="#{DayBookActionBean.dayBookDto.admin}" />
+				</p:outputPanel>
+				<h:outputText value="#{label['DAYBOOK_BRANCH_LABEL']}">
+				</h:outputText>
+				<p:selectOneMenu id="branch" value="#{DayBookActionBean.dayBookDto.branch}" converter="omnifaces.SelectItemsIndexConverter" disabled="#{!DayBookActionBean.dayBookDto.admin}">
+					<f:selectItems value="#{DayBookActionBean.branchList}" var="branch" itemLabel="#{branch.name}" itemValue="#{branch}"></f:selectItems>
+				</p:selectOneMenu>
+				<h:outputText value="" />
+				<p:selectOneRadio id="currencyOption" value="#{DayBookActionBean.dayBookDto.currencyType}" converter="omnifaces.SelectItemsIndexConverter" styleClass="input-label">
+					<f:selectItems value="#{DayBookActionBean.currencyTypes}" var="curType" itemLabel="#{curType.label}" itemValue="#{curType}"></f:selectItems>
+					<p:ajax event="change" listener="#{DayBookActionBean.changeCurrencyType}" update="currencyOption currency homeCurrency">
+					</p:ajax>
+				</p:selectOneRadio>
+				<h:outputText value="#{label['DAYBOOK_CURRENCY_LABEL']}">
+				</h:outputText>
+				<p:selectOneMenu id="currency" value="#{DayBookActionBean.dayBookDto.currency}" converter="omnifaces.SelectItemsIndexConverter"
+					disabled="#{DayBookActionBean.dayBookDto.homeCurrency}">
+					<f:selectItems value="#{DayBookActionBean.currencyList}" var="currency" itemLabel="#{currency.currencyCode}" itemValue="#{currency}"></f:selectItems>
+					<p:ajax process="@this" update="@this" />
+				</p:selectOneMenu>
+				<h:outputText value="" />
+				<p:outputPanel>
+					<p:selectBooleanCheckbox id="homeCurrency" value="#{DayBookActionBean.dayBookDto.homeCurrencyConverted}"
+						disabled="#{DayBookActionBean.dayBookDto.homeCurrency}">
+						<p:ajax event="valueChange" process="@this" />
+					</p:selectBooleanCheckbox>
+					<h:outputText value="#{label['DAYBOOK_HOMECURRENCYCONVERTED_LABEL']}" styleClass="input-label" />
+				</p:outputPanel>
+			</p:panelGrid>
+			<p:commandButton id="previewBtn" value="#{label['COMMON_PREVIEW_BTN']}" style="width: 80px;" action="#{DayBookActionBean.previewReport}" update="dayBookDialogForm dayBookForm" />
+			<p:commandButton id="downloadLink" value="Download" ajax="false" >
+				<p:fileDownload value="#{DayBookActionBean.getDownload()}" />
+			</p:commandButton>
+			<p:commandButton id="cancelBtn" action="dayBookReport" style="width: 80px;" value="#{label['COMMON_CANCEL_BTN']}" ajax="false" immediate="true" />
+		</h:form>
+		<h:form enctype="multipart/form-data" id="dayBookDialogForm">
+			<p:dialog modal="true"  responsive="true"  appendTo="@(body)" dynamic="true"  id="dayBookPdfDialog" resizable="false" widgetVar="dayBookPdfDialog"   width="95%" height="600" >
+				<p:media cache="false" id="pdfPlayer" player="pdf" value="#{DayBookActionBean.stream}" width="100%" height="99%" />
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

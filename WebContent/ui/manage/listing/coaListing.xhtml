@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="#{label['MANAGE_COA_LISTING_LABEL']}" />
+    <ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="coaListingForm">
+		<p:commandButton id="downloadLink" value="Download" ajax="false">
+				<p:fileDownload value="#{CoaListingActionBean.downloadValue}" />
+			</p:commandButton>
+			<p:panelGrid id="cashBookListingPanel" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="panelGrid-border">
+				<p:dataTable id="coaListingTable" value="#{CoaListingActionBean.dtoList}" var="dto" paginator="true" rows="10" widgetVar="coaListingTable" rowKey="index"
+					emptyMessage="Nothing found with given criteria"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+					rowsPerPageTemplate="5,10,15,20">
+					<f:facet name="{Exporters}">
+						<p:commandLink oncomplete="PF('pdfDialog').show()" action="#{CoaListingActionBean.generateReport}" update="pdfForm" style="float:right;">
+							<p:graphicImage name="images/pdf.jpg" styleClass="addIcon" />
+						</p:commandLink>
+					</f:facet>
+					<p:column headerText="#{label['MANAGE_ACCOUNT_CODE_LABEL']}" filterMatchMode="contains" filterBy="#{dto.acCode}" style="width:150px;">
+						<h:outputText value="#{dto.acCode}" />
+					</p:column>
+					<p:column headerText="#{label['MANAGE_ACTYPE_LABEL']}" style="width:150px;" filterBy="#{dto.acType}" filterMatchMode="contains">
+						<h:outputText value="#{dto.acType}" />
+					</p:column>
+					<p:column headerText="#{label['MANAGE_DESC_LABEL']}" filterBy="#{dto.acName}" filterMatchMode="contains">
+						<h:outputText value="#{dto.acName}" />
+					</p:column>
+				</p:dataTable>
+			</p:panelGrid>
+		</h:form>
+		<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" id="pdfDialog" resizable="false" widgetVar="pdfDialog" width="60%" height="550">
+			<h:form enctype="multipart/form-data" id="pdfForm">
+				<p:media cache="false" id="pdfPlayer" player="pdf" value="#{CoaListingActionBean.stream}" width="99%" height="500" />
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

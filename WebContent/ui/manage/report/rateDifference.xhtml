@@ -1,0 +1,114 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="#{label['RATEDIFF_TITLE_LABEL']}" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="rateForm">
+		<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			<p:panelGrid id="panelMessage" columns="2" columnClasses="ui-grid-col-12,ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:panelGrid id="panel1" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid" rendered="false">
+					<h:outputText value="" />
+					<p:message display="text" for="acCode" />
+					<h:outputText value="#{label['MANAGE_ACCLEDGERLISTING_ACCOUNTCODE_LABEL']}" styleClass="input-label" />
+					<p:panelGrid styleClass="ui-panelgrid-blank" id="acCodePanel">
+						<p:tree style="width: 100%;height:150px;overflow: auto; display:block" value="#{RateMonthlyCurActionBean.root}" var="node" id="acCode" selectionMode="checkbox"
+							selection="#{RateMonthlyCurActionBean.selectedNodes}" filterBy="#{node}" filterMatchMode="contains">
+							<p:treeNode>
+								<h:outputText value="#{node}" />
+							</p:treeNode>
+						</p:tree>
+					</p:panelGrid>
+				</p:panelGrid>
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputText value="#{label['TRIALBALANCEDETAIL_REQUIREDMONTH_LABEL']}" styleClass="input-label" />
+					<h:panelGroup>
+					<p:selectOneMenu id="month" value="#{RateMonthlyCurActionBean.gainAndLossDTO.reportMonth}" converter="omnifaces.SelectItemsIndexConverter"
+					style="width:150px;text-align: right;">
+						<f:selectItems value="#{RateMonthlyCurActionBean.monthSet}" var="month" itemLabel="#{month}" itemValue="#{month.value}" />
+					</p:selectOneMenu>
+					<p:outputLabel />
+					<p:selectOneMenu id="year" value="#{RateMonthlyCurActionBean.gainAndLossDTO.reportYear}" style="width:70px;">
+						<f:selectItems value="#{RateMonthlyCurActionBean.yearList}" />
+					</p:selectOneMenu>
+					</h:panelGroup>
+					<h:outputText value="#{label['DAYBOOK_BRANCH_LABEL']}">
+					</h:outputText>
+					<p:selectOneMenu id="branch" value="#{RateMonthlyCurActionBean.gainAndLossDTO.branchId}" converter="omnifaces.SelectItemsIndexConverter">
+						<f:selectItem itemLabel="All Branches" noSelectionOption="true" />
+						<f:selectItems value="#{RateMonthlyCurActionBean.branchList}" var="branch" itemLabel="#{branch.name}" itemValue="#{branch.id}"></f:selectItems>
+					</p:selectOneMenu>
+					<h:outputText for="currency" value="#{label['MANAGE_CURRENCY_CURRENCYCODE_LABEL']}" styleClass="input-label" />
+					<p:selectOneMenu id="currency" value="#{RateMonthlyCurActionBean.gainAndLossDTO.currencyId}" converter="omnifaces.SelectItemsConverter">
+						<f:selectItems itemLabel="#{currency.currencyCode}" itemValue="#{currency.id}" value="#{RateMonthlyCurActionBean.currencyListValue}" var="currency" />
+						<p:ajax process="@this" update="@this" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+			</p:panelGrid>
+			<br />
+			<p:outputPanel id="btnPanel">
+				<p:commandButton action="#{RateMonthlyCurActionBean.filter()}" style="width:65px;" update=":rateForm" value="#{label['COMMON_SEARCH_BTN']}" />
+				<p:commandButton id="downloadLink" value="Download" ajax="false" >
+					<p:fileDownload value="#{RateMonthlyCurActionBean.getDownloadValue()}" />
+				</p:commandButton>
+			</p:outputPanel>
+			<br />
+			<p:dataTable id="rateTable" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" rows="10"
+				rowsPerPageTemplate="10,20, 30" style="width: 100%" value="#{RateMonthlyCurActionBean.gainAndLossDTOList}" var="rate" rowIndexVar="index">
+				<f:facet name="{Exporters}">
+						<p:commandLink oncomplete="PF('pdfDialog').show()" action="#{RateMonthlyCurActionBean.generateReport}" update="pdfForm" style="float:right;">
+							<p:graphicImage name="images/pdf.jpg" styleClass="addIcon" />
+						</p:commandLink>
+				</f:facet>
+				<p:columnGroup type="header">
+					<p:row>
+						<p:column headerText="#{label['REPORT_DATATABLE_NO_LABEL']}" style="width:50px;text-align:center;" />
+						<p:column headerText="#{label['RATEDIFF_ACCOUNT_CODE_LABEL']}" />
+						<p:column headerText="#{label['RATEDIFF_ACCOUNT_NAME_LABEL']}" />
+						<p:column headerText="#{label['REPORT_STATEMENT_CUR_LABEL']}" />
+						<p:column headerText="#{label['REPORT_STATEMENT_BRANCH_LABEL']}" />
+						<p:column headerText="#{label['RATEDIFF_MONTHLY_LABEL']}" />
+						<p:column headerText="#{label['RATEDIFF_HOME_LABEL']}" />
+						<p:column headerText="#{label['RATEDIFF_DIFFERENCE_LABEL']}" />
+					</p:row>
+				</p:columnGroup>
+				<p:column>
+					<h:outputText value="#{index + 1}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{rate.acCode}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{rate.acName}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{rate.currencyCode}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{rate.branchName}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{rate.monthlyAmount}" style="float:right;">
+						<f:convertNumber pattern="#{ApplicationSetting.currencyFormat}" />
+					</h:outputText>
+				</p:column>
+				<p:column>
+					<h:outputText value="#{rate.homeAmount}" style="float:right;">
+						<f:convertNumber pattern="#{ApplicationSetting.currencyFormat}" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column>
+					<h:outputText value="#{rate.differenceAmount}" style="float:right;">
+						<f:convertNumber pattern="#{ApplicationSetting.currencyFormat}" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" id="pdfDialog" resizable="false" widgetVar="pdfDialog" width="60%" height="550">
+			<h:form enctype="multipart/form-data" id="pdfForm">
+				<p:media cache="false" id="pdfPlayer" player="pdf" value="#{RateMonthlyCurActionBean.stream}" width="99%" height="500" />
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,255 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml" xmlns:o="http://omnifaces.org/ui">
+	<ui:param name="header" value="#{label['MANAGE_EDITVOUCHER_LABEL']}" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="voucherEditForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<p:fieldset legend="Select Voucher No">
+				<p:panelGrid id="voucherPanel" columns="6" columnClasses="ui-grid-col-1,ui-grid-col-3,ui-grid-col-1,ui-grid-col-3,ui-grid-col-1,ui-grid-col-3" layout="grid"
+					styleClass="ui-panelgrid-blank ui-fluid">
+					<p:outputPanel />
+					<p:outputPanel />
+					<p:outputPanel />
+					<p:message display="text" for="voucherNo" />
+					<p:outputPanel />
+					<p:outputPanel />
+					<h:outputText value="#{label['MANAGE_EDITVOUCHER_VOUCHERTYPE_LABEL']}" styleClass="input-label" />
+					<p:selectOneRadio id="voucherType" value="#{ManageEditVoucherActionBean.voucherType}">
+						<f:selectItems value="#{ManageEditVoucherActionBean.voucherTypeList}" itemValue="#{type}" itemLabel="#{type.label}" var="type" />
+						<p:ajax event="change" listener="#{ManageEditVoucherActionBean.changeVoucherType}" update="voucherEditForm :voucherListTableForm" process="@this">
+						</p:ajax>
+					</p:selectOneRadio>
+					<h:outputText styleClass="input-label mandatory" value="#{label['MANAGE_EDITVOUCHER_VOUCHERNO_LABEL']}" />
+					<p:panelGrid styleClass="ui-panelgrid-blank" id="voucherNoPanelGroup">
+						<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="voucherNoPanelGroup">
+							<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+								<p:commandButton styleClass="green-button" icon="fa fa-search" oncomplete="PF('voucherNoDialog').show()" disabled="#{ManageEditVoucherActionBean.selectVoucherNo}"
+									id="selectVoucherNoDialogLink" update=":voucherNoDialogForm" process="@this"/>
+								<p:inputText id="voucherNo" readonly="#{ManageEditVoucherActionBean.voucherNo == null ? facesContext.currentPhaseId.ordinal eq 6 : true}"
+									value="#{ManageEditVoucherActionBean.voucherNo == null ? '' : ManageEditVoucherActionBean.voucherNo }" required="true"
+									disabled="#{ManageEditVoucherActionBean.selectVoucherNo}"/>
+								<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ManageEditVoucherActionBean.removeTranType}" process="@this"
+									update=":voucherEditForm :voucherListTableForm" />
+							</div>
+						</div>
+					</p:panelGrid>
+					<h:outputText styleClass="input-label mandatory" value="#{label['MANAGE_EDITVOUCHER_DATE_LABEL']}" />
+					<p:calendar id="date" value="#{ManageEditVoucherActionBean.settlementDate}" disabled="false" showOn="button" pattern="#{ApplicationSetting.dateFormat}" mask="true"
+						maxdate="#{ManageEditVoucherActionBean.todayDate}" mindate="#{ManageEditVoucherActionBean.beforeBudgetSDate}">
+						<p:ajax event="dateSelect" process="@this" update="@this" />
+					</p:calendar>
+				</p:panelGrid>
+			</p:fieldset>
+			<br />
+			<p:panel>
+				<p:panelGrid id="editVoucherPanel" columns="3" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="currency" />
+						<h:outputText styleClass="input-label" value="#{label['MANAGE_EDITVOUCHER_CURRENCY_LABEL']}" />
+						<p:inputText id="currency" value="#{ManageEditVoucherActionBean.currency.currencyCode}" readonly="true" />
+						<h:outputText value="" />
+						<p:message display="text" for="exchangeRate" />
+						<h:outputText value="ExchangeRate" styleClass="input-label mandatory " />
+						<p:inputNumber id="exchangeRate" value="#{ManageEditVoucherActionBean.rate}" validatorMessage="Value is required" decimalPlaces="2" required="true">
+							<o:validator minimum="1" validatorId="javax.faces.LongRange" />
+							<p:ajax process="@this" />
+						</p:inputNumber>
+						<h:outputText value="" />
+						<p:message display="text" for="amount" />
+						<h:outputText value="#{label['MANAGE_EDITVOUCHER_AMOUNT_LABEL']}" styleClass="input-label mandatory" />
+						<p:inputText id="amount" value="#{ManageEditVoucherActionBean.editVoucherDto.localAmount}" decimalPlaces="2" onkeypress="isDecimalKey(event,this)" />
+					</p:panelGrid>
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="accountCode" />
+						<h:outputText styleClass="input-label mandatory" value="#{label['MANAGE_EDITVOUCHER_ACCOUNTCODE_LABEL']}" />
+						<p:panelGrid styleClass="ui-panelgrid-blank" id="accountCodePanel">
+							<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="accountCodePanel">
+								<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+									<p:commandButton styleClass="green-button" icon="fa fa-search" disabled="#{ManageEditVoucherActionBean.cashAccountDisable}"
+										actionListener="#{ManageEditVoucherActionBean.selectCCOAAccountCode()}" id="selectAccountCodeDialogLink" process="@this">
+										<p:ajax event="dialogReturn" listener="#{ManageEditVoucherActionBean.returnCCOAAccountCode}" update="accountCode accountDesp" />
+									</p:commandButton>
+									<p:inputText id="accountCode" value="#{ManageEditVoucherActionBean.editVoucherDto.ccoa.coa == null ? '' : ManageEditVoucherActionBean.editVoucherDto.ccoa.coa.acCode}"
+										readonly="true" disabled="#{ManageEditVoucherActionBean.cashAccountDisable}" />
+									<p:commandButton styleClass="red-button" icon="fa fa-times" disabled="#{ManageEditVoucherActionBean.cashAccountDisable}"
+										action="#{ManageEditVoucherActionBean.editVoucherDto.setCcoa(null)}" process="@this" update="accountCode accountDesp" />
+								</div>
+							</div>
+						</p:panelGrid>
+						<h:outputText value="" />
+						<p:message display="text" for="accountDesp" />
+						<h:outputText styleClass="input-label" value="#{label['MANAGE_EDITVOUCHER_ACCOUNTDESP_LABEL']}" />
+						<p:inputText id="accountDesp" value="#{ManageEditVoucherActionBean.editVoucherDto.ccoa.coa.acName}" readonly="true"
+							disabled="#{ManageEditVoucherActionBean.cashAccountDisable}" />
+						<h:outputText value="" />
+						<p:message display="text" for="editedVoucherType" />
+						<h:outputText value="#{label['MANAGE_EDITVOUCHER_VOUCHERTYPE_LABEL']}" styleClass="input-label" />
+						<p:selectOneRadio id="editedVoucherType" value="#{ManageEditVoucherActionBean.editedVoucherType}" disabled="#{ManageEditVoucherActionBean.cashAccountDisable}">
+							<f:selectItems value="#{ManageEditVoucherActionBean.editedVoucherTypeList}" />
+						</p:selectOneRadio>
+					</p:panelGrid>
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="chequeNo" />
+						<h:outputText value="#{label['MANAGE_EDITVOUCHER_CHEQUENO_LABEL']}" styleClass="input-label" />
+						<p:inputText id="chequeNo" value="#{ManageEditVoucherActionBean.editVoucherDto.chequeNo}" disabled="#{ManageEditVoucherActionBean.cashVoucher}" />
+						<h:outputText value="" />
+						<p:message display="text" for="narration" />
+						<h:outputText value="#{label['MANAGE_EDITVOUCHER_NARRATION_LABEL']}" styleClass="input-label mandatory" />
+						<p:inputTextarea id="narration" rows="6" value="#{ManageEditVoucherActionBean.editVoucherDto.narration}" />
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<p:panelGrid id="buttonPanel" columns="3" styleClass="ui-panelgrid-blank">
+				<p:commandButton id="addNewBtn" value="#{label['COMMON_ADDNEW_LINK']}" action="#{ManageEditVoucherActionBean.createNewVoucher}"
+					rendered="#{!ManageEditVoucherActionBean.cashVoucher}" style="width: 80px;" update="voucherEditForm:voucherPanel voucherEditForm:editVoucherPanel voucherEditForm:buttonPanel" />
+				<h:panelGroup id="updateAddBtn">
+					<p:commandButton id="updateBtn" value="#{label['COMMON_UPDATE_BTN']}" action="#{ManageEditVoucherActionBean.updateVoucher}"
+						rendered="#{ManageEditVoucherActionBean.editedData}" style="width: 80px;" update="voucherEditForm :voucherListTableForm" />
+					<p:commandButton id="addBtn" value="#{label['COMMON_ADDNEW_BTN']}" action="#{ManageEditVoucherActionBean.addNewVoucher}" rendered="#{ManageEditVoucherActionBean.createNew}"
+						style="width: 80px;" update="voucherEditForm :voucherListTableForm voucherEditForm:buttonPanel" />
+				</h:panelGroup>
+				<p:commandButton id="cancelNewVoucher" value="#{label['COMMON_CANCEL_BTN']}" action="#{ManageEditVoucherActionBean.cancelNewVoucher}"
+					rendered="#{ManageEditVoucherActionBean.createNew || ManageEditVoucherActionBean.editedData}" style="width: 80px;"
+					update="voucherEditForm:editVoucherPanel voucherEditForm:buttonPanel" />
+			</p:panelGrid>
+			<p:separator style="height:1px" />
+		</h:form>
+		<h:form id="voucherListTableForm">
+			<p:dataTable id="voucherListTable" value="#{ManageEditVoucherActionBean.voucherList}" var="voucher" paginator="true" rows="10" widgetVar="voucherListTable"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10, 15"
+				rowIndexVar="index" emptyMessage="Nothing found with given criteria">
+				<p:column headerText="No" style="width:50px;">
+					<h:outputText value="#{index + 1}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_EDITVOUCHER_ACCOUNTNO_LABEL']}">
+					<h:outputText value="#{voucher.ccoa.coa.acCode}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_EDITVOUCHER_ACCOUNTDESP_LABEL']}">
+					<h:outputText value="#{voucher.ccoa.coa.acName}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_EDITVOUCHER_VOUCHERTYPE_LABEL']}">
+					<h:outputText value="#{(voucher.tranType.tranCode == 'CSDEBIT' || voucher.tranType.tranCode == 'TRDEBIT') ? 'DEBIT' : 'CREDIT'}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_EDITVOUCHER_CHEQUENO_LABEL']}">
+					<h:outputText value="#{voucher.chequeNo}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_EDITVOUCHER_RATE_LABEL']}">
+					<h:outputText value="#{voucher.rate}">
+						<f:convertNumber pattern="#{ApplicationSetting.currencyFormat}" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_EDITVOUCHER_AMOUNT_LABEL']}">
+					<h:outputText value="#{voucher.localAmount}">
+						<f:convertNumber pattern="#{ApplicationSetting.currencyFormat}" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_EDITVOUCHER_HAMOUNT_LABEL']}">
+					<h:outputText value="#{voucher.homeAmount}">
+					<f:convertNumber pattern="#{ApplicationSetting.currencyFormat}" />
+					</h:outputText>
+					
+				</p:column>
+				<p:column headerText="#{label['MANAGE_EDITVOUCHER_NARRATION_LABEL']}">
+					<h:outputText value="#{voucher.narration}" />
+				</p:column>
+				<p:column headerText="Edit" style="text-align: center; width:4%;">
+					<p:commandButton styleClass="green-button" icon="fa fa-paint-brush" process="@this" update=":voucherEditForm"
+						action="#{ManageEditVoucherActionBean.prepareEditVoucher(voucher)}" />
+				</p:column>
+				<p:column headerText="Delete" style="width:4%;">
+					<p:commandButton styleClass="red-button" icon="fa fa-times" oncomplete="PF('confirmationDialog').show()" process="@this">
+						<f:setPropertyActionListener target="#{ManageEditVoucherActionBean.deleteAll}" value="false" />
+						<f:setPropertyActionListener target="#{ManageEditVoucherActionBean.deleteCurrent}" value="true" />
+						<f:setPropertyActionListener target="#{ManageEditVoucherActionBean.editVoucherDto}" value="#{voucher}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:separator style="height:3px" />
+			<p:commandButton action="#{ManageEditVoucherActionBean.saveVoucher}" id="saveBtn" style="width: 80px;" update=":voucherEditForm :voucherListTableForm"
+				value="#{label['COMMON_SAVE_BTN']}" oncomplete="PF('voucherNoTable').clearFilters();" />
+			<p:spacer></p:spacer>
+			<p:commandButton id="deleteAllBtn" oncomplete="PF('confirmationDialog').show()" update=":confirmationForm" value="#{label['COMMON_DELETE_ALL_BTN']}" style="width: 100px;">
+				<f:setPropertyActionListener target="#{ManageEditVoucherActionBean.deleteAll}" value="true" />
+				<f:setPropertyActionListener target="#{ManageEditVoucherActionBean.deleteCurrent}" value="false" />
+			</p:commandButton>
+			<p:spacer></p:spacer>
+			<p:commandButton id="cancelBtn" value="#{label['COMMON_CANCEL_BTN']}" action="#{ManageEditVoucherActionBean.init}" ajax="false" style="width: 80px;" process="@this" />
+		</h:form>
+		<!-- voucherNo Dialog -->
+		<p:dialog modal="true" appendTo="@(body)" dynamic="true" responsive="true" header="#{label['MANAGE_EDITVOUCHER_VOUCHERNOSELECT_LABEL']}" height="480" hideEffect="explode"
+			id="voucherNoDialog" showEffect="fade" widgetVar="voucherNoDialog" width="700">
+			<h:form id="voucherNoDialogForm">
+				<p:dataTable id="voucherNoTable" paginator="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="index" rows="10"
+					rowsPerPageTemplate="5,10, 15" style="width:100%;" value="#{ManageEditVoucherActionBean.voucherNoList}" var="vNo" widgetVar="voucherNoTable"
+					emptyMessage="Nothing found with given criteria" paginatorPosition="bottom">
+					<p:column headerText="No" style="width:50px;">
+						<h:outputText value="#{index + 1}" />
+					</p:column>
+					<p:column filterBy="#{vNo.toString()}" filterMatchMode="contains" headerText="#{label['MANAGE_EDITVOUCHER_VOUCHERNO_LABEL']}">
+						<h:outputText value="#{vNo}" />
+					</p:column>
+					<p:column style="width:50px;text-align: center;">
+						<p:commandButton action="#{ManageEditVoucherActionBean.selectVoucherNo(vNo)}" oncomplete="PF('voucherNoDialog').hide();" immediate="true"
+							update=":voucherEditForm :voucherListTableForm" styleClass="green-button" icon="fa fa-check" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+		<!-- Confirmation Dialog -->
+		<h:form id="confirmationForm">
+			<p:dialog modal="true" responsive="true" dynamic="true" appendTo="@(body)"
+				header="#{(ManageEditVoucherActionBean.deleteAll? label['MANAGE_EDITVOUCHER_DELETE_ALL_CONFIRM'] : label['MANAGE_EDITVOUCHER_DELETE_CURRENT_CONFIRM']) }"
+				widgetVar="confirmationDialog" resizable="false" draggable="false" width="290" height="100" showEffect="explode" hideEffect="explode" id="confirmationDialog">
+				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
+					<h:graphicImage name="images/warning.png" style="width: 50px; height: 50px;" />
+					<h:outputText value="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" style="padding-top:-10px;text-decoration: none;font-size: 12px;" />
+					<f:facet name="footer">
+						<h:panelGroup>
+							<p:commandButton value="#{label['COMMON_YES_BTN']}" action="#{ManageEditVoucherActionBean.deleteCurrentVoucher}" rendered="#{!ManageEditVoucherActionBean.deleteAll}"
+								update=":voucherEditForm :voucherListTableForm" oncomplete="PF('confirmationDialog').hide(); PF('voucherNoTable').clearFilters()" immediate="true" style="width:50px" />
+							<p:commandButton value="#{label['COMMON_YES_BTN']}" action="#{ManageEditVoucherActionBean.deleteAllVoucher}" rendered="#{ManageEditVoucherActionBean.deleteAll}"
+								update=":voucherEditForm :voucherListTableForm" oncomplete="PF('confirmationDialog').hide(); PF('voucherNoTable').clearFilters()" immediate="true" style="width:50px" />
+						</h:panelGroup>
+						<p:spacer></p:spacer>
+						<p:commandButton value="#{label['COMMON_NO_BTN']}" oncomplete="PF('confirmationDialog').hide()" style="width:50px" immediate="true">
+						</p:commandButton>
+					</f:facet>
+				</p:panelGrid>
+				<p:ajax event="close" update="confirmationForm" listener="#{ManageEditVoucherActionBean.handleCloseDeleteDialog}" />
+			</p:dialog>
+		</h:form>
+		
+		
+		
+		<!-- Password Dialog -->
+		
+			<p:dialog modal="true" responsive="true" dynamic="true" appendTo="@(body)" 
+				widgetVar="passwordDialog" resizable="false" draggable="false" closable="false" width="350" height="200" showEffect="explode" hideEffect="explode" id="passwordDialog">
+				<h:form id="passwordForm">
+				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
+					
+						<p:outputLabel/>
+						<p:message id="passwordMessage" display="text" for="password"/>
+						<h:outputText styleClass="input-label" value="Password" />
+						<p:password id="password" value="#{ManageEditVoucherActionBean.editPassword}" required="true" >
+							<p:ajax event="valueChange" process="@this"/>
+						</p:password> 
+			
+					<p:commandButton value="Submit" actionListener="#{ManageEditVoucherActionBean.authenticatePage}" update="passwordForm :voucherEditForm :voucherListTableForm">
+						</p:commandButton>
+					<!-- <p:commandButton value="Cancel" action="home" immediate="true"> -->
+					<p:commandButton value="Cancel" oncomplete="PF('passwordDialog').hide()" style="width:50px" immediate="true">
+						</p:commandButton>
+						</p:panelGrid>
+			</h:form>
+			</p:dialog>
+			
+	</ui:define>
+</ui:composition>

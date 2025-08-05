@@ -1,0 +1,39 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="menuForm">
+		<style type="text/css">
+			.ui-menubar, .ui-menu-child, .ui-menu {
+				background: #00aab4 !important;
+				border: 1px solid #00aab5 !important;
+			}
+			.ui-menu .ui-menuitem-text {
+				color: white;
+			}
+			
+			.ui-menu .ui-state-hover {
+				background: #75807a !important;
+			}
+		</style>
+		<p:menubar autoDisplay="false" rendered="#{empty sessionScope.LoginUser ? false : true}" >
+			<p:menuitem action="home" ajax="false" immediate="true" value="Home" />
+			<p:submenu label="Setup Entry" rendered="#{LoginBean.hasPermission('Setup Entry')}">
+				<p:menuitem action="branchEntry" ajax="false"  value="Branch Entry" rendered="#{LoginBean.hasSubmenuPermission('Branch Entry')}"/>
+				<p:menuitem action="userEntry" ajax="false" value="User Entry" rendered="#{LoginBean.hasSubmenuPermission('User Entry')}" />
+				<p:menuitem action="roleEntry" ajax="false"  value="Role Entry" rendered="#{LoginBean.hasSubmenuPermission('Role Entry')}" />
+			</p:submenu>
+			<p:menuitem action="wizard" ajax="false" immediate="true" value="Wizard" />
+			<p:menuitem action="customerList" ajax="false" immediate="true" value="CustomerList" />
+			<p:menuitem action="manageOccupation" ajax="false" immediate="true" value="Manage Occupation" />
+			<p:menuitem action="manageProposal" ajax="false" immediate="true" value="Manage Proposal" />
+			<!-- <p:menuitem action="newProposal" ajax="false" immediate="true" value="New Proposal" />  -->
+			<p:menuitem action="excel" ajax="false" immediate="true" value="Excel" />
+			<p:menuitem action="proposalListing" ajax="false" immediate="true" value="Proposal Report" />
+			<p:menuitem action="searchProposal" ajax="false" immediate="true" value="Search Page" />
+			<p:menuitem action="motorPage" ajax="false" immediate="true" value="Motor Page" />
+			
+			
+			
+		</p:menubar>
+	
+	</h:form>
+</ui:composition>

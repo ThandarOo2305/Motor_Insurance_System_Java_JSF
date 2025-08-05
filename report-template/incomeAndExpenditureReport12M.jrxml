@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="incomeAndExpenditureReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" resourceBundle="LANGUAGE_en" uuid="7c89f7b9-11d9-49cb-af93-beeb9a019ec3">
+	<property name="ireport.zoom" value="1.1000000000000005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="columnFooter"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="incomeExpenseDataSet" uuid="94759dc7-49d9-49b9-b784-5b9e16362588">
+		<parameter name="monthList" class="java.util.List"/>
+		<parameter name="budsmth" class="java.lang.Integer"/>
+		<field name="acCode" class="java.lang.String"/>
+		<field name="acName" class="java.lang.String"/>
+		<field name="yearToDate" class="java.math.BigDecimal"/>
+		<field name="acType" class="java.lang.String"/>
+		<field name="m1" class="java.math.BigDecimal"/>
+		<field name="m2" class="java.math.BigDecimal"/>
+		<field name="m3" class="java.math.BigDecimal"/>
+		<field name="m4" class="java.math.BigDecimal"/>
+		<field name="m5" class="java.math.BigDecimal"/>
+		<field name="m6" class="java.math.BigDecimal"/>
+		<field name="m7" class="java.math.BigDecimal"/>
+		<field name="m8" class="java.math.BigDecimal"/>
+		<field name="m9" class="java.math.BigDecimal"/>
+		<field name="m10" class="java.math.BigDecimal"/>
+		<field name="m11" class="java.math.BigDecimal"/>
+		<field name="m12" class="java.math.BigDecimal"/>
+		<variable name="totalM1" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{m1}]]></variableExpression>
+		</variable>
+		<variable name="totalM2" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{m2}]]></variableExpression>
+		</variable>
+		<variable name="totalM3" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{m3}]]></variableExpression>
+		</variable>
+		<variable name="totalM4" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{m4}]]></variableExpression>
+		</variable>
+		<variable name="totalM5" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{m5}]]></variableExpression>
+		</variable>
+		<variable name="totalM6" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{m6}]]></variableExpression>
+		</variable>
+		<variable name="totalM7" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{m7}]]></variableExpression>
+		</variable>
+		<variable name="totalM8" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{m8}]]></variableExpression>
+		</variable>
+		<variable name="totalM9" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{m9}]]></variableExpression>
+		</variable>
+		<variable name="totalM10" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{m10}]]></variableExpression>
+		</variable>
+		<variable name="totalM11" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{m11}]]></variableExpression>
+		</variable>
+		<variable name="totalM12" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{m12}]]></variableExpression>
+		</variable>
+		<variable name="totalYearToDate" class="java.math.BigDecimal" resetType="Group" resetGroup="actypeGroup" calculation="Sum">
+			<variableExpression><![CDATA[$F{yearToDate}]]></variableExpression>
+		</variable>
+		<group name="actypeGroup">
+			<groupExpression><![CDATA[$F{acType}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="logoPath" class="java.lang.String"/>
+	<parameter name="month" class="java.lang.String"/>
+	<parameter name="year" class="java.lang.Integer"/>
+	<parameter name="reportDate" class="java.lang.String"/>
+	<parameter name="reportTime" class="java.lang.String"/>
+	<parameter name="incomeAndExpenseList" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="branch" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="monthList" class="java.util.List"/>
+	<parameter name="budsmth" class="java.lang.Integer"/>
+	<title>
+		<band height="92" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="100" height="52" uuid="e5343092-4035-42c1-bff0-4270d2fda93c"/>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="244" y="6" width="311" height="20" uuid="7c187001-1c15-489e-99e6-c4b97d69a304"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Zawgyi-One" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{CLIENT_COMPANY_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="176" y="32" width="447" height="20" uuid="ef97fb4f-9919-41af-b304-de4d351f3047"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Income and Expenditure Report For "+$P{month}+" - "+$P{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="651" y="73" width="151" height="18" uuid="9cd780a1-92fa-44f5-9825-d96fa945aa8b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Time : "+$P{reportTime}]]></textFieldExpression>
+				<patternExpression><![CDATA[$R{DATE_FORMAT}]]></patternExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="73" width="203" height="18" uuid="151d6c5b-a6b6-4371-a78c-9312738674c7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Currency  : "+$P{currency}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="651" y="55" width="151" height="18" uuid="e23f2c77-b6a6-413e-a8d7-270105436e77"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Date : "+$P{reportDate}]]></textFieldExpression>
+				<patternExpression><![CDATA[$R{DATE_FORMAT}]]></patternExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="55" width="203" height="18" uuid="5d48e423-3dde-45c7-8889-db7d81fce56e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Branch     : "+$P{branch}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="51" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="0" width="802" height="50" uuid="10dbb291-3ee2-4f94-8084-e598b264c739"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="incomeExpenseDataSet" uuid="4d77688e-b6ea-4090-b258-94d21d6bbd61">
+						<datasetParameter name="monthList">
+							<datasetParameterExpression><![CDATA[$P{monthList}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="budsmth">
+							<datasetParameterExpression><![CDATA[$P{budsmth}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{incomeAndExpenseList}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="15" uuid="9b106f4b-e6dc-44cd-b6c7-0d1ee7e929f2">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="15" height="30" backcolor="#BFE1FF" uuid="5e5a95af-ff6c-4ec8-8e3a-b9dd833fa12d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<text><![CDATA[No.]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="15" height="20" uuid="4f6a3792-431c-4839-af83-247e77302e8f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="84cdeaa4-48f8-439d-b583-d25be36e83ba">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="30" backcolor="#BFE1FF" uuid="8e130303-0c58-4a47-80cd-bdae7e52de0b"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[A/C Code]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="50" height="20" uuid="bf1e481d-479e-4ab8-9f41-1fa9d096d0c8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{acCode}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="139" uuid="923d815b-9859-4b01-bb19-283f6d69b062">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="139" height="30" backcolor="#BFE1FF" uuid="19879a55-1714-4456-ace9-0ee65189c941"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[A/C Name]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="139" height="20" uuid="082510bd-525d-46be-a7e8-adb4e462026d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{acType}.equals("I")?"Income Total":"Expense Total"]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="139" height="20" uuid="799a33c0-bc36-4fec-af35-38bb22a8af44"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{acName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="dd93eb89-fe9e-4974-8cae-846c6711a95f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="742e4ec0-1ec8-4301-a072-b4823929d073"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()-1>11)?
+        $P{budsmth}.intValue()-1-12:
+        $P{budsmth}.intValue()-1
+)]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="06695384-be83-421b-a1a4-ba056eaa28e4"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalM1}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="9323d87f-cefa-47c2-907a-12a9257bd325"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="f2d17dec-a3b0-434c-97c7-aa0815f078aa">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="b449960f-51cc-4f95-bbdd-d7747bdead92"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()>12)?
+        $P{budsmth}.intValue()-12:
+        $P{budsmth}.intValue()
+)]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="fbb8e56a-3482-4f2a-b82f-828cde62f88e"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalM2}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="8d7116ea-f5e8-4b71-abd7-eeb6ed3b9488"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m2}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="25229538-8014-4d5b-a9c9-9b70fb75d0e4">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="f5199da6-682b-4c9a-a365-cb19455963f7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+1>11)?
+        $P{budsmth}.intValue()+1-12:
+        $P{budsmth}.intValue()+1
+)]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="dda03e96-adfb-4659-8f1d-a3cc15818f08"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalM3}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="f8037ef5-2b07-4f08-b06c-76b1b0687d72"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m3}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="29e0ea73-0e7f-45ab-ba89-112c73769750">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="820eeb2c-66f2-46dc-9664-b75175ce21d2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+2>11)?
+        $P{budsmth}.intValue()+2-12:
+        $P{budsmth}.intValue()+2
+)]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="e410c6ee-60f5-4005-a11d-3f8b5ac03aba"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalM4}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="688e8e09-f2c0-472f-8f58-b8a366be091f"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m4}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="67c6f14e-abb0-41ac-86a5-a39be3615bb9">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="198410fd-7ffb-49bc-bb50-3db71bf953cc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+3>11)?
+        $P{budsmth}.intValue()+3-12:
+        $P{budsmth}.intValue()+3
+)]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="0926ad44-daca-44ca-80b0-7d13e70c1109"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalM5}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="30df12bf-6fa4-4e22-939f-421633ae7864"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m5}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="ecd646b6-5ed5-4aec-a2d3-6dbd48acb551">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="ef701880-2912-4826-b9cb-54c705d21061"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+4>11)?
+        $P{budsmth}.intValue()+4-12:
+        $P{budsmth}.intValue()+4
+)]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="a9e666ec-2bdf-4c25-a38b-5931bafa5ab3"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalM6}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="ebeca3db-8b23-42a2-99eb-e67f5759303b"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m6}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="4c177269-3ce1-4af5-b5d7-f8a4e5efc989">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="362f8653-d9bc-4174-a53d-2e5bd61b4674"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+5>11)?
+        $P{budsmth}.intValue()+5-12:
+        $P{budsmth}.intValue()+5
+)]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="4b813143-2ef9-4f4e-8899-417714024a12"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalM7}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="3f0a7d6c-d09d-4925-9cbe-47f1f4711bcc"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m7}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="475da6b6-19f0-41c9-990f-0a5cb365dcdd">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="9339b8f4-b107-4267-9a35-65455f64f714"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+6>11)?
+        $P{budsmth}.intValue()+6-12:
+        $P{budsmth}.intValue()+6
+)]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="f29072a5-bfbe-4af1-bda9-81da1bfbf315"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalM8}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="a3661878-22db-4dc8-afb9-7e4a7aa4bf53"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m8}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="a148ff42-5e10-4630-a1a4-c778d3fa4749">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="c295db9c-6a52-4b7c-becf-8076e2870651"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+7>11)?
+        $P{budsmth}.intValue()+7-12:
+        $P{budsmth}.intValue()+7
+)]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="449b1087-f972-4db9-97e0-41b5cad5185b"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalM9}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="e6f68e01-eac0-431c-8cae-0f7ede7271b9"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m9}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="6f55b8c6-82e8-4181-a52c-caa033195ac2">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column13"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="bb0157c9-5dd6-4286-ab48-5d16913772c8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+8>11)?
+        $P{budsmth}.intValue()+8-12:
+        $P{budsmth}.intValue()+8
+)]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="a8b0eead-bb22-41f6-84d8-96bb813a6938"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalM10}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="96302135-7eaf-4ade-8749-4a5614e75a46"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m10}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="c956a5f8-25b1-43c0-bcdd-f4dcc412def4">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column14"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="3adeee56-6f2a-4a4a-9445-b787d0f7745a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+9>11)?
+        $P{budsmth}.intValue()+9-12:
+        $P{budsmth}.intValue()+9
+)]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="31acf468-ac69-441a-9adf-4e5f72e4809b"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalM11}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="2a710064-f71d-4743-b87a-22918fa4793f"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m11}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="6ab1cfd5-d4e3-4b88-aa42-8cb6f1900b18">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column15"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="be56a627-4765-48e0-9869-6b3b0a459b35"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+10>11)?
+        $P{budsmth}.intValue()+10-12:
+        $P{budsmth}.intValue()+10
+)]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="6f8ca4eb-eebd-4976-9516-7977c7d58bb4"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalM12}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="08580392-7bbd-4ca2-b6cd-44cde0a841e5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m12}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="71d30af7-1091-4b30-91d8-8f93d1301494">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column16"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="46" height="30" backcolor="#BFE1FF" uuid="e747f87e-77f3-4a02-9e31-690f042f799a"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Year To Date]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="actypeGroup">
+							<jr:cell style="table_CH" height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement x="0" y="0" width="46" height="20" uuid="dbd1e241-0f56-4a0f-a2ce-43a9727d4c8c"/>
+									<box>
+										<topPen lineWidth="0.75"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="6"/>
+										<paragraph leftIndent="2" rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalYearToDate}]]></textFieldExpression>
+									<patternExpression><![CDATA[$R{CURRENCY_FORMAT}]]></patternExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="46" height="20" uuid="64dd003c-4257-4561-8d55-89a025b3da19"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="6"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{yearToDate}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="21">
+			<textField>
+				<reportElement x="566" y="2" width="236" height="18" uuid="05209bb9-b42e-4e52-867f-0550e549dbc9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page : "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

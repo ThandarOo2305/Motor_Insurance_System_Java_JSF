@@ -1,0 +1,208 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" template="/common/commonLayout.xhtml" xmlns:o="http://omnifaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<ui:param name="header" value="#{JournalVoucherActionBean.createNew ? label['MANAGE_JOURNAL_VOUCHER_ADDNEW_LABEL'] : label['MANAGE_JOURNAL_VOUCHER_EDIT_LABEL'] }" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="journalVoucherEntryForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<p:panel>
+				<p:panelGrid id="voucherPanel" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="startDate" />
+						<h:outputText for="startDate" value="Voucher Date" escape="false" />
+						<p:calendar id="startDate" value="#{JournalVoucherActionBean.dto.settlementDate}" disabled="#{JournalVoucherActionBean.curDisabled}" showOn="button"
+							pattern="#{ApplicationSetting.dateFormat}" mask="true" maxdate="#{JournalVoucherActionBean.todayDate}"
+							mindate="#{JournalVoucherActionBean.beforeBudgetSDate}">
+							<p:ajax event="dateSelect" listener="#{JournalVoucherActionBean.changeDate}" update="startDate exchangeRate" process="@this" />
+						</p:calendar>
+						<h:outputText value="" />
+						<p:message display="text" for="currency" />
+						<h:outputText value="#{label['MANAGE_JV_CUR_LABEL']}" styleClass="input-label mandatory" />
+						<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="currency" value="#{JournalVoucherActionBean.cur}" required="true"
+							disabled="#{JournalVoucherActionBean.curDisabled}">
+							<f:selectItems itemLabel="#{cur.currencyCode}" itemValue="#{cur}" value="#{JournalVoucherActionBean.curs}" var="cur" />
+							<p:ajax listener="#{JournalVoucherActionBean.changeCurrency}" process="@this" update="currency acCode acName messages exchangeRate" />
+						</p:selectOneMenu>
+						<h:outputText value="" />
+						<p:message display="text" for="exchangeRate" />
+						<h:outputText value="ExchangeRate" styleClass="input-label mandatory " />
+						<p:inputNumber id="exchangeRate" value="#{JournalVoucherActionBean.dto.exchangeRate}" disabled="#{JournalVoucherActionBean.curDisabled}" validatorMessage="Value is required"
+							decimalPlaces="2" required="true">
+							<o:validator minimum="1" validatorId="javax.faces.LongRange" />
+							<p:ajax process="@this" />
+						</p:inputNumber>
+						<h:outputText value="" />
+						<p:message display="text" for="chequeNo" />
+						<h:panelGroup>
+							<h:outputText value="#{label['MANAGE_CNO_LABEL']}" styleClass="input-label" />
+						</h:panelGroup>
+						<p:inputText value="#{JournalVoucherActionBean.dto.chequeNo}" id="chequeNo" />
+						<h:outputText value="" />
+						<p:message display="text" for="amount" />
+						<h:outputText value="#{label['MANAGE_VAMOUNT_LABEL']}" styleClass="input-label mandatory" />
+						<p:inputNumber id="amount" value="#{JournalVoucherActionBean.dto.amount}" validatorMessage="Value is required" required="true" decimalPlaces="2">
+							<!-- <o:validator minimum="1" validatorId="javax.faces.LongRange" /> -->
+						</p:inputNumber>
+						<h:outputText value="" />
+						<p:message display="text" for="voucherType" />
+						<h:outputText value="#{label['MANAGE_JV_VTYPE_LABEL']}" styleClass="input-label mandatory" />
+						<p:selectOneRadio id="voucherType" value="#{JournalVoucherActionBean.dto.tranCode}" converter="omnifaces.SelectItemsIndexConverter" required="true">
+							<f:selectItems itemLabel="#{type.label== 'TRCREDIT' ? 'CREDIT' : 'DEBIT'}" itemValue="#{type}" value="#{JournalVoucherActionBean.codes}" var="type" />
+						</p:selectOneRadio>
+						<h:outputText value="" />
+						<h:outputText value="" />
+					</p:panelGrid>
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="acCode" />
+						<h:outputText value="#{label['MANAGE_JV_ACCOUNT_LABEL']}" styleClass="input-label mandatory" />
+						<p:panelGrid styleClass="ui-panelgrid-blank" id="ccoaPanelGroup">
+							<div style="margin-top: -5px; margin-left: -5px;" class="ui-g ui-fluid" id="ccoaPanelGroup">
+								<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+									<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{JournalVoucherActionBean.selectCCOAAccountCode()}" id="selectCoaDialogLink"
+										process="@this">
+										<p:ajax event="dialogReturn" listener="#{JournalVoucherActionBean.returnCcoa}" update="acCode acName" />
+									</p:commandButton>
+									<p:inputText id="acCode" readonly="#{JournalVoucherActionBean.dto.ccoa== null ? facesContext.currentPhaseId.ordinal eq 6 : true}" required="true"
+										value="#{JournalVoucherActionBean.dto.ccoa.coa == null ? '' : JournalVoucherActionBean.dto.ccoa.coa.acCode}" />
+									<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{JournalVoucherActionBean.dto.ccoa.coa.setAcCode(null)}" process="@this" update="acCode acName" />
+								</div>
+							</div>
+						</p:panelGrid>
+						<h:outputText value="" />
+						<p:message display="text" for="acName" />
+						<h:outputText styleClass="input-label" value="#{label['MANAGE_JV_DESC_LABEL']}" />
+						<p:inputTextarea id="acName" value="#{JournalVoucherActionBean.dto.ccoa == null ? '' : JournalVoucherActionBean.dto.ccoa.acName }" readonly="true" />
+						<h:outputText value="" />
+						<p:message display="text" for="narration" />
+						<h:outputText value="#{label['MANAGE_VNARR_LABEL']}" styleClass="input-label mandatory" />
+							<p:inputTextarea value="#{JournalVoucherActionBean.dto.narration}" required="true" id="narration" disabled="#{JournalVoucherActionBean.narrationDisabled}" />
+				</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<br />
+			<p:commandButton id="addBtn" value="#{label['COMMON_ADDNEW_BTN']}" action="#{JournalVoucherActionBean.addNewDto}" rendered="#{JournalVoucherActionBean.createNew}"
+				update="journalVoucherEntryForm journalEntryTableForm" style="width: 70px;" />
+			<p:commandButton id="editBtn" value="#{label['COMMON_UPDATE_BTN']}" action="#{JournalVoucherActionBean.updateDto}" rendered="#{!JournalVoucherActionBean.createNew}"
+				update=":journalVoucherEntryForm :journalEntryTableForm" style="width: 70px;" />
+			<br />
+			<h:outputText value="#{label['COMMON_MSG_MANDATORY_LABEL']}" style="color:red;" styleClass="input-label" />
+			<br />
+			<p:separator style="height:3px;" />
+		</h:form>
+		<h:form id="journalEntryTableForm">
+			<h:panelGrid>
+				<p:commandLink action="#{JournalVoucherActionBean.createNewDto}" ajax="false">
+					<h:panelGrid columns="2">
+						<h:graphicImage name="images/add.png" styleClass="addIcon" />
+						<h:outputText value="#{label['COMMON_ADDNEW_LINK']}" styleClass="command-link" />
+					</h:panelGrid>
+				</p:commandLink>
+			</h:panelGrid>
+			<!-- Sub totals -->
+			<p:panel id="horizontal" header="Sub Totals" toggleable="true" style="margin-bottom: 1%;" rendered="#{ fn:length(JournalVoucherActionBean.dtoList) > 0 }">
+				<p:panelGrid id="subTotalGrid" style="width: 100%;">
+					<f:facet name="header">
+						<p:row>
+							<p:column colspan="2">Debit</p:column>
+							<p:column colspan="2">Credit</p:column>
+							<p:column colspan="2">Difference</p:column>
+						</p:row>
+					</f:facet>
+					<p:row>
+						<p:column style="font-weight: bold; text-align: center;">Debit Total Amount</p:column>
+						<p:column style="font-weight: bold; text-align: center;">Debit Total Home Amount</p:column>
+						<p:column style="font-weight: bold; text-align: center;">Credit Total Amount</p:column>
+						<p:column style="font-weight: bold; text-align: center;">Credit Total Home Amount</p:column>
+						<p:column style="font-weight: bold; text-align: center;">Difference Amount</p:column>
+						<p:column style="font-weight: bold; text-align: center;">Difference Home Amount</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align: center;">#{JournalVoucherActionBean.totalDebitAmount}</p:column>
+						<p:column style="text-align: center;">#{JournalVoucherActionBean.totalDebitHomeAmount}</p:column>
+						<p:column style="text-align: center;">#{JournalVoucherActionBean.totalCreditAmount}</p:column>
+						<p:column style="text-align: center;">#{JournalVoucherActionBean.totalCreditHomeAmount}</p:column>
+						<p:column style="text-align: center;">#{JournalVoucherActionBean.differentAmount}</p:column>
+						<p:column style="text-align: center;">#{JournalVoucherActionBean.differentHomeAmount}</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:panel>
+			<p:dataTable id="dtoTable" var="dto" value="#{JournalVoucherActionBean.dtoList}" scrollable="true" widgetVar="dtoTable" rowIndexVar="index"
+				emptyMessage="Nothing found with given criteria" reflow="true">
+				<p:column headerText="No." style="width:20px">
+					<h:outputText value="#{index+1}" />
+				</p:column>
+				<p:column filterBy="ccoa.coa.acCode" filterMatchMode="contains" headerText="#{label['MANAGE_JV_ACCOUNT_LABEL']}">
+					<h:outputText value="#{dto.ccoa.coa.acCode}" />
+				</p:column>
+				<p:column filterBy="ccoa.coa.acName" filterMatchMode="contains" headerText="#{label['MANAGE_JV_DESC_LABEL']}">
+					<h:outputText value="#{dto.ccoa.coa.acName}" />
+				</p:column>
+				<p:column headerText="Voucher Date">
+					<h:outputText value="#{dto.settlementDate}">
+						<f:convertDateTime pattern="#{ApplicationSetting.dateFormat}" timeZone="#{ApplicationSetting.timeZone}" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_JV_VTYPE_LABEL']}">
+					<h:outputText value="#{dto.tranCode == 'TRCREDIT' ? 'CREDIT' : 'DEBIT'}" />
+				</p:column>
+				<p:column filterBy="amount" filterMatchMode="contains" headerText="#{label['MANAGE_VAMOUNT_LABEL']}">
+					<h:outputText value="#{dto.amount}">
+						<f:convertNumber pattern="#{ApplicationSetting.currencyFormat}" />
+					</h:outputText>
+				</p:column>
+				<p:column filterBy="homeAmount" filterMatchMode="contains" headerText="#{label['MANAGE_VHAMOUNT_LABEL']}">
+					<h:outputText value="#{dto.homeAmount}">
+						<f:convertNumber pattern="#{ApplicationSetting.currencyFormat}" />
+					</h:outputText>
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="green-button" icon="fa fa-paint-brush" action="#{JournalVoucherActionBean.prepareUpdateDto(dto)}" ajax="false" update="journalVoucherEntryForm" />
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{JournalVoucherActionBean.deleteDto(dto)}" update=":journalEntryTableForm">
+						<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<br />
+			<p:separator style="height:3px" />
+			<p:commandButton id="btnSave" value="#{label['COMMON_SAVE_BTN']}" action="#{JournalVoucherActionBean.saveDtos}" ajax="false"
+				update="journalEntryTableForm :journalVoucherEntryForm" style="width:65px;" />
+			<p:commandButton id="btnCancel" value="#{label['COMMON_CANCEL_BTN']}" action="manageJournalVoucher" immediate="true" ajax="false" style="width:80px;" />
+		</h:form>
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+		
+		
+		<!-- Password Dialog -->
+		
+			<p:dialog modal="true" responsive="true" dynamic="true" appendTo="@(body)" 
+				widgetVar="passwordDialog" resizable="false" draggable="false" closable="false" width="350" height="200" showEffect="explode" hideEffect="explode" id="passwordDialog">
+				<h:form id="passwordForm">
+				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
+					
+						<p:outputLabel/>
+						<p:message id="passwordMessage" display="text" for="password"/>
+						<h:outputText styleClass="input-label" value="Password" />
+						<p:password id="password" value="#{JournalVoucherActionBean.editPassword}" required="true" >
+							<p:ajax event="valueChange" process="@this"/>
+						</p:password> 
+			
+					<p:commandButton value="Submit" actionListener="#{JournalVoucherActionBean.authenticatePage}" update="passwordForm :journalVoucherEntryForm :journalEntryTableForm">
+						</p:commandButton>
+					<!-- <p:commandButton value="Cancel" action="home" immediate="true"> -->
+					<p:commandButton value="Cancel" oncomplete="PF('passwordDialog').hide()" style="width:50px" immediate="true">
+						</p:commandButton>
+						</p:panelGrid>
+			</h:form>
+			</p:dialog>
+	</ui:define>
+</ui:composition>

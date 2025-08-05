@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BoatList" pageWidth="2384" pageHeight="1684" orientation="Landscape" columnWidth="2344" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7b697217-50c7-4aab-9d0c-03d701384958">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="BoatDataSet" uuid="c77fe582-8a81-4812-9c59-7d00537c666e">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<parameter name="registrationNo" class="java.lang.String"/>
+		<parameter name="name" class="java.lang.String"/>
+		<parameter name="boatType" class="java.lang.String"/>
+		<parameter name="boatWeight" class="java.lang.Double"/>
+		<parameter name="engineType" class="java.lang.String"/>
+		<parameter name="horsePower" class="java.lang.String"/>
+		<parameter name="allowPassenger" class="java.lang.Double"/>
+		<parameter name="allowWeight" class="java.lang.Double"/>
+		<parameter name="allowFishingArea" class="java.lang.String"/>
+		<parameter name="totalLength" class="java.lang.Double"/>
+		<parameter name="registeredLength" class="java.lang.Double"/>
+		<parameter name="totalBreath" class="java.lang.Double"/>
+		<parameter name="totalPerimeter" class="java.lang.Double"/>
+		<parameter name="engineRoomLength" class="java.lang.Double"/>
+		<parameter name="engineRoomBreadth" class="java.lang.Double"/>
+		<parameter name="engineRoomHeight" class="java.lang.Double"/>
+		<parameter name="permitStartDate" class="java.lang.String"/>
+		<parameter name="permitEndDate" class="java.lang.String"/>
+		<parameter name="licenseIssueOffice" class="java.lang.String"/>
+		<parameter name="inspectionGate" class="java.lang.String"/>
+		<parameter name="registrationOffice" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="totalBreath" class="java.lang.Double">
+		<fieldDescription><![CDATA[totalBreath]]></fieldDescription>
+	</field>
+	<field name="allowPassenger" class="java.lang.Double">
+		<fieldDescription><![CDATA[allowPassenger]]></fieldDescription>
+	</field>
+	<field name="allowWeight" class="java.lang.Double">
+		<fieldDescription><![CDATA[allowWeight]]></fieldDescription>
+	</field>
+	<field name="horsePower" class="java.lang.String">
+		<fieldDescription><![CDATA[horsePower]]></fieldDescription>
+	</field>
+	<field name="permitStartDate" class="java.lang.String">
+		<fieldDescription><![CDATA[permitStartDate]]></fieldDescription>
+	</field>
+	<field name="registrationOffice" class="java.lang.String">
+		<fieldDescription><![CDATA[registrationOffice]]></fieldDescription>
+	</field>
+	<field name="engineType" class="java.lang.String">
+		<fieldDescription><![CDATA[engineType]]></fieldDescription>
+	</field>
+	<field name="licenseIssueOffice" class="java.lang.String">
+		<fieldDescription><![CDATA[licenseIssueOffice]]></fieldDescription>
+	</field>
+	<field name="permitEndDate" class="java.lang.String">
+		<fieldDescription><![CDATA[permitEndDate]]></fieldDescription>
+	</field>
+	<field name="totalLength" class="java.lang.Double">
+		<fieldDescription><![CDATA[totalLength]]></fieldDescription>
+	</field>
+	<field name="boatType" class="java.lang.String">
+		<fieldDescription><![CDATA[boatType]]></fieldDescription>
+	</field>
+	<field name="engineRoomLength" class="java.lang.Double">
+		<fieldDescription><![CDATA[engineRoomLength]]></fieldDescription>
+	</field>
+	<field name="registeredLength" class="java.lang.Double">
+		<fieldDescription><![CDATA[registeredLength]]></fieldDescription>
+	</field>
+	<field name="engineRoomHeight" class="java.lang.Double">
+		<fieldDescription><![CDATA[engineRoomHeight]]></fieldDescription>
+	</field>
+	<field name="totalPerimeter" class="java.lang.Double">
+		<fieldDescription><![CDATA[totalPerimeter]]></fieldDescription>
+	</field>
+	<field name="engineRoomBreadth" class="java.lang.Double">
+		<fieldDescription><![CDATA[engineRoomBreadth]]></fieldDescription>
+	</field>
+	<field name="registrationNo" class="java.lang.String">
+		<fieldDescription><![CDATA[registrationNo]]></fieldDescription>
+	</field>
+	<field name="allowFishingArea" class="java.lang.String">
+		<fieldDescription><![CDATA[allowFishingArea]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[name]]></fieldDescription>
+	</field>
+	<field name="boatWeight" class="java.lang.Double">
+		<fieldDescription><![CDATA[boatWeight]]></fieldDescription>
+	</field>
+	<field name="inspectionGate" class="java.lang.String">
+		<fieldDescription><![CDATA[inspectionGate]]></fieldDescription>
+	</field>
+	<title>
+		<band height="90" splitType="Stretch">
+			<staticText>
+				<reportElement x="-10" y="20" width="184" height="30" uuid="634069b8-14d2-4cb0-b66e-cc102440cf37"/>
+				<textElement>
+					<font fontName="Pyidaungsu" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[လှေများစာရင်း]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="60" width="80" height="30" uuid="7207b8fb-56cc-49a5-8ec8-6da25d4bd86c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[နာမည်
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="60" width="80" height="30" uuid="f219645c-04b8-462f-9eb8-109d3eea1104">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[လှေအမျိုးအစား]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="60" width="60" height="30" uuid="65822b21-aebd-4d84-9524-64eecd696461">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[လှေတန်ချိန်]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="60" width="80" height="30" uuid="54ade902-d4b6-4837-964f-9cfb21f4ce4a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[စက်အမျိုးအစား]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="60" width="90" height="30" uuid="4d5458dc-dcdf-4088-b2f9-eb4059488d4d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[မြင်းကောင်ရေအား]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="60" width="70" height="30" uuid="3e06f33a-7e07-4596-ab32-46d4cbe22395">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ခွင့်ပြုခရီးသည်]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="550" y="60" width="70" height="30" uuid="0c4e46e6-7297-4be9-b6c7-20cadee3bdae">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ခွင့်ပြုတန်ချိန်]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="620" y="60" width="90" height="30" uuid="7958897e-cd5b-4c42-bab7-d7f5d94df3ff">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ခွင့်ပြုငါးဖမ်းဧရိယာ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="710" y="60" width="80" height="30" uuid="fc977003-bd9a-4525-8859-1a5808b23c26"/>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[စုစုပေါင်းအလျား]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="790" y="60" width="80" height="30" uuid="a616418c-24f5-422c-a998-a8106f91a066">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[စာရင်းရှိအလျား]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="870" y="60" width="70" height="30" uuid="ef6ebff4-b8af-49a6-8f3b-682c0665c9dd"/>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[စုစုပေါင်းအနံ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="940" y="60" width="80" height="30" uuid="db0cc63d-9dc2-45b1-9fe5-d1ba11cb60c3"/>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[စုစုပေါင်းလုံးပတ်]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1020" y="60" width="90" height="30" uuid="40c11223-d128-4fa7-aaa0-8676422d0b81"/>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[အင်ဂျင်ခန်းအလျား]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1110" y="60" width="80" height="30" uuid="f0c7a6ef-7cfa-4efa-9716-ab7f8a112aaa"/>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[အင်ဂျင်ခန်းအနံ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1190" y="60" width="90" height="30" uuid="2b2a8d54-94a3-40e2-88aa-7815bf28fef6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[အင်ဂျင်ခန်းအမြင့်]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1280" y="60" width="80" height="30" uuid="b6478454-f459-4c9b-8e43-6fc616f03a5b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ခွင့်ပြုရက်စွဲအစ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1360" y="60" width="80" height="30" uuid="12058b08-8629-431f-a5ff-5929f99dc96e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ခွင့်ပြုရက်စွဲအဆုံး]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1440" y="60" width="120" height="30" uuid="de9ee098-d1e4-4fc8-b2c7-d409d572bfe7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[လိုင်စင်ထုတ်ပေးခဲ့သောရုံး]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1560" y="60" width="110" height="30" uuid="5f5f64ce-3432-4525-b9f0-b1ae37cc25f3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[စစ်ဆေးခံလုံခြုံရေးစခန်း]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1670" y="60" width="100" height="30" uuid="ed9a1e37-5270-4f58-8734-a5976633838a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[စာရင်းသွင်းခဲ့သောရုံး]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-10" y="60" width="100" height="30" uuid="02abf688-300b-4c42-ab1b-2f26ddb822d9"/>
+				<box>
+					<pen lineWidth="0.9"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" isBold="true"/>
+				</textElement>
+				<text><![CDATA[လှေမှတ်ပုံတင် အမှတ်]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="1670" y="20" width="100" height="20" uuid="64bb3c9c-a012-4dd1-b018-9d6913bbe8fb"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<componentElement>
+				<reportElement x="-10" y="0" width="1780" height="30" uuid="139a8a20-dd54-4e9d-b27f-a214f8165056">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="BoatDataSet" uuid="8564123c-5305-4f2d-b531-bbb55c62f92a">
+						<datasetParameter name="allowFishingArea">
+							<datasetParameterExpression><![CDATA[$F{allowFishingArea}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="name">
+							<datasetParameterExpression><![CDATA[$F{name}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="engineType">
+							<datasetParameterExpression><![CDATA[$F{engineType}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="allowPassenger">
+							<datasetParameterExpression><![CDATA[$F{allowPassenger}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="allowWeight">
+							<datasetParameterExpression><![CDATA[$F{allowWeight}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="boatType">
+							<datasetParameterExpression><![CDATA[$F{boatType}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="boatWeight">
+							<datasetParameterExpression><![CDATA[$F{boatWeight}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="engineRoomBreadth">
+							<datasetParameterExpression><![CDATA[$F{engineRoomBreadth}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="engineRoomHeight">
+							<datasetParameterExpression><![CDATA[$F{engineRoomLength}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="engineRoomLength">
+							<datasetParameterExpression><![CDATA[$F{engineRoomLength}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="horsePower">
+							<datasetParameterExpression><![CDATA[$F{horsePower}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="licenseIssueOffice">
+							<datasetParameterExpression><![CDATA[$F{licenseIssueOffice}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="permitEndDate">
+							<datasetParameterExpression><![CDATA[$F{permitEndDate}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="permitStartDate">
+							<datasetParameterExpression><![CDATA[$F{permitStartDate}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="registeredLength">
+							<datasetParameterExpression><![CDATA[$F{registeredLength}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="registrationNo">
+							<datasetParameterExpression><![CDATA[$F{registrationNo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="registrationOffice">
+							<datasetParameterExpression><![CDATA[$F{registrationOffice}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="totalBreath">
+							<datasetParameterExpression><![CDATA[$F{totalBreath}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="totalLength">
+							<datasetParameterExpression><![CDATA[$F{totalLength}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="totalPerimeter">
+							<datasetParameterExpression><![CDATA[$F{totalPerimeter}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="inspectionGate">
+							<datasetParameterExpression><![CDATA[$F{inspectionGate}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="100" uuid="18065ee0-5db6-419b-8572-56f90e055fdb">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="100" height="30" uuid="23d8913e-93bf-41a2-876e-97eb936890d0"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{registrationNo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="2f06a942-5027-4f1e-9352-607b7bd02e63">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="80" height="30" uuid="9fbe5aa6-fb29-49bd-8c6f-90b2adf75c14"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="c52b4715-5725-41ac-808b-349c05e82024">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="80" height="30" uuid="4b08e00b-f057-4838-898a-a0a809b6a688"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{boatType}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="9aa231d4-2bce-41bb-bc32-877dbb8b3990">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="60" height="30" uuid="56e79d67-a457-48ae-b656-30c70d910196"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{boatWeight}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="8bcac5f2-997d-4b43-b86a-5bdf6b462897">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="80" height="30" uuid="23d15e01-189e-4eb6-aeaf-1a3cf61c3066"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{engineType}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="f11c4525-24ab-4e02-9fd9-a3eddd78f37e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="30" uuid="4732f302-81b5-45ed-8fd4-4b01e7dfed13">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{horsePower}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="27257c4d-cad5-4790-b62c-d40f164995e9">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="70" height="30" uuid="d79a1f05-de3a-4cb3-aad5-91d319719b44"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{allowPassenger}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="7c49d71f-335b-4b01-897a-51a1539350bf">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="70" height="30" uuid="e3fa1408-cc6b-4559-9e04-7676bff0b67f"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{allowWeight}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="02e205cc-42bc-4785-86ee-8c1abac59b9a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="30" uuid="ee4273a8-c3bf-4609-b04f-437b8aeaa19b"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{allowFishingArea}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="da08548b-d72b-49da-bf86-70cb2a9b5aac">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="80" height="30" uuid="b2933b42-be94-4149-86bc-9933d01cef64"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{totalLength}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="685ed9f1-22f0-4e57-9edb-ded813e36bd3">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="80" height="30" uuid="8c2e778d-a1cf-4dc8-a9bb-653d80df138d"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{registeredLength}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="5a3fcb71-0610-47db-9fe5-6c593f3fc130">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="70" height="30" uuid="82b44f35-5ebf-404a-b5ad-b3634a9d2651"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{totalBreath}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="6af4828f-e391-4213-a36b-5db0790951ba">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column13"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="80" height="30" uuid="566d91d7-aed2-40df-b6cc-2b517099909e"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{totalPerimeter}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="b4a8bbb2-7457-4c0c-ab3c-e4c3830d67ef">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column14"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="30" uuid="5db28c00-fdca-4ff5-882b-b1df290f9d6e"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{engineRoomLength}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="2eca62b4-6b29-4298-b107-1fad494da0df">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column15"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="80" height="30" uuid="565e43d6-c138-4114-97ef-cb6b904dc89b"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{engineRoomBreadth}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="f4180484-d38c-4a64-b80e-7b60a124a899">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column16"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="30" uuid="54f4c2c0-70d1-4234-a8bf-457032db9cb5"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{engineRoomHeight}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="f1d42a02-ae13-498a-b1d7-1d9264877eac">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column17"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="80" height="30" uuid="6e546009-8d91-4652-880c-52751a3b0327"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{permitStartDate}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="09f1b970-c4fa-40e8-a4c9-74b11e97dd5d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column18"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="80" height="30" uuid="eb50f727-201a-41f8-901d-af12de1d8b78"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{permitEndDate}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="120" uuid="1f59615e-8cf4-4847-ab83-06d8534b8b93">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column19"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="120" height="30" uuid="e2b3e6f2-818d-428f-8579-f20a664c69ce"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{licenseIssueOffice}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110" uuid="8183dd93-dbb7-48d8-bf3e-bece2c2cb936">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column20"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="110" height="30" uuid="83c21658-46fa-4cd1-87c6-24a0665959e6"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{inspectionGate}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="578ec79c-6759-4c97-82f2-ef31c203fd4a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column21"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="100" height="30" uuid="9eeab8c3-e1be-4fb6-9ae9-31e1abf6dd2e"/>
+								<textElement>
+									<font fontName="Pyidaungsu"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{registrationOffice}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

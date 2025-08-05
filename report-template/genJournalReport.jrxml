@@ -1,0 +1,843 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geneneralJournalReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="LANGUAGE_en" uuid="06e92159-151d-4481-9b43-611eb07a4aaf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.1" value="pageHeader"/>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF" fontName="Zawgyi-One" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold">
+		<pen lineWidth="0.5" lineColor="#000000"/>
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF" fontName="Zawgyi-One" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="voucherListDataset" uuid="eb4c8171-414b-4814-a2e2-09afa6b05962">
+		<field name="voucherNo" class="java.lang.String"/>
+		<field name="srNo" class="java.lang.Integer"/>
+		<field name="settlementDate" class="java.util.Date">
+			<fieldDescription><![CDATA[settlementDate]]></fieldDescription>
+		</field>
+		<field name="acName" class="java.lang.String"/>
+		<field name="acCode" class="java.lang.String"/>
+		<field name="narration" class="java.lang.String"/>
+		<field name="credit" class="java.math.BigDecimal"/>
+		<field name="debit" class="java.math.BigDecimal"/>
+		<field name="curCode" class="java.lang.String">
+			<fieldDescription><![CDATA[curCode]]></fieldDescription>
+		</field>
+		<field name="exchangeRate" class="java.math.BigDecimal">
+			<fieldDescription><![CDATA[exchangeRate]]></fieldDescription>
+		</field>
+		<variable name="debitSubTotal" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{debit}]]></variableExpression>
+		</variable>
+		<variable name="creditSubTotal" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{credit}]]></variableExpression>
+		</variable>
+		<group name="voucherNo">
+			<groupExpression><![CDATA[$F{voucherNo}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="genJournalList" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="START_DATE" class="java.util.Date"/>
+	<parameter name="BRANCH" class="java.lang.String"/>
+	<parameter name="CURRENCY" class="java.lang.String"/>
+	<parameter name="LOGO" class="java.lang.String"/>
+	<parameter name="homeCurrency" class="java.lang.Boolean"/>
+	<parameter name="homeCurrencyConverted" class="java.lang.Boolean"/>
+	<parameter name="END_DATE" class="java.util.Date"/>
+	<parameter name="NEWDATE" class="java.lang.String"/>
+	<parameter name="ACCOUNT_TYPE" class="java.lang.String"/>
+	<parameter name="TotalDebit" class="java.math.BigDecimal"/>
+	<parameter name="TotalCredit" class="java.math.BigDecimal"/>
+	<parameter name="HOMECUR" class="java.lang.String"/>
+	<field name="voucherList" class="java.util.List"/>
+	<field name="voucherNo" class="java.lang.String"/>
+	<field name="settlementDate" class="java.lang.String"/>
+	<field name="srNo" class="java.lang.Integer"/>
+	<variable name="creditTotal" class="java.math.BigDecimal" calculation="Sum"/>
+	<variable name="debitTotal" class="java.math.BigDecimal" resetType="None" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<title>
+		<band height="94" splitType="Stretch">
+			<textField>
+				<reportElement x="147" y="3" width="385" height="28" uuid="f30837aa-8de4-4682-b076-50f5ad9f2623"/>
+				<textElement textAlignment="Center">
+					<font fontName="Zawgyi-One" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{CLIENT_COMPANY_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="141" y="55" width="391" height="16" uuid="da09465d-8953-4f48-85cb-7d750faf6b31"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd-MM-yyyy").format($P{START_DATE})+" To "+new SimpleDateFormat("dd-MM-yyyy").format($P{END_DATE})]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="1" y="0" width="135" height="51" uuid="321afbcd-baee-4b5d-a96a-ad7997bb79b1"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="262" y="36" width="151" height="18" uuid="708e1e6c-f095-4658-81e5-86134f0fbb04"/>
+				<textElement textAlignment="Center">
+					<font fontName="Zawgyi-One" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GENERAL JOURNAL]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="36" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+			<staticText>
+				<reportElement x="474" y="0" width="29" height="18" uuid="3ac39b0c-2fdc-41a1-80e6-43d60ba58335"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="503" y="0" width="53" height="18" uuid="3b85527f-839f-4a92-8c5a-d8e5c9e5de11"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NEWDATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="203" height="18" uuid="ca1f5dcf-7e6d-47b2-9d28-ed9d86af4761"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Branch     : "+$P{BRANCH}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="18" width="203" height="18" uuid="65705003-6a84-46f7-9261-b6dfde0533cb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Currency  : "+$P{CURRENCY}+ " " +$P{HOMECUR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="352" y="18" width="203" height="18" uuid="057b26aa-09f8-47fb-a77e-542966f922aa"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Voucher Type : "+$P{ACCOUNT_TYPE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="41">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+			<staticText>
+				<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="10" width="20" height="30" uuid="d5f6cb60-51ed-4d84-993d-2d2988ab7352">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sr No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" positionType="FixRelativeToBottom" x="20" y="10" width="40" height="30" uuid="c4a38b66-ae3a-48f5-84f7-2dcdb1a0b0ff">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" positionType="FixRelativeToBottom" x="60" y="10" width="80" height="30" uuid="098c6a56-1ff4-4c75-b900-cba384636ec4">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Voucher No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" positionType="FixRelativeToBottom" x="140" y="10" width="60" height="30" uuid="afc5eb6d-fbed-41f9-9f6f-1d5bb1ad241e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Account Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" positionType="FixRelativeToBottom" x="200" y="10" width="80" height="30" uuid="b707c5d5-6a12-47a7-9d7f-5c3fa10e9ba7">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Account Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" positionType="FixRelativeToBottom" x="280" y="10" width="102" height="30" uuid="8a6b56a7-0fef-4b20-92e2-73d50e7afad8">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Particular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" positionType="FixRelativeToBottom" x="447" y="10" width="58" height="30" uuid="f11d37d6-a29e-4dcb-b3ae-b90f54387fc8">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Debit ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" positionType="FixRelativeToBottom" x="505" y="10" width="58" height="30" uuid="2c5ffa01-ddda-4d06-bd2c-2959e7cebfa8">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Credit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" positionType="FixRelativeToBottom" x="412" y="10" width="35" height="30" uuid="bf2a6510-5454-4836-91df-4001b1b4a7bd">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" positionType="FixRelativeToBottom" x="382" y="10" width="30" height="30" uuid="50b548a3-07f8-477a-9e12-84fc2c2bf828">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rate]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="88" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" stretchType="RelativeToTallestObject" x="0" y="0" width="557" height="88" isRemoveLineWhenBlank="true" uuid="5627a2bb-e215-4c60-ab5d-316dc1d6bdd2">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="voucherListDataset" uuid="87130460-c4cc-43c4-a164-bbcf5f50c672">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{voucherList})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="20" uuid="ab35320e-6186-4a4d-9205-2b56850245aa">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:groupHeader groupName="voucherNo">
+							<jr:cell height="30" rowSpan="1">
+								<textField pattern="">
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="20" height="30" uuid="2cd13a51-d2f4-4215-980c-854dbaf01211"/>
+									<box>
+										<leftPen lineWidth="1.0"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{srNo}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupFooter groupName="voucherNo">
+							<jr:cell height="18" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="20" height="18" backcolor="#FFFFFF" uuid="d1e3211d-3f7e-416e-ab56-d62f4e860a5f"/>
+									<box>
+										<leftPen lineWidth="1.0"/>
+										<bottomPen lineWidth="0.5"/>
+									</box>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell height="41" rowSpan="1">
+							<staticText>
+								<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="20" height="40" backcolor="#FFFFFF" uuid="7f81d261-d5df-4c6c-bf0e-daa58980c3b5"/>
+								<box>
+									<leftPen lineWidth="1.0"/>
+								</box>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="0133cd87-bb37-477d-86d1-23455a32ef68">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:groupHeader groupName="voucherNo">
+							<jr:cell height="30" rowSpan="1">
+								<textField textAdjust="ScaleFont" pattern="">
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="40" height="30" uuid="51865e37-d55d-4fa1-af44-1adefb733771"/>
+									<box>
+										<topPen lineWidth="0.0"/>
+										<bottomPen lineWidth="0.0"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="7" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[new SimpleDateFormat("dd-MM-yyyy").format($F{settlementDate})]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupFooter groupName="voucherNo">
+							<jr:cell height="18" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="40" height="18" backcolor="#FFFFFF" uuid="505eb400-afcd-4676-aa16-a7ef8ee63835"/>
+									<box>
+										<bottomPen lineWidth="0.5"/>
+									</box>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell height="41" rowSpan="1">
+							<staticText>
+								<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="40" height="40" backcolor="#FFFFFF" uuid="6b9d605a-962c-4ced-b99b-62afb9d1152f"/>
+								<box>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="ed366e6c-2c9b-4964-9667-5501f3993559">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:groupHeader groupName="voucherNo">
+							<jr:cell height="30" rowSpan="1">
+								<textField textAdjust="ScaleFont" pattern="">
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="80" height="30" uuid="1853c0a5-5cc9-4b92-85b4-a26de5b6b5aa"/>
+									<box>
+										<topPen lineWidth="0.0"/>
+										<bottomPen lineWidth="0.0"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="7" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{voucherNo}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupFooter groupName="voucherNo">
+							<jr:cell height="18" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="80" height="18" backcolor="#FFFFFF" uuid="b4d848df-e0ff-4775-bd11-acebf1a5740b"/>
+									<box>
+										<bottomPen lineWidth="0.5"/>
+									</box>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell height="41" rowSpan="1">
+							<staticText>
+								<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="80" height="40" backcolor="#FFFFFF" uuid="2e66b31a-db70-43c2-99db-08cea603c59c"/>
+								<box>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="9e5f098d-3588-4464-a690-b5650148164d">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:groupHeader groupName="voucherNo">
+							<jr:cell height="30" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="60" height="30" uuid="d1e45ce9-d035-4c6b-be4c-e8ef4ada7b8a">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box>
+										<topPen lineWidth="0.0"/>
+										<bottomPen lineWidth="0.0"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupFooter groupName="voucherNo">
+							<jr:cell height="18" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="60" height="18" backcolor="#FFFFFF" uuid="bb0a71e8-8474-4fa3-ac9a-64bc2c2975ac"/>
+									<box>
+										<bottomPen lineWidth="0.5"/>
+									</box>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell height="41" rowSpan="1">
+							<textField pattern="">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="60" height="40" uuid="fd190487-0f32-4afa-a8aa-d636d09bf5c4"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{acCode}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="381e9a62-bac1-4137-8b4f-f77a6e1f8c53">
+						<jr:groupHeader groupName="voucherNo">
+							<jr:cell height="30" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="80" height="30" uuid="0bbaef38-9672-4bef-aa9c-e96d3bc52ea2">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box>
+										<topPen lineWidth="0.0"/>
+										<bottomPen lineWidth="0.0"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupFooter groupName="voucherNo">
+							<jr:cell height="18" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="80" height="18" backcolor="#FFFFFF" uuid="8a061a8c-dbcb-4ee2-8add-9e5b2cc250c8"/>
+									<box>
+										<bottomPen lineWidth="0.5"/>
+									</box>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell height="41" rowSpan="1">
+							<textField textAdjust="ScaleFont" pattern="">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="80" height="40" uuid="83b485cf-9ac6-4011-8156-82967d14c82e"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{acName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="102" uuid="6a2ecbbf-cbd8-41cf-ab36-30ae4bf9d756">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:groupHeader groupName="voucherNo">
+							<jr:cell height="30" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="102" height="30" uuid="7696b175-c135-48da-9a72-c32d5f139629">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box>
+										<topPen lineWidth="0.0"/>
+										<bottomPen lineWidth="0.0"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupFooter groupName="voucherNo">
+							<jr:cell height="18" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="102" height="18" backcolor="#FFFFFF" uuid="aee2daf3-1f4d-4562-9f20-a60b2ea76a02"/>
+									<box>
+										<bottomPen lineWidth="0.5"/>
+									</box>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell height="41" rowSpan="1">
+							<textField textAdjust="ScaleFont">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="102" height="40" uuid="48b037d0-e1dd-4542-bb89-4ac57da0be79">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Justified" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{narration}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="30" uuid="84e315cc-349c-4d14-a751-cb8b0dc1c1bc">
+						<jr:groupHeader groupName="voucherNo">
+							<jr:cell height="30" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="30" height="30" uuid="28d3fd6c-8495-4ded-b52d-97a28228069f">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box>
+										<topPen lineWidth="0.0"/>
+										<bottomPen lineWidth="0.0"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupFooter groupName="voucherNo">
+							<jr:cell height="18" rowSpan="1">
+								<staticText>
+									<reportElement style="table_TD" positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="30" height="18" backcolor="#FFFFFF" uuid="73264908-96a7-426d-85d7-3bd3e16df01d"/>
+									<box>
+										<topPen lineWidth="0.0"/>
+										<leftPen lineWidth="0.0"/>
+										<bottomPen lineWidth="0.5"/>
+										<rightPen lineWidth="0.0"/>
+									</box>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell height="41" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="30" height="41" uuid="e4d1e6a0-aa0a-4cac-8448-c193cbc879bb">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{exchangeRate}.setScale(2, RoundingMode.CEILING)]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="35" uuid="30c062fa-745e-40d5-9466-2d503e540900">
+						<jr:groupHeader groupName="voucherNo">
+							<jr:cell height="30" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="35" height="30" uuid="f1da8229-c85a-484d-b962-3de3c57ad5c8">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box>
+										<topPen lineWidth="0.0"/>
+										<bottomPen lineWidth="0.0"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupFooter groupName="voucherNo">
+							<jr:cell height="18" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="35" height="18" backcolor="#CCFFFE" uuid="b7174741-1110-49c9-85c7-bca992f06041"/>
+									<box>
+										<bottomPen lineWidth="0.5"/>
+									</box>
+									<textElement>
+										<font fontName="Zawgyi-One" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Total]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell height="41" rowSpan="1">
+							<textField pattern="" isBlankWhenNull="true">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="35" height="40" uuid="a8e9d2db-c87c-4a3f-b1e7-c830435930d3"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{curCode}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="05e150a5-45f2-478d-bdbf-18ef5e72de15">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:groupHeader groupName="voucherNo">
+							<jr:cell height="30" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="58" height="30" uuid="00be4d22-f240-49e3-8aa8-d7224bb3e263">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box>
+										<topPen lineWidth="0.0"/>
+										<bottomPen lineWidth="0.0"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupFooter groupName="voucherNo">
+							<jr:cell height="18" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="58" height="18" backcolor="#CCFFFE" uuid="a53439f9-50ae-42c9-9be7-6f21d17d7de3"/>
+									<box>
+										<bottomPen lineWidth="0.5"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="8" isBold="true"/>
+										<paragraph rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{debitSubTotal}.setScale(2,BigDecimal. ROUND_HALF_UP)]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell height="41" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="58" height="40" uuid="3b20ff05-d77e-47e6-aa56-17b40089787e"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{debit}.setScale(2,BigDecimal. ROUND_HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="005e4766-ef2e-4c20-aad0-a97224e1b6dc">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:groupHeader groupName="voucherNo">
+							<jr:cell height="30" rowSpan="1">
+								<staticText>
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="58" height="30" uuid="765d91c6-4d06-4602-b455-5bb653a6410c">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box>
+										<rightPen lineWidth="1.0"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupFooter groupName="voucherNo">
+							<jr:cell height="18" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="58" height="18" backcolor="#CCFFFE" uuid="961aac20-169f-4bf9-9dc6-a94a403adfd4"/>
+									<box>
+										<bottomPen lineWidth="0.5"/>
+										<rightPen lineWidth="1.0"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Zawgyi-One" size="8" isBold="true"/>
+										<paragraph rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{creditSubTotal}.setScale(2,BigDecimal. ROUND_HALF_UP)]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell height="41" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="58" height="40" uuid="323bcdc7-08ad-4dd6-b93f-b6dace7fadf8"/>
+								<box>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{credit}.setScale(2,BigDecimal. ROUND_HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<summary>
+		<band height="50">
+			<staticText>
+				<reportElement style="table_TD" positionType="FixRelativeToBottom" x="357" y="0" width="90" height="18" backcolor="#CCFFFE" uuid="55eb7a33-8e8d-442a-bef1-98958c0d8015"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement style="table_TD" positionType="FixRelativeToBottom" x="447" y="0" width="58" height="18" backcolor="#CCFFFE" uuid="f0ba7028-a010-467b-8f27-8743f8fef877"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TotalDebit}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="table_TD" positionType="FixRelativeToBottom" x="505" y="0" width="58" height="18" backcolor="#CCFFFE" uuid="2303bdaa-28a6-4f29-b9b6-8b4202805533"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TotalCredit}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="357" height="18" backcolor="#FFFFFF" uuid="82da2e83-4ce0-4fad-8469-cd976af9bc3a"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/dialogLayout.xhtml">
+	<ui:define name="content">
+		<title><ui:insert name="title">Select Occupation</ui:insert></title>
+		<h:form style="margin">
+			<p:dataTable id="occupationTable" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="index" rows="15"
+				rowsPerPageTemplate="5,10,15,20,25,30" value="#{OccupationDialogActionBean.occupations}" var="occ" widgetVar="occupationTable" emptyMessage="Nothing found with given criteria"
+				style="padding: 10px 10px;" paginatorPosition="bottom">
+				<p:column headerText="No." style="width:50px;">
+					<h:outputText value="#{index + 1}" />
+				</p:column>
+				<p:column filterBy="#{occ.name}" filterMatchMode="contains" headerText="Name">
+					<h:outputText value="#{occ.name}" />
+				</p:column>
+				<p:column filterBy="#{occ.myanmarName}" filterMatchMode="contains" headerText="Myanmar Name">
+					<h:outputText value="#{occ.myanmarName}" />
+				</p:column>
+				<p:column headerText="#{occ.description}">
+					<h:outputText value="#{occ.description}" />
+				</p:column>
+				<p:column style="width:30px;text-align: center;">
+					<p:commandButton action="#{OccupationDialogActionBean.selectOccupation(occ)}" styleClass="green-button" icon="fa fa-check" immediate="true" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

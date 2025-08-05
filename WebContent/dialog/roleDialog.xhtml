@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/dialogLayout.xhtml">
+   	<ui:define name="content">
+   	<title><ui:insert name="title">Select Role</ui:insert></title>
+      	<h:form>
+      		<p:dataTable id="roleTable" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="index" rows="10" rowsPerPageTemplate="5,10, 15" value="#{RoleDialogActionBean.roleList}" var="role"  widgetVar="roleTable"
+			emptyMessage="Nothing found with given criteria" paginatorPosition="bottom">
+				<p:column headerText="No" style="width:50px;">
+					<h:outputText value="#{index + 1}"/>
+				</p:column>
+				<p:column filterBy="#{role.name}" filterMatchMode="contains" headerText="#{label['MANAGE_ROLE_NAME_LABEL']}">
+					<h:outputText value="#{role.name}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_ROLE_DESCRIPTION_LABEL']}">
+					<h:outputText value="#{role.description}"/>
+				</p:column>
+				
+				<p:column style="width:30px;text-align: center;">
+					<p:commandLink id="btnSelect" immediate="true" action="#{RoleDialogActionBean.selectRole(role)}">
+						<h:graphicImage styleClass="command-image" name="images/select.png" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+      	</h:form>
+   	</ui:define>
+</ui:composition>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="genLedgerListingReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="LANGUAGE_en" uuid="dbc8a22b-019f-4dde-a193-e84279b442c6">
+	<property name="ireport.zoom" value="1.3310000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<pen lineWidth="0.5" lineColor="#000000"/>
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF" fontName="Zawgyi-One" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="detailListDataSet" uuid="fbf38fc0-4e84-4556-b711-a106ecbe494b">
+		<field name="srNo" class="java.lang.Integer"/>
+		<field name="settlementDate" class="java.util.Date"/>
+		<field name="debit" class="java.math.BigDecimal"/>
+		<field name="credit" class="java.math.BigDecimal"/>
+		<field name="dblBalance" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="reportTitle" class="java.lang.String"/>
+	<parameter name="startDate" class="java.util.Date"/>
+	<parameter name="endDate" class="java.util.Date"/>
+	<parameter name="branches" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="ledgerList" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="reportDate" class="java.lang.String"/>
+	<parameter name="logoPath" class="java.lang.String"/>
+	<field name="coa" class="org.ace.accounting.system.chartaccount.ChartOfAccount"/>
+	<field name="detailList" class="java.util.List"/>
+	<group name="groupCOA">
+		<groupExpression><![CDATA[$F{coa}]]></groupExpression>
+		<groupHeader>
+			<band height="21">
+				<textField>
+					<reportElement x="0" y="0" width="100" height="20" uuid="fc3e118c-f035-4f0b-8c5e-7f6a769fa88a"/>
+					<textFieldExpression><![CDATA[$F{coa}.getAcName()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="100" y="0" width="100" height="20" uuid="0c96ac1d-dcd2-4a09-b116-c009e5d8d975"/>
+					<textFieldExpression><![CDATA[$F{coa}.getAcCode()]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<title>
+		<band height="65" splitType="Stretch">
+			<textField>
+				<reportElement x="122" y="5" width="350" height="20" uuid="e703593e-5fda-48cb-9e45-0217a4f504a9"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{CLIENT_COMPANY_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="d-M-yyyy">
+				<reportElement x="292" y="28" width="62" height="20" uuid="59226e99-a6b4-4e8f-a762-9876d3d7ec18"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="369" y="28" width="87" height="20" uuid="d6f3f1e1-7a43-4761-8969-2606458df716"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="353" y="28" width="17" height="20" uuid="223c5549-3749-40ce-ac03-094f47f5bbba"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[To]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="152" y="28" width="140" height="20" uuid="1acb4d1e-f78b-438c-b13b-183a08dd3750"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[General Ledger Listing]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="100" height="39" uuid="1df1a6d9-396a-47b2-a271-9b1c32cad76e"/>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="41">
+			<staticText>
+				<reportElement x="471" y="19" width="29" height="20" uuid="b5d628ac-1681-41ef-af50-1458acade933"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="498" y="19" width="53" height="20" uuid="20c6a6aa-7460-4e4f-89b6-6ca65ffa857f"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="1" width="203" height="18" uuid="8895bc69-83db-4f5b-b1cf-9d2fa4185b0a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Branch     : "+$P{branches}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="21" width="203" height="18" uuid="782bfc7a-7c82-4c8f-b874-9dff18f7a216"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Currency  : "+$P{currency}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="51">
+			<componentElement>
+				<reportElement key="table" style="table" stretchType="RelativeToTallestObject" x="0" y="0" width="553" height="34" uuid="b6d80702-0c0f-4e55-9b82-4af6db5f49ac"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="detailListDataSet" uuid="dec254aa-fe7b-4af7-b347-f7a37389f3b1">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{detailList})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="36" uuid="edb75e7f-ac9b-418e-be36-21ee819b65a5">
+						<jr:tableHeader style="table_TH" height="17" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="36" height="17" backcolor="#BFE1FF" uuid="560d7612-3041-4748-a914-9b07a2fd2f0c"/>
+								<textElement textAlignment="Center">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Sr No.]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="36" height="20" isPrintWhenDetailOverflows="true" uuid="13da597b-6144-4c92-a5ec-793ad8a70ce3"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font isBold="false" isPdfEmbedded="true"/>
+									<paragraph leftIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{srNo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="c19011ce-b913-40f5-9f1e-4be5ecfbd036">
+						<jr:tableHeader style="table_TH" height="17" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="85" height="17" backcolor="#BFE1FF" uuid="b1ceff22-f952-4962-a353-cd1032d1fd3e"/>
+								<textElement textAlignment="Center">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Date]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy">
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="85" height="20" isPrintWhenDetailOverflows="true" uuid="2cb2a5ed-e4a6-4af6-8ec5-866373b98422"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement>
+									<font isBold="false" isPdfEmbedded="true"/>
+									<paragraph leftIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{settlementDate}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="144" uuid="933e5dad-70b6-4098-8539-9c150ac31ead">
+						<jr:tableHeader style="table_TH" height="17" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="144" height="17" backcolor="#BFE1FF" uuid="3a22966a-8cce-40a6-b0f3-6c68b5d9d1ea"/>
+								<textElement textAlignment="Center">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Debit]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="144" height="20" isPrintWhenDetailOverflows="true" uuid="866f64de-7a21-42a5-b2d8-1e721473f09c">
+									<printWhenExpression><![CDATA[$F{debit}.equals(BigDecimal.ZERO) ? Boolean.FALSE : Boolean.TRUE]]></printWhenExpression>
+								</reportElement>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Right">
+									<font isBold="false" isPdfEmbedded="true"/>
+									<paragraph rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{debit}.setScale(2, RoundingMode.CEILING)]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="144" uuid="8f7b38cd-c4fe-4c36-933b-76f1221325c5">
+						<jr:tableHeader style="table_TH" height="17" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="144" height="17" backcolor="#BFE1FF" uuid="bd0438f7-ed76-4601-8ba6-f97ae5330a9b"/>
+								<textElement textAlignment="Center">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Credit]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="144" height="20" isPrintWhenDetailOverflows="true" uuid="2d861d0c-dcae-4668-9fb6-5418e4521b00">
+									<printWhenExpression><![CDATA[$F{credit}.equals(BigDecimal.ZERO) ? Boolean.FALSE : Boolean.TRUE]]></printWhenExpression>
+								</reportElement>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Right">
+									<font isBold="false" isPdfEmbedded="true"/>
+									<paragraph rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{credit}.setScale(2, RoundingMode.CEILING)]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="144" uuid="626b604e-f2db-4a4a-a486-fe07041d3e34">
+						<jr:tableHeader style="table_TH" height="17" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="144" height="17" backcolor="#BFE1FF" uuid="d9b4c093-1cfc-4bd5-a04b-9ef6f11c2eba"/>
+								<textElement textAlignment="Center">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Balance]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="144" height="20" isPrintWhenDetailOverflows="true" uuid="638e724c-d61e-424f-8627-8c3db6b767a8"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Right">
+									<font isBold="false" isPdfEmbedded="true"/>
+									<paragraph rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{dblBalance}.setScale(2, RoundingMode.CEILING)]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="32">
+			<textField>
+				<reportElement x="455" y="0" width="100" height="30" uuid="84353624-3e3c-482f-8abd-f89a7c33e078"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page No . "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="31">
+			<textField>
+				<reportElement x="0" y="1" width="170" height="30" uuid="cc0b0eb3-9ba3-4bb3-b15f-9beec24384d4">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total ( "+$V{REPORT_COUNT}+" ) records found."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="1" width="100" height="30" uuid="2257f303-fd30-41ea-8976-abcd3a7143f1">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page No . "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

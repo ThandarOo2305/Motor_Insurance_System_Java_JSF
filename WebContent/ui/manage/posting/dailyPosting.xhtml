@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/commonLayout.xhtml">                
+   <ui:param name="header" value="#{label['MANAGE_DAILYPOSTING_TITLE']}" />
+   <ui:param name="headerRendered" value="true" />
+   <ui:define name="content">
+   		<h:form id="dailyPostingForm">
+   		<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+			<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" life="5000" />
+				<!-- <p:growl escape="false" globalOnly="true" life="5000" showDetail="true" /> -->
+			</p:panelGrid>
+ 			
+			<p:panel>
+				<p:panelGrid id="dailyPostingPanel" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+
+
+					<h:outputText for="branch" styleClass="input-label" value="Branch" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="branch" value="#{DailyPostingActionBean.branch}" disabled="#{DailyPostingActionBean.branchDisabled}">
+						<f:selectItem itemLabel=" All branches " />
+						<f:selectItems itemLabel="#{type.name}" itemValue="#{type}" value="#{DailyPostingActionBean.branches}" var="type" />
+						<p:ajax process="@this" update="@this" />
+					</p:selectOneMenu>
+					
+					<h:outputText value=""/>
+					<p:message display="text" for="postingDate"/>
+					
+					<h:outputText value="#{label['MANAGE_DAILYPOSTING_POSTINGDATE_LABEL']}" styleClass="input-label" />
+					<p:calendar id="postingDate" value="#{DailyPostingActionBean.postingDate}" required="true" showOn="button" 
+	       				pattern="#{ApplicationSetting.dateFormat}" timeZone="#{ApplicationSetting.timeZone}" mask="true"/>
+	       		
+				</p:panelGrid>
+			</p:panel>
+			<br/>
+            <p:commandButton value="#{label['COMMON_POSTING_BTN']}" style="width: 80px;" action="#{DailyPostingActionBean.confirmPosting}" update="dailyPostingForm">
+		    	<p:confirm header="Confirmation" message="Are you sure to daily Posting" icon="fa fa-exclamation-triangle" />
+		    </p:commandButton>
+            
+            <p:commandButton id="cancelBtn" action="dailyPosting" style="width: 80px;" value="#{label['COMMON_CANCEL_BTN']}" ajax="false"/>
+		</h:form>
+		
+		 <!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		 	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+		
+			
+   </ui:define>                        
+</ui:composition>

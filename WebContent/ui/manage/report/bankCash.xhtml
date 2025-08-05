@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+    <ui:param name="header" value="#{label['BANKCASH_BANKCASH_LABEL']}" />
+    <ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="bankCashForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<fieldset>
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputText value="" />
+					<p:message display="text" for="branch" />
+
+					<h:outputText for="branch" styleClass="input-label" value="#{label['BANKCASH_BRANCH_LABEL']}" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="branch" value="#{BankCashActionBean.branch}" disabled="#{BankCashActionBean.branchDisabled}">
+						<f:selectItem itemLabel=" All branches " />
+						<f:selectItems itemLabel="#{type.name}" itemValue="#{type}" value="#{BankCashActionBean.branches}" var="type" />
+						<p:ajax process="@this" update="@this" />
+					</p:selectOneMenu>
+
+					<h:outputText value="" />
+					<p:message display="text" for="date" />
+
+					<h:outputText for="date" value="#{label['BANKCASH_DATE_LABEL']}" escape="false"  styleClass="input-label mandatory" />
+					<p:calendar id="date" value="#{BankCashActionBean.reportDate}" showOn="button" pattern="#{ApplicationSetting.dateFormat}" mask="true" required="true"
+						maxdate="#{BankCashActionBean.todayDate}">
+						<p:ajax event="valueChange" update="@this" />
+					</p:calendar>
+				</p:panelGrid>
+			</fieldset>
+
+			<fieldset>
+				<legend style="font-size: 14px;">
+					<h:outputText value="#{label['BANKCASH_CURTYPE_SELECTION_LABEL']}" />
+				</legend>
+				<p:panelGrid id="curTypePannelId" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputText value="" />
+					<p:message display="text" for="reportCurSelection" />
+
+					<p:outputLabel for="reportCurSelection" value="#{label['BANKCASH_CURTYPE_SELECTION_LABEL']}" escape="false" styleClass="input-label mandatory" />
+					<p:selectOneRadio id="reportCurSelection" value="#{BankCashActionBean.currencyReportType}">
+						<f:selectItems value="#{BankCashActionBean.reportTypes}" itemLabel="#{var.label}" itemValue="#{var}" var="var" />
+						<p:ajax process="@this" update="curTypePannelId" listener="#{BankCashActionBean.curRadioSelect}" />
+					</p:selectOneRadio>
+
+					<h:outputText value="" />
+					<p:message display="text" for="currency" />
+
+					<h:outputText styleClass="input-lable mandatory" value="#{label['BANKCASH_CURRENCY_LABEL']}" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="currency" value="#{BankCashActionBean.currency}" disabled="#{BankCashActionBean.curDisabled}"
+						required="true">
+						<f:selectItem itemLabel=" Select One " />
+						<f:selectItems itemLabel="#{type.currencyCode}" itemValue="#{type}" value="#{BankCashActionBean.curs}" var="type" />
+						<p:ajax process="@this" update="@this" />
+					</p:selectOneMenu>
+
+					<h:outputText value="" />
+					<p:message display="text" for="curConverted" />
+
+					<p:outputLabel for="curConverted" value="#{label['BANKCASH_CURCOVERTED_LABEL']}" />
+					<p:selectBooleanButton id="curConverted" value="#{BankCashActionBean.curConverted}" onLabel="Yes" offLabel="No" style="width:60px" disabled="#{BankCashActionBean.curDisabled}">
+						<p:ajax process="@this" update="@this" />
+					</p:selectBooleanButton>
+				</p:panelGrid>
+			</fieldset>
+			<br />
+			<p:commandButton id="searchBtn" value="#{label['COMMON_PREVIEW_BTN']}" action="#{BankCashActionBean.search()}" update="bankCashForm :bankCashPdfForm" style="width:73px;" />
+			<p:commandButton id="downloadLink" value="Download" ajax="false" >
+				<p:fileDownload value="#{BankCashActionBean.getDownload()}" />
+			</p:commandButton>
+			<h:outputText value="#{label['COMMON_MSG_MANDATORY_LABEL']}" style="color:red;" styleClass="input-label" />
+			<br />
+			<p:separator style="height:3px;" />
+		</h:form>
+		<h:form enctype="multipart/form-data" id="bankCashPdfForm">
+			<p:dialog modal="true"  responsive="true"  appendTo="@(body)" dynamic="true"  id="bankCashPdfDialog" resizable="false" widgetVar="bankCashPdfDialog"  width="95%" height="600" >
+				<p:media cache="false" id="pdfPlayer" player="pdf" value="#{BankCashActionBean.stream}" width="100%" height="99%" />
+			</p:dialog>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

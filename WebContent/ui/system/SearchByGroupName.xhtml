@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/commonLayout.xhtml">
+                
+   <ui:define name="content">
+   
+   <h:form id="searchForm" style="margin-bottom: 10px;">
+        <p:inputText id="searchText" value="#{ManageProposalActionBean.searchText}" />
+        <p:commandButton value="Search" action="#{ManageProposalActionBean.searchByGroupName}" update=":proposalTable :searchForm" />
+    </h:form>
+    
+    <h:form id="proposalTable">
+					
+				<p:dataTable var="proposal" value="#{ManageProposalActionBean.groupNameList}" id="proposalId" paginator="true" rows="10" style="width: 100%;margin-bottom: 10px" widgetVar="studentTable"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15"
+					rowKey="#{proposal.id}" reflow="true" rowIndexVar="var" paginatorPosition="bottom">
+					<p:column headerText="No" width="2%">
+						<h:outputText value="#{var+1}" />
+					</p:column>
+					<p:column headerText="Insured Name" filterBy="#{proposal.insuredName}" filterMatchMode="contains">
+						<h:outputText value="#{proposal.insuredName}" />
+					</p:column>
+					<p:column headerText="Bank"  filterMatchMode="contains">
+						<h:outputText value="#{proposal.bank}" />
+					</p:column>
+					<p:column headerText="Address">
+						<h:outputText value="#{proposal.address}" />
+					</p:column>
+					<p:column headerText="Policy NO">
+						<h:outputText value="#{proposal.policyNo}" />
+					</p:column>
+					<p:column headerText="Sum Insured">
+						<h:outputText value="#{proposal.sumInsured}" />
+					</p:column>
+					<p:column headerText="Rate">
+						<h:outputText value="#{proposal.rate}" />
+					</p:column>
+					<p:column headerText="Premium">
+						<h:outputText value="#{proposal.premium}" />
+					</p:column>
+					<p:column headerText="Start Date">
+						<h:outputText value="#{proposal.startDate}" />
+					</p:column>
+				</p:dataTable>
+				
+				<p:commandButton styleClass="red-button" style="width: 40px;height: 40px;margin-left: 50%" icon="fa fa-refresh" action="#{ManageProposalActionBean.renewProposal}" oncomplete="PF('proposalId').filter();" update=":proposalTable">
+					<p:confirm header="Confirmation" message="are you sure to renew??" icon="fa fa-exclamation-triangle" />
+				</p:commandButton>
+			</h:form>
+			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+			</p:confirmDialog>
+    	
+   </ui:define>             
+           
+</ui:composition>

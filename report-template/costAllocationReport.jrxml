@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="costAllocationReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="LANGUAGE_en" uuid="49893e3f-2d4a-45f0-bea3-b38f0a605a78">
+	<property name="ireport.zoom" value="1.771561000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="reportDate" class="java.lang.String"/>
+	<parameter name="reportTime" class="java.lang.String"/>
+	<parameter name="dtoList" class="java.util.List"/>
+	<parameter name="BRANCH" class="java.lang.String"/>
+	<parameter name="CURRENCY" class="java.lang.String"/>
+	<parameter name="logoPath" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="acCode" class="java.lang.String"/>
+	<field name="hacName" class="java.lang.String"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<field name="acName" class="java.lang.String"/>
+	<field name="acType" class="java.lang.String"/>
+	<field name="departmentAmountMap" class="java.util.Map"/>
+	<variable name="TotalByHacName" class="java.math.BigDecimal" resetType="Group" resetGroup="hacNameGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="TotalByAcType" class="java.math.BigDecimal" resetType="Group" resetGroup="acTypeGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="MarineByHacName" class="java.math.BigDecimal" resetType="Group" resetGroup="hacNameGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{departmentAmountMap}.get("MARINE")]]></variableExpression>
+	</variable>
+	<variable name="MarineByAcType" class="java.math.BigDecimal" resetType="Group" resetGroup="acTypeGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{departmentAmountMap}.get("MARINE")]]></variableExpression>
+	</variable>
+	<variable name="FireByHacName" class="java.math.BigDecimal" resetType="Group" resetGroup="hacNameGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{departmentAmountMap}.get("FIRE")]]></variableExpression>
+	</variable>
+	<variable name="FireByAcType" class="java.math.BigDecimal" resetType="Group" resetGroup="acTypeGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{departmentAmountMap}.get("FIRE")]]></variableExpression>
+	</variable>
+	<variable name="MotorByHacName" class="java.math.BigDecimal" resetType="Group" resetGroup="hacNameGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{departmentAmountMap}.get("MOTOR")]]></variableExpression>
+	</variable>
+	<variable name="MotorByAcType" class="java.math.BigDecimal" resetType="Group" resetGroup="acTypeGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{departmentAmountMap}.get("MOTOR")]]></variableExpression>
+	</variable>
+	<variable name="TravelByAcType" class="java.math.BigDecimal" resetType="Group" resetGroup="acTypeGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{departmentAmountMap}.get("TRAVEL")]]></variableExpression>
+	</variable>
+	<variable name="TravelByHacName" class="java.math.BigDecimal" resetType="Group" resetGroup="hacNameGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{departmentAmountMap}.get("TRAVEL")]]></variableExpression>
+	</variable>
+	<group name="acTypeGroup">
+		<groupExpression><![CDATA[$F{acType}]]></groupExpression>
+		<groupFooter>
+			<band height="21">
+				<textField>
+					<reportElement style="table_TH" x="0" y="0" width="195" height="20" uuid="dc4ce563-692d-4563-90f8-d5f8fb1fb9a5"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph leftIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{acType} .equals( "E" )? "Expense Total" : "Income Total"]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement style="table_TH" x="195" y="0" width="72" height="20" uuid="e4b4a56a-96f5-4fcd-af0f-f8d609436674"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph rightIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TotalByAcType}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement style="table_TH" x="267" y="0" width="72" height="20" uuid="00f7744a-5674-4e72-a6e8-d556a4ca6915"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph rightIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{MotorByAcType}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement style="table_TH" x="339" y="0" width="72" height="20" uuid="2812ab8d-bee3-4894-b0b1-3a9a639e3891"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph rightIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{FireByAcType}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement style="table_TH" x="411" y="0" width="72" height="20" uuid="07c69889-553a-47cf-8668-f71e714ea334"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph rightIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{MarineByAcType}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement style="table_TH" x="483" y="0" width="72" height="20" uuid="9c48b4bb-0216-4536-bff1-4f18108a6609"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph rightIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TravelByAcType}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="hacNameGroup">
+		<groupExpression><![CDATA[$F{hacName}]]></groupExpression>
+		<groupFooter>
+			<band height="20">
+				<textField>
+					<reportElement style="table_TH" x="0" y="0" width="195" height="20" uuid="da001bff-181e-4881-bd86-12a51873d353"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph leftIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{hacName}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement style="table_TH" x="195" y="0" width="72" height="20" uuid="cc2086ad-1f46-44ab-9d11-b74cb4e100b8"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph rightIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TotalByHacName}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement style="table_TH" x="267" y="0" width="72" height="20" uuid="0442932c-bae8-409c-9ecc-132edf8c0b95"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph rightIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{MotorByHacName}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement style="table_TH" x="339" y="0" width="72" height="20" uuid="e9091bdd-6686-434c-a9d1-da625578a3be"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph rightIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{FireByHacName}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement style="table_TH" x="411" y="0" width="72" height="20" uuid="3fa6b12f-8bc3-48a0-a2d1-69036232310d"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph rightIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{MarineByHacName}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement style="table_TH" x="483" y="0" width="72" height="20" uuid="d3a558fc-b7cb-4ac9-8dd7-6b4d6bd5224c"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph rightIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TravelByHacName}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="130" y="3" width="300" height="25" uuid="4af0eca0-ca70-496a-a71a-17bc36f9c589"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{CLIENT_COMPANY_LABEL}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="38" y="3" width="58" height="25" uuid="0d416e35-a72f-49e4-bd42-5c6e35bfc156"/>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement x="130" y="0" width="300" height="20" uuid="53b50b20-1f03-454e-9e95-856a35c42252"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Cost Allocation Report]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="430" y="20" width="120" height="20" uuid="3a8965a6-11ab-49cc-bcf3-03c007020a1f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date: "+$P{reportDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="120" height="20" uuid="d7c2e0b8-0499-4cc3-99df-b0f7cce2c641"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Branch:"+$P{BRANCH}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="40" width="150" height="20" uuid="bf5d6ccb-359b-4146-9746-c404db7c0a80"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Currency:"+$P{CURRENCY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="40" width="120" height="20" uuid="2dca1cc7-15a9-402a-ab70-2de8e3bb0a1b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Time :"+$P{reportTime}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Immediate">
+			<staticText>
+				<reportElement style="table_TH" x="0" y="0" width="70" height="20" backcolor="#BFE1FF" uuid="95bc47ca-6231-40e7-846c-799e7e8533c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Account Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="70" y="0" width="125" height="20" backcolor="#BFE1FF" uuid="652f6262-b5f2-4031-b403-4ca32ae3812b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Account Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="195" y="0" width="72" height="20" backcolor="#BFE1FF" uuid="5711064a-6242-4373-83fa-e1485a185457"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="339" y="0" width="72" height="20" backcolor="#BFE1FF" uuid="d330c2aa-82a1-4f3d-9c2f-f5a65da7d2af"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Fire]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="411" y="0" width="72" height="20" backcolor="#BFE1FF" uuid="d3e7362b-f35e-4b0f-8a7a-22a47a707395"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Marine]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="267" y="0" width="72" height="20" backcolor="#BFE1FF" uuid="2c3d7c50-0a4e-492a-9a5d-3367ae018a76"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Motor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="483" y="0" width="72" height="20" backcolor="#BFE1FF" uuid="88dcf5c9-4efd-4c82-ab01-8f8dcbcba8cd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Travel]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="table_TD" x="0" y="0" width="70" height="20" uuid="1c36b54c-01c3-4309-97d5-350f161b1ca0"/>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acCode}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="table_TD" x="195" y="0" width="72" height="20" uuid="57ecd664-2646-418c-88e0-a6093d523758"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="table_TD" x="267" y="0" width="72" height="20" uuid="5a3de062-debc-46ad-a4f8-3ef81c2e7a3e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{departmentAmountMap}.get("MOTOR")]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="table_TD" x="411" y="0" width="72" height="20" uuid="345cc26e-45cc-41f1-8fc0-9193f7a9d4c5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{departmentAmountMap}.get("MARINE")]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="table_TD" x="339" y="0" width="72" height="20" uuid="b9e86e48-a0ab-48a1-a690-f678cdb7f565"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{departmentAmountMap}.get("FIRE")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="70" y="0" width="125" height="20" uuid="ab6522c6-e387-48f0-856e-ec63a065a47e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{acName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="table_TD" x="483" y="0" width="72" height="20" uuid="ec8f48ea-75bf-4432-86a0-43f1e51f162c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{departmentAmountMap}.get("TRAVEL")]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="454" y="0" width="100" height="20" uuid="102667ec-3966-4023-aa46-a3dba3b19e27"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

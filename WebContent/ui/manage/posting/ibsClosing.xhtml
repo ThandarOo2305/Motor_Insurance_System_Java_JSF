@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="IBS Closing" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="ibsClosingForm">
+			<p:growl escape="false" globalOnly="true" life="5000" showDetail="true" />
+			<p:panel>
+				<p:panelGrid id="ibsClosingPanel" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:message display="text" for="closingType" />
+					<h:outputText value="" />
+					<p:outputLabel for="closingType" value="Closing Type" styleClass="input-label mandatory" escape="false" />
+					
+					<p:selectOneRadio id="closingType" value="#{IbsClosingActionBean.ibsClosing}" layout="grid" columns="2">
+						<f:selectItem itemLabel="Branch Closing" itemValue="true"/>
+						<f:selectItem itemLabel="Branc I/E Consolidation" itemValue="false"/>
+						<p:ajax update="@form"/>
+					</p:selectOneRadio>
+					<h:outputText value="" />
+					<h:outputText value="" />
+					
+					<h:outputText for="branch" styleClass="input-label" value="Branch" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="branch" value="#{IbsClosingActionBean.branch}" disabled="#{IbsClosingActionBean.branchDisabled}">
+						<f:selectItem itemLabel=" All branches " />
+						<f:selectItems itemLabel="#{type.name}" itemValue="#{type}" value="#{IbsClosingActionBean.branches}" var="type" />
+						<p:ajax process="@this" update="ibsClosingForm" />
+					</p:selectOneMenu>
+					
+					<h:outputText value="" />
+					<p:message display="text" for="iCoa" />
+					<h:outputText for="iCoa" styleClass="input-label" value="IBS A/C" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="iCoa" value="#{IbsClosingActionBean.coa}" required="true">
+						<f:selectItem itemLabel=" Select COA" noSelectionOption="false"/>
+						<f:selectItems itemLabel="#{type.acCode} (#{type.acName})" itemValue="#{type}" value="#{IbsClosingActionBean.coaList}" var="type" />
+						<p:ajax process="@this" update="@this" />
+					</p:selectOneMenu>
+					
+					
+					
+				</p:panelGrid>
+			</p:panel>
+			<br />
+			
+			<p:commandButton value="#{label['COMMON_POSTING_BTN']}" style="width: 80px;" action="#{IbsClosingActionBean.createIbsClosing()}" update="ibsClosingForm">
+				<p:confirm header="Confirmation" message="Are you sure to Branch Closing" icon="fa fa-exclamation-triangle" />
+			</p:commandButton>
+			<p:commandButton id="cancelBtn" action="ibsClosing" style="width: 80px;" value="#{label['COMMON_CANCEL_BTN']}" ajax="false" />
+		</h:form>
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>

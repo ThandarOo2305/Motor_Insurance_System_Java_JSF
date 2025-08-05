@@ -1,0 +1,169 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="#{label['VL_GJ_LABEL']}" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="voucherListingForm">
+			<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			<p:panel>
+				<p:panelGrid id="voucherListingPanel" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputText value="" />
+					<p:message display="text" for="vTypeSelection" />
+					<p:outputLabel for="vTypeSelection" value="#{label['VL_VTYPE_SELECTION_LABEL']}" styleClass="input-label mandatory" escape="false" />
+					<p:selectOneRadio id="vTypeSelection" value="#{GeneralJouranlListingActionBean.type}" layout="grid" columns="2">
+						<f:selectItems value="#{GeneralJouranlListingActionBean.voucherListingTypes}" var="var" itemLabel="#{var.label}" itemValue="#{var}" />
+						<p:ajax update="@form" listener="#{GeneralJouranlListingActionBean.changeVType}" />
+					</p:selectOneRadio>
+					
+					<h:outputText value="" />
+					<p:message display="text" for="transactionType" />
+					<h:outputText for="transactionType" value="Transaction Type" escape="false" styleClass="input-label mandatory" />
+					<p:selectOneRadio id="transactionType" value="#{GeneralJouranlListingActionBean.tType}" layout="grid" columns="3">
+						<f:selectItems value="#{GeneralJouranlListingActionBean.transactionTypes}" var="var" itemLabel="#{var.label}" itemValue="#{var}" />
+						<p:ajax update="@form" process="@this" />
+					</p:selectOneRadio>
+					
+					<h:outputText value="" />
+					<p:message display="text" for="startDate" />
+					<h:outputText for="startDate" styleClass="input-label mandatory" value="#{label['STARTDATE_LABEL']}" escape="false" />
+					<p:calendar id="startDate" value="#{GeneralJouranlListingActionBean.ftdto.startDate}" showOn="button" pattern="#{ApplicationSetting.dateFormat}"  mask="true"
+						maxdate="#{GeneralJouranlListingActionBean.todayDate}" required="true">
+						<p:ajax event="dateSelect" process="@this" update="@form" />
+					</p:calendar>
+					
+					<h:outputText value="" />
+					<p:message display="text" for="endDate" />
+					<h:outputText for="endDate" styleClass="input-label mandatory" value="#{label['ENDDATE_LABEL']}" escape="false" />
+					<p:calendar id="endDate" value="#{GeneralJouranlListingActionBean.ftdto.endDate}" showOn="button" pattern="#{ApplicationSetting.dateFormat}"  mask="true"
+						maxdate="#{GeneralJouranlListingActionBean.todayDate}" required="true">
+						<p:ajax event="dateSelect" process="@this" update="@form" />
+					</p:calendar>
+					<h:outputText value="" />
+					<p:message display="text" for="branch" />
+					<h:outputText for="branch" styleClass="input-label" value="#{label['VL_BRANCH_LABEL']}" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="branch" value="#{GeneralJouranlListingActionBean.branch}">
+						<f:selectItem itemLabel=" All branches " />
+						<f:selectItems itemLabel="#{type.name}" itemValue="#{type}" value="#{GeneralJouranlListingActionBean.branches}" var="type" />
+						<p:ajax event="valueChange" update="@this" process="@this"></p:ajax>
+					</p:selectOneMenu>
+					<h:outputText value="" />
+					<p:message display="text" for="currency" />
+					<h:outputText for="currency" styleClass="input-label" value="#{label['VL_CURRENCY_LABEL']}" escape="false" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="currency" value="#{GeneralJouranlListingActionBean.currency}">
+						<f:selectItem itemLabel=" All currencies " />
+						<f:selectItems itemLabel="#{type.currencyCode}" itemValue="#{type}" value="#{GeneralJouranlListingActionBean.currencies}" var="type" />
+						<p:ajax event="change" update="byHomeCur" listener="#{GeneralJouranlListingActionBean.configHomeCurrency()}" />
+					</p:selectOneMenu>
+					<h:outputText value="" />
+					<p:outputPanel>
+						<p:selectBooleanCheckbox id="byHomeCur" value="#{GeneralJouranlListingActionBean.homeCurrencyConverted}" converter="omnifaces.SelectItemsIndexConverter">
+						</p:selectBooleanCheckbox>
+						<h:outputText value="#{label['MANAGE_ACCLEDGERLISTING_HOMECURRENCYCONVERTED_LABEL']}" styleClass="input-label" />
+					</p:outputPanel>
+					<!-- <h:outputText value="" />
+					<p:message display="text" for="chkVoucherNo" />
+					<h:outputText styleClass="input-label" value="FilteredByVoucherNo" escape="false" />
+					<p:selectBooleanCheckbox id="chkVoucherNo" value="#{GeneralJouranlListingActionBean.chkVoucherNo}" update="voucherPrintingForm">
+						<p:ajax listener="#{GeneralJouranlListingActionBean.chkClick}" process="@this" update="@form" />
+					</p:selectBooleanCheckbox> -->
+					
+					<h:outputText value="" />
+					<p:message display="text" for="chkVoucherNo" />
+					<h:outputText styleClass="input-label" value="FilteredByVoucherNo" escape="false" />
+					<p:commandButton id="chkVoucherNo" value="#{label['COMMON_FILTER_BTN']}" style="width:85px;"
+				      update="voucherListingForm">
+				      <p:ajax listener="#{GeneralJouranlListingActionBean.chkClick}" process="@form" update="@form" />
+				      </p:commandButton>
+					<h:outputText styleClass="input-label" value="#{label['MANAGE_FROMVOUCHER_VOUCHERNO_LABEL']}" escape="false" />
+					<p:panelGrid styleClass="ui-panelgrid-blank" id="fromVoucherNoPanelGroup">
+						<div style="margin-top:-5px; margin-left:-5px;" class="ui-g ui-fluid">
+							<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+								<p:commandButton styleClass="green-button" icon="fa fa-search" oncomplete="PF('formVoucherNoDialog').show()"  id="selectFromVoucherNoDialogLink" 
+									update=":fromVoucherNoDialogForm"  process="@this" disabled="#{!GeneralJouranlListingActionBean.chkVoucherNo}">
+									<p:ajax listener="#{GeneralJouranlListingActionBean.checkData}" process="@form" update="@form" />
+							    </p:commandButton>
+							  	<p:inputText id="fromVoucherNo" disabled="#{!GeneralJouranlListingActionBean.chkVoucherNo}" value="#{GeneralJouranlListingActionBean.ftdto.voucherNo}"/>
+							    <p:commandButton styleClass="red-button" icon="fa fa-times" action="#{GeneralJouranlListingActionBean.getFtdto().setVoucherNo(null)}" process="@this" 
+							    	update="fromVoucherNo" disabled="#{!GeneralJouranlListingActionBean.chkVoucherNo}"/>
+							</div>
+						</div>
+					 </p:panelGrid>
+					
+					<h:outputText styleClass="input-label" value="#{label['MANAGE_TOVOUCHER_VOUCHERNO_LABEL']}" escape="false" />
+					<p:panelGrid styleClass="ui-panelgrid-blank" id="toVoucherNoPanelGroup">
+						<div style="margin-top:-5px; margin-left:-5px;" class="ui-g ui-fluid">
+							<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+								<p:commandButton styleClass="green-button" icon="fa fa-search" oncomplete="PF('toVoucherNoDialog').show()"  id="selectToVoucherNoDialogLink" 
+									update=":toVoucherNoDialogForm"  process="@this" disabled="#{!GeneralJouranlListingActionBean.chkVoucherNo}">
+									<p:ajax listener="#{GeneralJouranlListingActionBean.checkData}" process="@form" update="@form" />
+							    </p:commandButton>
+							  	<p:inputText id="toVoucherNo" disabled="#{!GeneralJouranlListingActionBean.chkVoucherNo}" value="#{GeneralJouranlListingActionBean.tidto.voucherNo}"/>
+							    <p:commandButton styleClass="red-button" icon="fa fa-times" action="#{GeneralJouranlListingActionBean.getTidto().setVoucherNo(null)}" process="@this" 
+							    	update="toVoucherNo" disabled="#{!GeneralJouranlListingActionBean.chkVoucherNo}"/>
+							</div>
+						</div>
+					 </p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<br />
+			<p:commandButton id="searchBtn" value="#{label['COMMON_SEARCH_BTN']}" action="#{GeneralJouranlListingActionBean.search()}" update="voucherListingForm :voucherListingPdfFrom"
+				disabled="#{empty GeneralJouranlListingActionBean.type}" style="width:70px;text-align:center;" />
+			<!-- <h:outputText value="#{label['COMMON_MSG_MANDATORY_LABEL']}" style="color:red;" styleClass="input-label" /> -->
+			<p:commandButton id="downloadLink" value="Download" ajax="false" disabled="#{empty GeneralJouranlListingActionBean.type}" >
+				<p:fileDownload value="#{GeneralJouranlListingActionBean.getDownload()}" />
+			</p:commandButton>
+			<br />
+			<p:separator style="height:3px;" />
+		</h:form>
+		<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" id="voucherListingPdfDialog" resizable="false" widgetVar="voucherListingPdfDialog" width="1070"
+			height="505">
+			<p:ajax event="close" listener="#{GeneralJouranlListingActionBean.handleClose}" update=":voucherListingPdfFrom :voucherListingForm" />
+			<h:form enctype="multipart/form-data" id="voucherListingPdfFrom">
+				<p:media cache="false" id="pdfPlayer" player="pdf" value="#{GeneralJouranlListingActionBean.stream}" width="1050" height="500" />
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog appendTo="@(body)" dynamic="true" modal="true" responsive="true" header="#{label['MANAGE_VOUCHERNOSELECT_LABEL']}" height="480" hideEffect="explode" id="formVoucherNoDialog" showEffect="fade"
+				 widgetVar="formVoucherNoDialog" width="700" draggable="false" resizable="false">
+			<h:form id="fromVoucherNoDialogForm">
+				<p:dataTable id="fromVoucherNoTable" paginator="true" paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="index" rows="10"
+					rowsPerPageTemplate="5,10, 15" style="width:100%;" value="#{GeneralJouranlListingActionBean.voucherNoList}" var="vNo"
+					filteredValue="#{GeneralJouranlListingActionBean.filterVoucherNoList}" widgetVar="fromVoucherNoTable" emptyMessage="Nothing found with given criteria">
+					<p:column headerText="No" style="width:50px;">
+						<h:outputText value="#{index + 1}" />
+					</p:column>
+					<p:column filterBy="#{vNo.voucherNo}" filterMatchMode="contains" headerText="#{label['MANAGE_VOUCHERNO_LABEL']}">
+						<h:outputText value="#{vNo.voucherNo}" />
+					</p:column>
+					<p:column style="width:7%;">
+		               <p:commandButton styleClass="green-button" icon="fa fa-check" action="#{GeneralJouranlListingActionBean.selectFromVoucherNo(vNo)}" immediate="true"
+		               		oncomplete="PF('formVoucherNoDialog').hide();PF('fromVoucherNoTable').clearFilters();" update=":voucherListingForm:fromVoucherNo"/>
+		            </p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+		
+		
+		<p:dialog appendTo="@(body)" dynamic="true" modal="true" responsive="true" header="#{label['MANAGE_VOUCHERNOSELECT_LABEL']}" height="480" hideEffect="explode" id="toVoucherNoDialog" showEffect="fade"
+				widgetVar="toVoucherNoDialog" width="700" draggable="false" resizable="false">
+			<h:form id="toVoucherNoDialogForm">
+				<p:dataTable id="toVoucherNoTable" paginator="true" paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="index" rows="10"
+					rowsPerPageTemplate="5,10, 15" style="width:100%;" value="#{GeneralJouranlListingActionBean.voucherNoList}" var="vNo"
+					filteredValue="#{GeneralJouranlListingActionBean.filterVoucherNoList}" widgetVar="toVoucherNoTable" emptyMessage="Nothing found with given criteria">
+					<p:column headerText="No" style="width:50px;">
+						<h:outputText value="#{index + 1}" />
+					</p:column>
+					<p:column filterBy="#{vNo.voucherNo}" filterMatchMode="contains" headerText="#{label['MANAGE_VOUCHERNO_LABEL']}">
+						<h:outputText value="#{vNo.voucherNo}" />
+					</p:column>
+					<p:column style="width:7%;">
+		               <p:commandButton styleClass="green-button" icon="fa fa-check" action="#{GeneralJouranlListingActionBean.selectToVoucherNo(vNo)}" immediate="true"
+		               		oncomplete="PF('toVoucherNoDialog').hide();PF('toVoucherNoTable').clearFilters();"  update=":voucherListingForm:toVoucherNo"/>
+		            </p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

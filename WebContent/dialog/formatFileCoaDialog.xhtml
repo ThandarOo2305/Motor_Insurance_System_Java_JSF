@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/dialogLayout.xhtml">
+   	<ui:define name="content">
+   	<title><ui:insert name="title">Select FormatFileCoa</ui:insert></title>
+      	<h:form>
+      		<p:dataTable id="coaTable" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowIndexVar="index" rows="5" rowsPerPageTemplate="5,10,15,20,25,30" value="#{FormatFileCoaDialogActionBean.coaList}" 
+				var="coa"  widgetVar="coaTable" emptyMessage="Nothing found with given criteria" paginatorPosition="bottom" style="padding : 10px 10px;">
+				<p:column headerText="NO" style="width:50px;">
+					<h:outputText value="#{index+1}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_ACCOUNT_CODE_LABEL']}" filterBy="#{coa.acCode}" filterMatchMode="contains">
+					<h:outputText value="#{coa.acCode}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_DESC_LABEL']}" filterBy="#{coa.acName}" filterMatchMode="contains">
+					<h:outputText value="#{coa.acName}"/>
+				</p:column>
+				<p:column headerText="#{label['MANAGE_ACTYPE_LABEL']}" filterBy="#{coa.acType.label}" filterMatchMode="contains">
+					<h:outputText value="#{coa.acType.label}"/>
+				</p:column>
+				<p:column style="width:30px;text-align:center;">
+				<p:commandButton immediate="true" action="#{FormatFileCoaDialogActionBean.selectCoa(coa)}" styleClass="green-button" icon="fa fa-check"/>
+				</p:column>
+			</p:dataTable>
+      	</h:form>
+   	</ui:define>
+</ui:composition>

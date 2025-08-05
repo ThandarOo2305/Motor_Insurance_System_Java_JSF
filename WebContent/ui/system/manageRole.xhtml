@@ -1,0 +1,160 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="Role Management" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="roleEntryForm">
+			<p:panelGrid id="panelMessage" columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:messages id="messages" showDetail="true" closable="true" globalOnly="true" />
+			</p:panelGrid>
+			<h:outputText value="#{label['MANAGE_ROLE_ADDNEW_LABEL']}" styleClass="title" rendered="#{ManageRoleActionBean.createNew}" />
+			<h:outputText value="#{label['MANAGE_ROLE_EDIT_LABEL']}" styleClass="title" rendered="#{!ManageRoleActionBean.createNew}" />
+			<p:panel>
+				<p:panelGrid id="paneldialogDept" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						<p:message display="text" for="name" />
+						<h:outputText value="#{label['MANAGE_ROLE_NAME_LABEL']}" escape="false" styleClass="input-label mandatory" />
+						<p:inputText value="#{ManageRoleActionBean.role.name}" id="name" required="true">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						<h:outputText value="" />
+						<p:message display="text" for="description" />
+						<h:outputText value="#{label['MANAGE_ROLE_DESCRIPTION_LABEL']}" styleClass="input-label" />
+						<p:inputText value="#{ManageRoleActionBean.role.description}" id="description">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<p:panelGrid columns="1" columnClasses="ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:message display="text" for="selectWebPageListLink" />
+				<h:panelGroup>
+					<fieldset>
+						<legend>
+							<table>
+								<tr>
+									<td> <h:outputText styleClass="input-label mandatory" value="#{label['MANAGE_ROLE_WEBPAGE_LABEL']}" /></td>
+									<td><p:commandLink id="selectWebPageListLink" immediate="true" oncomplete="PF('webPageListDialog').show()" update=":webpageDialogForm">
+											<h:graphicImage name="images/add.png" styleClass="addIcon" />
+										</p:commandLink></td>
+								</tr>
+							</table>
+						</legend>
+						<h:panelGroup id="webPageListPanelGroup">
+							<h:outputText rendered="#{empty ManageRoleActionBean.selectedWebPageList}" styleClass="input-label" value="There is no selected Web Pages." />
+							<p:dataTable id="companyRoleWebPageDataTable" rendered="#{!empty ManageRoleActionBean.selectedWebPageList}" value="#{ManageRoleActionBean.selectedWebPageList}" var="webPage"
+								reflow="true">
+								<p:column headerText="#{label['MANAGE_COMPANYROLE_WEBPAGE_LABEL']}">
+									<h:outputText value="#{webPage.name}" />
+								</p:column>
+								<p:column headerText="#{label['MANAGE_ROLE_DESCRIPTION_LABEL']}">
+									<h:outputText value="#{webPage.description}" />
+								</p:column>
+								<p:column headerText="#{label['MANAGE_ROLE_GROUP_LABEL']}" style="width:120px;">
+									<h:outputText value="#{webPage.webpageGroup}" />
+								</p:column>
+								<p:column style="width:10%;">
+									<p:commandButton styleClass="red-button" icon="fa fa-times" id="removeCompanyListLink" action="#{ManageRoleActionBean.removeWebPage(webPage)}"
+										oncomplete="PF('roleTable').filter();" update=":roleEntryForm:webPageListPanelGroup" process="@this">
+										<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</h:panelGroup>
+					</fieldset>
+				</h:panelGroup>
+			</p:panelGrid>
+			<br />
+			<p:commandButton id="addBtn" value="#{label['COMMON_ADDNEW_BTN']}" action="#{ManageRoleActionBean.addNewRole}" rendered="#{ManageRoleActionBean.createNew}"
+				update="roleEntryForm :roleTableForm" style="width: 65px;" />
+			<p:commandButton id="editBtn" value="#{label['COMMON_UPDATE_BTN']}" action="#{ManageRoleActionBean.updateRole}" rendered="#{!ManageRoleActionBean.createNew}"
+				update="roleEntryForm :roleTableForm" style="width: 70px;" />
+			<br />
+			<br />
+			<p:separator style="height:3px;" />
+		</h:form>
+		<h:form id="roleTableForm">
+		<h:panelGrid>
+			<p:commandLink action="#{ManageRoleActionBean.createNewRole}" ajax="false">
+				<h:panelGrid columns="2">
+					<h:graphicImage name="images/add.png" styleClass="addIcon" />
+					<h:outputText value="#{label['COMMON_ADDNEW_LINK']}" styleClass="command-link" />
+				</h:panelGrid>
+			</p:commandLink>
+			</h:panelGrid>
+			<p:dataTable var="role" value="#{ManageRoleActionBean.roleList}" id="roleTable" paginator="true" rows="10" style="width:100%;" widgetVar="roleTable"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10, 15"
+				rowKey="index" reflow="true" paginatorPosition="bottom">
+				<p:column headerText="#{label['MANAGE_ROLE_NAME_LABEL']}">
+					<h:outputText value="#{role.name}" />
+				</p:column>
+				<p:column headerText="#{label['MANAGE_ROLE_DESCRIPTION_LABEL']}">
+					<h:outputText value="#{role.description}" />
+				</p:column>
+				<p:column style="width:50px;">
+					<p:commandButton id="detailItem" styleClass="green-button" icon="fa fa-laptop" oncomplete="PF('SelectedWebpageDialog').show()" update=":webPageDetailForm">
+						<f:setPropertyActionListener target="#{ManageRoleActionBean.webpages}" value="#{role.webpages}" />
+					</p:commandButton>
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="green-button" icon="fa fa-paint-brush" action="#{ManageRoleActionBean.prepareUpdateRole(role)}" process="@this" update=":roleEntryForm" />
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ManageRoleActionBean.deleteRole(role)}" oncomplete="PF('roleTable').filter();"
+						update=":roleEntryForm :roleTableForm">
+						<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+		<!-- Web Page Dialog -->
+		<p:dialog appendTo="@(body)" dynamic="true" modal="true" responsive="true" header="WebPage List" height="565" width="880" hideEffect="explode" id="webPageListDialog"
+			showEffect="fade" widgetVar="webPageListDialog">
+			<p:ajax event="close" listener="#{ManageRoleActionBean.handleDialogClose}" />
+			<h:form id="webpageDialogForm">
+				<p:dataTable id="webPageListTable" paginator="true" rows="30" selection="#{ManageRoleActionBean.tempSelectedWebPageList}" value="#{ManageRoleActionBean.webPageList}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,30,50"
+					var="webPage" rowKey="#{webPage.id}" widgetVar="webPageListTable" reflow="true" paginatorPosition="top">
+					<p:column selectionMode="multiple" style="width:16px;" />
+					<p:column headerText="#{label['MANAGE_ROLE_WEBPAGE_LABEL']}">
+						<h:outputText value="#{webPage.name}" />
+					</p:column>
+					<p:column headerText="#{label['MANAGE_ROLE_DESCRIPTION_LABEL']}">
+						<h:outputText value="#{webPage.description}" />
+					</p:column>
+					<p:column headerText="#{label['MANAGE_ROLE_GROUP_LABEL']}" style="width:120px;">
+						<h:outputText value="#{webPage.webpageGroup}" />
+					</p:column>
+					<f:facet name="footer">
+						<p:commandLink id="webPageLink" actionListener="#{ManageRoleActionBean.addRoleWebPage}" oncomplete="PF('webPageListDialog').hide()" process="@form"
+							update=":roleEntryForm:webPageListPanelGroup">
+							<h:graphicImage name="images/add.png" styleClass="addIcon" />
+						</p:commandLink>
+					</f:facet>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+		<!--  Web Page Detail Dialog -->
+		<p:dialog appendTo="@(body)" dynamic="true" modal="true" responsive="true" id="SelectedWebpageDialog" widgetVar="SelectedWebpageDialog" header="WebPage Detail List" width="450">
+			<p:ajax event="close" listener="#{ManageRoleActionBean.webpageDetailClose}" />
+			<h:form id="webPageDetailForm">
+				<p:dataTable rowIndexVar="index" var="webpage" value="#{ManageRoleActionBean.webpages}" id="webpageDetail" paginator="true" rows="30" style="width:100%;"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,30,50"
+					rowKey="index" reflow="true">
+					<p:column headerText="No." style="width:50px;">
+						#{index + 1}
+					</p:column>
+					<p:column headerText="Webpage">
+						<h:outputText value="#{webpage.name}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

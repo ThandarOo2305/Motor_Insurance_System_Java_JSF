@@ -1,0 +1,349 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	font-size: 13px;
+	color: #616161;
+	background-color: #949393;
+}
+
+h1, h2, h3 {
+	margin-top: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a img {
+	border: none;
+}
+
+img.left {
+	float: left;
+	margin: 0 20px 0 0;
+}
+
+img.right {
+	float: right;
+	margin: 0 0 0 20px;
+}
+
+.command-link {
+	text-decoration: none;
+	font-size: 13px;
+	color: #333333 !important;
+}
+
+.command-image {
+	width: 25px;
+	height: 25px;
+}
+
+.input-label {
+	text-decoration: none;
+	font-size: 14px;
+	margin-left:10px;
+}
+
+.mandatory::after {
+    content: " *";
+	color:red;
+}
+
+
+.title {
+	font-size: 17px;
+	font-weight: bold;
+	font-family: Myriad Pro;
+	text-transform: uppercase;
+	text-shadow: #fff 2px 2px 2px;
+}
+
+.searchIcon {
+	width: 25px;
+	height: 25px;
+}
+
+.deleteIcon {
+	width: 25px;
+	height: 25px;
+}
+
+.addIcon {
+	width: 25px;
+	height: 25px;
+}
+
+.editIcon {
+	width: 25px;
+	height: 25px;
+}
+
+.configIcon {
+	width: 25px;
+	height: 25px;
+}
+
+.selectIcon {
+	width: 25px;
+	height: 25px;
+}
+
+.warningIcon {
+	width: 30px;
+	height: 30px;
+}
+
+.error-message {
+	text-decoration: none;
+	font-size: 13px;
+	color: red;
+}
+
+.ui-widget {
+	font-size: 13px !important;
+	font-family: Arial, Tahoma !important;
+	color: #222222;
+	text-shadow: 0 0px 0px #BFEFFF;
+}
+
+.ui-widget-header {
+	font-size: 12px !important;
+	font-family: Arial, Tahoma !important;
+	color: #222222;
+	text-shadow: 1 1px 1px #BFEFFF;
+}
+
+.header-label {
+	padding: 5px 20px;
+}
+
+.ui-state-highlight{
+	background-color: black;
+}
+
+.ui-messages-error, .ui-message-error {
+	background-color: #FF8247 !important;
+	border-color: #EED3D7;
+	color: #B94A48;
+}
+
+.ui-wizard-step-title {
+	font-size: 13px;
+}
+
+.ui-growl {
+	position: absolute !important;
+	top: 180px !important;
+	left: 400px !important;
+	width: 500px !important;
+}
+
+.ui-growl-message {
+	float: right !important;
+	padding: 6px 5px 3px !important;
+	width: 420px !important;
+}
+
+.ui-growl-item {
+	padding: 3px 8px !important;
+}
+
+.ui-growl-title {
+	font-size: 13px;
+	color: #445AD8;
+}
+
+.ui-growl-item-container {
+	background: #FFF;
+}
+
+#content1 {
+	width: 98%;
+	margin: 0 auto;
+	padding: 10px 5px;
+	background-color: #FFFFFF;
+}
+
+#container1 {
+	width: auto;
+	margin: 0;
+	padding: 0;
+	background-color: #423C3C;
+}
+
+.top {
+	width: auto;
+	margin: 0;
+	border: 0;
+	height: 100px;
+	background-color: transparent;
+	border-bottom: 2px #616060 solid;
+}
+
+.navbar {
+	width: auto;
+	margin-top: 0;
+	margin-left: 0;
+	margin-right: 0;
+	margin-bottom: 10px;
+	border: 0;
+	height: 30px;
+	padding: 0;
+	background-color: #D8D8D8;
+}
+
+.box {
+	width: 99%;
+	min-height: 500px;
+	height: 99%;
+	padding: 5px;
+	background-color: #D8D8D8;
+	margin-top: 5px;
+	margin-bottom: 15px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.bottom {
+	width: auto;
+	margin-top: 3px;
+	margin-left: 0;
+	margin-right: 0;
+	margin-bottom: 0;
+	border: 0;
+	height: 30px;
+	background-color: #423C3C;
+	padding: 0;
+	font-family: tahoma, verdana;
+	font-size: 13px;
+	color: white;
+	text-align: center;
+	line-height: 28px;
+}
+
+.addy {
+	font-family: tahoma, verdana;
+	font-size: 13px;
+	color: #808080;
+	padding: 0;
+	margin-bottom: 5px;
+	margin-top: 0;
+	margin-left: 0;
+	margin-right: 0;
+	width: 100%;
+	text-align: right;
+	border-bottom: 1px #808080 dotted;
+}
+
+/** ThemeSwitcher **/
+.navOverlay {
+	width: 200px;
+	max-height: 400px;
+	overflow-y: auto;
+	background-color: #eff3f6;
+	border: solid 1px #bcc7cf;
+	z-index: 99999999999;
+	position: absolute;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
+	margin-left: -60px;
+	display: none;
+}
+
+.navOverlay a {
+	display: block;
+	padding: 10px;
+	border-bottom: solid 1px #bcc7cf;
+	text-align: left;
+	color: #87939B;
+	overflow: hidden;
+}
+
+.navOverlay a:hover {
+	color: #fdd106;
+}
+
+.navOverlay a span.ui-theme {
+	width: 30px;
+	height: 27px;
+	float: left;
+	border: solid 1px #D7DCE0;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.navOverlay a span.ui-text {
+	display: inline-block;
+	margin-top: 7px;
+	margin-left: 10px;
+	font-size: 14px;
+}
+
+.textOnRight {
+	text-align: right;
+}
+
+.textOnCenter {
+	text-align: center;
+}
+
+.errorCell {
+	background: yellow;
+	text-align: right;
+}
+
+.rowCell {
+	background: #ccffcc;
+	text-align: right;
+}
+
+.correctCell {
+	background: green;
+	text-align: right;
+}
+
+.panelGroupAlign {
+	vertical-align: top;
+	align: middle;
+}
+
+
+.ui-calendar  input {
+	width: 88% !important;
+	padding-right: 1% !important;
+}
+
+.ui-datepicker-trigger {
+	width: 11% !important;
+	align: middle;
+}
+
+.panelGrid-border {
+	margin-top:3px;
+	border:3px double #7E7878;
+	border-radius: 5px; 
+	box-shadow: 4px 4px 4px #7E7878 outset;
+}
+
+form .ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight
+	{
+	background:
+		url('#{request.contextPath}/images/ui-bg_highlight-soft.png')
+		!important;
+}

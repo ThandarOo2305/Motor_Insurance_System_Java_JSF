@@ -1,0 +1,154 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+    <ui:param name="header" value="#{label['MANAGE_VOUCHER_PRINTING_LABEL']}" />
+    <ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="voucherPrintingForm">
+			<p:growl escape="false" globalOnly="true" life="5000" showDetail="true" />
+			<p:message display="text" for="voucherPrintingPanel" />
+			<p:panel>
+				<p:panelGrid id="voucherPrintingPanel" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputText value="" />
+					<p:message display="text" for="startDate" />
+					<h:outputText for="startDate" styleClass="input-label mandatory" value="#{label['STARTDATE_LABEL']}" escape="false" />
+					<p:calendar id="startDate" value="#{VoucherPrintingActionBean.ftdto.startDate}" showOn="button" pattern="#{ApplicationSetting.dateFormat}"  mask="true"
+						maxdate="#{VoucherPrintingActionBean.todayDate}" required="true">
+						<p:ajax event="dateSelect" process="@this" update="voucherPrintingForm" />
+					</p:calendar>
+					
+					<h:outputText value="" />
+					<p:message display="text" for="endDate" />
+					<h:outputText for="endDate" styleClass="input-label mandatory" value="#{label['ENDDATE_LABEL']}" escape="false" />
+					<p:calendar id="endDate" value="#{VoucherPrintingActionBean.ftdto.endDate}" showOn="button" pattern="#{ApplicationSetting.dateFormat}"  mask="true"
+						maxdate="#{VoucherPrintingActionBean.todayDate}" required="true">
+						<p:ajax event="dateSelect" process="@this" update="voucherPrintingForm" />
+					</p:calendar>
+					
+					<h:outputText value="" />
+					<p:message display="text" for="branch" />
+					<h:outputText for="branch" styleClass="input-label" value="#{label['VL_BRANCH_LABEL']}" />
+					<p:selectOneMenu converter="omnifaces.SelectItemsIndexConverter" id="branch" value="#{VoucherPrintingActionBean.branch}">
+						<f:selectItem itemLabel=" All branches " />
+						<f:selectItems itemLabel="#{type.name}" itemValue="#{type}" value="#{VoucherPrintingActionBean.branches}" var="type" />
+						<p:ajax update="@this" process="@this"></p:ajax>
+					</p:selectOneMenu>
+					
+					<!-- <h:outputText value="" />
+					<p:message display="text" for="chkVoucherNo" />
+					<h:outputText styleClass="input-label" value="FilteredByVoucherNo" escape="false" />
+					<p:selectBooleanCheckbox id="chkVoucherNo" value="#{VoucherPrintingActionBean.chkVoucherNo}">
+						<p:ajax listener="#{VoucherPrintingActionBean.chkClick}" process="@form" update="@form" />
+					</p:selectBooleanCheckbox> -->
+					
+					<h:outputText value="" />
+					<p:message display="text" for="chkVoucherNo" />
+					<h:outputText styleClass="input-label" value="FilteredByVoucherNo" escape="false" />
+					<p:commandButton id="chkVoucherNo" value="#{label['COMMON_FILTER_BTN']}" style="width:85px;"
+				      update="voucherPrintingForm">
+				      <p:ajax listener="#{VoucherPrintingActionBean.chkClick}" process="@form" update="@form" />
+				      </p:commandButton>
+				<h:outputText styleClass="input-label" value="#{label['MANAGE_FROMVOUCHER_VOUCHERNO_LABEL']}" escape="false" />
+					<p:panelGrid styleClass="ui-panelgrid-blank" id="fromVoucherNoPanelGroup">
+						<div style="margin-top:-5px; margin-left:-5px;" class="ui-g ui-fluid">
+							<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+								<p:commandButton styleClass="green-button" icon="fa fa-search" oncomplete="PF('formVoucherNoDialog').show()"  id="selectFromVoucherNoDialogLink" 
+									update=":fromVoucherNoDialogForm" process="@this"  disabled="#{!VoucherPrintingActionBean.chkVoucherNo}">
+									<p:ajax listener="#{VoucherPrintingActionBean.checkData}" process="@form" update="@form" />
+									</p:commandButton>
+							  	<p:inputText id="fromVoucherNo" disabled="#{!VoucherPrintingActionBean.chkVoucherNo}" value="#{VoucherPrintingActionBean.ftdto.voucherNo}"/>
+							    <p:commandButton styleClass="red-button" icon="fa fa-times" action="#{VoucherPrintingActionBean.getFtdto().setVoucherNo(null)}" process="@this" 
+							    	update="fromVoucherNo" disabled="#{!VoucherPrintingActionBean.chkVoucherNo}"/>
+							</div>
+						</div>
+					 </p:panelGrid>
+					 
+					<h:outputText styleClass="input-label" value="#{label['MANAGE_TOVOUCHER_VOUCHERNO_LABEL']}" escape="false" />
+					<p:panelGrid styleClass="ui-panelgrid-blank" id="toVoucherNoPanelGroup">
+						<div style="margin-top:-5px; margin-left:-5px;" class="ui-g ui-fluid">
+							<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+								<p:commandButton styleClass="green-button" icon="fa fa-search" oncomplete="PF('toVoucherNoDialog').show()"  id="selectToVoucherNoDialogLink" 
+									update=":toVoucherNoDialogForm"	 process="@this"  disabled="#{!VoucherPrintingActionBean.chkVoucherNo}">
+									<p:ajax listener="#{VoucherPrintingActionBean.checkData}" process="@form" update="@form" />
+									</p:commandButton>
+							  	<p:inputText id="toVoucherNo" disabled="#{!VoucherPrintingActionBean.chkVoucherNo}" value="#{VoucherPrintingActionBean.tidto.voucherNo}"/>
+							    <p:commandButton styleClass="red-button" icon="fa fa-times" action="#{VoucherPrintingActionBean.getTidto().setVoucherNo(null)}" process="@this" 
+							    	update="toVoucherNo" disabled="#{!VoucherPrintingActionBean.chkVoucherNo}"/>
+							</div>
+						</div>
+					 </p:panelGrid>
+					
+					<!-- <h:outputText styleClass="input-label" value="#{label['MANAGE_TOVOUCHER_VOUCHERNO_LABEL']}" escape="false" />
+					<p:panelGrid styleClass="ui-panelgrid-blank" id="toVoucherNoPanelGroup">
+						<div style="margin-top:-5px; margin-left:-5px;" class="ui-g ui-fluid" id="toVoucherNoPanelGroup">
+							<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+								<p:commandButton styleClass="green-button" icon="fa fa-search" oncomplete="PF('toVoucherNoDialog').show()"  id="selectToVoucherNoDialogLink" 
+									 process="@this" disabled="#{!VoucherPrintingActionBean.chkVoucherNo}">
+							    </p:commandButton>
+							  	<p:inputText id="toVoucherNo" disabled="#{!VoucherPrintingActionBean.chkVoucherNo}" value="#{VoucherPrintingActionBean.tidto.voucherNo}"/>
+							    <p:commandButton styleClass="red-button" icon="fa fa-times" action="#{VoucherPrintingActionBean.setTidto(null)}" process="@this" 
+							    	update="toVoucherNo" disabled="#{!VoucherPrintingActionBean.chkVoucherNo}"/>
+							</div>
+						</div>
+					 </p:panelGrid> -->
+					 
+				</p:panelGrid>
+			</p:panel>
+			<p:commandButton id="previewBtn" action="#{VoucherPrintingActionBean.searchResults()}" value="#{label['COMMON_PREVIEW_BTN']}" style="width:85px;"
+				update="voucherPrintingForm voucherPrintingReportForm" />
+				<p:commandButton id="downloadLink" value="Download" ajax="false" >
+				<p:fileDownload value="#{VoucherPrintingActionBean.getDownload()}" />
+				</p:commandButton>
+			<p:commandButton id="cancelBtn" action="voucherPrinting" value="#{label['COMMON_CANCEL_BTN']}" style="width:80px;" ajax="false" immediate="true" />
+		</h:form>
+		<h:form id="voucherPrintingReportForm" enctype="multipart/form-data">
+			<p:dialog modal="true" responsive="true" appendTo="@(body)" dynamic="true" id="voucherPrintingDialog" resizable="false" draggable="false" widgetVar="voucherPrintingDialog"
+				width="95%" height="600">
+				<p:media cache="false" id="pdfPlayer" player="pdf" value="#{VoucherPrintingActionBean.stream}" width="100%" height="99%" />
+			</p:dialog>
+		</h:form>
+		
+		<p:dialog appendTo="@(body)" dynamic="true" modal="true" responsive="true" header="#{label['MANAGE_VOUCHERNOSELECT_LABEL']}" height="480" hideEffect="explode" id="formVoucherNoDialog" showEffect="fade"
+				 widgetVar="formVoucherNoDialog" width="700" draggable="false" resizable="false">
+			<h:form id="fromVoucherNoDialogForm">
+				<p:dataTable id="fromVoucherNoTable" paginator="true" paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="index" rows="10"
+					rowsPerPageTemplate="5,10, 15" style="width:100%;" value="#{VoucherPrintingActionBean.voucherNoList}" var="vNo"
+					filteredValue="#{VoucherPrintingActionBean.filterVoucherNoList}" widgetVar="fromVoucherNoTable" emptyMessage="Nothing found with given criteria">
+					<p:column headerText="No" style="width:50px;">
+						<h:outputText value="#{index + 1}" />
+					</p:column>
+					<p:column filterBy="#{vNo.voucherNo}" filterMatchMode="contains" headerText="#{label['MANAGE_VOUCHERNO_LABEL']}">
+						<h:outputText value="#{vNo.voucherNo}" />
+					</p:column>
+					<p:column style="width:7%;">
+		               <p:commandButton styleClass="green-button" icon="fa fa-check" action="#{VoucherPrintingActionBean.selectFromVoucherNo(vNo)}" immediate="true"
+		               		oncomplete="PF('formVoucherNoDialog').hide();PF('fromVoucherNoTable').clearFilters();" update=":voucherPrintingForm:fromVoucherNo"/>
+		            </p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+		
+		
+		<p:dialog appendTo="@(body)" dynamic="true" modal="true" responsive="true" header="#{label['MANAGE_VOUCHERNOSELECT_LABEL']}" height="480" hideEffect="explode" id="toVoucherNoDialog" showEffect="fade"
+				widgetVar="toVoucherNoDialog" width="700" draggable="false" resizable="false">
+			<h:form id="toVoucherNoDialogForm">
+				<p:dataTable id="toVoucherNoTable" paginator="true" paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="index" rows="10"
+					rowsPerPageTemplate="5,10, 15" style="width:100%;" value="#{VoucherPrintingActionBean.voucherNoList}" var="vNo"
+					filteredValue="#{VoucherPrintingActionBean.filterVoucherNoList}" widgetVar="toVoucherNoTable" emptyMessage="Nothing found with given criteria">
+					<p:column headerText="No" style="width:50px;">
+						<h:outputText value="#{index + 1}" />
+					</p:column>
+					<p:column filterBy="#{vNo.voucherNo}" filterMatchMode="contains" headerText="#{label['MANAGE_VOUCHERNO_LABEL']}">
+						<h:outputText value="#{vNo.voucherNo}" />
+					</p:column>
+					<p:column style="width:7%;">
+		               <p:commandButton styleClass="green-button" icon="fa fa-check" action="#{VoucherPrintingActionBean.selectToVoucherNo(vNo)}" immediate="true"
+		               		oncomplete="PF('toVoucherNoDialog').hide();PF('toVoucherNoTable').clearFilters();"  update=":voucherPrintingForm:toVoucherNo"/>
+		            </p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+		
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/commonLayout.xhtml">
+   <ui:param name="header" value="Occupation Management" />   
+   <ui:param name="headerRendered" value="true" />
+   <ui:define name="content">
+   		<h:form id="occupationForm">
+			<p:growl escape="false" globalOnly="true" life="5000" showDetail="true" />
+			<h:outputText value="Add New Occupation" styleClass="title" rendered="#{ManageOccupationActionBean.createNew}" /> 
+			<h:outputText value="Update Occupation" styleClass="title" rendered="#{!ManageOccupationActionBean.createNew}" /> 
+			<p:panel>
+				<p:panelGrid id="panelDept" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+						
+						<p:message display="text" for="name" />
+						<h:outputText for="name" value="Name" styleClass="input-label mandatory" escape="false" />
+						<p:inputText value="#{ManageOccupationActionBean.occupation.name}" id="name" required="true"  > 
+							<f:validateLength maximum="50" />
+						</p:inputText>
+						
+						<h:outputText value="" />
+						
+						<p:message display="text" for="m-name" />
+						<h:outputText for="m-name" value="Myanmar Name" styleClass="input-label" escape="false" />
+						<p:inputText value="#{ManageOccupationActionBean.occupation.myanmarName}" id="m-name" required="false">
+						</p:inputText>
+						
+						<h:outputText value="" />
+						
+						<p:message display="text" for="description" />
+						<h:outputText for="description" value="Description" styleClass="input-label" escape="false" />
+						<p:inputTextarea id="description" value="#{ManageOccupationActionBean.occupation.description}" required="false">
+							<f:validateLength maximum="100" />
+						</p:inputTextarea>
+						
+						<h:outputText value="* - mandatory fields"  style="color: red;"/>
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			
+			<br />
+			
+			<h:panelGrid columns="3" style="margin-top:-2px;">
+				<p:commandButton id="addBtn" value="Add"  style="width:65px;" update=":occupationTableForm :occupationForm" oncomplete="PF('occupationTable').clearFilters();"
+				action="#{ManageOccupationActionBean.addNewOccupation}" rendered="#{ManageOccupationActionBean.createNew}" /> 
+				<p:commandButton id="editBtn" value="Update"  style="width:70px;" oncomplete="PF('occupationTable').clearFilters();" update=":occupationTableForm :occupationForm"
+				action="#{ManageOccupationActionBean.updateOccupation}" rendered="#{!ManageOccupationActionBean.createNew}"/>
+				<p:commandButton id="cancelButton" immediate="true" process="@this" value="Cancel"  update=":occupationForm"
+					style="width:70px;margin-left:-3px;" action="#{ManageOccupationActionBean.createNewOccupation}"/> 
+			</h:panelGrid>
+			
+			<p:separator style="height:3px" />
+		</h:form>
+		
+		<h:form id="occupationTableForm">
+					
+				<p:dataTable  var="occ" value="#{ManageOccupationActionBean.occList}"  id="occupationTable" paginator="true" rows="10" style="width:100%" widgetVar="occupationTable"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15"
+					rowKey="#{occ.id}" reflow="true" rowIndexVar="var" paginatorPosition="bottom">
+					<p:column headerText="No" width="2%">
+						<h:outputText value="#{var+1}" />
+					</p:column>
+					<p:column headerText="Name"  filterMatchMode="contains" filterBy="#{occ.name}"> 
+						<h:outputText value="#{occ.name}" />
+					</p:column>
+					<p:column headerText="Myanmar Name" filterMatchMode="contains" filterBy="#{occ.myanmarName}"> 
+						<h:outputText value="#{occ.myanmarName}" />
+					</p:column>
+					<p:column headerText="Description">
+						<h:outputText value="#{occ.description}" />
+					</p:column>
+					<p:column style="width:4%;">
+						<p:commandButton styleClass="green-button" icon="fa fa-paint-brush" action="#{ManageOccupationActionBean.prepareUpdateOccupation(occ)}" process="@this" update=":occupationForm" />
+					</p:column> 
+					<p:column style="width:4%;">
+						<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ManageOccupationActionBean.deleteOccupation(occ)}" oncomplete="PF('occupationTable').filter();"
+							update=":occupationForm :occupationTableForm">
+							<p:confirm header="Confirmation" message="are you sure to delete??" icon="fa fa-exclamation-triangle" />
+						</p:commandButton> 
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			
+			<!-- Confirmation Dialog -->
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+			</p:confirmDialog>
+   </ui:define>             
+           
+</ui:composition>

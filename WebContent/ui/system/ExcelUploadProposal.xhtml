@@ -1,0 +1,240 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/common/commonLayout.xhtml">
+                
+   <ui:define name="content">
+   
+   
+   <h:panelGrid>
+   				<p:commandLink action="manageProposal" immediate="true" >
+   					<h:panelGrid columns="2">
+   						<h:graphicImage name="images/add.png" styleClass="addIcon" />
+						<h:outputText value="Manual" styleClass="command-link" />
+   					</h:panelGrid>
+   				</p:commandLink>
+   	</h:panelGrid>
+   
+   		
+   		<h:form id="manageProposal" >
+			<p:growl escape="false" globalOnly="true" life="5000"
+				showDetail="true" />
+			<h:outputText value="Add New Proposal" styleClass="title"
+				rendered="#{ManageProposalActionBean.createNew}" />
+			<h:outputText value="Update Proposal" styleClass="title"
+				rendered="#{!ManageProposalActionBean.createNew}" />
+			<p:panel >
+				<p:panelGrid id="panelDept" columns="2"
+					columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
+					styleClass="ui-panelgrid-blank ui-fluid">
+
+					<p:panelGrid columns="2"
+						columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid"
+						styleClass="ui-panelgrid-blank ui-fluid">
+						<h:outputText value="" />
+
+						<p:message display="text" for="name" />
+						<h:outputText for="name" value="Insured Name"
+							styleClass="input-label mandatory" escape="false" />
+						<p:inputText
+							value="#{ManageProposalActionBean.proposalDTO.insuredName}"
+							id="name" required="true">
+							<f:validateLength maximum="50" />
+						</p:inputText>
+
+						<h:outputText value="" />
+
+						<p:message display="text" for="bank" />
+						<h:outputText for="bank" value="Bank"
+							styleClass="input-label mandatory" escape="false" />
+						<p:inputText value="#{ManageProposalActionBean.proposalDTO.bank}"
+							id="bank" required="true">
+						</p:inputText>
+
+						<h:outputText value="" />
+
+						<p:message display="text" for="address" />
+						<h:outputText for="address" value="Address"
+							styleClass="input-label" escape="false" />
+						<p:inputText id="address"
+							value="#{ManageProposalActionBean.proposalDTO.address}"
+							required="true">
+							<f:validateLength maximum="100" />
+						</p:inputText>
+
+						<h:outputText value="" />
+
+						<p:message display="text" for="policyno" />
+						<h:outputText for="policyno" value="Policy No"
+							styleClass="input-label" escape="false" />
+						<p:inputText id="policyno"
+							value="#{ManageProposalActionBean.proposalDTO.policyNo}"
+							required="true">
+							<f:validateLength maximum="100" />
+						</p:inputText>
+
+
+						<h:outputText value="" />
+
+						<p:message display="text" for="sumInsured" />
+						<h:outputText for="sumInsured" value="SumInsured"
+							styleClass="input-label" escape="false" />
+						<p:inputText id="sumInsured"
+							value="#{ManageProposalActionBean.proposalDTO.sumInsured}"
+							required="true">
+							<f:validateLength maximum="100" />
+						</p:inputText>
+
+					</p:panelGrid>
+					<p:panelGrid columns="2"
+						columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid"
+						styleClass="ui-panelgrid-blank ui-fluid">
+
+
+						<h:outputText value="" />
+
+						<p:message display="text" for="rate" />
+						<h:outputText for="rate" value="Rate" styleClass="input-label"
+							escape="false" />
+						<p:inputText id="rate"
+							value="#{ManageProposalActionBean.proposalDTO.rate}"
+							required="true">
+							<f:validateLength maximum="100" />
+						</p:inputText>
+
+						<h:outputText value="" />
+
+						<p:message display="text" for="premium" />
+						<h:outputText for="premium" value="Premium"
+							styleClass="input-label" escape="false" />
+						<p:inputText id="premium"
+							value="#{ManageProposalActionBean.proposalDTO.premium}"
+							required="true">
+							<f:validateLength maximum="100" />
+						</p:inputText>
+
+						<h:outputText value="" />
+
+						<p:message display="text" for="startDate" />
+						<h:outputText for="startDate" value="Start Date"
+							styleClass="input-label mandatory" escape="false" />
+						<p:datePicker id="startDate"
+							value="#{ManageProposalActionBean.proposalDTO.startDate}"
+							required="true" showIcon="true" />
+
+						<h:outputText value="" />
+
+						<p:message display="text" for="remark" />
+						<h:outputText for="remark" value="Remark"
+							styleClass="input-label mandatory" escape="false" />
+						<p:inputTextarea id="remark"
+							value="#{ManageProposalActionBean.proposalDTO.remark}"
+							required="true">
+							<f:validateLength maximum="100" />
+						</p:inputTextarea>
+
+
+						<h:outputText value="" />
+						<h:outputText value="" />
+
+					</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+
+			<br />
+
+			<h:panelGrid columns="3" style="margin-top:-2px;">
+				<p:commandButton id="addBtn" value="Submit"
+					action="#{ManageProposalActionBean.softInserted()}"
+					rendered="#{ManageProposalActionBean.createNew}"
+					update=":excelTable :manageProposal" style="width:65px;" />
+				<p:commandButton id="editBtn" value="Update"
+					action="#{ManageProposalActionBean.softUpdated}"
+					rendered="#{!ManageProposalActionBean.update and !ManageProposalActionBean.createNew}"
+					update=":excelTable :manageProposal" style="width:70px;" />
+				<p:commandButton id="editBtn2" value="Update"
+					action="#{ManageProposalActionBean.updateProposal}"
+					rendered="#{ManageProposalActionBean.update}"
+					update=":excelTable :manageProposal" style="width:70px;" />
+				<p:commandButton id="cancelButton" immediate="true" process="@this"
+					value="Cancel"
+					action="#{ManageProposalActionBean.createNewProposal}"
+					update=":manageProposal" style="width:70px;margin-left:-3px;" />
+			</h:panelGrid>
+
+			<p:separator style="height:3px" />
+		</h:form>
+   
+   
+	   <h:form enctype="multipart/form-data" id="excelTable" >
+			<p:fileUpload fileUploadListener="#{ManageProposalActionBean.upload}"
+				mode="advanced" dragDropSupport="true" update="dataTable" />
+			<!-- <p:commandButton value="Upload" action="#{ManageProposalActionBean.processUploadedFile}"/> -->
+
+			<h:dataTable value="#{ManageProposalActionBean.excelProposalDTOList}" 
+				var="data" id="dataTable" paginator="true" rows="10"
+				styleClass="myTable" style="width:100%;margin-bottom: 10px"
+				widgetVar="dataTable"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" rowKey="#{data.id}" reflow="true"
+				rowIndexVar="var" paginatorPosition="bottom">
+				<p:column headerText="Insured Name" filterBy="#{data.insuredName}"
+					filterMatchMode="contains">
+					<h:outputText value="#{data.insuredName}" />
+				</p:column>
+				<p:column headerText="Bank" filterMatchMode="contains">
+					<h:outputText value="#{data.bank}" />
+				</p:column>
+				<p:column headerText="Address">
+					<h:outputText value="#{data.address}" />
+				</p:column>
+				<p:column headerText="Policy NO">
+					<h:outputText value="#{data.policyNo}" />
+				</p:column>
+				<p:column headerText="Sum Insured">
+					<h:outputText value="#{data.sumInsured}" />
+				</p:column>
+				<p:column headerText="Rate">
+					<h:outputText value="#{data.rate}" />
+				</p:column>
+				<p:column headerText="Premium">
+					<h:outputText value="#{data.premium}" />
+				</p:column>
+				<p:column headerText="Start Date">
+					<h:outputText value="#{ManageProposalActionBean.formatDate(data.startDate)}" />
+				</p:column>
+				<p:column headerText="Remark">
+					<h:outputText value="#{data.remark}" />
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="green-button" icon="fa fa-paint-brush"
+						action="#{ManageProposalActionBean.softPrepareUpdateProposal(data)}"
+						process="@this" update=":excelTable :manageProposal"/>
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="red-button" icon="fa fa-times" process="@this"
+						action="#{ManageProposalActionBean.softDeleteProposal(data)}" update=":excelTable :manageProposal ">
+						<p:confirm header="Confirmation"
+							message="are you sure to delete??"
+							icon="fa fa-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+			</h:dataTable>
+			
+			<p:commandButton id="addBtn" value="Submit" styleClass="white"
+				action="#{ManageProposalActionBean.addNewProposal}"
+				update=":manageProposal :excelTable " style="width:65px;" />
+		</h:form>
+			
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Yes" type="button"
+				styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+   </ui:define>             
+           
+</ui:composition>

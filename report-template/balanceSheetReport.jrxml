@@ -1,0 +1,794 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report" pageWidth="920" pageHeight="595" orientation="Landscape" columnWidth="880" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="LANGUAGE_en" uuid="06e92159-151d-4481-9b43-611eb07a4aaf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.2" value="pageHeader"/>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF" fontName="Zawgyi-One" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold">
+		<pen lineWidth="0.5" lineColor="#000000"/>
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF" fontName="Zawgyi-One" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="balanceSheetDataSet" uuid="eb4c8171-414b-4814-a2e2-09afa6b05962">
+		<parameter name="isDateRange" class="java.lang.Boolean"/>
+		<parameter name="budsmth" class="java.lang.Integer"/>
+		<parameter name="y1" class="java.lang.Integer"/>
+		<parameter name="y2" class="java.lang.Integer"/>
+		<parameter name="month" class="java.lang.Integer"/>
+		<parameter name="monthList" class="java.util.List"/>
+		<field name="acCode" class="java.lang.String"/>
+		<field name="acCodeType" class="java.lang.String"/>
+		<field name="acName" class="java.lang.String"/>
+		<field name="m1" class="java.math.BigDecimal"/>
+		<field name="parentId" class="java.lang.String"/>
+		<field name="parentName" class="java.lang.String"/>
+		<field name="m2" class="java.math.BigDecimal"/>
+		<field name="m3" class="java.math.BigDecimal"/>
+		<field name="m4" class="java.math.BigDecimal"/>
+		<field name="m5" class="java.math.BigDecimal"/>
+		<field name="m6" class="java.math.BigDecimal"/>
+		<field name="m7" class="java.math.BigDecimal"/>
+		<field name="m8" class="java.math.BigDecimal"/>
+		<field name="m9" class="java.math.BigDecimal"/>
+		<field name="m10" class="java.math.BigDecimal"/>
+		<field name="m11" class="java.math.BigDecimal"/>
+		<field name="m12" class="java.math.BigDecimal"/>
+		<field name="showHide" class="java.lang.Boolean"/>
+		<field name="status" class="java.lang.Boolean"/>
+		<variable name="m1SubTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="groupParent" calculation="Sum">
+			<variableExpression><![CDATA[$V{m1}]]></variableExpression>
+		</variable>
+		<variable name="m1" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{m1}]]></variableExpression>
+		</variable>
+		<variable name="m2" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{m2}]]></variableExpression>
+		</variable>
+		<variable name="m3" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{m3}]]></variableExpression>
+		</variable>
+		<variable name="m4" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{m4}]]></variableExpression>
+		</variable>
+		<variable name="m5" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{m5}]]></variableExpression>
+		</variable>
+		<variable name="m6" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{m6}]]></variableExpression>
+		</variable>
+		<variable name="m7" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{m7}]]></variableExpression>
+		</variable>
+		<variable name="m8" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{m8}]]></variableExpression>
+		</variable>
+		<variable name="m9" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{m9}]]></variableExpression>
+		</variable>
+		<variable name="m10" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{m10}]]></variableExpression>
+		</variable>
+		<variable name="m11" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{m11}]]></variableExpression>
+		</variable>
+		<variable name="m12" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{m12}]]></variableExpression>
+		</variable>
+		<variable name="rowTotal" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+			<variableExpression><![CDATA[$F{m1}.doubleValue()+$F{m2}.doubleValue()+ $F{m3}.doubleValue()+$F{m4}.doubleValue()+$F{m5}.doubleValue()+$F{m6}.doubleValue()+$F{m7}.doubleValue()+$F{m8}.doubleValue()+$F{m9}.doubleValue()+$F{m10}.doubleValue()+$F{m11}.doubleValue()+$F{m12}.doubleValue()]]></variableExpression>
+			<initialValueExpression><![CDATA[0]]></initialValueExpression>
+		</variable>
+		<group name="groupParent">
+			<groupExpression><![CDATA[$F{parentId}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="dtoList" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="startDate" class="java.util.Date"/>
+	<parameter name="branches" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="logoPath" class="java.lang.String"/>
+	<parameter name="homeCurrency" class="java.lang.Boolean"/>
+	<parameter name="homeCurrencyConverted" class="java.lang.Boolean"/>
+	<parameter name="endDate" class="java.util.Date"/>
+	<parameter name="type" class="java.lang.String"/>
+	<parameter name="isDateRange" class="java.lang.Boolean"/>
+	<parameter name="y1" class="java.lang.Integer"/>
+	<parameter name="y2" class="java.lang.Integer"/>
+	<parameter name="monthList" class="java.util.List"/>
+	<parameter name="month" class="java.lang.Integer"/>
+	<parameter name="budsmth" class="java.lang.Integer"/>
+	<title>
+		<band height="78" splitType="Stretch">
+			<textField>
+				<reportElement x="221" y="21" width="385" height="28" uuid="f30837aa-8de4-4682-b076-50f5ad9f2623"/>
+				<textElement textAlignment="Center">
+					<font fontName="Zawgyi-One" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{CLIENT_COMPANY_LABEL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="420" y="49" width="170" height="20" uuid="da09465d-8953-4f48-85cb-7d750faf6b31"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd-MM-yyyy").format($P{startDate})+" To "+new SimpleDateFormat("dd-MM-yyyy").format($P{endDate})]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="1" y="0" width="179" height="78" uuid="321afbcd-baee-4b5d-a96a-ad7997bb79b1"/>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="223" y="49" width="196" height="20" uuid="c8346d7c-7869-45c0-89ac-e0e72ca526ef"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{type}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="53" y="21" width="100" height="20" uuid="6454e6a7-2b83-493d-ad97-1107cadf028b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currency}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="21" width="53" height="20" uuid="81e612ed-5494-4346-9f35-35a22fcfff58"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Currency]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="795" y="20" width="29" height="20" uuid="3ac39b0c-2fdc-41a1-80e6-43d60ba58335"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="54" y="0" width="100" height="20" uuid="bad2f82e-3ce8-4358-bcbe-2cf26f057696"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{branches}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="825" y="20" width="53" height="20" uuid="3b85527f-839f-4a92-8c5a-d8e5c9e5de11"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="1" width="53" height="20" uuid="88347399-440e-46c6-a04a-9d6f16802a73"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Branch]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="81" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" x="2" y="0" width="865" height="81" isRemoveLineWhenBlank="true" uuid="5627a2bb-e215-4c60-ab5d-316dc1d6bdd2">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="balanceSheetDataSet" uuid="62a570f4-fd58-43a4-92ae-963b70ef084f">
+						<datasetParameter name="isDateRange">
+							<datasetParameterExpression><![CDATA[$P{isDateRange}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="monthList">
+							<datasetParameterExpression><![CDATA[$P{monthList}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="budsmth">
+							<datasetParameterExpression><![CDATA[$P{budsmth}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="y1">
+							<datasetParameterExpression><![CDATA[$P{y1}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="y2">
+							<datasetParameterExpression><![CDATA[$P{y2}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="month">
+							<datasetParameterExpression><![CDATA[$P{month}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{dtoList}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="20" uuid="ab35320e-6186-4a4d-9205-2b56850245aa">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableHeader height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="20" height="30" uuid="036b924b-6aeb-4239-a00d-a49f96645ea2">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Sr No.]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="20" height="45" printWhenGroupChanges="groupParent" uuid="cd6e7cd5-8a89-42c8-a945-2e0c9d7f2a71"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="0133cd87-bb37-477d-86d1-23455a32ef68">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="50" height="30" uuid="5dfc99a2-1a88-4686-afb0-20a74248eb9e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ACCODE]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="50" height="45" uuid="5f02b436-e810-4a7d-8d66-fed70f007cff"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{acCode}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="be19b035-b5f2-4f1f-a902-54d5475504ac">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="60" height="30" uuid="5744ba18-d132-4030-86aa-18dd85c6497e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ACNAME]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="60" height="45" uuid="3b83b48c-9705-43d9-8918-2631e99266f0">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+									<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="8"/>
+									<paragraph leftIndent="2" rightIndent="0"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{acName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="a32e7a46-b3e9-4f4f-8f48-151c84442e2a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="table_TH" mode="Transparent" x="0" y="0" width="58" height="30" backcolor="#E1E1FF" uuid="f2655e59-ef0f-4fc3-bc12-28ff19ef84c4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()-1>11)?
+        $P{budsmth}.intValue()-1-12:
+        $P{budsmth}.intValue()-1
+)+" - " + (($P{budsmth}.intValue()-1>11)?
+        $P{budsmth}.intValue()-1-12 +1:
+        $P{budsmth}.intValue()-1+1
+<= 12 &&($P{budsmth}.intValue()-1>11)?
+        $P{budsmth}.intValue()-1-12+1:
+        $P{budsmth}.intValue()-1+1
+>= $P{budsmth}.intValue()? $P{y1}.toString():$P{y2}.toString())]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="680339b8-ab6c-4daf-937b-eee0f11dfb58">
+									<printWhenExpression><![CDATA[$F{m1} !=null]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{m1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="2edf2e41-a3d3-4101-b13c-159e58b2143e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="table_TH" mode="Transparent" x="0" y="0" width="58" height="30" uuid="f022704d-1658-4ae4-ba1e-c323ea8e1fea"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()>12)?
+        $P{budsmth}.intValue()-12:
+        $P{budsmth}.intValue()
+)+"-"+ (($P{budsmth}.intValue()>12)?
+        $P{budsmth}.intValue()-12+1:
+        $P{budsmth}.intValue()+1
+<= 12 &&($P{budsmth}.intValue()>12)?
+        $P{budsmth}.intValue()-12+1:
+        $P{budsmth}.intValue()+1
+>= $P{budsmth}.intValue()? $P{y1}.toString():$P{y2}.toString())]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="22247761-3571-4fc9-a68a-a4c05ebc978d">
+									<printWhenExpression><![CDATA[$F{m1} !=null]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{m2}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="db6412c7-bdcf-43bc-81b6-e4fceadd2500">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="30" uuid="035e079e-46d1-49fd-8d81-9139d727c7bd"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+1>11)?
+        $P{budsmth}.intValue()+1-12:
+        $P{budsmth}.intValue()+1
+)+"-"+ (($P{budsmth}.intValue()+1>11)?
+        $P{budsmth}.intValue()+1-12+1:
+        $P{budsmth}.intValue()+1+1
+<= 12 &&($P{budsmth}.intValue()+1>11)?
+        $P{budsmth}.intValue()+1-12+1:
+        $P{budsmth}.intValue()+1+1
+>= $P{month}.intValue()? $P{y1}.toString():$P{y2}.toString())]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="ca924d5b-2bbc-4de7-ba02-5165ce5c2b1b">
+									<printWhenExpression><![CDATA[$F{m1} !=null]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{m3}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="4873a83d-1f2e-4380-ab08-ffc54425caea">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="30" uuid="0be36906-3f04-4d15-aa60-718b1102f9d9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+2>11)?
+        $P{budsmth}.intValue()+2-12:
+        $P{budsmth}.intValue()+2
+)+"-"+((($P{budsmth}.intValue()+2>11)?
+        $P{budsmth}.intValue()+2-12+1:
+        $P{budsmth}.intValue()+2+1)
+<= 12 &&(($P{budsmth}.intValue()+2>11)?
+        $P{budsmth}.intValue()+2-12+1:
+        $P{budsmth}.intValue()+2+1)
+>= $P{budsmth}.intValue()? $P{y1}.toString():$P{y2}.toString())]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="32b03f25-8e67-4fa8-a921-ec2515909a88">
+									<printWhenExpression><![CDATA[$F{m1} !=null]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{m4}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="b78d2a9f-02cb-4442-a54e-56afeadc1646">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="30" uuid="f874b07b-7a1e-4ecb-b77e-bbd5ab632af8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+3>11)?
+        $P{budsmth}.intValue()+3-12:
+        $P{budsmth}.intValue()+3
+)+"-"+ ((($P{budsmth}.intValue()+3>11)?
+        $P{budsmth}.intValue()+3-12+1:
+        $P{budsmth}.intValue()+3+1)
+<= 12 &&(($P{budsmth}.intValue()+3>11)?
+        $P{budsmth}.intValue()+3-12+1:
+        $P{budsmth}.intValue()+3+1)
+>= $P{budsmth}.intValue()? $P{y1}.toString():$P{y2}.toString())]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="fa38db84-ce6f-4e86-a1b6-f09bf36d7b42">
+									<printWhenExpression><![CDATA[$F{m1} !=null]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{m5}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="ac61b565-cc53-4e6d-a3a4-e09689b3114f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="30" uuid="af448f32-c65c-441d-a654-a1e4c01c417f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+4>11)?
+        $P{budsmth}.intValue()+4-12:
+        $P{budsmth}.intValue()+4
+)+"-"+((($P{budsmth}.intValue()+4>11)?
+        $P{budsmth}.intValue()+4-12+1:
+        $P{budsmth}.intValue()+4+1)
+<= 12 &&(($P{budsmth}.intValue()+4>11)?
+        $P{budsmth}.intValue()+4-12+1:
+        $P{budsmth}.intValue()+4+1)
+>= $P{budsmth}.intValue()? $P{y1}.toString():$P{y2}.toString())]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="7f63927a-3070-4103-9a1d-24ed991b7742">
+									<printWhenExpression><![CDATA[$F{m1} !=null]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{m6}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="b41fb232-a449-453b-a359-e0d228ac855f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="30" uuid="ab6b6fe5-5f1c-4969-9a3a-caf3ac2f890a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+5>11)?
+        $P{budsmth}.intValue()+5-12:
+        $P{budsmth}.intValue()+5
+)+"-"+((($P{budsmth}.intValue()+5>11)?
+        $P{budsmth}.intValue()+5-12+1:
+        $P{budsmth}.intValue()+5+1)
+<= 12 &&(($P{budsmth}.intValue()+5>11)?
+        $P{budsmth}.intValue()+5-12+1:
+        $P{budsmth}.intValue()+5+1)
+>= $P{budsmth}.intValue()? $P{y1}.toString():$P{y2}.toString())]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="21edf7a8-ddac-449a-aa74-e543aaef25f2">
+									<printWhenExpression><![CDATA[$F{m1} !=null]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{m7}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="725ef398-a8af-4509-bca8-21c5a7400b83">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="30" uuid="29c4eee3-3cbb-4870-a0e7-6444b2b8784f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+6>11)?
+        $P{budsmth}.intValue()+6-12:
+        $P{budsmth}.intValue()+6
+)+"-"+((($P{budsmth}.intValue()+6>11)?
+        $P{budsmth}.intValue()+6-12+1:
+        $P{budsmth}.intValue()+6+1)
+<= 12 &&(($P{budsmth}.intValue()+6>11)?
+        $P{budsmth}.intValue()+6-12+1:
+        $P{budsmth}.intValue()+6+1)
+>= $P{budsmth}.intValue()? $P{y1}.toString():$P{y2}.toString())]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="bfe4ac55-2d9f-45d7-b6e0-ed2d58803968">
+									<printWhenExpression><![CDATA[$F{m1} !=null]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{m8}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="a0560dc2-e202-4d92-94bc-225260997eab">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="30" uuid="bb50bf8e-9ab2-4243-b2a9-6fbda1074de3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+7>11)?
+        $P{budsmth}.intValue()+7-12:
+        $P{budsmth}.intValue()+7
+)+"-"+((($P{budsmth}.intValue()+7>11)?
+        $P{budsmth}.intValue()+7-12+1:
+        $P{budsmth}.intValue()+7+1)
+<= 12 &&(($P{budsmth}.intValue()+7>11)?
+        $P{budsmth}.intValue()+7-12+1:
+        $P{budsmth}.intValue()+7+1)
+>= $P{budsmth}.intValue()? $P{y1}.toString():$P{y2}.toString())]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="75d7b06b-1472-4c06-912c-68d6f718c55c">
+									<printWhenExpression><![CDATA[$F{m1} !=null]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{m9}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="dd1e7373-57b9-4d22-81bf-b5e43c35038b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column13"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="30" uuid="688a3c41-f824-4032-b27c-6df8d355745a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+8>11)?
+        $P{budsmth}.intValue()+8-12:
+        $P{budsmth}.intValue()+8
+)+"-"+((($P{budsmth}.intValue()+8>11)?
+        $P{budsmth}.intValue()+8-12+1:
+        $P{budsmth}.intValue()+8+1)
+<= 12 &&(($P{budsmth}.intValue()+8>11)?
+        $P{budsmth}.intValue()+8-12+1:
+        $P{budsmth}.intValue()+8+1)
+>= $P{budsmth}.intValue()? $P{y1}.toString():$P{y2}.toString())]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="ffc79c25-f9af-4424-a2d8-bc0d883d2dde">
+									<printWhenExpression><![CDATA[$F{m1} !=null]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{m10}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="1e083880-50a8-4623-adf9-0aa488d00d81">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column14"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="30" uuid="adfb0f95-b6e5-4835-861b-f009cffc8c09"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+9>11)?
+        $P{budsmth}.intValue()+9-12:
+        $P{budsmth}.intValue()+9
+)+"-"+((($P{budsmth}.intValue()+9>11)?
+        $P{budsmth}.intValue()+9-12+1:
+        $P{budsmth}.intValue()+9+1)
+<= 12 &&(($P{budsmth}.intValue()+9>11)?
+        $P{budsmth}.intValue()+9-12+1:
+        $P{budsmth}.intValue()+9+1)
+>= $P{budsmth}.intValue()? $P{y1}.toString():$P{y2}.toString())]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="2693a373-9b3a-4a44-8003-5d25c25c69b5">
+									<printWhenExpression><![CDATA[$F{m1} !=null]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{m11}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="32b23a09-cee9-4a96-90e1-56f7ca04ab02">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column15"/>
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="30" uuid="01a7bb9a-37b9-4f11-a7c5-74690856a275"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{monthList}.get(
+    ($P{budsmth}.intValue()+10>11)?
+        $P{budsmth}.intValue()+10-12:
+        $P{budsmth}.intValue()+10
+)+"-"+((($P{budsmth}.intValue()+10>11)?
+        $P{budsmth}.intValue()+10-12+1:
+        $P{budsmth}.intValue()+10+1)
+<= 12 &&(($P{budsmth}.intValue()+10>11)?
+        $P{budsmth}.intValue()+10-12+1:
+        $P{budsmth}.intValue()+10+1)
+>= $P{budsmth}.intValue()? $P{y1}.toString():$P{y2}.toString())]]></textFieldExpression>
+							</textField>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="45" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="f5083e66-80f2-4b66-b66a-fbafaa7adffa">
+									<printWhenExpression><![CDATA[$F{m1} !=null]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="6"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{m12}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="a1818eaa-72bb-4e57-8223-d29a9249deb6">
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="30" uuid="32ee82c5-c741-475c-937e-3d1531ea1d97">
+									<printWhenExpression><![CDATA[$P{isDateRange}]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:columnFooter height="0" rowSpan="1"/>
+						<jr:detailCell height="45" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="58" height="45" uuid="623b6c72-dece-4f60-9e87-53a7af824a30">
+									<printWhenExpression><![CDATA[$P{isDateRange}]]></printWhenExpression>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{m1} == null ? "":$F{m1}.doubleValue()+$F{m2}.doubleValue()+ $F{m3}.doubleValue()+$F{m4}.doubleValue()+$F{m5}.doubleValue()+$F{m6}.doubleValue()+$F{m7}.doubleValue()+$F{m8}.doubleValue()+$F{m9}.doubleValue()+$F{m10}.doubleValue()+$F{m11}.doubleValue()+$F{m12}.doubleValue()]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="36">
+			<textField>
+				<reportElement x="2" y="2" width="170" height="30" uuid="d8f3980b-aa16-4b83-a0e9-ba5cbd5f8ec7">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total ( "+$V{REPORT_COUNT}+" ) records found."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="2" width="100" height="30" uuid="42b79d26-37f1-4ac7-9ea4-0c4f5362c948"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page No . "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="27"/>
+	</summary>
+</jasperReport>

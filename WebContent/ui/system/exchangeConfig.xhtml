@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="EXCHANGECONFIG" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:form id="exchangeForm">
+			<p:growl escape="false" globalOnly="true" life="5000" showDetail="true" />
+			<h:outputText value="#{label['MANAGE_CONFIG_ADDNEW_LABEL']}" styleClass="title" rendered="#{!ManageExchangeConfigActionBean.edit}" />
+			<h:outputText value="#{label['MANAGE_CONFIG_EDIT_LABEL']}" styleClass="title" rendered="#{ManageExchangeConfigActionBean.edit}" />
+			<p:panel>
+			<p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+				<p:panelGrid id="panelDept" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<p:blockUI block="exchangeForm" trigger="selectAccountCodeDialogLink" />
+					<p:message display="text" for="accountCode" />
+					<h:outputText value="COA Code" styleClass="input-label mandatory" />
+					<p:panelGrid styleClass="ui-panelgrid-blank" id="accountCodePanel">
+						<div style="margin: -6px -6px;" class="ui-g ui-fluid" id="accountCodePanel">
+							<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+								<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{ManageExchangeConfigActionBean.selectCOACode()}" id="selectAccountCodeDialogLink"
+									process="@this">
+									<p:ajax event="dialogReturn" listener="#{ManageExchangeConfigActionBean.returnCoaCode}" update="accountCode" />
+								</p:commandButton>
+								<p:inputText id="accountCode" readonly="#{ManageExchangeConfigActionBean.exchangeConfig.coaCode == null ? facesContext.currentPhaseId.ordinal eq 6 : true}"
+									required="#{not empty param[isRequired.clientId]}" value="#{ManageExchangeConfigActionBean.exchangeConfig.coaCode == null ? '' : ManageExchangeConfigActionBean.exchangeConfig.coaCode}" />
+								<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ManageExchangeConfigActionBean.exchangeConfig.setCoaCode(null)}" process="@this" update="accountCode" />
+							</div>
+						</div>
+					</p:panelGrid>
+					
+					<p:blockUI block="exchangeForm" trigger="selectExchangeCodeDialogLink" />
+					<p:message display="text" for="exchangeCode" />
+					<h:outputText value="Exchange Code" styleClass="input-label mandatory" />
+					<p:panelGrid styleClass="ui-panelgrid-blank" id="exchangeCodePanel">
+						<div style="margin: -6px -6px;" class="ui-g ui-fluid" id="exchangeCodePanel">
+							<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+								<p:commandButton styleClass="green-button" icon="fa fa-search" actionListener="#{ManageExchangeConfigActionBean.selectCOACode()}" id="selectExchangeCodeDialogLink"
+									process="@this">
+									<p:ajax event="dialogReturn" listener="#{ManageExchangeConfigActionBean.returnExchangeCode}" update="exchangeCode" />
+								</p:commandButton>
+								<p:inputText id="exchangeCode" readonly="#{ManageExchangeConfigActionBean.exchangeConfig.exchangeCode == null ? facesContext.currentPhaseId.ordinal eq 6 : true}"
+									required="#{not empty param[isRequired.clientId]}" value="#{ManageExchangeConfigActionBean.exchangeConfig.exchangeCode == null ? '' : ManageExchangeConfigActionBean.exchangeConfig.exchangeCode}" />
+								<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ManageExchangeConfigActionBean.exchangeConfig.setExchangeCode(null)}" process="@this" update="exchangeCode" />
+							</div>
+						</div>
+					</p:panelGrid>
+				</p:panelGrid>
+				</p:panelGrid>
+			</p:panel>
+			<br />
+			<h:panelGrid columns="3" style="margin-top:-2px;">
+				<p:commandButton id="addBtn" value="#{ManageExchangeConfigActionBean.edit? 'Update':'Submit'}" action="#{ManageExchangeConfigActionBean.createExchange}"
+					update=":exchangeTableForm :exchangeForm" style="width:65px;"  />
+				<p:commandButton id="cancleButton" immediate="true" process="@this" value="Cancel" action="#{ManageExchangeConfigActionBean.createNewExchange}" update=":exchangeForm"
+					style="width:70px;margin-left:-3px;" />
+			</h:panelGrid>
+			<p:separator style="height:3px" />
+		</h:form>
+		<h:form id="exchangeTableForm">
+			<p:dataTable var="exchange" value="#{ManageExchangeConfigActionBean.exchangeList}" id="exTable" paginator="true" rows="10" style="width:100%" widgetVar="exTable"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15"
+				rowKey="index" reflow="true" rowIndexVar="var" paginatorPosition="bottom">
+				<p:column headerText="No" width="2%">
+					<h:outputText value="#{var + 1}" />
+				</p:column>
+				<p:column headerText="COA Code" filterBy="#{exchange.coaCode}" filterMatchMode="contains">
+					<h:outputText value="#{exchange.coaCode}" />
+				</p:column>
+				<p:column headerText="Exchange Code" filterBy="#{exchange.exchangeCode}" filterMatchMode="contains">
+					<h:outputText value="#{exchange.exchangeCode}" />
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="green-button" icon="fa fa-paint-brush" action="#{ManageExchangeConfigActionBean.prepareEdit(exchange)}" process="@this" update=":exchangeForm" />
+				</p:column>
+				<p:column style="width:4%;">
+					<p:commandButton styleClass="red-button" icon="fa fa-times" action="#{ManageExchangeConfigActionBean.deleteExchangeConfig(exchange)}" oncomplete="PF('exTable').filter();"
+						update=":exchangeForm :exchangeTableForm">
+						<p:confirm header="Confirmation" message="#{label['COMMON_MSG_DELETE_CONFIRM_LABEL']}" icon="fa fa-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<!-- Confirmation Dialog -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>

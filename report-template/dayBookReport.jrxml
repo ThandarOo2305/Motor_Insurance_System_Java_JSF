@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dayBookReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="LANGUAGE_en" uuid="06e92159-151d-4481-9b43-611eb07a4aaf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.2" value="pageHeader"/>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF" fontName="Zawgyi-One" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold">
+		<pen lineWidth="0.5" lineColor="#000000"/>
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF" fontName="Zawgyi-One" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="dayBookDataSet" uuid="eb4c8171-414b-4814-a2e2-09afa6b05962">
+		<parameter name="homeCurrencyConverted" class="java.lang.Boolean"/>
+		<field name="coa" class="org.ace.accounting.system.chartaccount.ChartOfAccount"/>
+		<field name="crDebit" class="java.math.BigDecimal"/>
+		<field name="trDebit" class="java.math.BigDecimal"/>
+		<field name="crCredit" class="java.math.BigDecimal"/>
+		<field name="trCredit" class="java.math.BigDecimal"/>
+		<field name="crDebit_Home" class="java.math.BigDecimal"/>
+		<field name="trDebit_Home" class="java.math.BigDecimal"/>
+		<field name="crCredit_Home" class="java.math.BigDecimal"/>
+		<field name="trCredit_Home" class="java.math.BigDecimal"/>
+		<field name="homeCurrency" class="java.lang.Boolean"/>
+		<field name="groupCOA" class="org.ace.accounting.system.chartaccount.ChartOfAccount"/>
+		<field name="homeCurrencyConverted" class="java.lang.Boolean"/>
+		<field name="eNo" class="java.lang.String"/>
+		<variable name="crDebit" class="java.math.BigDecimal" resetType="None">
+			<variableExpression><![CDATA[$F{homeCurrency}? ($F{crDebit_Home}==null? java.math.BigDecimal.ZERO:$F{crDebit_Home})
+:$F{homeCurrencyConverted}? ($F{crDebit_Home}==null? java.math.BigDecimal.ZERO:$F{crDebit_Home}):
+($F{crDebit}==null? java.math.BigDecimal.ZERO: $F{crDebit})]]></variableExpression>
+		</variable>
+		<variable name="trDebit" class="java.math.BigDecimal" resetType="None">
+			<variableExpression><![CDATA[$F{homeCurrency}? ($F{trDebit_Home}==null? java.math.BigDecimal.ZERO:$F{trDebit_Home})
+:$F{homeCurrencyConverted}? ($F{trDebit_Home}==null? java.math.BigDecimal.ZERO:$F{trDebit_Home}):
+($F{trDebit}==null? java.math.BigDecimal.ZERO: $F{trDebit})]]></variableExpression>
+		</variable>
+		<variable name="debitTotal" class="java.math.BigDecimal" resetType="None">
+			<variableExpression><![CDATA[$V{crDebit}.add($V{trDebit})]]></variableExpression>
+		</variable>
+		<variable name="crCredit" class="java.math.BigDecimal" resetType="None">
+			<variableExpression><![CDATA[$F{homeCurrency}? ($F{crCredit_Home}==null? java.math.BigDecimal.ZERO:$F{crCredit_Home})
+:$F{homeCurrencyConverted}? ($F{crCredit_Home}==null? java.math.BigDecimal.ZERO:$F{crCredit_Home}):
+($F{crCredit}==null? java.math.BigDecimal.ZERO: $F{crCredit})]]></variableExpression>
+		</variable>
+		<variable name="trCredit" class="java.math.BigDecimal" resetType="None">
+			<variableExpression><![CDATA[$F{homeCurrency}? ($F{trCredit_Home}==null? java.math.BigDecimal.ZERO:$F{trCredit_Home})
+:$F{homeCurrencyConverted}? ($F{trCredit_Home}==null? java.math.BigDecimal.ZERO:$F{trCredit_Home}):
+($F{trCredit}==null? java.math.BigDecimal.ZERO: $F{trCredit})]]></variableExpression>
+		</variable>
+		<variable name="creditTotal" class="java.math.BigDecimal" resetType="None">
+			<variableExpression><![CDATA[$V{crCredit}.add($V{trCredit})]]></variableExpression>
+		</variable>
+		<variable name="crDebitSubTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="groupCOA" calculation="Sum">
+			<variableExpression><![CDATA[$V{crDebit}]]></variableExpression>
+		</variable>
+		<variable name="trDebitSubTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="groupCOA" calculation="Sum">
+			<variableExpression><![CDATA[$V{trDebit}]]></variableExpression>
+		</variable>
+		<variable name="crCreditSubTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="groupCOA" calculation="Sum">
+			<variableExpression><![CDATA[$V{crCredit}]]></variableExpression>
+		</variable>
+		<variable name="trCreditSubTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="groupCOA" calculation="Sum">
+			<variableExpression><![CDATA[$V{trCredit}]]></variableExpression>
+		</variable>
+		<variable name="debitSubTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="groupCOA" calculation="Sum">
+			<variableExpression><![CDATA[$V{debitTotal}]]></variableExpression>
+		</variable>
+		<variable name="creditSubTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="groupCOA" calculation="Sum">
+			<variableExpression><![CDATA[$V{creditTotal}]]></variableExpression>
+		</variable>
+		<group name="groupCOA">
+			<groupExpression><![CDATA[$F{coa}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="dayBookList" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="startDate" class="java.util.Date"/>
+	<parameter name="branches" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="logoPath" class="java.lang.String"/>
+	<parameter name="homeCurrency" class="java.lang.Boolean"/>
+	<parameter name="homeCurrencyConverted" class="java.lang.Boolean"/>
+	<field name="grandTotal" class="org.ace.accounting.dto.DayBookReportDto"/>
+	<field name="detailList" class="java.util.List"/>
+	<variable name="crDebitTotal" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[$P{homeCurrency}?$F{grandTotal}.getCrDebit_Home():$P{homeCurrencyConverted}?$F{grandTotal}.getCrDebit_Home():
+$F{grandTotal}.getCrDebit()]]></variableExpression>
+	</variable>
+	<variable name="trDebitTotal" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[$P{homeCurrency}?$F{grandTotal}.getTrDebit_Home():$P{homeCurrencyConverted}?$F{grandTotal}.getTrDebit_Home():
+$F{grandTotal}.getTrDebit()]]></variableExpression>
+	</variable>
+	<variable name="crCreditTotal" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[$P{homeCurrency}?$F{grandTotal}.getCrCredit_Home():$P{homeCurrencyConverted}?$F{grandTotal}.getCrCredit_Home():
+$F{grandTotal}.getCrCredit()]]></variableExpression>
+	</variable>
+	<variable name="trCreditTotal" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[$P{homeCurrency}?$F{grandTotal}.getTrCredit_Home():$P{homeCurrencyConverted}?$F{grandTotal}.getTrCredit_Home():
+$F{grandTotal}.getTrCredit()]]></variableExpression>
+	</variable>
+	<title>
+		<band height="78" splitType="Stretch">
+			<textField>
+				<reportElement x="205" y="3" width="385" height="28" uuid="f30837aa-8de4-4682-b076-50f5ad9f2623"/>
+				<textElement textAlignment="Center">
+					<font fontName="Zawgyi-One" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{CLIENT_COMPANY_LABEL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="247" y="31" width="169" height="20" uuid="0d897e53-9cba-43a5-aab5-cf8fe29eff89"/>
+				<textElement textAlignment="Right">
+					<font fontName="Zawgyi-One" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Day Book Domestic as at]]></text>
+			</staticText>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="416" y="31" width="84" height="20" uuid="da09465d-8953-4f48-85cb-7d750faf6b31"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="1" y="0" width="135" height="51" uuid="321afbcd-baee-4b5d-a96a-ad7997bb79b1"/>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement x="715" y="20" width="29" height="20" uuid="3ac39b0c-2fdc-41a1-80e6-43d60ba58335"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="742" y="20" width="53" height="20" uuid="3b85527f-839f-4a92-8c5a-d8e5c9e5de11"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="10" width="203" height="18" uuid="ca1f5dcf-7e6d-47b2-9d28-ed9d86af4761"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Branch     : "+$P{branches}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="28" width="203" height="18" uuid="65705003-6a84-46f7-9261-b6dfde0533cb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" Currency  : "+$P{currency}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="81" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" x="0" y="0" width="800" height="80" isRemoveLineWhenBlank="true" uuid="5627a2bb-e215-4c60-ab5d-316dc1d6bdd2">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dayBookDataSet" uuid="87130460-c4cc-43c4-a164-bbcf5f50c672">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{detailList})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="40" uuid="ab35320e-6186-4a4d-9205-2b56850245aa">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableHeader height="23" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="40" height="23" uuid="036b924b-6aeb-4239-a00d-a49f96645ea2">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Sr No.]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="groupCOA">
+							<jr:cell height="18" rowSpan="1">
+								<staticText>
+									<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="40" height="18" backcolor="#CCFFFE" uuid="4ba62327-48fe-4b03-aaad-edc2062d6cf6">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+										<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+									</reportElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="8"/>
+									</textElement>
+									<text><![CDATA[Sub Total]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="40" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="40" height="40" uuid="cd6e7cd5-8a89-42c8-a945-2e0c9d7f2a71"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="0133cd87-bb37-477d-86d1-23455a32ef68">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableHeader style="table_TH" height="23" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="23" uuid="5dfc99a2-1a88-4686-afb0-20a74248eb9e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Cash]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="groupCOA">
+							<jr:cell height="18" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="18" backcolor="#CCFFFE" uuid="97c59ca3-b40a-4359-b8d3-3f225bbbae1b"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font size="8"/>
+										<paragraph rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{crDebitSubTotal}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="40" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="40" uuid="506a4a52-cce9-4952-9c5c-c40d2b88a510"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{crDebit}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="be19b035-b5f2-4f1f-a902-54d5475504ac">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:tableHeader style="table_TH" height="23" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="23" uuid="5744ba18-d132-4030-86aa-18dd85c6497e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Transfer]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="groupCOA">
+							<jr:cell height="18" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="18" backcolor="#CCFFFE" uuid="94b2a208-9eef-463d-954e-25892e12a1a3"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font size="8"/>
+										<paragraph rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{trDebitSubTotal}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="40" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="40" uuid="3b83b48c-9705-43d9-8918-2631e99266f0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{trDebit}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="a32e7a46-b3e9-4f4f-8f48-151c84442e2a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:tableHeader style="table_TH" height="23" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="23" uuid="f9cc9edc-abfc-42e5-bdd3-4801d6b689a3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Debit Total]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="groupCOA">
+							<jr:cell height="18" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="18" backcolor="#CCFFFE" uuid="adcf534d-d47f-42b5-be50-9dd305ebbcf7">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font size="8"/>
+										<paragraph rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{debitSubTotal}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="40" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="40" uuid="680339b8-ab6c-4daf-937b-eee0f11dfb58"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{debitTotal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="125" uuid="ed366e6c-2c9b-4964-9667-5501f3993559">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:tableHeader style="table_TH" height="23" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="125" height="23" uuid="c08994e9-67d5-4fa6-9270-29aa19863a1e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+								</textElement>
+								<text><![CDATA[Voucher No.]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="groupCOA">
+							<jr:cell height="18" rowSpan="1"/>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="125" height="40" uuid="5e588ab5-3a24-4e9a-a2a5-431fd9ad7eae"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Zawgyi-One" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{eNo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="9e5f098d-3588-4464-a690-b5650148164d">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:tableHeader style="table_TH" height="23" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="70" height="23" uuid="98e2c96a-93e6-4351-aef5-be9e9a296b45"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Account No.]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="groupCOA">
+							<jr:cell height="18" rowSpan="1">
+								<textField>
+									<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="70" height="18" backcolor="#CCFFFE" uuid="2f54d463-3882-4b18-b00a-a6ca88b33575"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{coa}.getAcCode().substring(0,6)+"-000"]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="40" rowSpan="1">
+							<textField pattern="">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="70" height="40" uuid="fd190487-0f32-4afa-a8aa-d636d09bf5c4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{coa}.getAcCode()]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="230" uuid="6a2ecbbf-cbd8-41cf-ab36-30ae4bf9d756">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:tableHeader style="table_TH" height="23" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="230" height="23" uuid="1cfa84c9-8d56-4063-bfe1-32bceef15c81"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Particular]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="groupCOA">
+							<jr:cell height="18" rowSpan="1">
+								<staticText>
+									<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="230" height="18" backcolor="#CCFFFE" uuid="fb489ae8-edce-4d1b-8905-1f23d1d05b25"/>
+									<text><![CDATA[]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="40" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="0" y="0" width="230" height="40" isPrintWhenDetailOverflows="true" uuid="48b037d0-e1dd-4542-bb89-4ac57da0be79">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Justified" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{coa}.getAcName()]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="05e150a5-45f2-478d-bdbf-18ef5e72de15">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:tableHeader style="table_TH" height="23" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="23" uuid="0453a600-9a75-49bb-972d-2dafc17f4b4d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Cash]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="groupCOA">
+							<jr:cell height="18" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="18" backcolor="#CCFFFE" uuid="a53439f9-50ae-42c9-9be7-6f21d17d7de3"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font size="8"/>
+										<paragraph rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{crCreditSubTotal}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="40" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="40" uuid="3b20ff05-d77e-47e6-aa56-17b40089787e"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{crCredit}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="005e4766-ef2e-4c20-aad0-a97224e1b6dc">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:tableHeader style="table_TH" height="23" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="23" uuid="57cf254e-885b-4006-ad84-83c90f32a4c0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Transfer]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="groupCOA">
+							<jr:cell height="18" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="18" backcolor="#CCFFFE" uuid="961aac20-169f-4bf9-9dc6-a94a403adfd4"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font size="8"/>
+										<paragraph rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{trCreditSubTotal}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="40" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="40" uuid="323bcdc7-08ad-4dd6-b93f-b6dace7fadf8"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{trCredit}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="6e44cb0a-d2db-413a-a1e4-ae9482caddeb">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+						<jr:tableHeader style="table_TH" height="23" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement style="table_TH" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="23" uuid="a0c7b6ac-5c66-494d-87bf-c1278998f6ff"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Credit Total]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:groupFooter groupName="groupCOA">
+							<jr:cell height="18" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="18" backcolor="#CCFFFE" uuid="18ded7ed-3e8e-442a-89d7-970aaaa5908f"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font size="8"/>
+										<paragraph rightIndent="2"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{creditSubTotal}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="table_TD" height="40" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement style="table_TD" positionType="FixRelativeToBottom" x="0" y="0" width="55" height="40" uuid="13634cc5-07f2-4294-bd14-1fc2fc006287"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{creditTotal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="36">
+			<textField>
+				<reportElement x="2" y="2" width="170" height="30" uuid="d8f3980b-aa16-4b83-a0e9-ba5cbd5f8ec7">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total ( "+$V{REPORT_COUNT}+" ) records found."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="2" width="100" height="30" uuid="42b79d26-37f1-4ac7-9ea4-0c4f5362c948"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page No . "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="27">
+			<textField pattern="#,##0.00">
+				<reportElement key="" style="table_TD" isPrintRepeatedValues="false" x="40" y="0" width="55" height="20" uuid="b77c96c6-43a5-4415-8c64-e8f8b0c9fba6">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="8"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{crDebitTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="" style="table_TD" isPrintRepeatedValues="false" x="0" y="0" width="41" height="20" uuid="918dff69-70e7-4b95-82d9-20343a812a13">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement key="" style="table_TD" isPrintRepeatedValues="false" x="95" y="0" width="55" height="20" uuid="a4439f15-8483-4ec8-bde3-1937bf6c192c">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="8"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{trDebitTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement key="" style="table_TD" isPrintRepeatedValues="false" x="150" y="0" width="55" height="20" uuid="d83dc95b-c670-4520-9c7f-dd1e8230e863">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="8"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{crDebitTotal}.add($V{trDebitTotal})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement key="" style="table_TD" isPrintRepeatedValues="false" x="685" y="0" width="55" height="20" uuid="4d25e430-443c-49de-9754-ec711ea76e87">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="8"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{trCreditTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement key="" style="table_TD" isPrintRepeatedValues="false" x="630" y="0" width="55" height="20" uuid="cc5afaac-5b44-4ec9-826e-704730f10281">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="8"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{crCreditTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement key="" style="table_TD" isPrintRepeatedValues="false" x="740" y="0" width="55" height="20" uuid="d372bf85-6a22-422e-94d6-d9b9a9ae0e46">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Zawgyi-One" size="8"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{crCreditTotal}.add($V{trCreditTotal})]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
