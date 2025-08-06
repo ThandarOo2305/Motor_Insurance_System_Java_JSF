@@ -1,8 +1,80 @@
 package org.ace.accounting.system.motor.service;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Service
-public class MotorPolicyVehicleLinkService {
+import javax.annotation.Resource;
+
+import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
+import org.ace.accounting.system.motor.persistence.interfaces.IMotorPolicyVehicleLinkDAO;
+import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyVehicleLinkService;
+import org.ace.java.component.SystemException;
+import org.ace.java.component.persistence.exception.DAOException;
+import org.ace.java.component.service.BaseService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service(value = "MotorPolicyVehicleLinkService")
+public class MotorPolicyVehicleLinkService extends BaseService implements IMotorPolicyVehicleLinkService{
+	
+	@Resource(name="VehicleDao")
+	private IMotorPolicyVehicleLinkDAO vehicleDao;
+	
+	@Resource(name="VehicleService")
+	private IMotorPolicyVehicleLinkService vehicleService;
+	
+	@Transactional(propagation= Propagation.REQUIRED, readOnly=true)
+	public List<MotorPolicyVehicleLink> findAllMotorPolicyVehicleLinks() throws SystemException {
+		List<MotorPolicyVehicleLink> result=null;
+		try {
+			result=vehicleDao.findAll();
+			
+		} catch (DAOException e) {
+			throw new SystemException(e.getErrorCode(), "Failed to fin all vehicleLink", e);
+		}
+		return result;
+	}
+	
+	@Transactional(propagation= Propagation.REQUIRED, readOnly=true)
+	public MotorPolicyVehicleLink findMotorPolicyVehicleLinkByRegistrationNo(String registrationNo)
+			throws SystemException {
+		  MotorPolicyVehicleLink result = null;
+		    try {
+		        result = vehicleDao.findByRegistrationNo(registrationNo);
+		    } catch (DAOException e) {
+		        throw new SystemException(e.getErrorCode(), "Failed to find vehicleLink by registration number: " + registrationNo, e);
+		    }
+		    return result;
+	}
+	
+	@Transactional(propagation= Propagation.REQUIRED)
+	public void addNewMotorPolicyVehicleLink(MotorPolicyVehicleLink link) throws SystemException {
+		try {
+			vehicleDao.insert(link);
+		} catch (DAOException e) {
+			throw new SystemException(e.getErrorCode(), "Failed to add new vehicleLink", e);
+		}
+	}
+	
+	@Transactional(propagation= Propagation.REQUIRED)
+	public void updateMotorPolicyVehicleLink(MotorPolicyVehicleLink link) throws SystemException {
+		try {
+			vehicleDao.update(link);
+		} catch (DAOException e) {
+			throw new SystemException(e.getErrorCode(), "Failed to update vehicleLink", e);
+		}
+	}
+	
+	@Transactional(propagation= Propagation.REQUIRED)
+	public void deleteMotorPolicyVehicleLink(MotorPolicyVehicleLink link) throws SystemException {
+		try {
+			vehicleDao.delete(link);
+		} catch (DAOException e) {
+			throw new SystemException(e.getErrorCode(), "Failed to delete vehicleLink", e);
+		}
+	}
+	
+	
+	
 
 }
