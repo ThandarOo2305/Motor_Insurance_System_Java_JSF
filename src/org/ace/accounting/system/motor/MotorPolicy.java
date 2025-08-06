@@ -2,8 +2,8 @@ package org.ace.accounting.system.motor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -12,7 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Version;
@@ -67,9 +67,17 @@ public class MotorPolicy implements Serializable{
 	@Embedded
 	private BasicEntity basicEntity;
 	
-	@ManyToOne(cascade = CascadeType.ALL, optional = true)
-	private MotorPolicyVehicleLink motorPolicyVehicleLink;
+	@OneToMany(mappedBy = "motorPolicy")
+	private List<MotorPolicyVehicleLink> motorPolicyVehicleLinks;
 	
+	public List<MotorPolicyVehicleLink> getMotorPolicyVehicleLinks() {
+		return motorPolicyVehicleLinks;
+	}
+
+	public void setMotorPolicyVehicleLinks(List<MotorPolicyVehicleLink> motorPolicyVehicleLinks) {
+		this.motorPolicyVehicleLinks = motorPolicyVehicleLinks;
+	}
+
 	public MotorPolicy() {
 		
 	}
@@ -177,13 +185,4 @@ public class MotorPolicy implements Serializable{
 	public void setBasicEntity(BasicEntity basicEntity) {
 		this.basicEntity = basicEntity;
 	}
-
-	public MotorPolicyVehicleLink getMotorPolicyVehicleLink() {
-		return motorPolicyVehicleLink;
-	}
-
-	public void setMotorPolicyVehicleLink(MotorPolicyVehicleLink motorPolicyVehicleLink) {
-		this.motorPolicyVehicleLink = motorPolicyVehicleLink;
-	}
-	
 }
