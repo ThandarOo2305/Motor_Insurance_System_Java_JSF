@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
@@ -28,6 +30,9 @@ import org.ace.java.component.idgen.service.IDInterceptor;
 @Entity
 @Table(name = TableName.MOTORPOLICY)
 @TableGenerator(name = "MOTORPOLICY_GEN", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "MOTORPOLICY_GEN", allocationSize = 10)
+@NamedQueries(value = {
+		@NamedQuery(name = "MotorPolicy.findAll", query = "SELECT mp FROM MotorPolicy mp ORDER BY mp.customer ASC"),
+		@NamedQuery(name = "MotorPolicy.findByCustomer", query = "SELECT mp FROM MotorPolicy mp WHERE mp.customer = :customer") })
 @EntityListeners(IDInterceptor.class)
 public class MotorPolicy implements Serializable{
 	
