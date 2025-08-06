@@ -19,7 +19,6 @@
 	<class>org.ace.accounting.system.branch.Branch</class>
 	<class>org.ace.accounting.system.motor.MotorPolicy</class>
 	<class>org.ace.accounting.system.motor.MotorPolicyVehicleLink</class>
-	<class>org.ace.accounting.system.motor.AddOn</class>
 	<class>org.ace.accounting.system.currency.Currency</class>
 	<class>org.ace.accounting.system.rateinfo.RateInfo</class>
 	<class>org.ace.accounting.system.department.Department</class>

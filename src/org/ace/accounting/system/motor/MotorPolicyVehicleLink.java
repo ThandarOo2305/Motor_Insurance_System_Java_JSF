@@ -1,18 +1,17 @@
 package org.ace.accounting.system.motor;
 
 import java.io.Serializable;
-import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Version;
@@ -24,6 +23,9 @@ import org.ace.java.component.idgen.service.IDInterceptor;
 @Entity
 @Table(name = TableName.MOTORPOLICYVEHICLELINK)
 @TableGenerator(name = "MOTORPOLICYVEHICLELINK_GEN", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "MOTORPOLICYVEHICLELINK_GEN", allocationSize = 10)
+@NamedQueries(value = {
+		@NamedQuery(name = "MotorPolicyVehicleLink.findAll", query = "SELECT mv FROM MotorPolicyVehicleLink mv ORDER BY mv.registrationNo ASC"),
+		@NamedQuery(name = "MotorPolicyVehicleLink.findByRegistrationNo", query = "SELECT mv FROM MotorPolicyVehicleLink mv WHERE mv.registrationNo = :registrationNo") })
 @EntityListeners(IDInterceptor.class)
 public class MotorPolicyVehicleLink implements Serializable{
 	
@@ -65,22 +67,115 @@ public class MotorPolicyVehicleLink implements Serializable{
 	
 	private String hirePurchaseCompany;
 	
-	@Version
+	// Additional Covers
+    private boolean actsOfGod;
+    private boolean nilExcess;
+    private boolean srcc;
+    private boolean theft;
+    private boolean warRisk;
+    private boolean betterment;
+    private boolean paAndMt;
+    private boolean sunRoof;
+    private boolean thirdParty;
+    
+    @Version
 	private int version;
 	
 	@Embedded
 	private BasicEntity basicEntity;
 	
-	@OneToMany(mappedBy = "motorPolicyVehicleLink")
-	private List<MotorPolicy> motorPolicies;
-	
-	@ManyToMany
-    @JoinTable(
-        name = "vehicle_addons",
-        joinColumns = @JoinColumn(name = "vehicle_id"),
-        inverseJoinColumns = @JoinColumn(name = "addon_id")
-    )
-    private List<AddOn> addons;
+	@ManyToOne(cascade = CascadeType.ALL, optional = true)
+	private MotorPolicy motorPolicy;
+    
+    public MotorPolicy getMotorPolicy() {
+		return motorPolicy;
+	}
+
+	public void setMotorPolicy(MotorPolicy motorPolicy) {
+		this.motorPolicy = motorPolicy;
+	}
+
+	public boolean isActsOfGod() {
+		return actsOfGod;
+	}
+
+	public void setActsOfGod(boolean actsOfGod) {
+		this.actsOfGod = actsOfGod;
+	}
+
+	public boolean isNilExcess() {
+		return nilExcess;
+	}
+
+	public void setNilExcess(boolean nilExcess) {
+		this.nilExcess = nilExcess;
+	}
+
+	public boolean isSrcc() {
+		return srcc;
+	}
+
+	public void setSrcc(boolean srcc) {
+		this.srcc = srcc;
+	}
+
+	public boolean isTheft() {
+		return theft;
+	}
+
+	public void setTheft(boolean theft) {
+		this.theft = theft;
+	}
+
+	public boolean isWarRisk() {
+		return warRisk;
+	}
+
+	public void setWarRisk(boolean warRisk) {
+		this.warRisk = warRisk;
+	}
+
+	public boolean isBetterment() {
+		return betterment;
+	}
+
+	public void setBetterment(boolean betterment) {
+		this.betterment = betterment;
+	}
+
+	public boolean isPaAndMt() {
+		return paAndMt;
+	}
+
+	public void setPaAndMt(boolean paAndMt) {
+		this.paAndMt = paAndMt;
+	}
+
+	public boolean isSunRoof() {
+		return sunRoof;
+	}
+
+	public void setSunRoof(boolean sunRoof) {
+		this.sunRoof = sunRoof;
+	}
+
+	public boolean isThirdParty() {
+		return thirdParty;
+	}
+
+	public void setThirdParty(boolean thirdParty) {
+		this.thirdParty = thirdParty;
+	}
+
+	public boolean isWindScreen() {
+		return windScreen;
+	}
+
+	public void setWindScreen(boolean windScreen) {
+		this.windScreen = windScreen;
+	}
+
+	private boolean windScreen;
 	
 	public MotorPolicyVehicleLink() {
 	}
@@ -237,20 +332,4 @@ public class MotorPolicyVehicleLink implements Serializable{
 		this.basicEntity = basicEntity;
 	}
 
-	public List<MotorPolicy> getMotorPolicies() {
-		return motorPolicies;
-	}
-
-	public void setMotorPolicies(List<MotorPolicy> motorPolicies) {
-		this.motorPolicies = motorPolicies;
-	}
-
-	public List<AddOn> getAddons() {
-		return addons;
-	}
-
-	public void setAddons(List<AddOn> addons) {
-		this.addons = addons;
-	}
-	
 }
