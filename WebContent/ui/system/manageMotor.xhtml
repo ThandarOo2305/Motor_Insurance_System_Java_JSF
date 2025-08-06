@@ -7,7 +7,7 @@
 	<ui:param name="header" value="Motor Management" />
 	<ui:param name="headerRendered" value="true" />
 	<ui:define name="content">
-	<h:outputStylesheet>
+		<h:outputStylesheet>
     body {
         background-color: #f5f7fa !important;
         color: #212529 !important;
@@ -84,9 +84,14 @@
 			<h:outputText value="Add New Motor Policy" styleClass="title" />
 			<p:tabView dynamic="true" cache="false" style="height:600px;">
 				<p:tab title="Policy Info">
-					<p:panelGrid id="panelDept" columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-						<p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-							<h:outputText value="Customer Type" styleClass="input-label mandatory" />
+					<p:panelGrid id="panelDept" columns="2"
+						columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
+						styleClass="ui-panelgrid-blank ui-fluid">
+						<p:panelGrid columns="2"
+							columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
+							styleClass="ui-panelgrid-blank ui-fluid">
+							<h:outputText value="Customer Type"
+								styleClass="input-label mandatory" />
 							<p:selectOneRadio value="" layout="lineDirection">
 								<f:selectItem itemLabel="Person" itemValue="Person" />
 								<f:selectItem itemLabel="Organization" itemValue="Organization" />
@@ -94,52 +99,163 @@
 
 							<h:outputText for="customer" styleClass="input-label" />
 							<p:inputText id="customer" value="" required="true" />
-							
-							<h:outputText for="saleChannel" value="Sale Channel" styleClass="input-label mandatory" />
+
+							<h:outputText for="saleChannel" value="Sale Channel"
+								styleClass="input-label mandatory" />
 							<p:selectOneMenu id="saleChannel" value="" required="true">
 								<f:selectItem itemLabel="Select Sale Channel" itemValue="" />
 								<f:selectItem itemLabel="Online" itemValue="Online" />
 								<f:selectItem itemLabel="Agent" itemValue="Agent" />
 							</p:selectOneMenu>
 
-							<h:outputText for="policyNo" value="Policy No." styleClass="input-label" />
+							<h:outputText for="policyNo" value="Policy No."
+								styleClass="input-label" />
 							<p:inputText id="policyNo" value="" />
-							
-							<h:outputText for="submitDate" value="Submit Date" styleClass="input-label mandatory" />
+
+							<h:outputText for="submitDate" value="Submit Date"
+								styleClass="input-label mandatory" />
 							<p:inputText id="submitDate" value="" readonly="true" />
 						</p:panelGrid>
-						<p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-							<h:outputText for="startDate" value="Policy Start Date" styleClass="input-label mandatory" />
-							<p:calendar id="startDate" value="" pattern="dd-MM-yyyy" required="true" />
+						<p:panelGrid columns="2"
+							columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
+							styleClass="ui-panelgrid-blank ui-fluid">
+							<h:outputText for="startDate" value="Policy Start Date"
+								styleClass="input-label mandatory" />
+							<p:calendar id="startDate" value="" pattern="dd-MM-yyyy"
+								required="true" />
 
-							<h:outputText for="period" value="Period (Month)" styleClass="input-label mandatory" />
+							<h:outputText for="period" value="Period (Month)"
+								styleClass="input-label mandatory" />
 							<p:inputText id="period" value="" required="true" />
 
-							<h:outputText for="paymentType" value="Payment Type" styleClass="input-label mandatory" />
+							<h:outputText for="paymentType" value="Payment Type"
+								styleClass="input-label mandatory" />
 							<p:selectOneMenu id="paymentType" value="" required="true">
 								<f:selectItem itemLabel="Select Payment Type" itemValue="" />
 								<f:selectItem itemLabel="Cash" itemValue="Cash" />
 								<f:selectItem itemLabel="Credit" itemValue="Credit" />
 							</p:selectOneMenu>
-							
-							<h:outputText for="branch" value="Branch" styleClass="input-label mandatory" />
+
+							<h:outputText for="branch" value="Branch"
+								styleClass="input-label mandatory" />
 							<p:selectOneMenu id="branch" value="" required="true">
 								<f:selectItem itemLabel="HEAD OFFICE" itemValue="HEAD OFFICE" />
 								<f:selectItem itemLabel="BRANCH 1" itemValue="BRANCH 1" />
 							</p:selectOneMenu>
 
-							<h:outputText for="currency" value="Currency Type" styleClass="input-label mandatory" />
+							<h:outputText for="currency" value="Currency Type"
+								styleClass="input-label mandatory" />
 							<p:selectOneMenu id="currency" value="" required="true">
 								<f:selectItem itemLabel="Selected Currency" itemValue="" />
 								<f:selectItem itemLabel="MMK" itemValue="MMK" />
 								<f:selectItem itemLabel="USD" itemValue="USD" />
 							</p:selectOneMenu>
 						</p:panelGrid>
-						<p:commandButton value="Cancel" immediate="true" update="@form" styleClass="ui-button-danger" style="width: 150px;" />
-                        <p:commandButton value="Next" update="@form" styleClass="ui-button-success" style="width: 150px;"/>			
+						<p:commandButton value="Cancel" immediate="true" update="@form"
+							styleClass="ui-button-danger" style="width: 150px;" />
+						<p:commandButton value="Next" update="@form"
+							styleClass="ui-button-success" style="width: 150px;" />
 					</p:panelGrid>
 				</p:tab>
-				<p:tab title="Vehicle Info"></p:tab>
+				<p:tab title="Vehicle Info">
+					<p:panelGrid id="vehiclePanel" columns="2"
+						columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
+						styleClass="ui-panelgrid-blank ui-fluid">
+
+						<!-- Left column -->
+						<p:panelGrid columns="2"
+							columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+							styleClass="ui-panelgrid-blank ui-fluid">
+
+							<h:outputText value="Registration No"
+								styleClass="input-label mandatory" />
+							<p:inputText id="registrationNo"
+								value="" required="true" />
+
+							<h:outputText value="Model" styleClass="input-label mandatory" />
+							<p:inputText id="model" value=""
+								required="true" />
+
+							<h:outputText value="Engine No" styleClass="input-label" />
+							<p:inputText id="engineNo" value="" />
+
+							<h:outputText value="Chassis No"
+								styleClass="input-label mandatory" />
+							<p:inputText id="chassisNo" value=""
+								required="true" />
+
+							<h:outputText value="Year of Manufacture"
+								styleClass="input-label mandatory" />
+							<p:inputText id="yearOfManufacture"
+								value="" required="true" />
+
+							<h:outputText value="Type of Body"
+								styleClass="input-label mandatory" />
+							<p:inputText id="typeOfBody" value=""
+								required="true" />
+
+							<h:outputText value="Manufacturer" styleClass="input-label" />
+							<p:inputText id="manufacturer"
+								value="" />
+						</p:panelGrid>
+
+						<!-- Right column -->
+						<p:panelGrid columns="2"
+							columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+							styleClass="ui-panelgrid-blank ui-fluid">
+							<h:outputText value="Product Type"
+								styleClass="input-label mandatory" />
+							<p:inputText id="productType" value=""
+								required="true" />
+
+							<h:outputText value="Cubic Capacity"
+								styleClass="input-label mandatory" />
+							<p:inputText id="cubicCapacity"
+								value="" required="true" />
+
+							<h:outputText value="Seating" styleClass="input-label" />
+							<p:inputText id="seating" value="" />
+
+							<h:outputText value="Sum Insured" styleClass="input-label" />
+							<p:inputText id="sumInsured" value="" />
+
+							<h:outputText value="Estimate Present Sum Insured"
+								styleClass="input-label mandatory" />
+							<p:inputText id="estimateSumInsured"
+								value="" required="true" />
+
+							<h:outputText value="Claim Count" styleClass="input-label" />
+							<p:inputText id="claimCount" value="" />
+
+							<h:outputText value="NCB Count" styleClass="input-label" />
+							<p:inputText id="ncbCount" value="" />
+
+							<h:outputText value="NCB Amount" styleClass="input-label" />
+							<p:inputText id="ncbAmount" value="" />
+
+							<h:outputText value="Hire Purchase Company"
+								styleClass="input-label" />
+							<p:inputText id="hirePurchaseCompany"
+								value="" />
+						</p:panelGrid>
+
+						<!-- Additional Cover -->
+						<h:outputText value="Additional Cover" styleClass="input-label" />
+						<!-- <p:selectManyCheckbox id="additionalCover"
+							value="" layout="pageDirection">
+							<f:selectItem itemLabel="Acts Of God" itemValue="ActsOfGod" />
+							<f:selectItem itemLabel="Nil Excess" itemValue="NilExcess" />
+							<f:selectItem itemLabel="SRCC" itemValue="SRCC" />
+							<f:selectItem itemLabel="Theft" itemValue="Theft" />
+							<f:selectItem itemLabel="War Risk" itemValue="WarRisk" />
+							<f:selectItem itemLabel="Betterment" itemValue="Betterment" />
+							<f:selectItem itemLabel="PAAndMT" itemValue="PA_MT" />
+							<f:selectItem itemLabel="Sun Roof" itemValue="SunRoof" />
+							<f:selectItem itemLabel="Third Party" itemValue="ThirdParty" />
+							<f:selectItem itemLabel="Wind Screen" itemValue="WindScreen" />
+						</p:selectManyCheckbox> -->
+					</p:panelGrid>
+				</p:tab>
 				<p:tab title="Premium Info"></p:tab>
 				<p:tab title="Policy Enquiry Form Info"></p:tab>
 			</p:tabView>
