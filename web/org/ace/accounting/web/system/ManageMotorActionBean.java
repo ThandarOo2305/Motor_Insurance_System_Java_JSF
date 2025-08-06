@@ -14,18 +14,24 @@ import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.enumTypes.BranchType;
 import org.ace.accounting.system.motor.enumTypes.PaymentType;
 import org.ace.accounting.system.motor.enumTypes.SaleChannelType;
-import org.ace.accounting.system.motor.service.MotorService;
+import org.ace.accounting.system.motor.service.MotorPolicyService;
+import org.ace.accounting.system.motor.service.MotorPolicyVehicleLinkService;
 
 @ManagedBean(name = "ManageMotorActionBean")
 @ViewScoped
 public class ManageMotorActionBean {
-	@ManagedProperty(value = "#{MotorService}")
-	private MotorService motorService;
+	@ManagedProperty(value = "#{MotorPolicyService}")
+	private MotorPolicyService motorService;
 	
-	public void setManageMotorActionBean(MotorService motorService) {
-		this.motorService = motorService;
+	public void setMotorPolicyService(MotorPolicyService motorPolicyService) {
+		this.motorService = motorPolicyService;
 	}
-
+	@ManagedProperty(value = "#{MotorVehicleLinkService}")
+	private MotorPolicyVehicleLinkService motorVehicleLinkService;
+	
+	public void setMotorVehicleLinkService(MotorPolicyVehicleLinkService motorVehicleLinkService) {
+		this.motorVehicleLinkService = motorVehicleLinkService;
+	}
 	private MotorPolicy motorPolicy;
 	private MotorPolicyVehicleLink vehicle;
 	private List<MotorPolicyVehicleLink> addvehicleList;
@@ -49,12 +55,12 @@ public class ManageMotorActionBean {
 //		this.motorPolicy = motorpolicy;
 //	}
 	
-	private void addNewVehicleInfo(MotorPolicyVehicleLink vehicle) {
-		addvehicleList.add(vehicle);
-		createNewVehicleInfo();
-	}
+//	private void addNewVehicleInfo(MotorPolicyVehicleLink vehicle) {
+//		addvehicleList.add(vehicle);
+//		createNewVehicleInfo();
+//	}
 	
-	private void submitPolicy() {
+//	private void submitPolicy() {
 //		try {
 			//link all vehicle to motorPolicy
 //			for(MotorPolicyVehicleLink v : addvehicleList) {
@@ -77,17 +83,17 @@ public class ManageMotorActionBean {
 //		} catch (systemException ex) {
 //			handleSysException(ex);
 //		}
-	}
-	private void cancelPolicyInfo() {
-		this.motorPolicy = new MotorPolicy();
-	}
-	private void cancelVehicleInfo() {
-		this.addvehicleList = new ArrayList<>();
-	}
-	private void cancelPreminumInfo() {
-		this.addvehicleList = new ArrayList<>();
-	}
-	
+//	}
+//	private void cancelPolicyInfo() {
+//		this.motorPolicy = new MotorPolicy();
+//	}
+//	private void cancelVehicleInfo() {
+//		this.addvehicleList = new ArrayList<>();
+//	}
+//	private void cancelPreminumInfo() {
+//		this.addvehicleList = new ArrayList<>();
+//	}
+//	
 	public BranchType[] getBranchType() {
 		return BranchType.values();
 	}
