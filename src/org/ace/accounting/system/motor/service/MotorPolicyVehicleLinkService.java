@@ -73,8 +73,16 @@ public class MotorPolicyVehicleLinkService extends BaseService implements IMotor
 			throw new SystemException(e.getErrorCode(), "Failed to delete vehicleLink", e);
 		}
 	}
-	
-	
+
+	@Transactional(propagation= Propagation.REQUIRED)
+	public boolean existsByRegistrationNo(String registrationNo) throws SystemException {
+		try {
+			vehicleDao.existsByRegistrationNo(registrationNo);
+		} catch (DAOException e) {
+			throw new SystemException(e.getErrorCode(), "RegistrationNo already exists!", e);
+		}
+		return true;
+	}
 	
 
 }
