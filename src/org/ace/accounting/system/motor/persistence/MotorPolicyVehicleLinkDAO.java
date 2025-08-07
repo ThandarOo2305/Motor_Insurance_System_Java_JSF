@@ -76,5 +76,21 @@ public class MotorPolicyVehicleLinkDAO extends BasicDAO implements IMotorPolicyV
 		}
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public boolean existsByRegistrationNo(String registrationNo) throws DAOException {
+	    boolean exists = false;
+	    try {
+	        String queryStr = "SELECT COUNT(mv) FROM MotorPolicyVehicleLink mv WHERE mv.registrationNo = :registrationNo";
+	        Query query = em.createQuery(queryStr);
+	        query.setParameter("registrationNo", registrationNo);
+
+	        Long count = (Long) query.getSingleResult();
+	        exists = count != null && count > 0;
+	    } catch (PersistenceException pe) {
+	        throw translate("Failed to validate registration number: " + registrationNo, pe);
+	    }
+	    return exists;
+	}
+	
 
 }
