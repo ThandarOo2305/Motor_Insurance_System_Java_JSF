@@ -34,6 +34,7 @@ public class ManageMotorActionBean extends BaseBean{
 	}
 	@ManagedProperty(value = "#{MotorPolicyVehicleLinkService}")
 	private IMotorPolicyVehicleLinkService motorVehicleLinkService;
+	
 	public void setMotorVehicleLinkService(IMotorPolicyVehicleLinkService motorVehicleLinkService) {
 		this.motorVehicleLinkService = motorVehicleLinkService;
 	}

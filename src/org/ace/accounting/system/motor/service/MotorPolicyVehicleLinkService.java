@@ -17,10 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service(value = "MotorPolicyVehicleLinkService")
 public class MotorPolicyVehicleLinkService extends BaseService implements IMotorPolicyVehicleLinkService{
 	
-	@Resource(name="IMotorPolicyVehicleLinkDAO")
+	@Resource(name="MotorPolicyVehicleLinkDAO")
 	private IMotorPolicyVehicleLinkDAO vehicleDao;
 	
-	@Resource(name="IMotorPolicyVehicleLinkService")
+	@Resource(name="MotorPolicyVehicleLinkService")
 	private IMotorPolicyVehicleLinkService vehicleService;
 	
 	@Transactional(propagation= Propagation.REQUIRED, readOnly=true)
