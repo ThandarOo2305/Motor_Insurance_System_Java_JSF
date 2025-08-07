@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import org.ace.accounting.common.CurrencyType;
+import org.ace.accounting.common.validation.IDataValidator;
 import org.ace.accounting.common.validation.MessageId;
 import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
@@ -32,10 +33,23 @@ public class ManageMotorActionBean extends BaseBean{
 	}
 	@ManagedProperty(value = "#{MotorPolicyVehicleLinkService}")
 	private IMotorPolicyVehicleLinkService motorVehicleLinkService;
-	
 	public void setMotorVehicleLinkService(IMotorPolicyVehicleLinkService motorVehicleLinkService) {
 		this.motorVehicleLinkService = motorVehicleLinkService;
 	}
+	@ManagedProperty(value = "#{MotorPolicyValidator}")
+	private IDataValidator<MotorPolicy> motorPolicyValidator;
+	
+	public void setMotorPolicyValidator(IDataValidator<MotorPolicy> motorPolicyValidator) {
+		this.motorPolicyValidator = motorPolicyValidator;
+	}
+	
+	@ManagedProperty(value = "#{MotorPolicyVehicleValidator}")
+	private IDataValidator<MotorPolicy> motorPolicyVehicleValidator;
+	
+	public void setMotorPolicyVehicleValidator(IDataValidator<MotorPolicy> motorPolicyVehicleValidator) {
+		this.motorPolicyVehicleValidator = motorPolicyVehicleValidator;
+	}
+	
 	private MotorPolicy motorPolicy;
 	private MotorPolicyVehicleLink vehicle;
 	private List<MotorPolicyVehicleLink> addvehicleList;
