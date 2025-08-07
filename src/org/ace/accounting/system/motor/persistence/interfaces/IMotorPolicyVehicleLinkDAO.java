@@ -7,7 +7,7 @@ import org.ace.java.component.persistence.exception.DAOException;
 
 public interface IMotorPolicyVehicleLinkDAO {
 	
-public List<MotorPolicyVehicleLink> findAll() throws DAOException;
+	public List<MotorPolicyVehicleLink> findAll() throws DAOException;
 	
 	public MotorPolicyVehicleLink findByRegistrationNo(String registrationNo) throws DAOException;
 	
@@ -16,4 +16,7 @@ public List<MotorPolicyVehicleLink> findAll() throws DAOException;
 	public MotorPolicyVehicleLink update(MotorPolicyVehicleLink link) throws DAOException;
 	
 	public void delete(MotorPolicyVehicleLink link) throws DAOException;
+	
+	public boolean existsByRegistrationNo(String registrationNO) throws DAOException;
+
 }

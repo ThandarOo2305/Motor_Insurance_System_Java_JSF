@@ -16,4 +16,6 @@ public interface IMotorPolicyVehicleLinkService {
 	public void updateMotorPolicyVehicleLink(MotorPolicyVehicleLink link) throws SystemException;
 
 	public void deleteMotorPolicyVehicleLink(MotorPolicyVehicleLink link) throws SystemException;
+	
+	public boolean existsByRegistrationNo(String registrationNo) throws SystemException;
 }

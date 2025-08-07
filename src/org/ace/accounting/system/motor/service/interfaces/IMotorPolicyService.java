@@ -11,6 +11,8 @@ public interface IMotorPolicyService {
 	
 	public MotorPolicy findMotorPolicyByCustomerName(String customerName) throws SystemException;
 	
+	public MotorPolicy findMotorPolicyByPolicyNo(String policyNo) throws SystemException;
+	
 	public void addNewMotorPolicy(MotorPolicy motorPolicy) throws SystemException;
 
 	public void updateMotorPolicy(MotorPolicy motorPolicy) throws SystemException;
