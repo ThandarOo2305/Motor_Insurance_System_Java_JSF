@@ -76,6 +76,7 @@ public class ManageMotorActionBean extends BaseBean{
 //		this.motorPolicy = motorpolicy;
 //	}
 	
+	//method for Add btn in Vehicle Info page
 	private void addNewVehicleInfo(MotorPolicyVehicleLink vehicle) {
 		ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
 		if(result.isVerified()) {
@@ -153,12 +154,12 @@ public class ManageMotorActionBean extends BaseBean{
 //	}
 	
 	//for cancel btn all page
-	//if cancel method works and will clear all data and will go to index.xhtml
+	//if cancel method works and will clear all data and will go to home.xhtml
 	private String cancel() {
 		this.motorPolicy = new MotorPolicy();
 		this.vehicle = new MotorPolicyVehicleLink();
 		this.addvehicleList = new ArrayList<>();
-		return "index";
+		return "home";
 	}
 	
 	public BranchType[] getBranchType() {
