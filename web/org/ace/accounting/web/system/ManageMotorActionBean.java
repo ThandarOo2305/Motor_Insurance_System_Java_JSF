@@ -1,6 +1,8 @@
 package org.ace.accounting.web.system;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -68,9 +70,27 @@ public class ManageMotorActionBean extends BaseBean{
 	    return event.getNewStep();
 	}
 	
+	private void calculateAndSetPolicyEndDate() {
+	    Date startDate = motorPolicy.getPolicyStartDate();
+	    int period = motorPolicy.getPeriod();
+
+	    if (startDate != null && period > 0) {
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(startDate);
+	        cal.add(Calendar.MONTH, period);//add start date and period
+	        
+	        Date endDate = cal.getTime();
+	        motorPolicy.setPolicyEndDate(endDate);
+	    } else {
+	        System.out.println("Invalid start date or period for calculating policy end date.");
+	    }
+	}
+	
 	//for submitPolicy btn in Premium Info page
 	private void submitPolicy() {
 		try {
+			calculateAndSetPolicyEndDate();
+			
 			//link all vehicle to motorPolicy
 			for(MotorPolicyVehicleLink v : addvehicleList) {
 				v.setMotorPolicy(motorPolicy);
@@ -98,15 +118,16 @@ public class ManageMotorActionBean extends BaseBean{
 	private void cancelPolicyInfo() {
 		this.motorPolicy = new MotorPolicy();
 	}
+	
 	//for cancel btn in VehicleInfo
 	private void cancelVehicleInfo() {
 		this.vehicle = new MotorPolicyVehicleLink();
 		this.addvehicleList = new ArrayList<>();
-		cancelPolicyInfo();
 	}
 	//for cancel btn in PreminumInfo
 	private void cancelPreminumInfo() {
 		cancelVehicleInfo();
+		cancelPolicyInfo();
 	}
 	
 	public BranchType[] getBranchType() {
