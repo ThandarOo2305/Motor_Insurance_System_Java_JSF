@@ -51,7 +51,7 @@ public class ManageMotorActionBean extends BaseBean{
 	private void createNewVehicleInfo() {
 		vehicle = new MotorPolicyVehicleLink();	
 	}
-	//i dont think this method is need but next btn method is need in MotorPolicy info page
+	//i dont think this method is need but next btn method is needs in MotorPolicy info page
 //	private void addNewMotorPolicyInfo(MotorPolicy motorpolicy) {
 //		this.motorPolicy = motorpolicy;
 //	}
@@ -61,6 +61,7 @@ public class ManageMotorActionBean extends BaseBean{
 //		createNewVehicleInfo();
 //	}
 	
+	//for submitPolicy btn in Premium Info page
 	private void submitPolicy() {
 		try {
 			//link all vehicle to motorPolicy
@@ -71,18 +72,16 @@ public class ManageMotorActionBean extends BaseBean{
 			motorPolicy.setMotorPolicyVehicleLinks(addvehicleList);
 		
 			//for adding motor policy at the submit policy btn
-//			//motorPolicyService.addpolicy(motorPolicy);
-//			addInfoMessage(null, MessageId.UPDATE_SUCCESS, branch.getName());
+			motorPolicyService.addNewMotorPolicy(motorPolicy);
+			addInfoMessage(null, MessageId.UPDATE_SUCCESS, motorPolicy.getPolicyNo());
 			
 			//for adding vehicle info(s) at the submit policy btn
 			for(MotorPolicyVehicleLink ve: addvehicleList){
 			motorVehicleLinkService.addNewMotorPolicyVehicleLink(ve);
 			}
-			addInfoMessage(null, MessageId.UPDATE_SUCCESS, vehicle.getRegistrationNo());
-			
-//			createNewMotorPolicyInfo();
-//			createNewVehicleInfo();
-//			
+			addInfoMessage(null, MessageId.UPDATE_SUCCESS, vehicle.getRegistrationNo());			
+			createNewMotorPolicyInfo();
+			createNewVehicleInfo();		
 		} catch (SystemException ex) {
 			handleSysException(ex);
 		}
