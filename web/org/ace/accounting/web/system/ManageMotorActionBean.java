@@ -14,22 +14,22 @@ import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.enumTypes.BranchType;
 import org.ace.accounting.system.motor.enumTypes.PaymentType;
 import org.ace.accounting.system.motor.enumTypes.SaleChannelType;
-import org.ace.accounting.system.motor.service.MotorPolicyService;
-import org.ace.accounting.system.motor.service.MotorPolicyVehicleLinkService;
+import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyService;
+import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyVehicleLinkService;
 
 @ManagedBean(name = "ManageMotorActionBean")
 @ViewScoped
 public class ManageMotorActionBean {
 	@ManagedProperty(value = "#{MotorPolicyService}")
-	private MotorPolicyService motorService;
+	private IMotorPolicyService motorService;
 	
-	public void setMotorPolicyService(MotorPolicyService motorPolicyService) {
+	public void setMotorPolicyService(IMotorPolicyService motorPolicyService) {
 		this.motorService = motorPolicyService;
 	}
 	@ManagedProperty(value = "#{MotorVehicleLinkService}")
-	private MotorPolicyVehicleLinkService motorVehicleLinkService;
+	private IMotorPolicyVehicleLinkService motorVehicleLinkService;
 	
-	public void setMotorVehicleLinkService(MotorPolicyVehicleLinkService motorVehicleLinkService) {
+	public void setMotorVehicleLinkService(IMotorPolicyVehicleLinkService motorVehicleLinkService) {
 		this.motorVehicleLinkService = motorVehicleLinkService;
 	}
 	private MotorPolicy motorPolicy;
@@ -60,14 +60,14 @@ public class ManageMotorActionBean {
 //		createNewVehicleInfo();
 //	}
 	
-//	private void submitPolicy() {
+	private void submitPolicy() {
 //		try {
 			//link all vehicle to motorPolicy
-//			for(MotorPolicyVehicleLink v : addvehicleList) {
-//				v.setMotorPolicies(motorPolicy);
+			for(MotorPolicyVehicleLink v : addvehicleList) {
+				v.setMotorPolicy(motorPolicy);
 //			}
 			//set vehicle List for motorPolicy
-//			motorPolicy.setMotorPolicyVehicleLink(addvehicleList);
+			motorPolicy.setMotorPolicyVehicleLinks(addvehicleList);
 		
 			//for adding motor policy at the submit policy btn
 //			//motorService.addpolicy(motorPolicy);
@@ -82,18 +82,23 @@ public class ManageMotorActionBean {
 //			
 //		} catch (systemException ex) {
 //			handleSysException(ex);
-//		}
-//	}
+		}
+	}
+	//for cancel btn in PolicyInfo
 //	private void cancelPolicyInfo() {
 //		this.motorPolicy = new MotorPolicy();
 //	}
+	//for cancel btn in VehicleInfo
 //	private void cancelVehicleInfo() {
 //		this.addvehicleList = new ArrayList<>();
 //	}
+	//for cancel btn in PreminumInfo
 //	private void cancelPreminumInfo() {
 //		this.addvehicleList = new ArrayList<>();
 //	}
 //	
+	
+	
 	public BranchType[] getBranchType() {
 		return BranchType.values();
 	}
