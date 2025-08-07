@@ -14,8 +14,8 @@ public class MotorPolicyValidator implements IDataValidator<MotorPolicy>{
         String formId = "MotorEntryForm";
         int period = motorPolicy.getPeriod();
         
-        if (period != 3 || period != 4 || period != 6 || period != 12) {
-            result.addErrorMessage(formId + ":Period", "Period can't be except 3,4,6 or 12");
+        if (period != 3 && period != 6 && period != 9 && period != 12) {
+            result.addErrorMessage(formId + ":Period", "Period can't be except 3,6,9 or 12");
         }
 
         return result;
