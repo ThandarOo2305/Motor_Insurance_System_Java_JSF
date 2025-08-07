@@ -28,7 +28,7 @@ public class MotorPolicyVehicleValidator implements IDataValidator<MotorPolicyVe
         if (registraionnumber == null || !registraionnumber.matches(regPattern)) {
             result.addErrorMessage(formId + ":registrationNo", "Invalid Registration No. Format must be like: YGN 1A/1111");
         }else {
-        	Boolean registrationresult = motorPolicyVehicleLinkService.findMotorPolicyVehicleLinkByRegistrationNo(registraionnumber);
+        	Boolean registrationresult = motorPolicyVehicleLinkService.existsByRegistrationNo(registraionnumber);
         	if(registrationresult) {
         		result.addErrorMessage(formId + ":registrationNo", "Registration No is already exist in database ");
         	}

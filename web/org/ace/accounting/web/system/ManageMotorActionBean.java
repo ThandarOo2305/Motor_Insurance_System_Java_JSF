@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import org.ace.accounting.common.CurrencyType;
 import org.ace.accounting.common.validation.IDataValidator;
 import org.ace.accounting.common.validation.MessageId;
+import org.ace.accounting.common.validation.ValidationResult;
 import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.enumTypes.BranchType;
@@ -44,9 +45,9 @@ public class ManageMotorActionBean extends BaseBean{
 	}
 	
 	@ManagedProperty(value = "#{MotorPolicyVehicleValidator}")
-	private IDataValidator<MotorPolicy> motorPolicyVehicleValidator;
+	private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleValidator;
 	
-	public void setMotorPolicyVehicleValidator(IDataValidator<MotorPolicy> motorPolicyVehicleValidator) {
+	public void setMotorPolicyVehicleValidator(IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleValidator) {
 		this.motorPolicyVehicleValidator = motorPolicyVehicleValidator;
 	}
 	
@@ -67,23 +68,30 @@ public class ManageMotorActionBean extends BaseBean{
 	
 	private void createNewVehicleInfo() {
 		vehicle = new MotorPolicyVehicleLink();	
+		
 	}
+	
 	//i dont think this method is need but next btn method is needs in MotorPolicy info page
 //	private void addNewMotorPolicyInfo(MotorPolicy motorpolicy) {
 //		this.motorPolicy = motorpolicy;
 //	}
 	
-//	private void addNewVehicleInfo(MotorPolicyVehicleLink vehicle) {
-//		addvehicleList.add(vehicle);
-//		createNewVehicleInfo();
-//	}
-	
+	private void addNewVehicleInfo(MotorPolicyVehicleLink vehicle) {
+		ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
+		if(result.isVerified()) {
+			addvehicleList.add(vehicle);
+			createNewVehicleInfo();	
+			System.out.print("success in add vehicle to list");
+		}		
+	}
+
 	public String onFlowProcess(FlowEvent event) {
-	    // Always allow forward/backward navigation
+	    // always allow forward/backward navigation
 	    System.out.println("Moving from " + event.getOldStep() + " to " + event.getNewStep());
 	    return event.getNewStep();
 	}
 	
+	//calculating method for policy end date
 	private void calculateAndSetPolicyEndDate() {
 	    Date startDate = motorPolicy.getPolicyStartDate();
 	    int period = motorPolicy.getPeriod();
@@ -111,7 +119,7 @@ public class ManageMotorActionBean extends BaseBean{
 			}
 			//set vehicle List for motorPolicy
 			motorPolicy.setMotorPolicyVehicleLinks(addvehicleList);
-		
+			
 			//for adding motor policy at the submit policy btn
 			motorPolicyService.addNewMotorPolicy(motorPolicy);
 			addInfoMessage(null, MessageId.UPDATE_SUCCESS, motorPolicy.getPolicyNo());
@@ -128,20 +136,29 @@ public class ManageMotorActionBean extends BaseBean{
 		}
 	}
 	
-	//for cancel btn in PolicyInfo
-	private void cancelPolicyInfo() {
-		this.motorPolicy = new MotorPolicy();
-	}
+//	//for cancel btn in PolicyInfo
+//	private void cancelPolicyInfo() {
+//		this.motorPolicy = new MotorPolicy();
+//	}
+//	
+//	//for cancel btn in VehicleInfo
+//	private void cancelVehicleInfo() {
+//		this.vehicle = new MotorPolicyVehicleLink();
+//		this.addvehicleList = new ArrayList<>();
+//	}
+//	//for cancel btn in PreminumInfo
+//	private void cancelPreminumInfo() {
+//		cancelVehicleInfo();
+//		cancelPolicyInfo();
+//	}
 	
-	//for cancel btn in VehicleInfo
-	private void cancelVehicleInfo() {
+	//for cancel btn all page
+	//if cancel method works and will clear all data and will go to index.xhtml
+	private String cancel() {
+		this.motorPolicy = new MotorPolicy();
 		this.vehicle = new MotorPolicyVehicleLink();
 		this.addvehicleList = new ArrayList<>();
-	}
-	//for cancel btn in PreminumInfo
-	private void cancelPreminumInfo() {
-		cancelVehicleInfo();
-		cancelPolicyInfo();
+		return "index";
 	}
 	
 	public BranchType[] getBranchType() {
@@ -185,4 +202,3 @@ public class ManageMotorActionBean extends BaseBean{
 	}
 	
 }
-
