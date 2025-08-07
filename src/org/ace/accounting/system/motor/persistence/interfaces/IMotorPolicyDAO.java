@@ -9,6 +9,8 @@ public interface IMotorPolicyDAO {
 	
 	public List<MotorPolicy> findAll() throws DAOException;
 	
+	public MotorPolicy findByPolicyNo(String policyNo) throws DAOException;
+	
 	public MotorPolicy findByCustomerName(String customerName) throws DAOException;
 	
 	public void insert(MotorPolicy motorPolicy) throws DAOException;
