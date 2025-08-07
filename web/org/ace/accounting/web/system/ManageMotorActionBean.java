@@ -2,13 +2,12 @@ package org.ace.accounting.web.system;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-
 import org.ace.accounting.common.CurrencyType;
+import org.ace.accounting.common.validation.MessageId;
 import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.enumTypes.BranchType;
@@ -16,17 +15,19 @@ import org.ace.accounting.system.motor.enumTypes.PaymentType;
 import org.ace.accounting.system.motor.enumTypes.SaleChannelType;
 import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyService;
 import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyVehicleLinkService;
+import org.ace.java.component.SystemException;
+import org.ace.java.web.common.BaseBean;
 
 @ManagedBean(name = "ManageMotorActionBean")
 @ViewScoped
-public class ManageMotorActionBean {
+public class ManageMotorActionBean extends BaseBean{
 	@ManagedProperty(value = "#{MotorPolicyService}")
-	private IMotorPolicyService motorService;
+	private IMotorPolicyService motorPolicyService;
 	
 	public void setMotorPolicyService(IMotorPolicyService motorPolicyService) {
-		this.motorService = motorPolicyService;
+		this.motorPolicyService = motorPolicyService;
 	}
-	@ManagedProperty(value = "#{MotorVehicleLinkService}")
+	@ManagedProperty(value = "#{MotorPolicyVehicleLinkService}")
 	private IMotorPolicyVehicleLinkService motorVehicleLinkService;
 	
 	public void setMotorVehicleLinkService(IMotorPolicyVehicleLinkService motorVehicleLinkService) {
@@ -50,7 +51,7 @@ public class ManageMotorActionBean {
 	private void createNewVehicleInfo() {
 		vehicle = new MotorPolicyVehicleLink();	
 	}
-
+	//i dont think this method is need but next btn method is need in MotorPolicy info page
 //	private void addNewMotorPolicyInfo(MotorPolicy motorpolicy) {
 //		this.motorPolicy = motorpolicy;
 //	}
@@ -61,29 +62,32 @@ public class ManageMotorActionBean {
 //	}
 	
 	private void submitPolicy() {
-//		try {
+		try {
 			//link all vehicle to motorPolicy
 			for(MotorPolicyVehicleLink v : addvehicleList) {
 				v.setMotorPolicy(motorPolicy);
-//			}
+			}
 			//set vehicle List for motorPolicy
 			motorPolicy.setMotorPolicyVehicleLinks(addvehicleList);
 		
 			//for adding motor policy at the submit policy btn
-//			//motorService.addpolicy(motorPolicy);
+//			//motorPolicyService.addpolicy(motorPolicy);
 //			addInfoMessage(null, MessageId.UPDATE_SUCCESS, branch.getName());
 			
-			//for adding vehicle info at the submit policy btn
-			//motorService.addvehicle(motorvehicle);
-//			addInfoMessage(null, MessageId.UPDATE_SUCCESS, branch.getName());
+			//for adding vehicle info(s) at the submit policy btn
+			for(MotorPolicyVehicleLink ve: addvehicleList){
+			motorVehicleLinkService.addNewMotorPolicyVehicleLink(ve);
+			}
+			addInfoMessage(null, MessageId.UPDATE_SUCCESS, vehicle.getRegistrationNo());
 			
 //			createNewMotorPolicyInfo();
 //			createNewVehicleInfo();
 //			
-//		} catch (systemException ex) {
-//			handleSysException(ex);
+		} catch (SystemException ex) {
+			handleSysException(ex);
 		}
 	}
+	
 	//for cancel btn in PolicyInfo
 //	private void cancelPolicyInfo() {
 //		this.motorPolicy = new MotorPolicy();
@@ -94,7 +98,7 @@ public class ManageMotorActionBean {
 //	}
 	//for cancel btn in PreminumInfo
 //	private void cancelPreminumInfo() {
-//		this.addvehicleList = new ArrayList<>();
+//		
 //	}
 //	
 	
