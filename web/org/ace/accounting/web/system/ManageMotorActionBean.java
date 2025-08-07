@@ -17,6 +17,7 @@ import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyService;
 import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyVehicleLinkService;
 import org.ace.java.component.SystemException;
 import org.ace.java.web.common.BaseBean;
+import org.primefaces.event.FlowEvent;
 
 @ManagedBean(name = "ManageMotorActionBean")
 @ViewScoped
@@ -61,6 +62,12 @@ public class ManageMotorActionBean extends BaseBean{
 //		createNewVehicleInfo();
 //	}
 	
+	public String onFlowProcess(FlowEvent event) {
+	    // Always allow forward/backward navigation
+	    System.out.println("Moving from " + event.getOldStep() + " to " + event.getNewStep());
+	    return event.getNewStep();
+	}
+	
 	//for submitPolicy btn in Premium Info page
 	private void submitPolicy() {
 		try {
@@ -88,19 +95,19 @@ public class ManageMotorActionBean extends BaseBean{
 	}
 	
 	//for cancel btn in PolicyInfo
-//	private void cancelPolicyInfo() {
-//		this.motorPolicy = new MotorPolicy();
-//	}
+	private void cancelPolicyInfo() {
+		this.motorPolicy = new MotorPolicy();
+	}
 	//for cancel btn in VehicleInfo
-//	private void cancelVehicleInfo() {
-//		this.addvehicleList = new ArrayList<>();
-//	}
+	private void cancelVehicleInfo() {
+		this.vehicle = new MotorPolicyVehicleLink();
+		this.addvehicleList = new ArrayList<>();
+		cancelPolicyInfo();
+	}
 	//for cancel btn in PreminumInfo
-//	private void cancelPreminumInfo() {
-//		
-//	}
-//	
-	
+	private void cancelPreminumInfo() {
+		cancelVehicleInfo();
+	}
 	
 	public BranchType[] getBranchType() {
 		return BranchType.values();
