@@ -23,6 +23,7 @@ import org.ace.accounting.common.BasicEntity;
 import org.ace.accounting.common.TableName;
 import org.ace.accounting.system.motor.enumTypes.BranchType;
 import org.ace.accounting.system.motor.enumTypes.CurrencyType;
+import org.ace.accounting.system.motor.enumTypes.CustomerType;
 import org.ace.accounting.system.motor.enumTypes.PaymentType;
 import org.ace.accounting.system.motor.enumTypes.SaleChannelType;
 import org.ace.java.component.idgen.service.IDInterceptor;
@@ -31,8 +32,8 @@ import org.ace.java.component.idgen.service.IDInterceptor;
 @Table(name = TableName.MOTORPOLICY)
 @TableGenerator(name = "MOTORPOLICY_GEN", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "MOTORPOLICY_GEN", allocationSize = 10)
 @NamedQueries(value = {
-		@NamedQuery(name = "MotorPolicy.findAll", query = "SELECT mp FROM MotorPolicy mp ORDER BY mp.customer ASC"),
-		@NamedQuery(name = "MotorPolicy.findByCustomer", query = "SELECT mp FROM MotorPolicy mp WHERE mp.customer = :customer") })
+		@NamedQuery(name = "MotorPolicy.findAll", query = "SELECT mp FROM MotorPolicy mp ORDER BY mp.customerName ASC"),
+		@NamedQuery(name = "MotorPolicy.findByCustomerName", query = "SELECT mp FROM MotorPolicy mp WHERE mp.customerName = :customerName") })
 @EntityListeners(IDInterceptor.class)
 public class MotorPolicy implements Serializable{
 	
@@ -42,7 +43,10 @@ public class MotorPolicy implements Serializable{
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "MOTORPOLICY_GEN")
 	private String id;
 	
-	private String customer;
+	@Enumerated(EnumType.STRING)
+	private CustomerType customerType;
+	
+	private String customerName;
 	
 	@Enumerated(EnumType.STRING)
 	private SaleChannelType saleChannel;
@@ -86,6 +90,22 @@ public class MotorPolicy implements Serializable{
 	public MotorPolicy() {
 		
 	}
+	
+	public CustomerType getCustomerType() {
+		return customerType;
+	}
+
+	public void setCustomerType(CustomerType customerType) {
+		this.customerType = customerType;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
 
 	public String getId() {
 		return id;
@@ -93,14 +113,6 @@ public class MotorPolicy implements Serializable{
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(String customer) {
-		this.customer = customer;
 	}
 
 	public SaleChannelType getSaleChannel() {
