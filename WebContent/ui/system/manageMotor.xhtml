@@ -123,7 +123,7 @@
 				showDetail="true" />
 			<h:outputText value="Add New Motor Policy" styleClass="title" />
 			<p:wizard id="motorWizard"
-				flowListener=" "
+				flowListener="#{ManageMotorActionBean.onFlowProcess}"
 				widgetVar="motorWizard" showNavBar="false" backLabel="Back"
 				nextLabel="Next">
 				<p:tab title="Policy Info">
@@ -388,7 +388,7 @@
 						<h:form id="motorTableForm">
 							<h:panelGrid>
 								<p:commandLink
-									action="#{ManageMotorActionBean.createNewMotor}"
+								
 									immediate="true" update="">
 									<h:panelGrid columns="2">
 										<h:graphicImage name="images/add.png" styleClass="addIcon" />
