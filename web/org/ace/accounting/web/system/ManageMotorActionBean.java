@@ -76,18 +76,24 @@ public class ManageMotorActionBean extends BaseBean {
 
 	}
 	
+	public String onFlowProcess(FlowEvent event) {
+		// always allow forward/backward navigation
+		System.out.println("Moving from " + event.getOldStep() + " to " + event.getNewStep());
+		return event.getNewStep();
+	}
+	// i dont think this method is need but next btn method is needs in Vehicle Info page
+	// info page
+//	private void addNewMotorPolicyInfo(MotorPolicy motorpolicy) {
+//		this.motorPolicy = motorpolicy;
+//	}
+
 	//count the vehicles in the addvehiclelist
 	private void countvehicle() {
 		for(int i = 0;i<=addvehicleList.size();i++) {
 			vehiclescount++;
 		}
 	}
-	// i dont think this method is need but next btn method is needs in MotorPolicy
-	// info page
-//	private void addNewMotorPolicyInfo(MotorPolicy motorpolicy) {
-//		this.motorPolicy = motorpolicy;
-//	}
-
+	
 	//action method for next btn in vehicle info page
 	private void forPremiumInfo() {
 		countvehicle();
@@ -107,12 +113,6 @@ public class ManageMotorActionBean extends BaseBean {
 			addInfoMessage(null, MessageId.UPDATE_SUCCESS, "success add vehicle to List");
 //			System.out.print("success in add vehicle to list");
 		}
-	}
-
-	public String onFlowProcess(FlowEvent event) {
-		// always allow forward/backward navigation
-		System.out.println("Moving from " + event.getOldStep() + " to " + event.getNewStep());
-		return event.getNewStep();
 	}
 
 	// calculating method for policy end date
@@ -160,8 +160,8 @@ public class ManageMotorActionBean extends BaseBean {
 		}
 	}
 
-	// for cancel btn all page
-	// if cancel method works and will clear all data and will go to home.xhtml
+	// for cancel btn in all page
+	// if cancel method works and it will clear all data and will go to home.xhtml
 	private String cancel() {
 		this.motorPolicy = new MotorPolicy();
 		this.vehicle = new MotorPolicyVehicleLink();
