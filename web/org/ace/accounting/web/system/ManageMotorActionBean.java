@@ -61,19 +61,18 @@ public class ManageMotorActionBean extends BaseBean {
 	private boolean fleetdiscount = false;
 
 	@PostConstruct
-	private void init() {
+	public void init() {
 		createNewMotorPolicyInfo();
 		createNewVehicleInfo();
 	}
 
-	private void createNewMotorPolicyInfo() {
+	public void createNewMotorPolicyInfo() {
 		motorPolicy = new MotorPolicy();
 		addvehicleList = new ArrayList<>();
 	}
 
-	private void createNewVehicleInfo() {
+	public void createNewVehicleInfo() {
 		vehicle = new MotorPolicyVehicleLink();
-
 	}
 
 	public String onFlowProcess(FlowEvent event) {
@@ -87,7 +86,17 @@ public class ManageMotorActionBean extends BaseBean {
 //	private void addNewMotorPolicyInfo(MotorPolicy motorpolicy) {
 //		this.motorPolicy = motorpolicy;
 //	}
-
+	
+	//next btn method for Policy Info page
+	//validation the policy Info
+	public void validatePolicyInfo() {
+		ValidationResult result = motorPolicyValidator.validate(motorPolicy, true);
+		if (result.isVerified()) {
+			addInfoMessage(null, MessageId.UPDATE_SUCCESS, "successfully add policy info");
+//			System.out.print("success in add vehicle to list");
+		}
+	}
+	
 	// count the vehicles in the addvehiclelist
 	private void countvehicle() {
 		for (int i = 0; i <= addvehicleList.size(); i++) {
@@ -96,7 +105,7 @@ public class ManageMotorActionBean extends BaseBean {
 	}
 
 	// action method for next btn in vehicle info page
-	private void forPremiumInfo() {
+	public void forPremiumInfo() {
 		countvehicle();
 		if (vehiclescount >= 10) {
 			fleetdiscount = true;
@@ -117,18 +126,18 @@ public class ManageMotorActionBean extends BaseBean {
 	}
 
 	// method for edit btn in data table of Vehicle Info page
-	private void editVehicleInfo(MotorPolicyVehicleLink vehicle) {
+	public void editVehicleInfo(MotorPolicyVehicleLink vehicle) {
 		this.vehicle = vehicle;
 	}
 
 	// method for delete btn in data table of Vehicle Info page
-	private void deleteVehicleInfo(MotorPolicyVehicleLink vehicle) {
+	public void deleteVehicleInfo(MotorPolicyVehicleLink vehicle) {
 		addvehicleList.remove(vehicle);
 		System.out.println("vehicle remove success");
 	}
 
 	// calculating method for policy end date
-	private void calculateAndSetPolicyEndDate() {
+	public void calculateAndSetPolicyEndDate() {
 		Date startDate = motorPolicy.getPolicyStartDate();
 		int period = motorPolicy.getPeriod();
 
@@ -145,7 +154,7 @@ public class ManageMotorActionBean extends BaseBean {
 	}
 
 	// for submitPolicy btn in Premium Info page
-	private void submitPolicy() {
+	public void submitPolicy() {
 		try {
 			calculateAndSetPolicyEndDate();
 
@@ -174,7 +183,7 @@ public class ManageMotorActionBean extends BaseBean {
 
 	// for cancel btn in all page
 	// if cancel method works, it will clear all data and will go to home.xhtml
-	private String cancel() {
+	public String cancel() {
 		this.motorPolicy = new MotorPolicy();
 		this.vehicle = new MotorPolicyVehicleLink();
 		this.addvehicleList = new ArrayList<>();

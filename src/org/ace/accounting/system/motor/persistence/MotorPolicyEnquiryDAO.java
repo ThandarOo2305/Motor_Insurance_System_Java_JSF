@@ -24,7 +24,7 @@ public class MotorPolicyEnquiryDAO extends BasicDAO implements IMotorPolicyEnqui
 		try {
 			Query q = em.createQuery(sqlquery);
 
-			// set parameters safely
+			// set parameters for query
 			for (Map.Entry<String, Object> entry : params.entrySet()) {
 				q.setParameter(entry.getKey(), entry.getValue());
 			}
