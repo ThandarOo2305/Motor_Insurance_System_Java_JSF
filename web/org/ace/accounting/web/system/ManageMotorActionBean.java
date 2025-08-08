@@ -57,7 +57,7 @@ public class ManageMotorActionBean extends BaseBean {
 	private MotorPolicy motorPolicy;
 	private MotorPolicyVehicleLink vehicle;
 	private List<MotorPolicyVehicleLink> addvehicleList;
-	private int vehiclescount=0;
+	private int vehiclescount = 0;
 	private boolean fleetdiscount = false;
 
 	@PostConstruct
@@ -75,35 +75,36 @@ public class ManageMotorActionBean extends BaseBean {
 		vehicle = new MotorPolicyVehicleLink();
 
 	}
-	
+
 	public String onFlowProcess(FlowEvent event) {
 		// always allow forward/backward navigation
 		System.out.println("Moving from " + event.getOldStep() + " to " + event.getNewStep());
 		return event.getNewStep();
 	}
-	// i dont think this method is need but next btn method is needs in Vehicle Info page
+	// i dont think this method is need but next btn method is needs in Vehicle Info
+	// page
 	// info page
 //	private void addNewMotorPolicyInfo(MotorPolicy motorpolicy) {
 //		this.motorPolicy = motorpolicy;
 //	}
 
-	//count the vehicles in the addvehiclelist
+	// count the vehicles in the addvehiclelist
 	private void countvehicle() {
-		for(int i = 0;i<=addvehicleList.size();i++) {
+		for (int i = 0; i <= addvehicleList.size(); i++) {
 			vehiclescount++;
 		}
 	}
-	
-	//action method for next btn in vehicle info page
+
+	// action method for next btn in vehicle info page
 	private void forPremiumInfo() {
 		countvehicle();
-		if(vehiclescount >= 10) {
+		if (vehiclescount >= 10) {
 			fleetdiscount = true;
-		}else {
+		} else {
 			fleetdiscount = false;
 		}
 	}
-	
+
 	// method for Add btn in Vehicle Info page
 	private void addNewVehicleInfo(MotorPolicyVehicleLink vehicle) {
 		ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
@@ -113,6 +114,17 @@ public class ManageMotorActionBean extends BaseBean {
 			addInfoMessage(null, MessageId.UPDATE_SUCCESS, "success add vehicle to List");
 //			System.out.print("success in add vehicle to list");
 		}
+	}
+
+	// method for edit btn in data table of Vehicle Info page
+	private void editVehicleInfo(MotorPolicyVehicleLink vehicle) {
+		this.vehicle = vehicle;
+	}
+
+	// method for delete btn in data table of Vehicle Info page
+	private void deleteVehicleInfo(MotorPolicyVehicleLink vehicle) {
+		addvehicleList.remove(vehicle);
+		System.out.println("vehicle remove success");
 	}
 
 	// calculating method for policy end date
@@ -161,7 +173,7 @@ public class ManageMotorActionBean extends BaseBean {
 	}
 
 	// for cancel btn in all page
-	// if cancel method works and it will clear all data and will go to home.xhtml
+	// if cancel method works, it will clear all data and will go to home.xhtml
 	private String cancel() {
 		this.motorPolicy = new MotorPolicy();
 		this.vehicle = new MotorPolicyVehicleLink();
@@ -224,5 +236,5 @@ public class ManageMotorActionBean extends BaseBean {
 	public void setFleet(boolean fleet) {
 		this.fleetdiscount = fleet;
 	}
-	
+
 }
