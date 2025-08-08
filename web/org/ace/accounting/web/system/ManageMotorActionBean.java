@@ -57,6 +57,8 @@ public class ManageMotorActionBean extends BaseBean {
 	private MotorPolicy motorPolicy;
 	private MotorPolicyVehicleLink vehicle;
 	private List<MotorPolicyVehicleLink> addvehicleList;
+	private int vehiclescount=0;
+	private boolean fleetdiscount = false;
 
 	@PostConstruct
 	private void init() {
@@ -73,20 +75,37 @@ public class ManageMotorActionBean extends BaseBean {
 		vehicle = new MotorPolicyVehicleLink();
 
 	}
-
+	
+	//count the vehicles in the addvehiclelist
+	private void countvehicle() {
+		for(int i = 0;i<=addvehicleList.size();i++) {
+			vehiclescount++;
+		}
+	}
 	// i dont think this method is need but next btn method is needs in MotorPolicy
 	// info page
 //	private void addNewMotorPolicyInfo(MotorPolicy motorpolicy) {
 //		this.motorPolicy = motorpolicy;
 //	}
 
+	//action method for next btn in vehicle info page
+	private void forPremiumInfo() {
+		countvehicle();
+		if(vehiclescount >= 10) {
+			fleetdiscount = true;
+		}else {
+			fleetdiscount = false;
+		}
+	}
+	
 	// method for Add btn in Vehicle Info page
 	private void addNewVehicleInfo(MotorPolicyVehicleLink vehicle) {
 		ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
 		if (result.isVerified()) {
 			addvehicleList.add(vehicle);
 			createNewVehicleInfo();
-			System.out.print("success in add vehicle to list");
+			addInfoMessage(null, MessageId.UPDATE_SUCCESS, "success add vehicle to List");
+//			System.out.print("success in add vehicle to list");
 		}
 	}
 
@@ -105,7 +124,7 @@ public class ManageMotorActionBean extends BaseBean {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(startDate);
 			cal.add(Calendar.MONTH, period);// add start date and period
-
+			cal.add(Calendar.DAY_OF_MONTH, -1);
 			Date endDate = cal.getTime();
 			motorPolicy.setPolicyEndDate(endDate);
 		} else {
@@ -133,29 +152,13 @@ public class ManageMotorActionBean extends BaseBean {
 			for (MotorPolicyVehicleLink ve : addvehicleList) {
 				motorVehicleLinkService.addNewMotorPolicyVehicleLink(ve);
 			}
-			addInfoMessage(null, MessageId.UPDATE_SUCCESS, vehicle.getRegistrationNo());
+			addInfoMessage(null, MessageId.UPDATE_SUCCESS, "successfully add vehicles to database");
 			createNewMotorPolicyInfo();
 			createNewVehicleInfo();
 		} catch (SystemException ex) {
 			handleSysException(ex);
 		}
 	}
-
-//	//for cancel btn in PolicyInfo
-//	private void cancelPolicyInfo() {
-//		this.motorPolicy = new MotorPolicy();
-//	}
-//	
-//	//for cancel btn in VehicleInfo
-//	private void cancelVehicleInfo() {
-//		this.vehicle = new MotorPolicyVehicleLink();
-//		this.addvehicleList = new ArrayList<>();
-//	}
-//	//for cancel btn in PreminumInfo
-//	private void cancelPreminumInfo() {
-//		cancelVehicleInfo();
-//		cancelPolicyInfo();
-//	}
 
 	// for cancel btn all page
 	// if cancel method works and will clear all data and will go to home.xhtml
@@ -206,4 +209,20 @@ public class ManageMotorActionBean extends BaseBean {
 		this.vehicle = vehicle;
 	}
 
+	public int getVehiclescount() {
+		return vehiclescount;
+	}
+
+	public void setVehiclescount(int vehiclescount) {
+		this.vehiclescount = vehiclescount;
+	}
+
+	public boolean isFleet() {
+		return fleetdiscount;
+	}
+
+	public void setFleet(boolean fleet) {
+		this.fleetdiscount = fleet;
+	}
+	
 }

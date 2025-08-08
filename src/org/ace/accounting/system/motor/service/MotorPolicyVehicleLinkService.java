@@ -17,11 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service(value = "MotorPolicyVehicleLinkService")
 public class MotorPolicyVehicleLinkService extends BaseService implements IMotorPolicyVehicleLinkService{
 	
-	@Resource(name="IMotorPolicyVehicleLinkDAO")
+	@Resource(name="MotorPolicyVehicleLinkDAO")
 	private IMotorPolicyVehicleLinkDAO vehicleDao;
 	
-	@Resource(name="IMotorPolicyVehicleLinkService")
-	private IMotorPolicyVehicleLinkService vehicleService;
+//	@Resource(name="IMotorPolicyVehicleLinkService")
+//	private IMotorPolicyVehicleLinkService vehicleService;
 	
 	@Transactional(propagation= Propagation.REQUIRED, readOnly=true)
 	public List<MotorPolicyVehicleLink> findAllMotorPolicyVehicleLinks() throws SystemException {
