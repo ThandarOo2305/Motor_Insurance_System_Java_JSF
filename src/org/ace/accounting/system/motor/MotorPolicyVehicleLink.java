@@ -67,6 +67,8 @@ public class MotorPolicyVehicleLink implements Serializable{
 	
 	private String hirePurchaseCompany;
 	
+	private boolean isFleet;
+	
 	// Additional Covers
     private boolean actsOfGod;
     private boolean nilExcess;
@@ -77,6 +79,7 @@ public class MotorPolicyVehicleLink implements Serializable{
     private boolean paAndMt;
     private boolean sunRoof;
     private boolean thirdParty;
+    private boolean windScreen;
     
     @Version
 	private int version;
@@ -90,6 +93,16 @@ public class MotorPolicyVehicleLink implements Serializable{
     public MotorPolicy getMotorPolicy() {
 		return motorPolicy;
 	}
+
+	public boolean isFleet() {
+		return isFleet;
+	}
+
+	public void setFleet(boolean isFleet) {
+		this.isFleet = isFleet;
+	}
+
+
 
 	public void setMotorPolicy(MotorPolicy motorPolicy) {
 		this.motorPolicy = motorPolicy;
@@ -174,8 +187,6 @@ public class MotorPolicyVehicleLink implements Serializable{
 	public void setWindScreen(boolean windScreen) {
 		this.windScreen = windScreen;
 	}
-
-	private boolean windScreen;
 	
 	public MotorPolicyVehicleLink() {
 	}

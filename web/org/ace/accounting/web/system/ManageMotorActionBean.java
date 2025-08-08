@@ -56,10 +56,13 @@ public class ManageMotorActionBean extends BaseBean{
 	private MotorPolicyVehicleLink vehicle;
 	private List<MotorPolicyVehicleLink> addvehicleList;
 	
+	private List<String> selectedAdditionalCovers;
+	
 	@PostConstruct
 	private void init() {
 		createNewMotorPolicyInfo();
 		createNewVehicleInfo();
+		selectedAdditionalCovers = new ArrayList<>();
 	}
 	
 	private void createNewMotorPolicyInfo() {
@@ -70,25 +73,79 @@ public class ManageMotorActionBean extends BaseBean{
 	private void createNewVehicleInfo() {
 		vehicle = new MotorPolicyVehicleLink();	
 		
-	}
+	}  
+	
+	public void addVehicle() {
+        // Add current vehicle to the list (clone if needed)
+        addvehicleList.add(vehicle);
+        // Reset vehicle for next entry
+        vehicle = new MotorPolicyVehicleLink();
+    }
+
 	
 	//i dont think this method is need but next btn method is needs in MotorPolicy info page
 //	private void addNewMotorPolicyInfo(MotorPolicy motorpolicy) {
 //		this.motorPolicy = motorpolicy;
 //	}
 	
-	private void addNewVehicleInfo(MotorPolicyVehicleLink vehicle) {
+	public void addNewVehicleInfo() {
+		vehicle.setActsOfGod(selectedAdditionalCovers.contains("actsOfGod"));
+		vehicle.setNilExcess(selectedAdditionalCovers.contains("nilExcess"));
+		vehicle.setSrcc(selectedAdditionalCovers.contains("srcc"));
+		vehicle.setTheft(selectedAdditionalCovers.contains("theft"));
+		vehicle.setWarRisk(selectedAdditionalCovers.contains("warRisk"));
+		vehicle.setBetterment(selectedAdditionalCovers.contains("betterment"));
+		vehicle.setPaAndMt(selectedAdditionalCovers.contains("paAndMt"));
+		vehicle.setSunRoof(selectedAdditionalCovers.contains("sunRoof"));
+		vehicle.setThirdParty(selectedAdditionalCovers.contains("thirdParty"));
+		vehicle.setWindScreen(selectedAdditionalCovers.contains("windScreen"));
+		
+		
 		ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
 		if(result.isVerified()) {
 			addvehicleList.add(vehicle);
-			createNewVehicleInfo();	
+			createNewVehicleInfo();
+			selectedAdditionalCovers.clear();
 			System.out.print("success in add vehicle to list");
 		}		
 	}
 
+	public String getAdditionalCoversAsString(MotorPolicyVehicleLink vehicle) {
+        List<String> covers = new ArrayList<>();
+        if (vehicle.isActsOfGod()) covers.add("Acts Of God");
+        if (vehicle.isNilExcess()) covers.add("Nil Excess");
+        if (vehicle.isSrcc()) covers.add("SRCC");
+        if (vehicle.isTheft()) covers.add("Theft");
+        if (vehicle.isWarRisk()) covers.add("War Risk");
+        if (vehicle.isBetterment()) covers.add("Betterment");
+        if (vehicle.isPaAndMt()) covers.add("PA and MT");
+        if (vehicle.isSunRoof()) covers.add("Sun Roof");
+        if (vehicle.isThirdParty()) covers.add("Third Party");
+        if (vehicle.isWindScreen()) covers.add("Wind Screen");
+        return String.join(", ", covers);
+    }
+
+	
+//	public String onFlowProcess(FlowEvent event) {
+//	    // always allow forward/backward navigation
+//	    System.out.println("Moving from " + event.getOldStep() + " to " + event.getNewStep());
+//	    return event.getNewStep();
+//	}
+	
 	public String onFlowProcess(FlowEvent event) {
-	    // always allow forward/backward navigation
-	    System.out.println("Moving from " + event.getOldStep() + " to " + event.getNewStep());
+	    if ("policyInfo".equals(event.getOldStep())) {
+	        ValidationResult result = motorPolicyValidator.validate(motorPolicy, true);
+	        if (!result.isVerified()) {
+	            // show messages and stay on current step
+	            return event.getOldStep();
+	        }
+	    }
+	    if ("vehicleInfo".equals(event.getOldStep())) {
+	        ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
+	        if (!result.isVerified()) {
+	            return event.getOldStep();
+	        }
+	    }
 	    return event.getNewStep();
 	}
 	
@@ -200,6 +257,22 @@ public class ManageMotorActionBean extends BaseBean{
 
 	public void setVehicle(MotorPolicyVehicleLink vehicle) {
 		this.vehicle = vehicle;
+	}
+	
+	public List<String> getSelectedAdditionalCovers() {
+		return selectedAdditionalCovers;
+	}
+
+	public void setSelectedAdditionalCovers(List<String> selectedAdditionalCovers) {
+		this.selectedAdditionalCovers = selectedAdditionalCovers;
+	}
+
+	public List<MotorPolicyVehicleLink> getAddvehicleList() {
+		return addvehicleList;
+	}
+
+	public void setAddvehicleList(List<MotorPolicyVehicleLink> addvehicleList) {
+		this.addvehicleList = addvehicleList;
 	}
 	
 }
