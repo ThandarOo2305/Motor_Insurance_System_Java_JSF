@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -76,19 +77,29 @@ public class MotorPolicy implements Serializable{
 	@Embedded
 	private BasicEntity basicEntity;
 	
-	@OneToMany(mappedBy = "motorPolicy")
-	private List<MotorPolicyVehicleLink> motorPolicyVehicleLinks;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "motorPolicy")
+	private List<MotorPolicyVehicleLink> vehicleLinks;
+	
+	public void addVehicleLink(MotorPolicyVehicleLink vehicleLink) {
+        vehicleLinks.add(vehicleLink);
+        vehicleLink.setMotorPolicy(this);
+    }
+
+    public void removeVehicleLink(MotorPolicyVehicleLink vehicleLink) {
+        vehicleLinks.remove(vehicleLink);
+        vehicleLink.setMotorPolicy(null);
+    }
+    
+    public MotorPolicy() {
+		
+	}
 	
 	public List<MotorPolicyVehicleLink> getMotorPolicyVehicleLinks() {
-		return motorPolicyVehicleLinks;
+		return vehicleLinks;
 	}
 
-	public void setMotorPolicyVehicleLinks(List<MotorPolicyVehicleLink> motorPolicyVehicleLinks) {
-		this.motorPolicyVehicleLinks = motorPolicyVehicleLinks;
-	}
-
-	public MotorPolicy() {
-		
+	public void setMotorPolicyVehicleLinks(List<MotorPolicyVehicleLink> vehicleLinks) {
+		this.vehicleLinks = vehicleLinks;
 	}
 	
 	public CustomerType getCustomerType() {

@@ -357,9 +357,11 @@
 								<p:message display="text" for="productType" />
 								<h:outputText for="productType" value="Product Type"
 									styleClass="input-label mandatory" />
-								<p:inputText id="productType"
-									value="#{ManageMotorActionBean.vehicle.productType}"
-									required="true" />
+								<p:selectOneMenu id="productType" value="#{ManageMotorActionBean.vehicle.productType}" required="true">
+									<f:selectItem itemLabel="Selected Product Type" itemValue="" />
+									<f:selectItem itemLabel="Private" itemValue="Private" />
+									<f:selectItem itemLabel="Conmercial" itemValue="Conmercial" />
+								</p:selectOneMenu>
 
 								<h:outputText value="" />
 								<p:message display="text" for="cubicCapacity" />
@@ -509,17 +511,17 @@
 
 				<p:tab title="Premium Info">
 					<p:panel header="Motor Premium" style="margin-top:20px;">
-						<p:dataTable var="item" styleClass="premium-table"
+						<p:dataTable var="vehicle" value="#{ManageMotorActionBean.vehicleLink}" styleClass="premium-table"
 							rowIndexVar="idx" responsiveLayout="scroll" style="width:100%"
 							editable="false">
 							<p:column headerText="No" width="2%">
 								<h:outputText value="#{var + 1}" />
 							</p:column>
 							<p:column headerText="Vehicle No">
-								<h:outputText value="" />
+								<h:outputText value="#{vehicle.registrationNo}" />
 							</p:column>
 							<p:column headerText="Sum Insured">
-								<h:outputText value="" />
+								<h:outputText value="#{vehicle.sumInsured}" />
 							</p:column>
 							<p:column headerText="One Year Basic Premium">
 								<h:outputText value="" />
@@ -536,9 +538,9 @@
 							<p:column headerText="Fleet Discount">
 								<h:outputText value="" />
 							</p:column>
-							<p:column headerText="Penaty">
+							<!-- <p:column headerText="Penaty">
 								<h:outputText value="" />
-							</p:column>
+							</p:column> -->
 							<p:column headerText="Total Premium">
 								<h:outputText value="" />
 							</p:column>
@@ -558,8 +560,8 @@
 						</p:dataTable>
 						<!-- Buttons -->
 						<div class="button-row">
-							<p:commandButton value="Submit Policy" icon="pi pi-check"
-								styleClass="ui-button-success" process="@form" update="@form" />
+							<p:commandButton value="Submit Policy" icon="pi pi-check" action="#{ManageMotorActionBean.submitPolicy}"
+								styleClass="ui-button-success" process="@form" update="@form" oncomplete="PF('motorWizard').loadStep('policyInfo');" />
 							<p:commandButton value="← Back" icon="pi pi-arrow-left"
 								styleClass="ui-button-secondary" style="margin-left:10px;"
 								type="button" onclick="PF('motorWizard').back();" />

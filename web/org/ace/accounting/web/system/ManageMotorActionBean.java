@@ -167,7 +167,7 @@ public class ManageMotorActionBean extends BaseBean{
 	}
 	
 	//for submitPolicy btn in Premium Info page
-	private void submitPolicy() {
+	public void submitPolicy() {
 		try {
 			calculateAndSetPolicyEndDate();
 			
