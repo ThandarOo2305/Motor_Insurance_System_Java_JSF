@@ -5,9 +5,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
 import org.ace.accounting.common.CurrencyType;
 import org.ace.accounting.common.validation.IDataValidator;
 import org.ace.accounting.common.validation.MessageId;
@@ -54,7 +57,10 @@ public class ManageMotorActionBean extends BaseBean{
 	
 	private MotorPolicy motorPolicy;
 	private MotorPolicyVehicleLink vehicle;
-	private List<MotorPolicyVehicleLink> addvehicleList;
+	private List<MotorPolicyVehicleLink> addVehicleList;
+	private double privateRate = 1.072;
+	private double commercialRate = 1.734;
+	private couble fleetDiscountRate = 10;
 	
 	private List<String> selectedAdditionalCovers;
 	
@@ -67,7 +73,7 @@ public class ManageMotorActionBean extends BaseBean{
 	
 	private void createNewMotorPolicyInfo() {
 		motorPolicy = new MotorPolicy();
-		addvehicleList = new ArrayList<>();
+		addVehicleList = new ArrayList<>();
 	}
 	
 	private void createNewVehicleInfo() {
@@ -76,7 +82,7 @@ public class ManageMotorActionBean extends BaseBean{
 	}  
 	
 	public void addVehicle() {
-        addvehicleList.add(vehicle);
+        addVehicleList.add(vehicle);
         vehicle = new MotorPolicyVehicleLink();
     }
 	
@@ -94,7 +100,7 @@ public class ManageMotorActionBean extends BaseBean{
 
 	    ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
 	    if(result.isVerified()) {
-	        addvehicleList.add(vehicle);
+	        addVehicleList.add(vehicle);
 	        createNewVehicleInfo();
 	        selectedAdditionalCovers.clear();
 	        System.out.println("success in add vehicle to list");
@@ -125,12 +131,22 @@ public class ManageMotorActionBean extends BaseBean{
 	            return event.getOldStep();
 	        }
 	    }
+//	    if ("vehicleInfo".equals(event.getOldStep())) {
+//	        ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
+//	        if (!result.isVerified()) {
+//	            return event.getOldStep();
+//	        }
+//	    }
+	    
 	    if ("vehicleInfo".equals(event.getOldStep())) {
-	        ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
-	        if (!result.isVerified()) {
-	            return event.getOldStep();
+	        if (addVehicleList == null || addVehicleList.isEmpty()) {
+	            ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
+	            if (!result.isVerified()) {
+	                return event.getOldStep();
+	            }
 	        }
 	    }
+
 	    return event.getNewStep();
 	}
 	
@@ -153,6 +169,15 @@ public class ManageMotorActionBean extends BaseBean{
 	    }
 	}
 	
+	public void checkVehicleTable() {
+	    if (addVehicleList == null || addVehicleList.isEmpty()) {
+	        FacesContext.getCurrentInstance().validationFailed();
+	        FacesContext.getCurrentInstance().addMessage(null,
+	                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	                    "Please add at least one vehicle before proceeding.", null));
+	    }
+	}
+	
 	public void submitPolicy() {
 	    try {
 	        calculateAndSetPolicyEndDate();
@@ -161,7 +186,7 @@ public class ManageMotorActionBean extends BaseBean{
 	        motorPolicy.getMotorPolicyVehicleLinks().clear();
 
 	        // Add vehicles properly to ensure both sides of relationship are set
-	        for (MotorPolicyVehicleLink v : addvehicleList) {
+	        for (MotorPolicyVehicleLink v : addVehicleList) {
 	        	motorPolicy.addVehicleLink(v);
 	        }
 
@@ -181,7 +206,7 @@ public class ManageMotorActionBean extends BaseBean{
 	private String cancel() {
 		this.motorPolicy = new MotorPolicy();
 		this.vehicle = new MotorPolicyVehicleLink();
-		this.addvehicleList = new ArrayList<>();
+		this.addVehicleList = new ArrayList<>();
 		return "index";
 	}
 	
@@ -209,14 +234,6 @@ public class ManageMotorActionBean extends BaseBean{
 		this.motorPolicy = motorPolicy;
 	}
 
-	public List<MotorPolicyVehicleLink> getVehicleLink() {
-		return addvehicleList;
-	}
-
-	public void setVehicleLink(List<MotorPolicyVehicleLink> vehicleLink) {
-		this.addvehicleList = vehicleLink;
-	}
-
 	public MotorPolicyVehicleLink getVehicle() {
 		return vehicle;
 	}
@@ -233,12 +250,12 @@ public class ManageMotorActionBean extends BaseBean{
 		this.selectedAdditionalCovers = selectedAdditionalCovers;
 	}
 
-	public List<MotorPolicyVehicleLink> getAddvehicleList() {
-		return addvehicleList;
+	public List<MotorPolicyVehicleLink> getAddVehicleList() {
+		return addVehicleList;
 	}
 
-	public void setAddvehicleList(List<MotorPolicyVehicleLink> addvehicleList) {
-		this.addvehicleList = addvehicleList;
+	public void setAddVehicleList(List<MotorPolicyVehicleLink> addVehicleList) {
+		this.addVehicleList = addVehicleList;
 	}
 	
 }
