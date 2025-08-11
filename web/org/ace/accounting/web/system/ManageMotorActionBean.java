@@ -81,25 +81,26 @@ public class ManageMotorActionBean extends BaseBean{
     }
 	
 	public void addNewVehicleInfo() {
-		vehicle.setActsOfGod(selectedAdditionalCovers.contains("actsOfGod"));
-		vehicle.setNilExcess(selectedAdditionalCovers.contains("nilExcess"));
-		vehicle.setSrcc(selectedAdditionalCovers.contains("srcc"));
-		vehicle.setTheft(selectedAdditionalCovers.contains("theft"));
-		vehicle.setWarRisk(selectedAdditionalCovers.contains("warRisk"));
-		vehicle.setBetterment(selectedAdditionalCovers.contains("betterment"));
-		vehicle.setPaAndMt(selectedAdditionalCovers.contains("paAndMt"));
-		vehicle.setSunRoof(selectedAdditionalCovers.contains("sunRoof"));
-		vehicle.setThirdParty(selectedAdditionalCovers.contains("thirdParty"));
-		vehicle.setWindScreen(selectedAdditionalCovers.contains("windScreen"));
-		
-		
-		ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
-		if(result.isVerified()) {
-			addvehicleList.add(vehicle);
-			createNewVehicleInfo();
-			selectedAdditionalCovers.clear();
-			System.out.print("success in add vehicle to list");
-		}		
+	    vehicle.setActsOfGod(selectedAdditionalCovers.contains("ActsOfGod"));
+	    vehicle.setNilExcess(selectedAdditionalCovers.contains("NilExcess"));
+	    vehicle.setSrcc(selectedAdditionalCovers.contains("SRCC"));
+	    vehicle.setTheft(selectedAdditionalCovers.contains("Theft"));
+	    vehicle.setWarRisk(selectedAdditionalCovers.contains("WarRisk"));
+	    vehicle.setBetterment(selectedAdditionalCovers.contains("Betterment"));
+	    vehicle.setPaAndMt(selectedAdditionalCovers.contains("PA_MT"));
+	    vehicle.setSunRoof(selectedAdditionalCovers.contains("SunRoof"));
+	    vehicle.setThirdParty(selectedAdditionalCovers.contains("ThirdParty"));
+	    vehicle.setWindScreen(selectedAdditionalCovers.contains("WindScreen"));
+
+	    ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
+	    if(result.isVerified()) {
+	        addvehicleList.add(vehicle);
+	        createNewVehicleInfo();
+	        selectedAdditionalCovers.clear();
+	        System.out.println("success in add vehicle to list");
+	    } else {
+	        System.out.println("Validation failed for vehicle.");
+	    }
 	}
 
 	public String getAdditionalCoversAsString(MotorPolicyVehicleLink vehicle) {
@@ -161,8 +162,7 @@ public class ManageMotorActionBean extends BaseBean{
 
 	        // Add vehicles properly to ensure both sides of relationship are set
 	        for (MotorPolicyVehicleLink v : addvehicleList) {
-	        	v.setMotorPolicy(motorPolicy);
-	            motorPolicy.getMotorPolicyVehicleLinks().add(v);
+	        	motorPolicy.addVehicleLink(v);
 	        }
 
 	        motorPolicyService.addNewMotorPolicy(motorPolicy);

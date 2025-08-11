@@ -75,14 +75,11 @@ public class MotorPolicyVehicleLinkService extends BaseService implements IMotor
 	}
 
 	@Transactional(propagation= Propagation.REQUIRED)
-	public boolean existsByRegistrationNo(String registrationNo) throws SystemException {
-		try {
-			vehicleDao.existsByRegistrationNo(registrationNo);
-		} catch (DAOException e) {
-			throw new SystemException(e.getErrorCode(), "RegistrationNo already exists!", e);
-		}
-		return true;
-	}
-	
-
+    public boolean existsByRegistrationNo(String registrationNo) throws SystemException {
+        try {
+            return vehicleDao.existsByRegistrationNo(registrationNo);
+        } catch (DAOException e) {
+            throw new SystemException(e.getErrorCode(), "RegistrationNo already exists!", e);
+        }
+    }
 }
