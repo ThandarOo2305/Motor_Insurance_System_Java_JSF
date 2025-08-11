@@ -1,10 +1,12 @@
 package org.ace.accounting.system.motor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -42,6 +44,7 @@ public class MotorPolicy implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "MOTORPOLICY_GEN")
+	@Column(name = "policyId")
 	private String id;
 	
 	@Enumerated(EnumType.STRING)
@@ -78,7 +81,7 @@ public class MotorPolicy implements Serializable{
 	private BasicEntity basicEntity;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "motorPolicy")
-	private List<MotorPolicyVehicleLink> vehicleLinks;
+	private List<MotorPolicyVehicleLink> vehicleLinks = new ArrayList<>();
 	
 	public void addVehicleLink(MotorPolicyVehicleLink vehicleLink) {
         vehicleLinks.add(vehicleLink);

@@ -2,14 +2,17 @@ package org.ace.accounting.system.motor;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -35,6 +38,7 @@ public class MotorPolicyVehicleLink implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "MOTORPOLICYVEHICLELINK_GEN")
+	@Column(name = "vehicleId")
 	private String id;
 	
 	private String registrationNo;
@@ -97,7 +101,8 @@ public class MotorPolicyVehicleLink implements Serializable{
 	@Embedded
 	private BasicEntity basicEntity;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "policyId", nullable = false)
 	private MotorPolicy motorPolicy;
     
     public MotorPolicy getMotorPolicy() {
