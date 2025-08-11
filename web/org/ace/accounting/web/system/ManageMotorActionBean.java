@@ -80,6 +80,7 @@ public class ManageMotorActionBean extends BaseBean {
 		System.out.println("Moving from " + event.getOldStep() + " to " + event.getNewStep());
 		return event.getNewStep();
 	}
+	
 	// i dont think this method is need but next btn method is needs in Vehicle Info
 	// page
 	// info page
@@ -104,7 +105,7 @@ public class ManageMotorActionBean extends BaseBean {
 		}
 	}
 
-	// action method for next btn in vehicle info page
+	// next btn method for vehicle info page
 	public void forPremiumInfo() {
 		countvehicle();
 		if (vehiclescount >= 10) {
