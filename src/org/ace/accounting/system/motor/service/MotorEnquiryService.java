@@ -22,26 +22,26 @@ public class MotorEnquiryService implements IMotorEnquiryService{
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<MotorPolicyVehicleLink> search(Date policyStartDateFrom, Date policyStartDateTo, String policyNo,
 			String registrationNo) {
-			StringBuilder hql = new StringBuilder("SELECT m FROM MotorPolicyVehicleLink m WHERE 1=1 ");
+			StringBuilder hql = new StringBuilder("SELECT mv FROM MotorPolicyVehicleLink mv JOIN mv.motorPolicy mp WHERE 1=1 ");
 	        Map<String, Object> paramMap = new HashMap<>();
 	
 	        if (policyStartDateFrom != null) {
-	            hql.append(" AND m.policyStartDate >= :startDateFrom");
+	            hql.append(" AND mp.policyStartDate >= :startDateFrom");
 	            paramMap.put("startDateFrom", policyStartDateFrom);
 	        }
 	
 	        if (policyStartDateTo != null) {
-	            hql.append(" AND m.policyStartDate <= :startDateTo");
+	            hql.append(" AND mp.policyStartDate <= :startDateTo");
 	            paramMap.put("startDateTo", policyStartDateTo);
 	        }
 	
 	        if (policyNo != null && !policyNo.isEmpty()) {
-	            hql.append(" AND m.policyNo = :policyNo");
+	            hql.append(" AND mp.policyNo = :policyNo");
 	            paramMap.put("policyNo", policyNo);
 	        }
 	
 	        if (registrationNo != null && !registrationNo.isEmpty()) {
-	            hql.append(" AND m.registrationNo = :registrationNo");
+	            hql.append(" AND mv.registrationNo = :registrationNo");
 	            paramMap.put("registrationNo", registrationNo);
 	        }
 	
