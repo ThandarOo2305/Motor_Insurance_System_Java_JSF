@@ -23,19 +23,20 @@ public class ManagePolicyEnquiryActioBean {
 	}
 
 	//Policy No Validator
-	@ManagedProperty(value = "#{MotorPolicyValidator}")
-	    private IDataValidator<MotorPolicy> motorPolicyValidator;
+	@ManagedProperty(value = "#{MotorPolicyEnquiryValidator}")
+	    private IDataValidator<MotorPolicy> motorPolicyNoValidator;
 
-	    public void setMotorPolicyValidator(IDataValidator<MotorPolicy> motorPolicyValidator) {
-	        this.motorPolicyValidator = motorPolicyValidator;
+	    public void setMotorPolicyNoValidator(IDataValidator<MotorPolicy> motorPolicyNoValidator) {
+	        this.motorPolicyNoValidator = motorPolicyNoValidator;
 	    }
 
 	//Registation No Validator
-	    @ManagedProperty(value = "#{MotorPolicyVehicleValidator}")
-	    private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleValidator;
+	    
+	    @ManagedProperty(value = "#{MotorPolicyVehicleEnquiryValidator}")
+	    private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator;
 
-	    public void setMotorPolicyVehicleValidator(IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleValidator) {
-	        this.motorPolicyVehicleValidator = motorPolicyVehicleValidator;
+	    public void setMotorPolicyVehicleValidator(IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator) {
+	        this.motorPolicyVehicleEnquiryValidator = motorPolicyVehicleEnquiryValidator;
 	    }
 
 	    private Date policyStartDate;
@@ -54,12 +55,19 @@ public class ManagePolicyEnquiryActioBean {
 	                policyStartDate,
 	                policyEndDate,
 	                policyNo,
-			registrationNo
+			        registrationNo
 	            );
 
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
+	    }
+	    
+	    public void reset() {
+	        this.policyStartDate = null;
+	        this.policyEndDate = null;
+	        this.policyNo = null;
+	        this.registrationNo = null;
 	    }
 
 	   // Getters and setters for all fields
