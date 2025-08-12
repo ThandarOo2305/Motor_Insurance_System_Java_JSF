@@ -105,26 +105,6 @@
     font-size: 0.85em;
     margin-top: 10px;
 }
-
-.ui-tabs .ui-tabs-nav li.ui-state-active a {
-            background: #87CEEB !important; /* skyblue */
-        }
-        .button-row {
-            margin-top: 20px;
-        }
-        .total-row {
-            font-weight: bold;
-            background-color: #e9f0f7;
-        }
-        
-        .additional-cover-box {
-        display:flex;
-        justify-content:center;
-        margin-top:30px;
-        }
-        .section-title{
-        margin-top:50px;}
-        
 	</h:outputStylesheet>
 		<h:form id="motorEntryForm">
 			<p:growl escape="false" globalOnly="true" life="5000"
@@ -268,7 +248,8 @@
 						<!-- Cancel & Next Buttons in One Line -->
 						<p:outputPanel
 							style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-							<p:commandButton value="Cancel" styleClass="ui-button-danger" />
+							<p:commandButton value="Cancel" styleClass="ui-button-danger"
+								action="#{ManageMotorActionBean.cancel}" process="@this" />
 
 							<p:commandButton value="Next →" icon="pi pi-arrow-right"
 								iconPos="right" styleClass="ui-button-success"
@@ -490,6 +471,19 @@
 						<p:column headerText="Sum Insured">
 							<h:outputText value="#{vehicle.sumInsured}" />
 						</p:column>
+						<!-- <p:column headerText="Edit" style="width:5%; text-align:center;">
+							<p:commandButton icon="pi pi-pencil" title="Edit"
+								actionListener="#{ManageMotorActionBean.editVehicle(vehicle)}"
+								update=":motorEntryFrom:vehicleDialog"
+								oncomplete="PF('vehicleDialog').show()" />
+						</p:column>
+
+						<p:column headerText="Delete" style="width:5%; text-align:center;">
+							<p:commandButton icon="pi pi-trash" title="Delete"
+								actionListener="#{ManageMotorActionBean.deleteVehicle(vehicle)}"
+								update=":motorEntryForm:vehicleTable" process="@this"
+								onclick="return confirm('Are you sure you want to delete this vehicle?');" />
+						</p:column> -->
 					</p:dataTable>
 
 					<!-- Navigation Buttons: Back & Next -->
@@ -507,7 +501,8 @@
 					<!-- Cancel Button + Mandatory Fields Note -->
 					<div style="margin-top: 10px;">
 						<p:commandButton value="Cancel" styleClass="ui-button-danger"
-							style="margin-bottom: 5px;" />
+							style="margin-bottom: 5px;"
+							action="#{ManageMotorActionBean.cancel}" process="@this" />
 						<br /> <span style="color: red;">* - mandatory fields</span>
 					</div>
 				</p:tab>
@@ -619,7 +614,6 @@
 
 						</p:dataTable>
 
-
 						<!-- Buttons -->
 						<div class="button-row">
 							<p:commandButton value="Submit Policy" icon="pi pi-check"
@@ -630,7 +624,8 @@
 								styleClass="ui-button-secondary" style="margin-left:10px;"
 								type="button" onclick="PF('motorWizard').back();" />
 							<p:commandButton value="Cancel" icon="pi pi-times"
-								styleClass="ui-button-danger" style="margin-left:10px;" />
+								styleClass="ui-button-danger" style="margin-left:10px;"
+								action="#{ManageMotorActionBean.cancel}" process="@this" />
 							<br />
 							<h:outputText value="* - mandatory fields"
 								styleClass="cancel-note" />
@@ -638,6 +633,49 @@
 					</p:panel>
 				</p:tab>
 			</p:wizard>
+			<!-- <p:dialog header="Edit Vehicle" widgetVar="vehicleDialog"
+				modal="true" resizable="false" closable="true">
+				<h:form id="vehicleEditForm">
+					<p:panelGrid columns="2" columnClasses="label,value">
+
+						<h:outputLabel for="registrationNo" value="Registration No:" />
+						<p:inputText id="registrationNo"
+							value="#{ManageMotorActionBean.vehicle.registrationNo}"
+							required="true" />
+
+						<h:outputLabel for="productType" value="Product Type:" />
+						<p:inputText id="productType"
+							value="#{ManageMotorActionBean.vehicle.productType}"
+							required="true" />
+
+						Add other fields similarly
+
+						<h:outputLabel value="Additional Covers:" />
+						<p:selectManyCheckbox id="additionalCovers"
+							value="#{ManageMotorActionBean.selectedAdditionalCovers}"
+							layout="grid" columns="2">
+							<f:selectItem itemLabel="Acts Of God" itemValue="ActsOfGod" />
+							<f:selectItem itemLabel="Nil Excess" itemValue="NilExcess" />
+							<f:selectItem itemLabel="SRCC" itemValue="SRCC" />
+							<f:selectItem itemLabel="Theft" itemValue="Theft" />
+							<f:selectItem itemLabel="War Risk" itemValue="WarRisk" />
+							<f:selectItem itemLabel="Betterment" itemValue="Betterment" />
+							<f:selectItem itemLabel="PA and MT" itemValue="PA_MT" />
+							<f:selectItem itemLabel="Sun Roof" itemValue="SunRoof" />
+							<f:selectItem itemLabel="Third Party" itemValue="ThirdParty" />
+							<f:selectItem itemLabel="Wind Screen" itemValue="WindScreen" />
+						</p:selectManyCheckbox>
+
+					</p:panelGrid>
+
+					<p:commandButton value="Save"
+						actionListener="#{ManageMotorActionBean.saveEditedVehicle}"
+						update=":motorEntryForm:vehicleTable"
+						oncomplete="PF('vehicleDialog').hide()" />
+					<p:commandButton value="Cancel"
+						onclick="PF('vehicleDialog').hide();return false;" />
+				</h:form>
+			</p:dialog> -->
 		</h:form>
 	</ui:define>
 </ui:composition>

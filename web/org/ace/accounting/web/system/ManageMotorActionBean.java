@@ -309,7 +309,7 @@ public class ManageMotorActionBean extends BaseBean{
 	    }
 	}
 	
-	public void submitPolicy() {
+	public String submitPolicy() {
 	    try {
 	        calculateAndSetPolicyEndDate();
 	        
@@ -334,13 +334,63 @@ public class ManageMotorActionBean extends BaseBean{
 	    } catch (SystemException ex) {
 	        handleSysException(ex);
 	    }
+	    
+	    return "/ui/system/home.xhtml?faces-redirect=true";
 	}
 	
-	private String cancel() {
-		this.motorPolicy = new MotorPolicy();
-		this.vehicle = new MotorPolicyVehicleLink();
-		this.addVehicleList = new ArrayList<>();
-		return "index";
+	public String cancel() {
+		return "/ui/system/home.xhtml?faces-redirect=true";
+	}
+	
+	// Select a vehicle for editing
+	public void editVehicle(MotorPolicyVehicleLink selectedVehicle) {
+	    // Set the vehicle to be edited
+	    this.vehicle = selectedVehicle;
+
+	    // You might want to set the selectedAdditionalCovers for editing UI
+	    selectedAdditionalCovers = new ArrayList<>();
+	    if (vehicle.isActsOfGod()) selectedAdditionalCovers.add("ActsOfGod");
+	    if (vehicle.isNilExcess()) selectedAdditionalCovers.add("NilExcess");
+	    if (vehicle.isSrcc()) selectedAdditionalCovers.add("SRCC");
+	    if (vehicle.isTheft()) selectedAdditionalCovers.add("Theft");
+	    if (vehicle.isWarRisk()) selectedAdditionalCovers.add("WarRisk");
+	    if (vehicle.isBetterment()) selectedAdditionalCovers.add("Betterment");
+	    if (vehicle.isPaAndMt()) selectedAdditionalCovers.add("PA_MT");
+	    if (vehicle.isSunRoof()) selectedAdditionalCovers.add("SunRoof");
+	    if (vehicle.isThirdParty()) selectedAdditionalCovers.add("ThirdParty");
+	    if (vehicle.isWindScreen()) selectedAdditionalCovers.add("WindScreen");
+	}
+
+	// Delete a vehicle from the list
+	public void deleteVehicle(MotorPolicyVehicleLink selectedVehicle) {
+	    addVehicleList.remove(selectedVehicle);
+	    
+	    // After delete, recalc discounts and premiums
+	    applyFleetDiscount();
+	    updatePremiumValuesToVehicles();
+	}
+	
+	public void saveEditedVehicle() {
+	    // Set additional covers from selectedAdditionalCovers to vehicle
+	    vehicle.setActsOfGod(selectedAdditionalCovers.contains("ActsOfGod"));
+	    vehicle.setNilExcess(selectedAdditionalCovers.contains("NilExcess"));
+	    vehicle.setSrcc(selectedAdditionalCovers.contains("SRCC"));
+	    vehicle.setTheft(selectedAdditionalCovers.contains("Theft"));
+	    vehicle.setWarRisk(selectedAdditionalCovers.contains("WarRisk"));
+	    vehicle.setBetterment(selectedAdditionalCovers.contains("Betterment"));
+	    vehicle.setPaAndMt(selectedAdditionalCovers.contains("PA_MT"));
+	    vehicle.setSunRoof(selectedAdditionalCovers.contains("SunRoof"));
+	    vehicle.setThirdParty(selectedAdditionalCovers.contains("ThirdParty"));
+	    vehicle.setWindScreen(selectedAdditionalCovers.contains("WindScreen"));
+
+	    // Recalculate discounts and premiums
+	    applyFleetDiscount();
+	    updatePremiumValuesToVehicles();
+
+	    // Clear selectedAdditionalCovers to avoid confusion on next edit
+	    selectedAdditionalCovers.clear();
+
+	    addInfoMessage(null, "Vehicle updated successfully");
 	}
 	
 	public BranchType[] getBranchType() {
