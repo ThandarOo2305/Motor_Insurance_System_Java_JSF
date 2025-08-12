@@ -23,7 +23,8 @@ public class MotorEnquiryService implements IMotorEnquiryService{
 	public List<Object[]> searchPolicies(Date policyStartDateFrom, Date policyStartDateTo, String policyNo,
 			String registrationNo) {
 		
-		return null;
+		return motorPolicyEnquiryDAO.searchPolicies(policyStartDateFrom, policyStartDateTo, policyNo, registrationNo);
+
 	}
 
 }

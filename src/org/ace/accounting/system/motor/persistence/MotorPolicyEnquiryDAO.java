@@ -25,31 +25,32 @@ public class MotorPolicyEnquiryDAO extends BasicDAO implements IMotorPolicyEnqui
     public List<Object[]> searchPolicies(Date policyStartDateFrom, Date policyStartDateTo,
                                          String policyNo, String registrationNo) {
 
-        StringBuffer hql = new StringBuffer("SELECT mp.policyNo, mp.proposalNo, mp.registrationNo, mp.saleChannel, ");
-        hql.append("mp.salePerson, mp.customer, mp.branch, mp.claimCount, mp.totalSumInsured, ");
+    	StringBuffer hql = new StringBuffer("SELECT mp.policyNo, v.registrationNo, mp.saleChannel, ");
+        hql.append(" mp.customerName, mp.branch, mp.claimCount, mp.totalSumInsured, ");
         hql.append("mp.basicPremium, mp.submittedDate, mp.createdUser ");
-        hql.append("FROM MotorPolicy mp WHERE 1=1");
+        hql.append("FROM MotorPolicy mp JOIN mp.vehicles mv ");
+        hql.append("WHERE mp.proposalNo IS NULL");
 
         if (policyStartDateFrom != null) {
-            hql.append(" AND mp.policyStartDate >= :policyStartDateFrom");
+            hql.append(" AND mp.policyStartDate >= :fromDate");
         }
         if (policyStartDateTo != null) {
-            hql.append(" AND mp.policyStartDate <= :policyStartDateTo");
+            hql.append(" AND mp.policyStartDate <= :toDate");
         }
         if (policyNo != null && !policyNo.isEmpty()) {
             hql.append(" AND mp.policyNo = :policyNo");
         }
         if (registrationNo != null && !registrationNo.isEmpty()) {
-            hql.append(" AND mp.registrationNo = :registrationNo");
+            hql.append(" AND mv.registrationNo = :registrationNo");
         }
 
         Query query = em.createQuery(hql.toString());
 
         if (policyStartDateFrom != null) {
-            query.setParameter("policyStartDateFrom", policyStartDateFrom);
+            query.setParameter("fromDate", policyStartDateFrom);
         }
         if (policyStartDateTo != null) {
-            query.setParameter("policyStartDateTo", policyStartDateTo);
+            query.setParameter("toDate", policyStartDateTo);
         }
         if (policyNo != null && !policyNo.isEmpty()) {
             query.setParameter("policyNo", policyNo);
