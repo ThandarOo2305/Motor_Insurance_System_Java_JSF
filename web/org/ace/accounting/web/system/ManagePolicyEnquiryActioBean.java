@@ -23,40 +23,53 @@ public class ManagePolicyEnquiryActioBean {
 	public void setPolicyEnquiryService(IMotorEnquiryService policyEnquiryService) {
 		this.policyEnquiryservice = policyEnquiryService;
 	}
+	//Policy No Validator
+	@ManagedProperty(value = "#{MotorPolicyEnquiryValidator}")
+	    private IDataValidator<MotorPolicy> motorPolicyNoValidator;
 
-	// Policy No Validator
-	@ManagedProperty(value = "#{MotorPolicyValidator}")
-	private IDataValidator<MotorPolicy> motorPolicyValidator;
+	    public void setMotorPolicyNoValidator(IDataValidator<MotorPolicy> motorPolicyNoValidator) {
+	        this.motorPolicyNoValidator = motorPolicyNoValidator;
+	    }
 
-	public void setMotorPolicyValidator(IDataValidator<MotorPolicy> motorPolicyValidator) {
-		this.motorPolicyValidator = motorPolicyValidator;
-	}
+	//Registation No Validator
+	    
+	    @ManagedProperty(value = "#{MotorPolicyVehicleEnquiryValidator}")
+	    private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator;
 
-	// Registation No Validator
-	@ManagedProperty(value = "#{MotorPolicyVehicleValidator}")
-	private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleValidator;
+	    public void setMotorPolicyVehicleValidator(IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator) {
+	        this.motorPolicyVehicleEnquiryValidator = motorPolicyVehicleEnquiryValidator;
+	    }
 
-	public void setMotorPolicyVehicleValidator(IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleValidator) {
-		this.motorPolicyVehicleValidator = motorPolicyVehicleValidator;
-	}
+	    private Date policyStartDate;
+	    private Date policyEndDate;
+	    private String policyNo;
+	    private String registrationNo;
+	    private MotorPolicyVehicleLink motorPolicyVehicleLink;
+	    private MotorPolicy motorPolicy;
+	    // Search Result Lists
+	    private List<MotorPolicyVehicleLink> results;
 
-	private Date policyStartDate;
-	private Date policyEndDate;
-	private String policyNo;
-	private String registrationNo;
+	    // Search Method
+	    public void search() {
+	        try {
+	            results = policyEnquiryService.searchPolicies(
+	                policyStartDate,
+	                policyEndDate,
+	                policyNo,
+			        registrationNo
+	            );
 
-	// Search Result Lists
-	private List<MotorPolicyVehicleLink> results;
-
-	// Search Method
-	public void search() {
-		try {
-			results = policyEnquiryservice.search(policyStartDate, policyEndDate, policyNo, registrationNo);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    public void reset() {
+	        this.policyStartDate = null;
+	        this.policyEndDate = null;
+	        this.policyNo = null;
+	        this.registrationNo = null;
+	    }
 
 	// Getters and setters for all fields
 	public Date getPolicyStartDate() {

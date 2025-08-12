@@ -51,37 +51,37 @@
     TARGET="rules:#dialog#editVoucherPasswordDialog.xhtml"
     TITLE="editVoucherPasswordDialog" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="coaCodeEntry::#ui#system#manageCOACode.xhtml" NAME="output12"
+    ID="changePassword::#ui#system#changePassword.xhtml" NAME="output12"
+    PATH="/ui/system/changePassword.xhtml"
+    TARGET="rules:#ui#system#changePassword.xhtml"
+    TITLE="changePassword" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="coaCodeEntry::#ui#system#manageCOACode.xhtml" NAME="output13"
     PATH="/ui/system/manageCOACode.xhtml"
     TARGET="rules:#ui#system#manageCOACode.xhtml" TITLE="coaCodeEntry" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="branchCOACodeEntry::#ui#system#manageBranchCOACode.xhtml"
-    NAME="output13" PATH="/ui/system/manageBranchCOACode.xhtml"
+    NAME="output14" PATH="/ui/system/manageBranchCOACode.xhtml"
     TARGET="rules:#ui#system#manageBranchCOACode.xhtml"
     TITLE="branchCOACodeEntry" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="currencyCodeEntry::#ui#system#manageCurrency.xhtml"
-    NAME="output14" PATH="/ui/system/manageCurrency.xhtml"
+    NAME="output15" PATH="/ui/system/manageCurrency.xhtml"
     TARGET="rules:#ui#system#manageCurrency.xhtml"
     TITLE="currencyCodeEntry" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="departmentCodeEntry::#ui#system#manageDepartment.xhtml"
-    NAME="output15" PATH="/ui/system/manageDepartment.xhtml"
+    NAME="output16" PATH="/ui/system/manageDepartment.xhtml"
     TARGET="rules:#ui#system#manageDepartment.xhtml"
     TITLE="departmentCodeEntry" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="passwordEntry::#ui#system#managePassword.xhtml" NAME="output16"
+    ID="passwordEntry::#ui#system#managePassword.xhtml" NAME="output17"
     PATH="/ui/system/managePassword.xhtml"
     TARGET="rules:#ui#system#managePassword.xhtml" TITLE="passwordEntry" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="dailyRate::#ui#system#rateDailyCurrency.xhtml" NAME="output17"
+    ID="dailyRate::#ui#system#rateDailyCurrency.xhtml" NAME="output18"
     PATH="/ui/system/rateDailyCurrency.xhtml"
     TARGET="rules:#ui#system#rateDailyCurrency.xhtml" TITLE="dailyRate" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="monthlyRate::#ui#system#rateMonthlyCurrency.xhtml"
-    NAME="output18" PATH="/ui/system/rateMonthlyCurrency.xhtml"
-    TARGET="rules:#ui#system#rateMonthlyCurrency.xhtml"
-    TITLE="monthlyRate" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="openingBalanceEntry::#ui#system#manageOpeningBalance.xhtml"
     NAME="output19" PATH="/ui/system/manageOpeningBalance.xhtml"
@@ -126,85 +126,87 @@
    <PROCESS-ITEM-OUTPUT ID="roleEntry::#ui#system#manageRole.xhtml"
     NAME="output28" PATH="/ui/system/manageRole.xhtml"
     TARGET="rules:#ui#system#manageRole.xhtml" TITLE="roleEntry" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="motorPage::#ui#system#manageMotor.xhtml"
+    NAME="output29" PATH="/ui/system/manageMotor.xhtml"
+    TARGET="rules:#ui#system#manageMotor.xhtml" TITLE="motorPage" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="enquiryPage::#ui#system#manageEnquiry.xhtml"
+    NAME="output30" PATH="/ui/system/manageEnquiry.xhtml"
+    TARGET="rules:#ui#system#manageEnquiry.xhtml" TITLE="enquiryPage" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="creditVoucher::#ui#manage#transaction#manageCreditVoucher.xhtml"
-    NAME="output29"
+    NAME="output31"
     PATH="/ui/manage/transaction/manageCreditVoucher.xhtml"
     TARGET="rules:#ui#manage#transaction#manageCreditVoucher.xhtml"
     TITLE="creditVoucher" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
+    ID="debitVoucher::#ui#manage#transaction#manageDebitVoucher.xhtml"
+    NAME="output32"
+    PATH="/ui/manage/transaction/manageDebitVoucher.xhtml"
+    TARGET="rules:#ui#manage#transaction#manageDebitVoucher.xhtml"
+    TITLE="debitVoucher" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
     ID="journalVoucher::#ui#manage#transaction#manageJournalVoucher.xhtml"
-    NAME="output30"
+    NAME="output33"
     PATH="/ui/manage/transaction/manageJournalVoucher.xhtml"
     TARGET="rules:#ui#manage#transaction#manageJournalVoucher.xhtml"
     TITLE="journalVoucher" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="voucherEdit::#ui#manage#transaction#editVoucher.xhtml"
-    NAME="output31" PATH="/ui/manage/transaction/editVoucher.xhtml"
+    NAME="output34" PATH="/ui/manage/transaction/editVoucher.xhtml"
     TARGET="rules:#ui#manage#transaction#editVoucher.xhtml"
     TITLE="voucherEdit" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
+    ID="enquiryOnLedger::#ui#manage#enquiry#manageEnquiryLedger.xhtml"
+    NAME="output35" PATH="/ui/manage/enquiry/manageEnquiryLedger.xhtml"
+    TARGET="rules:#ui#manage#enquiry#manageEnquiryLedger.xhtml"
+    TITLE="enquiryOnLedger" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
     ID="vocherListing::#ui#manage#listing#voucherListing.xhtml"
-    NAME="output32" PATH="/ui/manage/listing/voucherListing.xhtml"
+    NAME="output36" PATH="/ui/manage/listing/voucherListing.xhtml"
     TARGET="rules:#ui#manage#listing#voucherListing.xhtml"
     TITLE="vocherListing" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="accountLedgerListing::#ui#manage#listing#accLedgerListing.xhtml"
-    NAME="output33" PATH="/ui/manage/listing/accLedgerListing.xhtml"
-    TARGET="rules:#ui#manage#listing#accLedgerListing.xhtml"
-    TITLE="accountLedgerListing" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
     ID="generalLedgerListing::#ui#manage#listing#genLedgerListing.xhtml"
-    NAME="output34" PATH="/ui/manage/listing/genLedgerListing.xhtml"
+    NAME="output37" PATH="/ui/manage/listing/genLedgerListing.xhtml"
     TARGET="rules:#ui#manage#listing#genLedgerListing.xhtml"
     TITLE="generalLedgerListing" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="cashBookListing::#ui#manage#listing#cashBookListing.xhtml"
-    NAME="output35" PATH="/ui/manage/listing/cashBookListing.xhtml"
-    TARGET="rules:#ui#manage#listing#cashBookListing.xhtml"
-    TITLE="cashBookListing" model-entity="JSFProcessItemOutput"/>
+    ID="generalLedgerSummaryListing::#ui#manage#listing#genLedgerSummaryListing.xhtml"
+    NAME="output38"
+    PATH="/ui/manage/listing/genLedgerSummaryListing.xhtml"
+    TARGET="rules:#ui#manage#listing#genLedgerSummaryListing.xhtml"
+    TITLE="generalLedgerSummaryListing" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="coaListing::#ui#manage#listing#coaListing.xhtml" NAME="output36"
+    ID="coaListing::#ui#manage#listing#coaListing.xhtml" NAME="output39"
     PATH="/ui/manage/listing/coaListing.xhtml"
     TARGET="rules:#ui#manage#listing#coaListing.xhtml"
     TITLE="coaListing" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="voucherPrinting::#ui#manage#listing#voucherPrinting.xhtml"
-    NAME="output37" PATH="/ui/manage/listing/voucherPrinting.xhtml"
+    NAME="output40" PATH="/ui/manage/listing/voucherPrinting.xhtml"
     TARGET="rules:#ui#manage#listing#voucherPrinting.xhtml"
     TITLE="voucherPrinting" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="generalJournalListing::#ui#manage#listing#generalJournalListing.xhtml"
-    NAME="output38"
+    NAME="output41"
     PATH="/ui/manage/listing/generalJournalListing.xhtml"
     TARGET="rules:#ui#manage#listing#generalJournalListing.xhtml"
     TITLE="generalJournalListing" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="dailyPosting::#ui#manage#posting#dailyPosting.xhtml"
-    NAME="output39" PATH="/ui/manage/posting/dailyPosting.xhtml"
-    TARGET="rules:#ui#manage#posting#dailyPosting.xhtml"
-    TITLE="dailyPosting" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="ibsClosing::#ui#manage#posting#ibsClosing.xhtml" NAME="output40"
+    ID="ibsClosing::#ui#manage#posting#ibsClosing.xhtml" NAME="output42"
     PATH="/ui/manage/posting/ibsClosing.xhtml"
     TARGET="rules:#ui#manage#posting#ibsClosing.xhtml"
     TITLE="ibsClosing" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="yearlyPosting::#ui#manage#posting#yearlyPosting.xhtml"
-    NAME="output41" PATH="/ui/manage/posting/yearlyPosting.xhtml"
+    NAME="output43" PATH="/ui/manage/posting/yearlyPosting.xhtml"
     TARGET="rules:#ui#manage#posting#yearlyPosting.xhtml"
     TITLE="yearlyPosting" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="dataCloning::#ui#manage#posting#dataCloning.xhtml"
-    NAME="output42" PATH="/ui/manage/posting/dataCloning.xhtml"
+    NAME="output44" PATH="/ui/manage/posting/dataCloning.xhtml"
     TARGET="rules:#ui#manage#posting#dataCloning.xhtml"
     TITLE="dataCloning" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT ID="dayBook::#ui#manage#report#dayBook.xhtml"
-    NAME="output43" PATH="/ui/manage/report/dayBook.xhtml"
-    TARGET="rules:#ui#manage#report#dayBook.xhtml" TITLE="dayBook" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT ID="bankCash::#ui#manage#report#bankCash.xhtml"
-    NAME="output44" PATH="/ui/manage/report/bankCash.xhtml"
-    TARGET="rules:#ui#manage#report#bankCash.xhtml" TITLE="bankCash" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="cleanCash::#ui#manage#report#cleanCash.xhtml" NAME="output45"
     PATH="/ui/manage/report/cleanCash.xhtml"
@@ -338,6 +340,11 @@
     NAME="output20" PATH="/ui/system/ProposalListing.xhtml"
     TARGET="rules:#ui#system#ProposalListing.xhtml"
     TITLE="proposalListing" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="incomeAndExpenditure::#ui#manage#report#incomeAndExpenditure.xhtml"
+    NAME="output21" PATH="/ui/manage/report/incomeAndExpenditure.xhtml"
+    TARGET="rules:#ui#manage#report#incomeAndExpenditure.xhtml"
+    TITLE="incomeAndExpenditure" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#dialog#departmentDialog.xhtml"
@@ -488,4 +495,8 @@
   PATH="/ui/system/Excel.xhtml" SHAPE="304,1889,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#system#ProposalListing.xhtml"
   PATH="/ui/system/ProposalListing.xhtml" SHAPE="304,1889,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#system#manageMotor.xhtml"
+  PATH="/ui/system/manageMotor.xhtml" SHAPE="304,1777,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#system#manageEnquiry.xhtml"
+  PATH="/ui/system/manageEnquiry.xhtml" SHAPE="304,1777,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
