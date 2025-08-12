@@ -265,7 +265,24 @@ public class ManageMotorActionBean extends BaseBean{
 
 	    return totalPremium;
 	}
+	
+	private void updatePremiumValuesToVehicles() {
+	    for (MotorPolicyVehicleLink v : addVehicleList) {
+	        double oneYearBasic = oneYearBasicPremiumCalculation(v);
+	        double oneYearAddOn = oneYearAddonPremiun(v);
+	        double basicTerm = basicTermPremiumCalculation(v, motorPolicy.getPaymentType());
+	        double addOnTerm = basicTermAddOnPremium(v, motorPolicy.getPaymentType());
+	        boolean isFleetVehicle = v.isFleet();
+	        double fleetDisc = isFleetVehicle ? v.getFleetDiscount() : 0.0;
+	        double total = basicTerm + addOnTerm - fleetDisc;
 
+	        v.setOneYearBasicPremium(oneYearBasic);
+	        v.setOneYearAddonPremium(oneYearAddOn);
+	        v.setBasicTermPremium(basicTerm);
+	        v.setAddOnTermPremium(addOnTerm);
+	        v.setTotalPremium(total);
+	    }
+	}
 	
 	private void calculateAndSetPolicyEndDate() {
 	    Date startDate = motorPolicy.getPolicyStartDate();
@@ -298,11 +315,11 @@ public class ManageMotorActionBean extends BaseBean{
 	public void submitPolicy() {
 	    try {
 	        calculateAndSetPolicyEndDate();
+	        
+	        updatePremiumValuesToVehicles();
 
-	        // Clear any previous vehicle links
 	        motorPolicy.getMotorPolicyVehicleLinks().clear();
 
-	        // Add vehicles properly to ensure both sides of relationship are set
 	        for (MotorPolicyVehicleLink v : addVehicleList) {
 	        	motorPolicy.addVehicleLink(v);
 	        }
