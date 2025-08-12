@@ -1,0 +1,171 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/common/commonLayout.xhtml">
+	<ui:param name="header" value="Motor Migrate Policy Enquiry" />
+	<ui:param name="headerRendered" value="true" />
+	<ui:define name="content">
+		<h:outputStylesheet>
+    body {
+        background-color: #f5f7fa !important;
+        color: #212529 !important;
+        font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .ui-panel, .ui-panelgrid, .ui-datatable, .ui-dialog {
+        background-color: #ffffff !important;
+        color: #212529 !important;
+        border-radius: 8px !important;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .ui-panelgrid .ui-outputlabel {
+        color: #495057 !important;
+        font-weight: 500;
+    }
+
+    .ui-inputfield, .ui-selectonemenu, .ui-inputtextarea, .ui-calendar input {
+        background-color: #ffffff !important;
+        color: #212529 !important;
+        border: 1px solid #ced4da !important;
+        border-radius: 4px !important;
+        padding: 5px;
+    }
+
+    .ui-datatable thead th {
+        background-color: #e9ecef !important;
+        color: #212529 !important;
+        font-weight: 600;
+    }
+
+    .ui-datatable tbody td {
+        background-color: #ffffff !important;
+        color: #212529 !important;
+    }
+
+    .ui-commandbutton, .ui-button {
+        border-radius: 4px !important;
+    }
+
+    .green-button {
+        background-color: #0d6efd !important; /* Bootstrap blue */
+        border: 1px solid #0a58ca !important;
+        color: white !important;
+    }
+
+    .green-button:hover {
+        background-color: #0b5ed7 !important;
+    }
+
+    .red-button {
+        background-color: #6c757d !important; /* Bootstrap grey */
+        border: 1px solid #5c636a !important;
+        color: white !important;
+    }
+
+    .red-button:hover {
+        background-color: #5c636a !important;
+    }
+
+    .title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: white;
+        margin-bottom: 10px;
+    }
+
+	</h:outputStylesheet>
+		<h:form id="branchEntryForm">
+			<p:growl escape="false" globalOnly="true" life="5000"
+				showDetail="true" />
+
+			<p:panelGrid id="panelDept" columns="2"
+				columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
+				styleClass="ui-panelgrid-blank ui-fluid">
+				<p:panelGrid columns="2"
+					columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
+					styleClass="ui-panelgrid-blank ui-fluid">
+					
+					<h:outputText for="startDate" value="Policy Start Date"/>
+					<p:calendar id="startDate" value="#{ManagePolicyEnquiryActionBean.motorPolicy.startDate}" pattern="dd-MM-yyyy"
+						required="true" />
+						
+					<h:outputText for="endDate" value="Policy End Date"/>
+					<p:calendar id="endDate" value="#{ManagePolicyEnquiryActionBean.motorPolicy.endDate}" pattern="dd-MM-yyyy"
+						required="true" />
+
+				</p:panelGrid>
+				<p:panelGrid columns="2"
+					columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
+					styleClass="ui-panelgrid-blank ui-fluid">			
+
+					<h:outputText for="policyNo" value="Policy No."
+						styleClass="input-label" />
+					<p:inputText id="policyNo" value="#{ManagePolicyEnquiryActionBean.motorPolicy.policyNo}" />
+					
+					<h:outputText for="registrationNo" value="Registration No."
+						styleClass="input-label" />
+					<p:inputText id="registrationNo" value="#{ManagePolicyEnquiryActionBean.motorPolicyVehicleLink.registrationNo}" />
+
+				</p:panelGrid>
+			</p:panelGrid><br/>
+
+			<p:commandButton value="Search" immediate="true" update="@form"
+				styleClass="ui-button-danger" style="width: 150px;" />
+			<p:commandButton value="Reset" update="@form"
+				styleClass="ui-button-success" style="width: 150px;" />
+		</h:form><br/>
+
+		<h:form id="studentTableForm">
+
+			<p:dataTable var="enquiry"
+				value="#{ManageEnquiryActionBean.students}" id="enquiryTable"
+				paginator="true" rows="10" style="width:100%"
+				widgetVar="enquiryTable"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" rowKey="#{enquiry.id}" reflow="true"
+				rowIndexVar="var" paginatorPosition="bottom">
+				
+				<p:column headerText="Policy No">
+					<h:outputText value="#{motorpolicy.policyNo}" />
+				</p:column>
+				
+				<p:column headerText="Registration No">
+					<h:outputText value="#{motorPolicyVehicleLink.registrationNo}" />
+				</p:column>
+				
+				<p:column headerText="Sale Channel">
+					<h:outputText value="#{motorpolicy.saleChannel}" />
+				</p:column>
+				
+				<p:column headerText="Customer">
+					<h:outputText value="#{motorpolicy.customer}" />
+				</p:column>
+				
+				<p:column headerText="Branch">
+					<h:outputText value="#{motorpolicy.branch}" />
+				</p:column>
+				
+				<p:column headerText="Claim Count">
+					<h:outputText value="#{motorPolicyVehicleLink.claimCount}" />
+				</p:column>
+				
+				<p:column headerText="Total Sum Isured">
+					<h:outputText value="#{motorPolicyVehicleLink.sumInsured}" />
+				</p:column>
+				
+				<p:column headerText="Basic Premium">
+					<h:outputText value="#{motorpolicy.basicPremium}" />
+				</p:column>
+				
+				<p:column headerText="Submitted Date">
+					<h:outputText value="#{motorpolicy.submittedDate}" />
+				</p:column>
+				
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

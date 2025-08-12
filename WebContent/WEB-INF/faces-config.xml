@@ -201,6 +201,12 @@
 			<to-view-id>/ui/system/manageMotor.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>enquiryPage</from-outcome>
+			<to-view-id>/ui/system/manageEnquiry.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
 
 		<!-- Transaction Entry -->
 		<navigation-case>

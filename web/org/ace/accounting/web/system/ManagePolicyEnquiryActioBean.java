@@ -42,7 +42,8 @@ public class ManagePolicyEnquiryActioBean {
 	    private Date policyEndDate;
 	    private String policyNo;
 	    private String registrationNo;
-
+	    private MotorPolicyVehicleLink motorPolicyVehicleLink;
+	    private MotorPolicy motorPolicy;
 	    // Search Result Lists
 	    private List<MotorPolicyVehicleLink> results;
 
