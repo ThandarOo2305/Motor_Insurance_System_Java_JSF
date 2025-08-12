@@ -5,9 +5,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
 import org.ace.accounting.common.CurrencyType;
 import org.ace.accounting.common.validation.IDataValidator;
 import org.ace.accounting.common.validation.MessageId;
@@ -25,202 +28,393 @@ import org.primefaces.event.FlowEvent;
 
 @ManagedBean(name = "ManageMotorActionBean")
 @ViewScoped
-public class ManageMotorActionBean extends BaseBean {
+public class ManageMotorActionBean extends BaseBean{
 	@ManagedProperty(value = "#{MotorPolicyService}")
 	private IMotorPolicyService motorPolicyService;
-
+	
 	public void setMotorPolicyService(IMotorPolicyService motorPolicyService) {
 		this.motorPolicyService = motorPolicyService;
 	}
-
 	@ManagedProperty(value = "#{MotorPolicyVehicleLinkService}")
 	private IMotorPolicyVehicleLinkService motorVehicleLinkService;
-
+	
 	public void setMotorVehicleLinkService(IMotorPolicyVehicleLinkService motorVehicleLinkService) {
 		this.motorVehicleLinkService = motorVehicleLinkService;
 	}
-
 	@ManagedProperty(value = "#{MotorPolicyValidator}")
 	private IDataValidator<MotorPolicy> motorPolicyValidator;
-
+	
 	public void setMotorPolicyValidator(IDataValidator<MotorPolicy> motorPolicyValidator) {
 		this.motorPolicyValidator = motorPolicyValidator;
 	}
-
+	
 	@ManagedProperty(value = "#{MotorPolicyVehicleValidator}")
 	private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleValidator;
-
+	
 	public void setMotorPolicyVehicleValidator(IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleValidator) {
 		this.motorPolicyVehicleValidator = motorPolicyVehicleValidator;
 	}
-
+	
 	private MotorPolicy motorPolicy;
 	private MotorPolicyVehicleLink vehicle;
-	private List<MotorPolicyVehicleLink> addvehicleList;
-	private int vehiclescount = 0;
-	private boolean fleetdiscount = false;
-
+	private List<MotorPolicyVehicleLink> addVehicleList;
+	private double privateRate = 1.072;
+	private double commercialRate = 1.734;
+	private double fleetDiscountRate = 10;
+	
+	private List<String> selectedAdditionalCovers;
+	
 	@PostConstruct
-	public void init() {
+	private void init() {
 		createNewMotorPolicyInfo();
 		createNewVehicleInfo();
+		selectedAdditionalCovers = new ArrayList<>();
 	}
-
-	public void createNewMotorPolicyInfo() {
+	
+	private void createNewMotorPolicyInfo() {
 		motorPolicy = new MotorPolicy();
-		addvehicleList = new ArrayList<>();
+		addVehicleList = new ArrayList<>();
+	}
+	
+	private void createNewVehicleInfo() {
+		vehicle = new MotorPolicyVehicleLink();	
+		
+	}  
+	
+	public void addVehicle() {
+        addVehicleList.add(vehicle);
+        vehicle = new MotorPolicyVehicleLink();
+    }
+	
+	public void addNewVehicleInfo() {
+	    vehicle.setActsOfGod(selectedAdditionalCovers.contains("ActsOfGod"));
+	    vehicle.setNilExcess(selectedAdditionalCovers.contains("NilExcess"));
+	    vehicle.setSrcc(selectedAdditionalCovers.contains("SRCC"));
+	    vehicle.setTheft(selectedAdditionalCovers.contains("Theft"));
+	    vehicle.setWarRisk(selectedAdditionalCovers.contains("WarRisk"));
+	    vehicle.setBetterment(selectedAdditionalCovers.contains("Betterment"));
+	    vehicle.setPaAndMt(selectedAdditionalCovers.contains("PA_MT"));
+	    vehicle.setSunRoof(selectedAdditionalCovers.contains("SunRoof"));
+	    vehicle.setThirdParty(selectedAdditionalCovers.contains("ThirdParty"));
+	    vehicle.setWindScreen(selectedAdditionalCovers.contains("WindScreen"));
+
+	    ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
+	    if(result.isVerified()) {
+	        addVehicleList.add(vehicle);
+	        createNewVehicleInfo();
+	        selectedAdditionalCovers.clear();
+	        
+	        applyFleetDiscount();
+	        updatePremiumValuesToVehicles();
+	        System.out.println("success in add vehicle to list");
+	    } else {
+	        System.out.println("Validation failed for vehicle.");
+	    }
 	}
 
-	public void createNewVehicleInfo() {
-		vehicle = new MotorPolicyVehicleLink();
-	}
-
+	public String getAdditionalCoversAsString(MotorPolicyVehicleLink vehicle) {
+        List<String> covers = new ArrayList<>();
+        if (vehicle.isActsOfGod()) covers.add("Acts Of God");
+        if (vehicle.isNilExcess()) covers.add("Nil Excess");
+        if (vehicle.isSrcc()) covers.add("SRCC");
+        if (vehicle.isTheft()) covers.add("Theft");
+        if (vehicle.isWarRisk()) covers.add("War Risk");
+        if (vehicle.isBetterment()) covers.add("Betterment");
+        if (vehicle.isPaAndMt()) covers.add("PA and MT");
+        if (vehicle.isSunRoof()) covers.add("Sun Roof");
+        if (vehicle.isThirdParty()) covers.add("Third Party");
+        if (vehicle.isWindScreen()) covers.add("Wind Screen");
+        return String.join(", ", covers);
+    }
+	
 	public String onFlowProcess(FlowEvent event) {
-		// always allow forward/backward navigation
-		System.out.println("Moving from " + event.getOldStep() + " to " + event.getNewStep());
-		return event.getNewStep();
+	    if ("policyInfo".equals(event.getOldStep())) {
+	        ValidationResult result = motorPolicyValidator.validate(motorPolicy, true);
+	        if (!result.isVerified()) {
+	            return event.getOldStep();
+	        }
+	    }
+
+	    if ("vehicleInfo".equals(event.getOldStep())) {
+	        if (addVehicleList == null || addVehicleList.isEmpty()) {
+	            ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
+	            if (!result.isVerified()) {
+	                return event.getOldStep();
+	            }
+	        }
+	    }
+
+	    return event.getNewStep();
 	}
 	
-	// i dont think this method is need but next btn method is needs in Vehicle Info
-	// page
-	// info page
-//	private void addNewMotorPolicyInfo(MotorPolicy motorpolicy) {
-//		this.motorPolicy = motorpolicy;
-//	}
-	
-	//next btn method for Policy Info page
-	//validation the policy Info
-	public void validatePolicyInfo() {
-		ValidationResult result = motorPolicyValidator.validate(motorPolicy, true);
-		if (result.isVerified()) {
-			addInfoMessage(null, MessageId.UPDATE_SUCCESS, "successfully add policy info");
-//			System.out.print("success in add vehicle to list");
-		}
+	public double oneYearBasicPremiumCalculation(MotorPolicyVehicleLink v) {
+		double rate = v.getProductType().equals("Private") ? privateRate : commercialRate;
+		
+		double oneYearBasicPremium = v.getSumInsured() * (rate / 100);
+		
+		return oneYearBasicPremium;
 	}
 	
-	// count the vehicles in the addvehiclelist
-	private void countvehicle() {
-		for (int i = 0; i <= addvehicleList.size(); i++) {
-			vehiclescount++;
-		}
-	}
-
-	// next btn method for vehicle info page
-	public void forPremiumInfo() {
-		countvehicle();
-		if (vehiclescount >= 10) {
-			fleetdiscount = true;
-		} else {
-			fleetdiscount = false;
-		}
-	}
-
-	// method for Add btn in Vehicle Info page
-	private void addNewVehicleInfo(MotorPolicyVehicleLink vehicle) {
-		ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
-		if (result.isVerified()) {
-			addvehicleList.add(vehicle);
-			createNewVehicleInfo();
-			addInfoMessage(null, MessageId.UPDATE_SUCCESS, "success add vehicle to List");
-//			System.out.print("success in add vehicle to list");
-		}
-	}
-
-	// method for edit btn in data table of Vehicle Info page
-	public void editVehicleInfo(MotorPolicyVehicleLink vehicle) {
-		this.vehicle = vehicle;
-	}
-
-	// method for delete btn in data table of Vehicle Info page
-	public void deleteVehicleInfo(MotorPolicyVehicleLink vehicle) {
-		addvehicleList.remove(vehicle);
-		System.out.println("vehicle remove success");
-	}
-
-	// calculating method for policy end date
-	public void calculateAndSetPolicyEndDate() {
-		Date startDate = motorPolicy.getPolicyStartDate();
-		int period = motorPolicy.getPeriod();
-
-		if (startDate != null && period > 0) {
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(startDate);
-			cal.add(Calendar.MONTH, period);// add start date and period
-			cal.add(Calendar.DAY_OF_MONTH, -1);
-			Date endDate = cal.getTime();
-			motorPolicy.setPolicyEndDate(endDate);
-		} else {
-			System.out.println("Invalid start date or period for calculating policy end date.");
-		}
-	}
-
-	// for submitPolicy btn in Premium Info page
-	public void submitPolicy() {
-		try {
-			calculateAndSetPolicyEndDate();
-
-			// link all vehicle to motorPolicy
-			for (MotorPolicyVehicleLink v : addvehicleList) {
-				v.setMotorPolicy(motorPolicy);
+	public double basicTermPremiumCalculation(MotorPolicyVehicleLink v, PaymentType paymentType) {
+		double oneYearBasicPremium = oneYearBasicPremiumCalculation(v);
+		
+		if(paymentType != null) {
+			switch (paymentType) {
+			
+			case SEMI_ANNUAL:
+				return oneYearBasicPremium / 2;
+			
+			case QUARTER:
+				return oneYearBasicPremium / 4;
+			
+			case MONTHLY:
+				return oneYearBasicPremium / 12;
+				
+			default:
+				return oneYearBasicPremium;
 			}
-			// set vehicle List for motorPolicy
-			motorPolicy.setMotorPolicyVehicleLinks(addvehicleList);
-
-			// for adding motor policy at the submit policy btn
-			motorPolicyService.addNewMotorPolicy(motorPolicy);
-			addInfoMessage(null, MessageId.UPDATE_SUCCESS, motorPolicy.getPolicyNo());
-
-			// for adding vehicle info(s) at the submit policy btn
-			for (MotorPolicyVehicleLink ve : addvehicleList) {
-				motorVehicleLinkService.addNewMotorPolicyVehicleLink(ve);
-			}
-			addInfoMessage(null, MessageId.UPDATE_SUCCESS, "successfully add vehicles to database");
-			createNewMotorPolicyInfo();
-			createNewVehicleInfo();
-		} catch (SystemException ex) {
-			handleSysException(ex);
 		}
+		return oneYearBasicPremium;
+	}
+	
+	public double oneYearAddonPremiun(MotorPolicyVehicleLink v) {
+		double oneYearAddOnPremium = 0.0;
+		
+		if (v.isActsOfGod()) oneYearAddOnPremium += v.getSumInsured() * (0.10 / 100);
+	    if (v.isTheft()) oneYearAddOnPremium += v.getSumInsured() * (0.05 / 100);
+	    if (v.isWarRisk()) oneYearAddOnPremium += v.getSumInsured() * (0.05 / 100);
+	    if (v.isNilExcess()) oneYearAddOnPremium += v.getSumInsured() * (0.02 / 100);
+	    if (v.isSrcc()) oneYearAddOnPremium += v.getSumInsured() * (0.03 / 100);
+	    if (v.isBetterment()) oneYearAddOnPremium += v.getSumInsured() * (0.03 / 100);
+	    if (v.isPaAndMt()) oneYearAddOnPremium += v.getSumInsured() * (0.02 / 100);
+ 	    if (v.isSunRoof()) oneYearAddOnPremium += 5000;
+	    if (v.isThirdParty()) oneYearAddOnPremium += 20000;
+	    if (v.isWindScreen()) oneYearAddOnPremium += 5000;
+		
+		return oneYearAddOnPremium;
+	}
+	
+	public double basicTermAddOnPremium(MotorPolicyVehicleLink v, PaymentType paymentType) {
+		double oneYearAddOnPremium = oneYearAddonPremiun(v);
+		
+		if(paymentType != null) {
+			switch (paymentType) {
+			case SEMI_ANNUAL:
+				return oneYearAddOnPremium / 2;
+
+			case QUARTER:
+				return oneYearAddOnPremium / 4;
+			
+			case MONTHLY:
+				return oneYearAddOnPremium / 12;
+			default:
+				return oneYearAddOnPremium;
+			}
+		}
+		return oneYearAddOnPremium;
+	}
+	
+	public void applyFleetDiscount() {
+	    int fleetThreshold = 2;
+	    double discountRate = fleetDiscountRate / 100;
+
+	    if (addVehicleList.size() < fleetThreshold) {
+	        for (MotorPolicyVehicleLink v : addVehicleList) {
+	            v.setFleet(false);
+	            v.setFleetDiscount(0);
+	        }
+	        return;
+	    }
+
+	    double totalPremiumBeforeDiscount = 0.0;
+	    for (MotorPolicyVehicleLink v : addVehicleList) {
+	        double basic = basicTermPremiumCalculation(v, motorPolicy.getPaymentType());
+	        double addOn = basicTermAddOnPremium(v, motorPolicy.getPaymentType());
+	        totalPremiumBeforeDiscount += (basic + addOn);
+	    }
+
+	    double totalDiscountAmount = totalPremiumBeforeDiscount * discountRate;
+
+	    double perVehicleDiscount = totalDiscountAmount / addVehicleList.size();
+
+	    for (MotorPolicyVehicleLink v : addVehicleList) {
+	        v.setFleet(true);
+	        v.setFleetDiscount(perVehicleDiscount);
+	    }
 	}
 
-	// for cancel btn in all page
-	// if cancel method works, it will clear all data and will go to home.xhtml
+	
+	public double totalPremiunCalculation() {
+	    double totalPremium = 0.0;
+
+	    for (MotorPolicyVehicleLink v : addVehicleList) {
+	        double basic = basicTermPremiumCalculation(v, motorPolicy.getPaymentType());
+	        double addOn = basicTermAddOnPremium(v, motorPolicy.getPaymentType());
+
+	        double vehiclePremium = basic + addOn;
+
+	        if (v.isFleet()) {
+	            vehiclePremium -= v.getFleetDiscount();
+	        }
+
+	        totalPremium += vehiclePremium;
+	    }
+
+	    return totalPremium;
+	}
+	
+	private void updatePremiumValuesToVehicles() {
+	    for (MotorPolicyVehicleLink v : addVehicleList) {
+	        double oneYearBasic = oneYearBasicPremiumCalculation(v);
+	        double oneYearAddOn = oneYearAddonPremiun(v);
+	        double basicTerm = basicTermPremiumCalculation(v, motorPolicy.getPaymentType());
+	        double addOnTerm = basicTermAddOnPremium(v, motorPolicy.getPaymentType());
+	        boolean isFleetVehicle = v.isFleet();
+	        double fleetDisc = isFleetVehicle ? v.getFleetDiscount() : 0.0;
+	        double total = basicTerm + addOnTerm - fleetDisc;
+
+	        v.setOneYearBasicPremium(oneYearBasic);
+	        v.setOneYearAddonPremium(oneYearAddOn);
+	        v.setBasicTermPremium(basicTerm);
+	        v.setAddOnTermPremium(addOnTerm);
+	        v.setTotalPremium(total);
+	    }
+	}
+	
+	private void calculateAndSetPolicyEndDate() {
+	    Date startDate = motorPolicy.getPolicyStartDate();
+	    int period = motorPolicy.getPeriod();
+	    System.out.println("Debug - Start Date: " + startDate + ", Period: " + period);
+
+	    if (startDate != null && period > 0) {
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(startDate);
+	        cal.add(Calendar.MONTH, period);
+	        
+	        cal.add(Calendar.DAY_OF_MONTH, -1);
+	        
+	        Date endDate = cal.getTime();
+	        motorPolicy.setPolicyEndDate(endDate);
+	    } else {
+	        System.out.println("Invalid start date or period for calculating policy end date.");
+	    }
+	}
+	
+	public void checkVehicleTable() {
+	    if (addVehicleList == null || addVehicleList.isEmpty()) {
+	        FacesContext.getCurrentInstance().validationFailed();
+	        FacesContext.getCurrentInstance().addMessage(null,
+	                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	                    "Please add at least one vehicle before proceeding.", null));
+	    }
+	}
+	
+	public String submitPolicy() {
+	    try {
+	        calculateAndSetPolicyEndDate();
+	        
+	        applyFleetDiscount();
+	        
+	        updatePremiumValuesToVehicles();
+
+	        motorPolicy.getMotorPolicyVehicleLinks().clear();
+
+	        for (MotorPolicyVehicleLink v : addVehicleList) {
+	        	motorPolicy.addVehicleLink(v);
+	        }
+
+	        motorPolicyService.addNewMotorPolicy(motorPolicy);
+
+	        addInfoMessage(null, MessageId.INSERT_SUCCESS, motorPolicy.getPolicyNo());
+	        addInfoMessage(null, MessageId.INSERT_SUCCESS, vehicle.getRegistrationNo());
+
+	        createNewMotorPolicyInfo();
+	        createNewVehicleInfo();
+	        selectedAdditionalCovers.clear();
+	    } catch (SystemException ex) {
+	        handleSysException(ex);
+	    }
+	    
+	    return "/ui/system/home.xhtml?faces-redirect=true";
+	}
+	
 	public String cancel() {
-		this.motorPolicy = new MotorPolicy();
-		this.vehicle = new MotorPolicyVehicleLink();
-		this.addvehicleList = new ArrayList<>();
-		return "home";
+		return "/ui/system/home.xhtml?faces-redirect=true";
+	}
+	
+	// Select a vehicle for editing
+	public void editVehicle(MotorPolicyVehicleLink selectedVehicle) {
+	    // Set the vehicle to be edited
+	    this.vehicle = selectedVehicle;
+
+	    // You might want to set the selectedAdditionalCovers for editing UI
+	    selectedAdditionalCovers = new ArrayList<>();
+	    if (vehicle.isActsOfGod()) selectedAdditionalCovers.add("ActsOfGod");
+	    if (vehicle.isNilExcess()) selectedAdditionalCovers.add("NilExcess");
+	    if (vehicle.isSrcc()) selectedAdditionalCovers.add("SRCC");
+	    if (vehicle.isTheft()) selectedAdditionalCovers.add("Theft");
+	    if (vehicle.isWarRisk()) selectedAdditionalCovers.add("WarRisk");
+	    if (vehicle.isBetterment()) selectedAdditionalCovers.add("Betterment");
+	    if (vehicle.isPaAndMt()) selectedAdditionalCovers.add("PA_MT");
+	    if (vehicle.isSunRoof()) selectedAdditionalCovers.add("SunRoof");
+	    if (vehicle.isThirdParty()) selectedAdditionalCovers.add("ThirdParty");
+	    if (vehicle.isWindScreen()) selectedAdditionalCovers.add("WindScreen");
 	}
 
+	// Delete a vehicle from the list
+	public void deleteVehicle(MotorPolicyVehicleLink selectedVehicle) {
+	    addVehicleList.remove(selectedVehicle);
+	    
+	    // After delete, recalc discounts and premiums
+	    applyFleetDiscount();
+	    updatePremiumValuesToVehicles();
+	}
+	
+	public void saveEditedVehicle() {
+	    // Set additional covers from selectedAdditionalCovers to vehicle
+	    vehicle.setActsOfGod(selectedAdditionalCovers.contains("ActsOfGod"));
+	    vehicle.setNilExcess(selectedAdditionalCovers.contains("NilExcess"));
+	    vehicle.setSrcc(selectedAdditionalCovers.contains("SRCC"));
+	    vehicle.setTheft(selectedAdditionalCovers.contains("Theft"));
+	    vehicle.setWarRisk(selectedAdditionalCovers.contains("WarRisk"));
+	    vehicle.setBetterment(selectedAdditionalCovers.contains("Betterment"));
+	    vehicle.setPaAndMt(selectedAdditionalCovers.contains("PA_MT"));
+	    vehicle.setSunRoof(selectedAdditionalCovers.contains("SunRoof"));
+	    vehicle.setThirdParty(selectedAdditionalCovers.contains("ThirdParty"));
+	    vehicle.setWindScreen(selectedAdditionalCovers.contains("WindScreen"));
+
+	    // Recalculate discounts and premiums
+	    applyFleetDiscount();
+	    updatePremiumValuesToVehicles();
+
+	    // Clear selectedAdditionalCovers to avoid confusion on next edit
+	    selectedAdditionalCovers.clear();
+
+	    addInfoMessage(null, "Vehicle updated successfully");
+	}
+	
 	public BranchType[] getBranchType() {
 		return BranchType.values();
 	}
-
+	
 	public CurrencyType[] getCurrencyType() {
 		return CurrencyType.values();
 	}
-
+	
 	public PaymentType[] getPaymentType() {
 		return PaymentType.values();
 	}
-
+	
 	public SaleChannelType[] getSaleChannelType() {
 		return SaleChannelType.values();
 	}
-
+	
 	public MotorPolicy getMotorPolicy() {
 		return motorPolicy;
 	}
 
 	public void setMotorPolicy(MotorPolicy motorPolicy) {
 		this.motorPolicy = motorPolicy;
-	}
-
-	public List<MotorPolicyVehicleLink> getVehicleLink() {
-		return addvehicleList;
-	}
-
-	public void setVehicleLink(List<MotorPolicyVehicleLink> vehicleLink) {
-		this.addvehicleList = vehicleLink;
 	}
 
 	public MotorPolicyVehicleLink getVehicle() {
@@ -230,21 +424,88 @@ public class ManageMotorActionBean extends BaseBean {
 	public void setVehicle(MotorPolicyVehicleLink vehicle) {
 		this.vehicle = vehicle;
 	}
-
-	public int getVehiclescount() {
-		return vehiclescount;
+	
+	public List<String> getSelectedAdditionalCovers() {
+		return selectedAdditionalCovers;
 	}
 
-	public void setVehiclescount(int vehiclescount) {
-		this.vehiclescount = vehiclescount;
+	public void setSelectedAdditionalCovers(List<String> selectedAdditionalCovers) {
+		this.selectedAdditionalCovers = selectedAdditionalCovers;
 	}
 
-	public boolean isFleet() {
-		return fleetdiscount;
+	public List<MotorPolicyVehicleLink> getAddVehicleList() {
+		return addVehicleList;
 	}
 
-	public void setFleet(boolean fleet) {
-		this.fleetdiscount = fleet;
+	public void setAddVehicleList(List<MotorPolicyVehicleLink> addVehicleList) {
+		this.addVehicleList = addVehicleList;
+	}
+	
+	public double getOneYearBasicPremium(MotorPolicyVehicleLink v) {
+	    return oneYearBasicPremiumCalculation(v);
 	}
 
+	public double getOneYearAddOnPremium(MotorPolicyVehicleLink v) {
+	    return oneYearAddonPremiun(v);
+	}
+
+	public double getBasicTermPremium(MotorPolicyVehicleLink v) {
+	    return basicTermPremiumCalculation(v, motorPolicy.getPaymentType());
+	}
+
+	public double getAddOnTermPremium(MotorPolicyVehicleLink v) {
+	    return basicTermAddOnPremium(v, motorPolicy.getPaymentType());
+	}
+
+	public double getFleetDiscount(MotorPolicyVehicleLink v) {
+	    return v.isFleet() ? v.getFleetDiscount() : 0.0;
+	}
+
+	public double getTotalPremiumPerVehicle(MotorPolicyVehicleLink v) {
+	    double total = getBasicTermPremium(v) + getAddOnTermPremium(v) - getFleetDiscount(v);
+	    return total > 0 ? total : 0;
+	}
+
+	// Total sums for footer
+	public double getTotalSumInsured() {
+	    return addVehicleList.stream()
+	        .mapToDouble(MotorPolicyVehicleLink::getSumInsured)
+	        .sum();
+	}
+
+	public double getTotalOneYearBasicPremium() {
+	    return addVehicleList.stream()
+	        .mapToDouble(this::getOneYearBasicPremium)
+	        .sum();
+	}
+
+	public double getTotalOneYearAddOnPremium() {
+	    return addVehicleList.stream()
+	        .mapToDouble(this::getOneYearAddOnPremium)
+	        .sum();
+	}
+
+	public double getTotalBasicTermPremium() {
+	    return addVehicleList.stream()
+	        .mapToDouble(this::getBasicTermPremium)
+	        .sum();
+	}
+
+	public double getTotalAddOnTermPremium() {
+	    return addVehicleList.stream()
+	        .mapToDouble(this::getAddOnTermPremium)
+	        .sum();
+	}
+
+	public double getTotalFleetDiscount() {
+	    return addVehicleList.stream()
+	        .mapToDouble(this::getFleetDiscount)
+	        .sum();
+	}
+
+	public double getTotalTotalPremium() {
+	    return addVehicleList.stream()
+	        .mapToDouble(this::getTotalPremiumPerVehicle)
+	        .sum();
+	}	
 }
