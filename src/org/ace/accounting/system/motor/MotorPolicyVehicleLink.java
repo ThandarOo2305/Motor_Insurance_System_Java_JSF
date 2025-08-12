@@ -3,6 +3,7 @@ package org.ace.accounting.system.motor;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -33,6 +34,7 @@ public class MotorPolicyVehicleLink implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "MOTORPOLICYVEHICLELINK_GEN")
+	@Column(name =  "vehicleId")
 	private String id;
 	
 	private String registrationNo;

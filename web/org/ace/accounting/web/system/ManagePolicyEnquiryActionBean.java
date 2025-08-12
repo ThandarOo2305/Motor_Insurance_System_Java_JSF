@@ -13,15 +13,15 @@ import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.service.MotorEnquiryService;
 import org.ace.accounting.system.motor.service.interfaces.IMotorEnquiryService;
 
-@ManagedBean(name = "ManagePolicyEnquiryActioBean")
+@ManagedBean(name = "ManagePolicyEnquiryActionBean")
 @ViewScoped
-public class ManagePolicyEnquiryActioBean {
+public class ManagePolicyEnquiryActionBean {
 
 	@ManagedProperty(value = "#{MotorEnquiryService}")
-	private IMotorEnquiryService policyEnquiryservice;
+	private IMotorEnquiryService policyEnquiryService;
 
 	public void setPolicyEnquiryService(IMotorEnquiryService policyEnquiryService) {
-		this.policyEnquiryservice = policyEnquiryService;
+		this.policyEnquiryService = policyEnquiryService;
 	}
 	//Policy No Validator
 	@ManagedProperty(value = "#{MotorPolicyEnquiryValidator}")
@@ -36,29 +36,27 @@ public class ManagePolicyEnquiryActioBean {
 	    @ManagedProperty(value = "#{MotorPolicyVehicleEnquiryValidator}")
 	    private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator;
 
-	    public void setMotorPolicyVehicleValidator(IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator) {
+	    public void setMotorPolicyVehicleEnquiryValidator(IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator) {
 	        this.motorPolicyVehicleEnquiryValidator = motorPolicyVehicleEnquiryValidator;
 	    }
 
-	    private Date policyStartDate;
+		private Date policyStartDate;
 	    private Date policyEndDate;
 	    private String policyNo;
 	    private String registrationNo;
-	    private MotorPolicyVehicleLink motorPolicyVehicleLink;
-	    private MotorPolicy motorPolicy;
 	    // Search Result Lists
 	    private List<MotorPolicyVehicleLink> results;
 
 	    // Search Method
 	    public void search() {
 	        try {
-	            results = policyEnquiryService.searchPolicies(
+	            results = policyEnquiryService.search(
 	                policyStartDate,
 	                policyEndDate,
 	                policyNo,
 			        registrationNo
 	            );
-
+	            System.out.println("success_____________________");
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
