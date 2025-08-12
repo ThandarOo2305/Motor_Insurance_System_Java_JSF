@@ -514,23 +514,42 @@
 
 				<p:tab title="Premium Info">
 					<p:panel header="Motor Premium" style="margin-top:20px;">
-						<p:dataTable var="vehicle" value="#{ManageMotorActionBean.addVehicleList}" styleClass="premium-table"
-							rowIndexVar="idx" responsiveLayout="scroll" style="width:100%"
-							editable="false">
+						<p:dataTable var="vehicle"
+							value="#{ManageMotorActionBean.addVehicleList}"
+							styleClass="premium-table" rowIndexVar="idx"
+							responsiveLayout="scroll" style="width:100%" editable="false">
+
 							<p:column headerText="No" width="2%">
-								<h:outputText value="#{var + 1}" />
+								<h:outputText value="#{idx + 1}" />
 							</p:column>
+
 							<p:column headerText="Vehicle No">
 								<h:outputText value="#{vehicle.registrationNo}" />
+								<f:facet name="footer">Total:</f:facet>
 							</p:column>
+
 							<p:column headerText="Sum Insured">
-								<h:outputText value="#{vehicle.sumInsured}" />
+								<h:outputText value="#{vehicle.sumInsured}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
+								<f:facet name="footer">
+									<h:outputText value="#{ManageMotorActionBean.totalSumInsured}">
+										<f:convertNumber pattern="#,##0.00" />
+									</h:outputText>
+								</f:facet>
 							</p:column>
+
 							<p:column headerText="One Year Basic Premium">
 								<h:outputText
 									value="#{ManageMotorActionBean.getOneYearBasicPremium(vehicle)}">
 									<f:convertNumber pattern="#,##0.00" />
 								</h:outputText>
+								<f:facet name="footer">
+									<h:outputText
+										value="#{ManageMotorActionBean.totalOneYearBasicPremium}">
+										<f:convertNumber pattern="#,##0.00" />
+									</h:outputText>
+								</f:facet>
 							</p:column>
 
 							<p:column headerText="One Year AddOn Premium">
@@ -538,6 +557,12 @@
 									value="#{ManageMotorActionBean.getOneYearAddOnPremium(vehicle)}">
 									<f:convertNumber pattern="#,##0.00" />
 								</h:outputText>
+								<f:facet name="footer">
+									<h:outputText
+										value="#{ManageMotorActionBean.totalOneYearAddOnPremium}">
+										<f:convertNumber pattern="#,##0.00" />
+									</h:outputText>
+								</f:facet>
 							</p:column>
 
 							<p:column headerText="Basic Term Premium">
@@ -545,6 +570,12 @@
 									value="#{ManageMotorActionBean.getBasicTermPremium(vehicle)}">
 									<f:convertNumber pattern="#,##0.00" />
 								</h:outputText>
+								<f:facet name="footer">
+									<h:outputText
+										value="#{ManageMotorActionBean.totalBasicTermPremium}">
+										<f:convertNumber pattern="#,##0.00" />
+									</h:outputText>
+								</f:facet>
 							</p:column>
 
 							<p:column headerText="AddOn Term Premium">
@@ -552,6 +583,12 @@
 									value="#{ManageMotorActionBean.getAddOnTermPremium(vehicle)}">
 									<f:convertNumber pattern="#,##0.00" />
 								</h:outputText>
+								<f:facet name="footer">
+									<h:outputText
+										value="#{ManageMotorActionBean.totalAddOnTermPremium}">
+										<f:convertNumber pattern="#,##0.00" />
+									</h:outputText>
+								</f:facet>
 							</p:column>
 
 							<p:column headerText="Fleet Discount">
@@ -559,6 +596,12 @@
 									value="#{ManageMotorActionBean.getFleetDiscount(vehicle)}">
 									<f:convertNumber pattern="#,##0.00" />
 								</h:outputText>
+								<f:facet name="footer">
+									<h:outputText
+										value="#{ManageMotorActionBean.totalFleetDiscount}">
+										<f:convertNumber pattern="#,##0.00" />
+									</h:outputText>
+								</f:facet>
 							</p:column>
 
 							<p:column headerText="Total Premium">
@@ -566,49 +609,16 @@
 									value="#{ManageMotorActionBean.getTotalPremiumPerVehicle(vehicle)}">
 									<f:convertNumber pattern="#,##0.00" />
 								</h:outputText>
+								<f:facet name="footer">
+									<h:outputText
+										value="#{ManageMotorActionBean.totalTotalPremium}">
+										<f:convertNumber pattern="#,##0.00" />
+									</h:outputText>
+								</f:facet>
 							</p:column>
 
-							<f:facet name="footer">
-								<tr class="total-row">
-									<td colspan="2" style="text-align: right;">Total:</td>
-									<td>
-										<h:outputText value="#{ManageMotorActionBean.totalSumInsured}">
-											<f:convertNumber pattern="#,##0.00" />
-										</h:outputText>
-									</td>
-									<td>
-										<h:outputText value="#{ManageMotorActionBean.totalOneYearBasicPremium}">
-											<f:convertNumber pattern="#,##0.00" />
-										</h:outputText>
-									</td>
-									<td>
-										<h:outputText value="#{ManageMotorActionBean.totalOneYearAddOnPremium}">
-											<f:convertNumber pattern="#,##0.00" />
-										</h:outputText>
-									</td>
-									<td>
-										<h:outputText value="#{ManageMotorActionBean.totalBasicTermPremium}">
-											<f:convertNumber pattern="#,##0.00" />
-										</h:outputText>
-									</td>
-									<td>
-										<h:outputText value="#{ManageMotorActionBean.totalAddOnTermPremium}">
-											<f:convertNumber pattern="#,##0.00" />
-										</h:outputText>
-									</td>
-									<td>
-										<h:outputText value="#{ManageMotorActionBean.totalFleetDiscount}">
-											<f:convertNumber pattern="#,##0.00" />
-										</h:outputText>
-									</td>
-									<td>
-										<h:outputText value="#{ManageMotorActionBean.totalTotalPremium}">
-											<f:convertNumber pattern="#,##0.00" />
-										</h:outputText>
-									</td>
-								</tr>
-							</f:facet>
 						</p:dataTable>
+
 
 						<!-- Buttons -->
 						<div class="button-row">

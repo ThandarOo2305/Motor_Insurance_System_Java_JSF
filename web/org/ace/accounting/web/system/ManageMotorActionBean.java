@@ -103,6 +103,9 @@ public class ManageMotorActionBean extends BaseBean{
 	        addVehicleList.add(vehicle);
 	        createNewVehicleInfo();
 	        selectedAdditionalCovers.clear();
+	        
+	        applyFleetDiscount();
+	        updatePremiumValuesToVehicles();
 	        System.out.println("success in add vehicle to list");
 	    } else {
 	        System.out.println("Validation failed for vehicle.");
@@ -131,13 +134,7 @@ public class ManageMotorActionBean extends BaseBean{
 	            return event.getOldStep();
 	        }
 	    }
-//	    if ("vehicleInfo".equals(event.getOldStep())) {
-//	        ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
-//	        if (!result.isVerified()) {
-//	            return event.getOldStep();
-//	        }
-//	    }
-	    
+
 	    if ("vehicleInfo".equals(event.getOldStep())) {
 	        if (addVehicleList == null || addVehicleList.isEmpty()) {
 	            ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
@@ -218,8 +215,8 @@ public class ManageMotorActionBean extends BaseBean{
 	}
 	
 	public void applyFleetDiscount() {
-	    int fleetThreshold = 10;
-	    double discountRate = fleetDiscountRate / 100; // e.g., 10% = 0.10
+	    int fleetThreshold = 2;
+	    double discountRate = fleetDiscountRate / 100;
 
 	    if (addVehicleList.size() < fleetThreshold) {
 	        for (MotorPolicyVehicleLink v : addVehicleList) {
@@ -315,6 +312,8 @@ public class ManageMotorActionBean extends BaseBean{
 	public void submitPolicy() {
 	    try {
 	        calculateAndSetPolicyEndDate();
+	        
+	        applyFleetDiscount();
 	        
 	        updatePremiumValuesToVehicles();
 
