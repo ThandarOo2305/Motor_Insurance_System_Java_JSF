@@ -233,8 +233,7 @@
 									<f:selectItem itemLabel="Select Payment Type" itemValue="" />
 									<f:selectItem itemLabel="LUMSUM" itemValue="LUMSUM" />
 									<f:selectItem itemLabel="SEMI_ANNUAL" itemValue="SEMI_ANNUAL" />
-									<f:selectItem itemLabel="QUARTER"
-										itemValue="QUARTER" />
+									<f:selectItem itemLabel="QUARTER" itemValue="QUARTER" />
 									<f:selectItem itemLabel="MONTHLY" itemValue="MONTHLY" />
 								</p:selectOneMenu>
 
@@ -306,7 +305,8 @@
 								<h:outputText for="model" value="Model"
 									styleClass="input-label mandatory" />
 								<p:inputText id="model"
-									value="#{ManageMotorActionBean.vehicle.model}" required="#{empty ManageMotorActionBean.addVehicleList}" />
+									value="#{ManageMotorActionBean.vehicle.model}"
+									required="#{empty ManageMotorActionBean.addVehicleList}" />
 
 								<h:outputText value="" />
 								<p:message display="text" for="engineNo" />
@@ -357,7 +357,9 @@
 								<p:message display="text" for="productType" />
 								<h:outputText for="productType" value="Product Type"
 									styleClass="input-label mandatory" />
-								<p:selectOneMenu id="productType" value="#{ManageMotorActionBean.vehicle.productType}" required="#{empty ManageMotorActionBean.addVehicleList}">
+								<p:selectOneMenu id="productType"
+									value="#{ManageMotorActionBean.vehicle.productType}"
+									required="#{empty ManageMotorActionBean.addVehicleList}">
 									<f:selectItem itemLabel="Selected Product Type" itemValue="" />
 									<f:selectItem itemLabel="Private" itemValue="Private" />
 									<f:selectItem itemLabel="Commercial" itemValue="Commercial" />
@@ -496,8 +498,9 @@
 						<p:commandButton value="← Back" styleClass="ui-button-secondary"
 							type="button" onclick="PF('motorWizard').back();" />
 						<p:commandButton value="Next →" icon="pi pi-arrow-right"
-							iconPos="right" styleClass="ui-button-success" process="@this vehicleInfoPanel"
-							update="@form" actionListener="#{ManageMotorActionBean.checkVehicleTable}"
+							iconPos="right" styleClass="ui-button-success"
+							process="@this vehicleInfoPanel" update="@form"
+							actionListener="#{ManageMotorActionBean.checkVehicleTable}"
 							oncomplete="if (!args.validationFailed) PF('motorWizard').next();" />
 					</p:outputPanel>
 
@@ -524,44 +527,95 @@
 								<h:outputText value="#{vehicle.sumInsured}" />
 							</p:column>
 							<p:column headerText="One Year Basic Premium">
-								<h:outputText value="" />
+								<h:outputText
+									value="#{ManageMotorActionBean.getOneYearBasicPremium(vehicle)}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
 							</p:column>
+
 							<p:column headerText="One Year AddOn Premium">
-								<h:outputText value="" />
+								<h:outputText
+									value="#{ManageMotorActionBean.getOneYearAddOnPremium(vehicle)}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
 							</p:column>
+
 							<p:column headerText="Basic Term Premium">
-								<h:outputText value="" />
+								<h:outputText
+									value="#{ManageMotorActionBean.getBasicTermPremium(vehicle)}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
 							</p:column>
+
 							<p:column headerText="AddOn Term Premium">
-								<h:outputText value="" />
+								<h:outputText
+									value="#{ManageMotorActionBean.getAddOnTermPremium(vehicle)}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
 							</p:column>
+
 							<p:column headerText="Fleet Discount">
-								<h:outputText value="" />
+								<h:outputText
+									value="#{ManageMotorActionBean.getFleetDiscount(vehicle)}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
 							</p:column>
-							<!-- <p:column headerText="Penaty">
-								<h:outputText value="" />
-							</p:column> -->
+
 							<p:column headerText="Total Premium">
-								<h:outputText value="" />
+								<h:outputText
+									value="#{ManageMotorActionBean.getTotalPremiumPerVehicle(vehicle)}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
 							</p:column>
+
 							<f:facet name="footer">
 								<tr class="total-row">
 									<td colspan="2" style="text-align: right;">Total:</td>
-									<!-- <td>#{bean.totalSumInsured}</td>
-									<td>#{bean.totalBasicPremium}</td>
-									<td>#{bean.totalAddonPremium}</td>
-									<td>#{bean.totalBasicTerm}</td>
-									<td>#{bean.totalAddonTerm}</td>
-									<td>#{bean.totalFleetDiscount}</td>
-									<td>#{bean.totalPenalty}</td>
-									<td>#{bean.totalTotalPremium}</td> -->
+									<td>
+										<h:outputText value="#{ManageMotorActionBean.totalSumInsured}">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</td>
+									<td>
+										<h:outputText value="#{ManageMotorActionBean.totalOneYearBasicPremium}">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</td>
+									<td>
+										<h:outputText value="#{ManageMotorActionBean.totalOneYearAddOnPremium}">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</td>
+									<td>
+										<h:outputText value="#{ManageMotorActionBean.totalBasicTermPremium}">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</td>
+									<td>
+										<h:outputText value="#{ManageMotorActionBean.totalAddOnTermPremium}">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</td>
+									<td>
+										<h:outputText value="#{ManageMotorActionBean.totalFleetDiscount}">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</td>
+									<td>
+										<h:outputText value="#{ManageMotorActionBean.totalTotalPremium}">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</td>
 								</tr>
 							</f:facet>
 						</p:dataTable>
+
 						<!-- Buttons -->
 						<div class="button-row">
-							<p:commandButton value="Submit Policy" icon="pi pi-check" action="#{ManageMotorActionBean.submitPolicy}"
-								styleClass="ui-button-success" process="@form" update="@form" oncomplete="PF('motorWizard').loadStep('policyInfo');" />
+							<p:commandButton value="Submit Policy" icon="pi pi-check"
+								action="#{ManageMotorActionBean.submitPolicy}"
+								styleClass="ui-button-success" process="@form" update="@form"
+								oncomplete="PF('motorWizard').loadStep('policyInfo');" />
 							<p:commandButton value="← Back" icon="pi pi-arrow-left"
 								styleClass="ui-button-secondary" style="margin-left:10px;"
 								type="button" onclick="PF('motorWizard').back();" />

@@ -60,7 +60,7 @@ public class ManageMotorActionBean extends BaseBean{
 	private List<MotorPolicyVehicleLink> addVehicleList;
 	private double privateRate = 1.072;
 	private double commercialRate = 1.734;
-	private couble fleetDiscountRate = 10;
+	private double fleetDiscountRate = 10;
 	
 	private List<String> selectedAdditionalCovers;
 	
@@ -149,6 +149,123 @@ public class ManageMotorActionBean extends BaseBean{
 
 	    return event.getNewStep();
 	}
+	
+	public double oneYearBasicPremiumCalculation(MotorPolicyVehicleLink v) {
+		double rate = v.getProductType().equals("Private") ? privateRate : commercialRate;
+		
+		double oneYearBasicPremium = v.getSumInsured() * (rate / 100);
+		
+		return oneYearBasicPremium;
+	}
+	
+	public double basicTermPremiumCalculation(MotorPolicyVehicleLink v, PaymentType paymentType) {
+		double oneYearBasicPremium = oneYearBasicPremiumCalculation(v);
+		
+		if(paymentType != null) {
+			switch (paymentType) {
+			
+			case SEMI_ANNUAL:
+				return oneYearBasicPremium / 2;
+			
+			case QUARTER:
+				return oneYearBasicPremium / 4;
+			
+			case MONTHLY:
+				return oneYearBasicPremium / 12;
+				
+			default:
+				return oneYearBasicPremium;
+			}
+		}
+		return oneYearBasicPremium;
+	}
+	
+	public double oneYearAddonPremiun(MotorPolicyVehicleLink v) {
+		double oneYearAddOnPremium = 0.0;
+		
+		if (v.isActsOfGod()) oneYearAddOnPremium += v.getSumInsured() * (0.10 / 100);
+	    if (v.isTheft()) oneYearAddOnPremium += v.getSumInsured() * (0.05 / 100);
+	    if (v.isWarRisk()) oneYearAddOnPremium += v.getSumInsured() * (0.05 / 100);
+	    if (v.isNilExcess()) oneYearAddOnPremium += v.getSumInsured() * (0.02 / 100);
+	    if (v.isSrcc()) oneYearAddOnPremium += v.getSumInsured() * (0.03 / 100);
+	    if (v.isBetterment()) oneYearAddOnPremium += v.getSumInsured() * (0.03 / 100);
+	    if (v.isPaAndMt()) oneYearAddOnPremium += v.getSumInsured() * (0.02 / 100);
+ 	    if (v.isSunRoof()) oneYearAddOnPremium += 5000;
+	    if (v.isThirdParty()) oneYearAddOnPremium += 20000;
+	    if (v.isWindScreen()) oneYearAddOnPremium += 5000;
+		
+		return oneYearAddOnPremium;
+	}
+	
+	public double basicTermAddOnPremium(MotorPolicyVehicleLink v, PaymentType paymentType) {
+		double oneYearAddOnPremium = oneYearAddonPremiun(v);
+		
+		if(paymentType != null) {
+			switch (paymentType) {
+			case SEMI_ANNUAL:
+				return oneYearAddOnPremium / 2;
+
+			case QUARTER:
+				return oneYearAddOnPremium / 4;
+			
+			case MONTHLY:
+				return oneYearAddOnPremium / 12;
+			default:
+				return oneYearAddOnPremium;
+			}
+		}
+		return oneYearAddOnPremium;
+	}
+	
+	public void applyFleetDiscount() {
+	    int fleetThreshold = 10;
+	    double discountRate = fleetDiscountRate / 100; // e.g., 10% = 0.10
+
+	    if (addVehicleList.size() < fleetThreshold) {
+	        for (MotorPolicyVehicleLink v : addVehicleList) {
+	            v.setFleet(false);
+	            v.setFleetDiscount(0);
+	        }
+	        return;
+	    }
+
+	    double totalPremiumBeforeDiscount = 0.0;
+	    for (MotorPolicyVehicleLink v : addVehicleList) {
+	        double basic = basicTermPremiumCalculation(v, motorPolicy.getPaymentType());
+	        double addOn = basicTermAddOnPremium(v, motorPolicy.getPaymentType());
+	        totalPremiumBeforeDiscount += (basic + addOn);
+	    }
+
+	    double totalDiscountAmount = totalPremiumBeforeDiscount * discountRate;
+
+	    double perVehicleDiscount = totalDiscountAmount / addVehicleList.size();
+
+	    for (MotorPolicyVehicleLink v : addVehicleList) {
+	        v.setFleet(true);
+	        v.setFleetDiscount(perVehicleDiscount);
+	    }
+	}
+
+	
+	public double totalPremiunCalculation() {
+	    double totalPremium = 0.0;
+
+	    for (MotorPolicyVehicleLink v : addVehicleList) {
+	        double basic = basicTermPremiumCalculation(v, motorPolicy.getPaymentType());
+	        double addOn = basicTermAddOnPremium(v, motorPolicy.getPaymentType());
+
+	        double vehiclePremium = basic + addOn;
+
+	        if (v.isFleet()) {
+	            vehiclePremium -= v.getFleetDiscount();
+	        }
+
+	        totalPremium += vehiclePremium;
+	    }
+
+	    return totalPremium;
+	}
+
 	
 	private void calculateAndSetPolicyEndDate() {
 	    Date startDate = motorPolicy.getPolicyStartDate();
@@ -258,4 +375,71 @@ public class ManageMotorActionBean extends BaseBean{
 		this.addVehicleList = addVehicleList;
 	}
 	
+	public double getOneYearBasicPremium(MotorPolicyVehicleLink v) {
+	    return oneYearBasicPremiumCalculation(v);
+	}
+
+	public double getOneYearAddOnPremium(MotorPolicyVehicleLink v) {
+	    return oneYearAddonPremiun(v);
+	}
+
+	public double getBasicTermPremium(MotorPolicyVehicleLink v) {
+	    return basicTermPremiumCalculation(v, motorPolicy.getPaymentType());
+	}
+
+	public double getAddOnTermPremium(MotorPolicyVehicleLink v) {
+	    return basicTermAddOnPremium(v, motorPolicy.getPaymentType());
+	}
+
+	public double getFleetDiscount(MotorPolicyVehicleLink v) {
+	    return v.isFleet() ? v.getFleetDiscount() : 0.0;
+	}
+
+	public double getTotalPremiumPerVehicle(MotorPolicyVehicleLink v) {
+	    double total = getBasicTermPremium(v) + getAddOnTermPremium(v) - getFleetDiscount(v);
+	    return total > 0 ? total : 0;
+	}
+
+	// Total sums for footer
+	public double getTotalSumInsured() {
+	    return addVehicleList.stream()
+	        .mapToDouble(MotorPolicyVehicleLink::getSumInsured)
+	        .sum();
+	}
+
+	public double getTotalOneYearBasicPremium() {
+	    return addVehicleList.stream()
+	        .mapToDouble(this::getOneYearBasicPremium)
+	        .sum();
+	}
+
+	public double getTotalOneYearAddOnPremium() {
+	    return addVehicleList.stream()
+	        .mapToDouble(this::getOneYearAddOnPremium)
+	        .sum();
+	}
+
+	public double getTotalBasicTermPremium() {
+	    return addVehicleList.stream()
+	        .mapToDouble(this::getBasicTermPremium)
+	        .sum();
+	}
+
+	public double getTotalAddOnTermPremium() {
+	    return addVehicleList.stream()
+	        .mapToDouble(this::getAddOnTermPremium)
+	        .sum();
+	}
+
+	public double getTotalFleetDiscount() {
+	    return addVehicleList.stream()
+	        .mapToDouble(this::getFleetDiscount)
+	        .sum();
+	}
+
+	public double getTotalTotalPremium() {
+	    return addVehicleList.stream()
+	        .mapToDouble(this::getTotalPremiumPerVehicle)
+	        .sum();
+	}	
 }
