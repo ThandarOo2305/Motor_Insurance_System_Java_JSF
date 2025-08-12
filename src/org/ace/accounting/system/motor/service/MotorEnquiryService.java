@@ -22,6 +22,7 @@ public class MotorEnquiryService implements IMotorEnquiryService{
 	@Override
 	public List<Object[]> searchPolicies(Date policyStartDateFrom, Date policyStartDateTo, String policyNo,
 			String registrationNo) {
+		
 		return null;
 	}
 
