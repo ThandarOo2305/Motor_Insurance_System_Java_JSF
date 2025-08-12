@@ -16,6 +16,8 @@
     <class prefix="ISSYS013" name="org.ace.accounting.occupation.Occupation" />
     <class prefix="ISSYS014" name="org.ace.accounting.customer.Customer" /> 
     <class prefix="ISSYS015" name="org.ace.accounting.excelUpload.Proposal" />
+    <class prefix="ISSYS015" name="org.ace.accounting.system.motor.MotorPolicy" />
+    
     
     <!-- Chart Of Account -->
     <class prefix="ISCOA001" name="org.ace.accounting.system.chartaccount.ChartOfAccount" />
