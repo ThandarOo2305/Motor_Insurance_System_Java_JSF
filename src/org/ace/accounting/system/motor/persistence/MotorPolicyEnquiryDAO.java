@@ -1,5 +1,6 @@
 package org.ace.accounting.system.motor.persistence;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,23 +18,47 @@ import org.springframework.transaction.annotation.Transactional;
 public class MotorPolicyEnquiryDAO extends BasicDAO implements IMotorPolicyEnquiryDAO {
 
 	
-	@SuppressWarnings("unchecked")
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public List<MotorPolicyVehicleLink> search(String sqlquery, Map<String, Object> params) throws DAOException {
-		List<MotorPolicyVehicleLink> result = null;
-		try {
-			Query q = em.createQuery(sqlquery);
 
-			// set parameters for query
-			for (Map.Entry<String, Object> entry : params.entrySet()) {
-				q.setParameter(entry.getKey(), entry.getValue());
-			}
+    @Override
+    @SuppressWarnings("unchecked")
+	@Transactional(propagation= Propagation.REQUIRED, readOnly=true)
+    public List<Object[]> searchPolicies(Date policyStartDateFrom, Date policyStartDateTo,
+                                         String policyNo, String registrationNo) {
 
-			result = q.getResultList();
-			em.flush();
-		} catch (PersistenceException pe) {
-			throw translate("Failed to find", pe);
-		}
-		return result;
-	}
+        StringBuffer hql = new StringBuffer("SELECT mp.policyNo, mp.proposalNo, mp.registrationNo, mp.saleChannel, ");
+        hql.append("mp.salePerson, mp.customer, mp.branch, mp.claimCount, mp.totalSumInsured, ");
+        hql.append("mp.basicPremium, mp.submittedDate, mp.createdUser ");
+        hql.append("FROM MotorPolicy mp WHERE 1=1");
+
+        if (policyStartDateFrom != null) {
+            hql.append(" AND mp.policyStartDate >= :policyStartDateFrom");
+        }
+        if (policyStartDateTo != null) {
+            hql.append(" AND mp.policyStartDate <= :policyStartDateTo");
+        }
+        if (policyNo != null && !policyNo.isEmpty()) {
+            hql.append(" AND mp.policyNo = :policyNo");
+        }
+        if (registrationNo != null && !registrationNo.isEmpty()) {
+            hql.append(" AND mp.registrationNo = :registrationNo");
+        }
+
+        Query query = em.createQuery(hql.toString());
+
+        if (policyStartDateFrom != null) {
+            query.setParameter("policyStartDateFrom", policyStartDateFrom);
+        }
+        if (policyStartDateTo != null) {
+            query.setParameter("policyStartDateTo", policyStartDateTo);
+        }
+        if (policyNo != null && !policyNo.isEmpty()) {
+            query.setParameter("policyNo", policyNo);
+        }
+        if (registrationNo != null && !registrationNo.isEmpty()) {
+            query.setParameter("registrationNo", registrationNo);
+        }
+
+        return query.getResultList();
+    }
+
 }
