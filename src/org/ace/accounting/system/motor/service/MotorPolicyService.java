@@ -31,16 +31,6 @@ public class MotorPolicyService extends BaseService implements IMotorPolicyServi
 		}
 		return result;
 	}
-
-	// Read ( find by customer name )
-	@Transactional(propagation = Propagation.REQUIRED)
-	public MotorPolicy findMotorPolicyByCustomerName(String customerName) throws SystemException {
-		try {
-			return motorPolicyDAO.findByCustomerName(customerName);
-		} catch (DAOException e) {
-			throw new SystemException(e.getErrorCode(), "Failed to find MotorPolicy by customer name", e);
-		}
-	}
 	
 	// Read ( find by policy number )
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -51,6 +41,17 @@ public class MotorPolicyService extends BaseService implements IMotorPolicyServi
 	        throw new SystemException(e.getErrorCode(), "Failed to find MotorPolicy by policy number", e);
 	    }
 	}
+	
+	// Read ( return type Boolean for policyNo )
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public boolean existsMotorPolicyByPolicyNo(String policyNo) throws SystemException {
+	    try {
+	        return motorPolicyDAO.existsByPolicyNo(policyNo);
+	    } catch (DAOException e) {
+	        throw new SystemException(e.getErrorCode(), "Failed to check existence of MotorPolicy by policy number", e);
+	    }
+	}
+
 
 	// Create
 	@Transactional(propagation = Propagation.REQUIRED)

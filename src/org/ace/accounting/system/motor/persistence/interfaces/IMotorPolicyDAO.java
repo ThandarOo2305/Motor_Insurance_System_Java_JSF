@@ -11,7 +11,7 @@ public interface IMotorPolicyDAO {
 	
 	public MotorPolicy findByPolicyNo(String policyNo) throws DAOException;
 	
-	public MotorPolicy findByCustomerName(String customerName) throws DAOException;
+	public boolean existsByPolicyNo(String policyNo) throws DAOException;
 	
 	public void insert(MotorPolicy motorPolicy) throws DAOException;
 	

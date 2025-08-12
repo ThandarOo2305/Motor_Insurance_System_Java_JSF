@@ -10,9 +10,11 @@ import javax.annotation.Resource;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.persistence.interfaces.IMotorPolicyEnquiryDAO;
 import org.ace.accounting.system.motor.service.interfaces.IMotorEnquiryService;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service(value = "MotorEnquiryService")
 public class MotorEnquiryService implements IMotorEnquiryService{
 	
 	@Resource(name = "MotorPolicyEnquiryDAO")

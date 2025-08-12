@@ -33,20 +33,6 @@ public class MotorPolicyDAO extends BasicDAO implements IMotorPolicyDAO {
 		return result;
 	}
 
-	// Read ( find by customer )
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public MotorPolicy findByCustomerName(String customerName) throws DAOException {
-		try {
-			Query q = em.createNamedQuery("MotorPolicy.findByCustomerName");
-			q.setParameter("customer", customerName);
-			return (MotorPolicy) q.getSingleResult();
-		} catch (NoResultException e) {
-			return null;
-		} catch (PersistenceException e) {
-			throw translate("Failed to find Motor Policy by customer: " + customerName, e);
-		}
-	}
-
 	// Read ( find by policy number )
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public MotorPolicy findByPolicyNo(String policyNo) throws DAOException {
@@ -62,6 +48,21 @@ public class MotorPolicyDAO extends BasicDAO implements IMotorPolicyDAO {
 			throw translate("Failed to find policyNo(Policy Number = " + policyNo + ")", pe);
 		}
 		return result;
+	}
+
+	// Read ( return type Boolean for policyNo )
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public boolean existsByPolicyNo(String policyNo) throws DAOException {
+		try {
+			Query q = em.createNamedQuery("MotorPolicy.findByPolicyNo");
+			q.setParameter("policyNo", policyNo);
+			q.getSingleResult();
+			return true;
+		} catch (NoResultException e) {
+			return false;
+		} catch (PersistenceException pe) {
+			throw translate("Failed to check existence of policyNo (Policy Number = " + policyNo + ")", pe);
+		}
 	}
 
 	// Create

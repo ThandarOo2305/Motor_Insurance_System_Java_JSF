@@ -9,9 +9,9 @@ public interface IMotorPolicyService {
 	
 	public List<MotorPolicy> findAllMotorPolicies() throws SystemException;
 	
-	public MotorPolicy findMotorPolicyByCustomerName(String customerName) throws SystemException;
-	
 	public MotorPolicy findMotorPolicyByPolicyNo(String policyNo) throws SystemException;
+	
+	public boolean existsMotorPolicyByPolicyNo(String policyNo) throws SystemException;
 	
 	public void addNewMotorPolicy(MotorPolicy motorPolicy) throws SystemException;
 
