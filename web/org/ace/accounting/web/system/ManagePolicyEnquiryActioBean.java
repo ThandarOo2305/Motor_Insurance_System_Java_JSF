@@ -25,7 +25,7 @@ public class ManagePolicyEnquiryActioBean {
 	}
 
 	// Policy No Validator
-	@ManagedProperty(value = "#{MotorPolicyValidator}")
+	@ManagedProperty(value = "#{MotorPolicyEnquiryValidator}")
 	private IDataValidator<MotorPolicy> motorPolicyValidator;
 
 	public void setMotorPolicyValidator(IDataValidator<MotorPolicy> motorPolicyValidator) {
@@ -33,7 +33,7 @@ public class ManagePolicyEnquiryActioBean {
 	}
 
 	// Registation No Validator
-	@ManagedProperty(value = "#{MotorPolicyVehicleValidator}")
+	@ManagedProperty(value = "#{MotorPolicyVehicleLinkEnquiryValidator}")
 	private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleValidator;
 
 	public void setMotorPolicyVehicleValidator(IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleValidator) {

@@ -5,7 +5,7 @@ import org.ace.accounting.common.validation.ValidationResult;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.springframework.stereotype.Service;
 
-@Service(value = "MotorPolicyVehicleValidator")
+@Service(value = "MotorPolicyVehicleEnquiryValidator")
 public class MotorPolicyVehicleLinkEnquiryValidator implements IDataValidator<MotorPolicyVehicleLink>{
 	@Override
 	public ValidationResult validate(MotorPolicyVehicleLink motorPolicyVehicleLink, boolean transaction) {
