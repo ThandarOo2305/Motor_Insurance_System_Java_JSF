@@ -78,7 +78,7 @@
     }
 
 	</h:outputStylesheet>
-		<h:form id="branchEntryForm">
+		<h:form id="enquiryForm">
 			<p:growl escape="false" globalOnly="true" life="5000"
 				showDetail="true" />
 
@@ -90,11 +90,11 @@
 					styleClass="ui-panelgrid-blank ui-fluid">
 					
 					<h:outputText for="startDate" value="Policy Start Date"/>
-					<p:calendar id="startDate" value="#{ManagePolicyEnquiryActionBean.motorPolicy.startDate}" pattern="dd-MM-yyyy"
+					<p:calendar id="startDate" value="#{ManagePolicyEnquiryActionBean.policyStartDate}" pattern="dd-MM-yyyy"
 						required="true" />
 						
 					<h:outputText for="endDate" value="Policy End Date"/>
-					<p:calendar id="endDate" value="#{ManagePolicyEnquiryActionBean.motorPolicy.endDate}" pattern="dd-MM-yyyy"
+					<p:calendar id="endDate" value="#{ManagePolicyEnquiryActionBean.policyEndDate}" pattern="dd-MM-yyyy"
 						required="true" />
 
 				</p:panelGrid>
@@ -104,11 +104,11 @@
 
 					<h:outputText for="policyNo" value="Policy No."
 						styleClass="input-label" />
-					<p:inputText id="policyNo" value="#{ManagePolicyEnquiryActionBean.motorPolicy.policyNo}" />
+					<p:inputText id="policyNo" value="#{ManagePolicyEnquiryActionBean.policyNo}" />
 					
 					<h:outputText for="registrationNo" value="Registration No."
 						styleClass="input-label" />
-					<p:inputText id="registrationNo" value="#{ManagePolicyEnquiryActionBean.motorPolicyVehicleLink.registrationNo}" />
+					<p:inputText id="registrationNo" value="#{ManagePolicyEnquiryActionBean.registrationNo}" />
 
 				</p:panelGrid>
 			</p:panelGrid><br/>
@@ -119,10 +119,10 @@
 				styleClass="ui-button-success" style="width: 150px;" />
 		</h:form><br/>
 
-		<h:form id="studentTableForm">
+		<h:form id="enquiryTableForm">
 
 			<p:dataTable var="enquiry"
-				value="#{ManageEnquiryActionBean.students}" id="enquiryTable"
+				value="#{ManageEnquiryActionBean.results}" id="enquiryTable"
 				paginator="true" rows="10" style="width:100%"
 				widgetVar="enquiryTable"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -130,39 +130,39 @@
 				rowIndexVar="var" paginatorPosition="bottom">
 				
 				<p:column headerText="Policy No">
-					<h:outputText value="#{motorpolicy.policyNo}" />
+					<h:outputText value="#{enquiry.policyNo}" />
 				</p:column>
 				
 				<p:column headerText="Registration No">
-					<h:outputText value="#{motorPolicyVehicleLink.registrationNo}" />
+					<h:outputText value="#{enquiry.registrationNo}" />
 				</p:column>
 				
 				<p:column headerText="Sale Channel">
-					<h:outputText value="#{motorpolicy.saleChannel}" />
+					<h:outputText value="#{enquiry.saleChannel}" />
 				</p:column>
 				
 				<p:column headerText="Customer">
-					<h:outputText value="#{motorpolicy.customer}" />
+					<h:outputText value="#{enquiry.customer}" />
 				</p:column>
 				
 				<p:column headerText="Branch">
-					<h:outputText value="#{motorpolicy.branch}" />
+					<h:outputText value="#{enquiry.branch}" />
 				</p:column>
 				
 				<p:column headerText="Claim Count">
-					<h:outputText value="#{motorPolicyVehicleLink.claimCount}" />
+					<h:outputText value="#{enquiry.claimCount}" />
 				</p:column>
 				
 				<p:column headerText="Total Sum Isured">
-					<h:outputText value="#{motorPolicyVehicleLink.sumInsured}" />
+					<h:outputText value="#{enquiry.sumInsured}" />
 				</p:column>
 				
 				<p:column headerText="Basic Premium">
-					<h:outputText value="#{motorpolicy.basicPremium}" />
+					<h:outputText value="#{enquiry.basicPremium}" />
 				</p:column>
 				
 				<p:column headerText="Submitted Date">
-					<h:outputText value="#{motorpolicy.submittedDate}" />
+					<h:outputText value="#{enquiry.submittedDate}" />
 				</p:column>
 				
 			</p:dataTable>
