@@ -25,7 +25,7 @@ public class MotorPolicyEnquiryDAO extends BasicDAO implements IMotorPolicyEnqui
     public List<Object[]> searchPolicies(Date policyStartDateFrom, Date policyStartDateTo,
                                          String policyNo, String registrationNo) {
 
-    	StringBuffer hql = new StringBuffer("SELECT mp.policyNo, v.registrationNo, mp.saleChannel, ");
+    	StringBuffer hql = new StringBuffer("SELECT mp.policyNo, mv.registrationNo, mp.saleChannel, ");
         hql.append(" mp.customerName, mp.branch, mp.claimCount, mp.totalSumInsured, ");
         hql.append("mp.basicPremium, mp.submittedDate, mp.createdUser ");
         hql.append("FROM MotorPolicy mp JOIN mp.vehicles mv ");
