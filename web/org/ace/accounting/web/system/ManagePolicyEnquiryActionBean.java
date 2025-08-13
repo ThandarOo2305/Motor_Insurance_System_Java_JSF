@@ -30,7 +30,7 @@ public class ManagePolicyEnquiryActionBean {
 	private IDataValidator<MotorPolicy> motorPolicyValidator;
 
 	public void setMotorPolicyNoValidator(IDataValidator<MotorPolicy> motorPolicyNoValidator) {
-		this.motorPolicyNoValidator = motorPolicyNoValidator;
+		this.motorPolicyValidator = motorPolicyNoValidator;
 	}
 
 	// Registation No Validator
