@@ -107,6 +107,7 @@ public class ManageMotorActionBean extends BaseBean{
 	        
 	        applyFleetDiscount();
 	        updatePremiumValuesToVehicles();
+	        addInfoMessage("vehicle is successfully added!");
 	        System.out.println("success in add vehicle to list");
 	    } else {
 	        System.out.println("Validation failed for vehicle.");
