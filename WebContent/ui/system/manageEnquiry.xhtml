@@ -90,12 +90,10 @@
 					styleClass="ui-panelgrid-blank ui-fluid">
 					
 					<h:outputText for="startDate" value="Policy Start Date"/>
-					<p:calendar id="startDate" value="#{ManagePolicyEnquiryActionBean.policyStartDate}" pattern="dd-MM-yyyy"
-						required="true" />
+					<p:calendar id="startDate" value="#{ManagePolicyEnquiryActionBean.policyStartDate}" pattern="dd-MM-yyyy"/>
 						
 					<h:outputText for="endDate" value="Policy End Date"/>
-					<p:calendar id="endDate" value="#{ManagePolicyEnquiryActionBean.policyEndDate}" pattern="dd-MM-yyyy"
-						required="true" />
+					<p:calendar id="endDate" value="#{ManagePolicyEnquiryActionBean.policyEndDate}" pattern="dd-MM-yyyy"/>
 
 				</p:panelGrid>
 				<p:panelGrid columns="2"
@@ -113,10 +111,10 @@
 				</p:panelGrid>
 			</p:panelGrid><br/>
 
-			<p:commandButton value="Search" immediate="true" update="@form" action="#{ManagePolicyEnquiryActionBean.search}"
+			<p:commandButton value="Search" update="enquiryTableForm:enquiryTable" action="#{ManagePolicyEnquiryActionBean.search}"
 				styleClass="ui-button-danger" style="width: 150px;" />
-			<p:commandButton value="Reset" update="@form"
-				styleClass="ui-button-success" style="width: 150px;" />
+			<p:commandButton value="Reset" update=":enquiryForm :enquiryTableForm" action="#{ManagePolicyEnquiryActionBean.reset}" process="@this" 
+				immediate="true" styleClass="ui-button-success" style="width: 150px;" />
 		</h:form><br/>
 
 		<h:form id="enquiryTableForm">
@@ -129,25 +127,25 @@
 				rowsPerPageTemplate="5,10,15" rowKey="#{enquiry.id}" reflow="true"
 				rowIndexVar="var" paginatorPosition="bottom">
 				
-				<p:column headerText="Policy No">
+<!-- 				<p:column headerText="Policy No">
 					<h:outputText value="#{enquiry.policyNo}" />
-				</p:column>
+				</p:column> -->
 				
 				<p:column headerText="Registration No">
 					<h:outputText value="#{enquiry.registrationNo}" />
 				</p:column>
 				
-				<p:column headerText="Sale Channel">
+<!-- 				<p:column headerText="Sale Channel">
 					<h:outputText value="#{enquiry.saleChannel}" />
 				</p:column>
 				
 				<p:column headerText="Customer">
 					<h:outputText value="#{enquiry.customer}" />
-				</p:column>
+				</p:column> -->
 				
-				<p:column headerText="Branch">
+<!-- 				<p:column headerText="Branch">
 					<h:outputText value="#{enquiry.branch}" />
-				</p:column>
+				</p:column> -->
 				
 				<p:column headerText="Claim Count">
 					<h:outputText value="#{enquiry.claimCount}" />
@@ -157,13 +155,13 @@
 					<h:outputText value="#{enquiry.sumInsured}" />
 				</p:column>
 				
-				<p:column headerText="Basic Premium">
+<!-- 				<p:column headerText="Basic Premium">
 					<h:outputText value="#{enquiry.basicPremium}" />
 				</p:column>
 				
 				<p:column headerText="Submitted Date">
 					<h:outputText value="#{enquiry.submittedDate}" />
-				</p:column>
+				</p:column> -->
 				
 			</p:dataTable>
 		</h:form>

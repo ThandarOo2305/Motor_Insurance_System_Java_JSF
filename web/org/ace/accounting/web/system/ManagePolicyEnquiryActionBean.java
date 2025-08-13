@@ -1,5 +1,6 @@
 package org.ace.accounting.web.system;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,51 +24,51 @@ public class ManagePolicyEnquiryActionBean {
 	public void setPolicyEnquiryService(IMotorEnquiryService policyEnquiryService) {
 		this.policyEnquiryService = policyEnquiryService;
 	}
-	//Policy No Validator
+
+	// Policy No Validator
 	@ManagedProperty(value = "#{MotorPolicyEnquiryValidator}")
-	    private IDataValidator<MotorPolicy> motorPolicyNoValidator;
+	private IDataValidator<MotorPolicy> motorPolicyNoValidator;
 
-	    public void setMotorPolicyNoValidator(IDataValidator<MotorPolicy> motorPolicyNoValidator) {
-	        this.motorPolicyNoValidator = motorPolicyNoValidator;
-	    }
+	public void setMotorPolicyNoValidator(IDataValidator<MotorPolicy> motorPolicyNoValidator) {
+		this.motorPolicyNoValidator = motorPolicyNoValidator;
+	}
 
-	//Registation No Validator
-	    
-	    @ManagedProperty(value = "#{MotorPolicyVehicleEnquiryValidator}")
-	    private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator;
+	// Registation No Validator
 
-	    public void setMotorPolicyVehicleEnquiryValidator(
-				IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator) {
-			this.motorPolicyVehicleEnquiryValidator = motorPolicyVehicleEnquiryValidator;
+	@ManagedProperty(value = "#{MotorPolicyVehicleEnquiryValidator}")
+	private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator;
+
+	public void setMotorPolicyVehicleEnquiryValidator(
+			IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator) {
+		this.motorPolicyVehicleEnquiryValidator = motorPolicyVehicleEnquiryValidator;
+	}
+
+	private Date policyStartDate;
+	private Date policyEndDate;
+	private String policyNo;
+	private String registrationNo;
+	// Search Result Lists
+	private List<MotorPolicyVehicleLink> results;
+
+	// Search Method
+	public void search() {
+		try {
+			System.out.println("startdate: " + policyStartDate + ", enddate: " + policyEndDate + ", policyNo: "
+					+ policyNo + ", registrationNo: " + registrationNo);
+			results = policyEnquiryService.search(policyStartDate, policyEndDate, policyNo, registrationNo);
+			System.out.println("success_____________________");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		private Date policyStartDate;
-	    private Date policyEndDate;
-	    private String policyNo;
-	    private String registrationNo;
-	    // Search Result Lists
-	    private List<MotorPolicyVehicleLink> results;
+	}
 
-	    // Search Method
-	    public void search() {
-	        try {
-	            results = policyEnquiryService.search(
-	                policyStartDate,
-	                policyEndDate,
-	                policyNo,
-			        registrationNo
-	            );
-	            System.out.println("success_____________________");
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    
-	    public void reset() {
-	        this.policyStartDate = null;
-	        this.policyEndDate = null;
-	        this.policyNo = null;
-	        this.registrationNo = null;
-	    }
+	public void reset() {
+		this.policyStartDate = null;
+		this.policyEndDate = null;
+		this.policyNo = null;
+		this.registrationNo = null;
+		this.results = new ArrayList<>();
+	}
 
 	// Getters and setters for all fields
 	public Date getPolicyStartDate() {
@@ -117,5 +118,5 @@ public class ManagePolicyEnquiryActionBean {
 	public void setResults(List<MotorPolicyVehicleLink> results) {
 		this.results = results;
 	}
-	
+
 }
