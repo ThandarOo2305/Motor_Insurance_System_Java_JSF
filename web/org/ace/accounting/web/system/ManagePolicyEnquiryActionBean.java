@@ -27,13 +27,15 @@ public class ManagePolicyEnquiryActionBean {
 
 	// Policy No Validator
 	@ManagedProperty(value = "#{MotorPolicyEnquiryValidator}")
-	private IDataValidator<MotorPolicy> motorPolicyNoValidator;
+	private IDataValidator<MotorPolicy> motorPolicyValidator;
 
 	public void setMotorPolicyNoValidator(IDataValidator<MotorPolicy> motorPolicyNoValidator) {
 		this.motorPolicyNoValidator = motorPolicyNoValidator;
 	}
 
 	// Registation No Validator
+	@ManagedProperty(value = "#{MotorPolicyVehicleLinkEnquiryValidator}")
+	private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleValidator;
 
 	@ManagedProperty(value = "#{MotorPolicyVehicleEnquiryValidator}")
 	private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator;
