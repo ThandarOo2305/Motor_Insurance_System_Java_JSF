@@ -4,8 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.ace.accounting.system.motor.MotorEnquiryDTO;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 
 public interface IMotorPolicyEnquiryDAO {
-	public List<MotorPolicyVehicleLink> search(String sqlquery, Map<String, Object> params);
+	public List<MotorEnquiryDTO> search(String sqlquery, Map<String, Object> params);
 }

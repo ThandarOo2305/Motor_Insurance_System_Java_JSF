@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.ace.accounting.common.validation.IDataValidator;
+import org.ace.accounting.system.motor.MotorEnquiryDTO;
 import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.service.MotorEnquiryService;
@@ -47,7 +48,7 @@ public class ManagePolicyEnquiryActionBean {
 	private String policyNo;
 	private String registrationNo;
 	// Search Result Lists
-	private List<MotorPolicyVehicleLink> results;
+	private List<MotorEnquiryDTO> results;
 
 	// Search Method
 	public void search() {
@@ -101,20 +102,20 @@ public class ManagePolicyEnquiryActionBean {
 	public void setRegistrationNo(String registrationNo) {
 		this.registrationNo = registrationNo;
 	}
+//
+//	public List<MotorPolicyVehicleLink> getVehicleLinkResults() {
+//		return results;
+//	}
+//
+//	public void setVehicleLinkResults(List<MotorPolicyVehicleLink> vehicleLinkResults) {
+//		this.results = vehicleLinkResults;
+//	}
 
-	public List<MotorPolicyVehicleLink> getVehicleLinkResults() {
+	public List<MotorEnquiryDTO> getResults() {
 		return results;
 	}
 
-	public void setVehicleLinkResults(List<MotorPolicyVehicleLink> vehicleLinkResults) {
-		this.results = vehicleLinkResults;
-	}
-
-	public List<MotorPolicyVehicleLink> getResults() {
-		return results;
-	}
-
-	public void setResults(List<MotorPolicyVehicleLink> results) {
+	public void setResults(List<MotorEnquiryDTO> results) {
 		this.results = results;
 	}
 

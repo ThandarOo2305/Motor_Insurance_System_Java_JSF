@@ -5,6 +5,9 @@ import java.util.Map;
 
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import org.ace.accounting.system.motor.MotorEnquiryDTO;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.persistence.interfaces.IMotorPolicyEnquiryDAO;
 import org.ace.java.component.persistence.BasicDAO;
@@ -19,21 +22,21 @@ public class MotorPolicyEnquiryDAO extends BasicDAO implements IMotorPolicyEnqui
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public List<MotorPolicyVehicleLink> search(String sqlquery, Map<String, Object> params) throws DAOException {
-		List<MotorPolicyVehicleLink> result = null;
+	public List<MotorEnquiryDTO> search(String sqlquery, Map<String, Object> params) throws DAOException {
+//		List<MotorPolicyVehicleLink> result = null;
 		try {
-			Query q = em.createQuery(sqlquery);
-
+//			Query q = em.createQuery(sqlquery);
+			
+			TypedQuery<MotorEnquiryDTO> q= em.createQuery(sqlquery, MotorEnquiryDTO.class);
 			// set parameters for query
 			for (Map.Entry<String, Object> entry : params.entrySet()) {
 				q.setParameter(entry.getKey(), entry.getValue());
 			}
 
-			result = q.getResultList();
-			em.flush();
+			return q.getResultList();
 		} catch (PersistenceException pe) {
 			throw translate("Failed to find", pe);
 		}
-		return result;
+//		return result;
 	}
 }

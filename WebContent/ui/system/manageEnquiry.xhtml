@@ -124,44 +124,46 @@
 				paginator="true" rows="10" style="width:100%"
 				widgetVar="enquiryTable"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="5,10,15" rowKey="#{enquiry.id}" reflow="true"
+				rowsPerPageTemplate="5,10,15" rowKey="#{enquiry.policyNo}" reflow="true"
 				rowIndexVar="var" paginatorPosition="bottom">
 				
-<!-- 				<p:column headerText="Policy No">
+				<p:column headerText="Policy No">
 					<h:outputText value="#{enquiry.policyNo}" />
-				</p:column> -->
+				</p:column>
 				
 				<p:column headerText="Registration No">
 					<h:outputText value="#{enquiry.registrationNo}" />
 				</p:column>
 				
-<!-- 				<p:column headerText="Sale Channel">
+				<p:column headerText="Sale Channel">
 					<h:outputText value="#{enquiry.saleChannel}" />
 				</p:column>
 				
 				<p:column headerText="Customer">
-					<h:outputText value="#{enquiry.customer}" />
-				</p:column> -->
+					<h:outputText value="#{enquiry.customerName}" />
+				</p:column>
 				
-<!-- 				<p:column headerText="Branch">
+				<p:column headerText="Branch">
 					<h:outputText value="#{enquiry.branch}" />
-				</p:column> -->
+				</p:column>
 				
 				<p:column headerText="Claim Count">
 					<h:outputText value="#{enquiry.claimCount}" />
 				</p:column>
 				
 				<p:column headerText="Total Sum Isured">
-					<h:outputText value="#{enquiry.sumInsured}" />
+					<h:outputText value="#{enquiry.totalSumInsured}" />
 				</p:column>
 				
-<!-- 				<p:column headerText="Basic Premium">
+				<p:column headerText="Basic Premium">
 					<h:outputText value="#{enquiry.basicPremium}" />
 				</p:column>
 				
-				<p:column headerText="Submitted Date">
-					<h:outputText value="#{enquiry.submittedDate}" />
-				</p:column> -->
+				<p:column headerText="Submitted Date" width="7%">
+					<h:outputText value="#{enquiry.submittedDate}" >
+						<f:convertDateTime pattern="dd-MM-yyyy" />
+					</h:outputText>
+				</p:column>
 				
 			</p:dataTable>
 		</h:form>
