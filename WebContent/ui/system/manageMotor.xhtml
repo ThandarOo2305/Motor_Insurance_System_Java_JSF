@@ -107,7 +107,7 @@
 }
 	</h:outputStylesheet>
 		<h:form id="motorEntryForm">
-			<p:growl escape="false" globalOnly="true" life="5000"
+			<p:growl escape="false" globalOnly="true" life="5000" id="growl"
 				showDetail="true" />
 			<h:outputText value="Add New Motor Policy" styleClass="title" />
 			<p:wizard id="motorWizard"
@@ -431,7 +431,7 @@
 							<p:commandButton id="addBtn"
 								value="#{label['COMMON_ADDNEW_BTN']}"
 								action="#{ManageMotorActionBean.addNewVehicleInfo}"
-								update="vehicleTable vehiclePanel" process="@form"
+								update="vehicleTable vehiclePanel growl" process="@form"
 								style="width: 70px;"
 								oncomplete="PF('vehicleTable').clearFilters();" />
 						</h:panelGrid>

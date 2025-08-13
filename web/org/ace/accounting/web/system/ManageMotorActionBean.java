@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.ace.accounting.common.CurrencyType;
+import org.ace.accounting.common.validation.ErrorMessage;
 import org.ace.accounting.common.validation.IDataValidator;
 import org.ace.accounting.common.validation.MessageId;
 import org.ace.accounting.common.validation.ValidationResult;
@@ -109,6 +110,9 @@ public class ManageMotorActionBean extends BaseBean{
 	        System.out.println("success in add vehicle to list");
 	    } else {
 	        System.out.println("Validation failed for vehicle.");
+	        for(ErrorMessage e: result.getErrorMeesages()) {
+	        	addErrorMessage(null , e.getErrorcode(), e.getParams());
+	        }
 	    }
 	}
 
