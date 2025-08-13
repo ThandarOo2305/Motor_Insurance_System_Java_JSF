@@ -27,16 +27,25 @@ public class MotorEnquiryService implements IMotorEnquiryService{
 			StringBuilder hql = new StringBuilder("SELECT mv FROM MotorPolicyVehicleLink mv JOIN mv.motorPolicy mp WHERE 1=1 ");
 	        Map<String, Object> paramMap = new HashMap<>();
 	
-	        if (policyStartDateFrom != null) {
-	            hql.append(" AND mp.policyStartDate >= :startDateFrom");
+	        if(policyStartDateFrom != null && policyStartDateTo != null) {
+	        	System.out.println("it is for both");
+	        	
+	        	hql.append(" AND mp.policyStartDate >= :startDateFrom AND mp.policyStartDate <= :startDateTo");
 	            paramMap.put("startDateFrom", policyStartDateFrom);
-	        }
-	
-	        if (policyStartDateTo != null) {
-	            hql.append(" AND mp.policyStartDate <= :startDateTo");
 	            paramMap.put("startDateTo", policyStartDateTo);
 	        }
-	
+	        else {
+	        	if (policyStartDateFrom != null) {
+	            hql.append(" AND mp.policyStartDate == :startDateFrom");
+	            paramMap.put("startDateFrom", policyStartDateFrom);
+	        	}
+	        	
+	        	if (policyStartDateTo != null) {
+	            hql.append(" AND mp.policyStartDate == :startDateTo");
+	            paramMap.put("startDateTo", policyStartDateTo);
+	        	}
+	        }
+
 	        if (policyNo != null && !policyNo.isEmpty()) {
 	            hql.append(" AND mp.policyNo = :policyNo");
 	            paramMap.put("policyNo", policyNo);
