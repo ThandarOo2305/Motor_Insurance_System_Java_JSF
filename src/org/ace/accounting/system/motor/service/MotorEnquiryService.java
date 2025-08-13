@@ -46,7 +46,7 @@ public class MotorEnquiryService implements IMotorEnquiryService{
 	            hql.append(" AND mv.registrationNo = :registrationNo");
 	            paramMap.put("registrationNo", registrationNo);
 	        }
-	
+	        System.out.println("query:" + hql.toString());
 	        return motorPolicyEnquiryDAO.search(hql.toString(), paramMap);
 
 	}

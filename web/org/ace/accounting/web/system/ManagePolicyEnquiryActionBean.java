@@ -50,6 +50,7 @@ public class ManagePolicyEnquiryActionBean {
 	    // Search Method
 	    public void search() {
 	        try {
+	        	System.out.println("suceess into search________________________________");
 	            results = policyEnquiryService.search(
 	                policyStartDate,
 	                policyEndDate,
@@ -110,4 +111,12 @@ public class ManagePolicyEnquiryActionBean {
 		this.results = vehicleLinkResults;
 	}
 
+	public List<MotorPolicyVehicleLink> getResults() {
+		return results;
+	}
+
+	public void setResults(List<MotorPolicyVehicleLink> results) {
+		this.results = results;
+	}
+	
 }
