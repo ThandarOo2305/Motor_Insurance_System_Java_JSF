@@ -2,11 +2,12 @@ package org.ace.accounting.system.motor;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,7 @@ import javax.persistence.Version;
 
 import org.ace.accounting.common.BasicEntity;
 import org.ace.accounting.common.TableName;
+import org.ace.accounting.system.motor.enumTypes.ProductType;
 import org.ace.java.component.idgen.service.IDInterceptor;
 
 @Entity
@@ -36,7 +38,7 @@ public class MotorPolicyVehicleLink implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "MOTORPOLICYVEHICLELINK_GEN")
-	@Column(name =  "vehicleId")
+	@Column(name = "vehicleId")
 	private String id;
 	
 	private String registrationNo;
@@ -53,7 +55,8 @@ public class MotorPolicyVehicleLink implements Serializable{
 	
 	private String manufacture;
 	
-	private String productType;
+	@Enumerated(EnumType.STRING)
+	private ProductType productType;
 	
 	private int cubicCapacity;
 	
@@ -71,6 +74,8 @@ public class MotorPolicyVehicleLink implements Serializable{
 	
 	private String hirePurchaseCompany;
 	
+	private boolean isFleet;
+	
 	// Additional Covers
     private boolean actsOfGod;
     private boolean nilExcess;
@@ -81,6 +86,14 @@ public class MotorPolicyVehicleLink implements Serializable{
     private boolean paAndMt;
     private boolean sunRoof;
     private boolean thirdParty;
+    private boolean windScreen;
+    
+    private double oneYearBasicPremium;
+    private double oneYearAddonPremium;
+    private double basicTermPremium;
+    private double AddOnTermPremium;
+    private double fleetDiscount;
+    private double totalPremium;
     
     @Version
 	private int version;
@@ -88,16 +101,20 @@ public class MotorPolicyVehicleLink implements Serializable{
 	@Embedded
 	private BasicEntity basicEntity;
 	
-//	@ManyToOne(cascade = CascadeType.ALL, optional = true)
-//	private MotorPolicy motorPolicy;
-	
-	
-	@ManyToOne(fetch = FetchType.LAZY, optional = true)
-	@JoinColumn(name = "policyId") // foreign key in MotorPolicyVehicleLink
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "policyId", nullable = false)
 	private MotorPolicy motorPolicy;
     
     public MotorPolicy getMotorPolicy() {
 		return motorPolicy;
+	}
+
+	public boolean isFleet() {
+		return isFleet;
+	}
+
+	public void setFleet(boolean isFleet) {
+		this.isFleet = isFleet;
 	}
 
 	public void setMotorPolicy(MotorPolicy motorPolicy) {
@@ -183,8 +200,6 @@ public class MotorPolicyVehicleLink implements Serializable{
 	public void setWindScreen(boolean windScreen) {
 		this.windScreen = windScreen;
 	}
-
-	private boolean windScreen;
 	
 	public MotorPolicyVehicleLink() {
 	}
@@ -253,11 +268,11 @@ public class MotorPolicyVehicleLink implements Serializable{
 		this.manufacture = manufacture;
 	}
 
-	public String getProductType() {
+	public ProductType getProductType() {
 		return productType;
 	}
 
-	public void setProductType(String productType) {
+	public void setProductType(ProductType productType) {
 		this.productType = productType;
 	}
 
@@ -323,6 +338,54 @@ public class MotorPolicyVehicleLink implements Serializable{
 
 	public void setHirePurchaseCompany(String hirePurchaseCompany) {
 		this.hirePurchaseCompany = hirePurchaseCompany;
+	}
+
+	public double getOneYearBasicPremium() {
+		return oneYearBasicPremium;
+	}
+
+	public void setOneYearBasicPremium(double oneYearBasicPremium) {
+		this.oneYearBasicPremium = oneYearBasicPremium;
+	}
+
+	public double getOneYearAddonPremium() {
+		return oneYearAddonPremium;
+	}
+
+	public void setOneYearAddonPremium(double oneYearAddonPremium) {
+		this.oneYearAddonPremium = oneYearAddonPremium;
+	}
+
+	public double getBasicTermPremium() {
+		return basicTermPremium;
+	}
+
+	public void setBasicTermPremium(double basicTermPremium) {
+		this.basicTermPremium = basicTermPremium;
+	}
+
+	public double getAddOnTermPremium() {
+		return AddOnTermPremium;
+	}
+
+	public void setAddOnTermPremium(double addOnTermPremium) {
+		AddOnTermPremium = addOnTermPremium;
+	}
+
+	public double getFleetDiscount() {
+		return fleetDiscount;
+	}
+
+	public void setFleetDiscount(double fleetDiscount) {
+		this.fleetDiscount = fleetDiscount;
+	}
+
+	public double getTotalPremium() {
+		return totalPremium;
+	}
+
+	public void setTotalPremium(double totalPremium) {
+		this.totalPremium = totalPremium;
 	}
 
 	public int getVersion() {

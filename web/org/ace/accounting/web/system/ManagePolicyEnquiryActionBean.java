@@ -36,10 +36,10 @@ public class ManagePolicyEnquiryActionBean {
 	    @ManagedProperty(value = "#{MotorPolicyVehicleEnquiryValidator}")
 	    private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator;
 
-	    public void setMotorPolicyVehicleEnquiryValidator(IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator) {
-	        this.motorPolicyVehicleEnquiryValidator = motorPolicyVehicleEnquiryValidator;
-	    }
-
+	    public void setMotorPolicyVehicleEnquiryValidator(
+				IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator) {
+			this.motorPolicyVehicleEnquiryValidator = motorPolicyVehicleEnquiryValidator;
+		}
 		private Date policyStartDate;
 	    private Date policyEndDate;
 	    private String policyNo;
@@ -50,7 +50,6 @@ public class ManagePolicyEnquiryActionBean {
 	    // Search Method
 	    public void search() {
 	        try {
-	        	System.out.println("suceess into search________________________________");
 	            results = policyEnquiryService.search(
 	                policyStartDate,
 	                policyEndDate,
