@@ -22,6 +22,10 @@ public class MotorPolicyValidator implements IDataValidator<MotorPolicy>{
         String policyNo = motorPolicy.getPolicyNo();
         int period = motorPolicy.getPeriod();
         
+        String regPattern = "^MTR-\\d{2}-\\d{6}$"; // Format: MTR-25-000123
+        if (!policyNo.isEmpty() && !policyNo.matches(regPattern)) {
+			result.addErrorMessage(formId + ":policyNo", "Invalid Policy No. Format. Expected: MTR-25-000123");
+		}
         
         if (period != 3 && period != 6 && period != 9 && period != 12) {
             result.addErrorMessage(formId + ":Period", "Period can't be except 3,6,9 or 12");

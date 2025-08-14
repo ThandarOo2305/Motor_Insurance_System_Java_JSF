@@ -13,9 +13,8 @@ import javax.faces.bean.ViewScoped;
 import org.ace.accounting.common.validation.ErrorMessage;
 import org.ace.accounting.common.validation.IDataValidator;
 import org.ace.accounting.common.validation.ValidationResult;
+import org.ace.accounting.system.motor.MotorEnquiry;
 import org.ace.accounting.system.motor.MotorEnquiryDTO;
-import org.ace.accounting.system.motor.MotorPolicy;
-import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.service.interfaces.IMotorEnquiryService;
 import org.ace.java.web.common.BaseBean;
 
@@ -30,50 +29,24 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 		this.policyEnquiryService = policyEnquiryService;
 	}
 
-	// Policy No Validator
-	@ManagedProperty(value = "#{MotorPolicyEnquiryValidator}")
-	private IDataValidator<MotorPolicy> motorPolicyValidator;
-
-	public void setMotorPolicyValidator(IDataValidator<MotorPolicy> motorPolicyNoValidator) {
-		this.motorPolicyValidator = motorPolicyNoValidator;
-	}
-
-	// Registation No Validator
-	@ManagedProperty(value = "#{MotorPolicyVehicleLinkEnquiryValidator}")
-	private IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator;
-
-	public void setMotorPolicyVehicleEnquiryValidator(
-			IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleEnquiryValidator) {
-		this.motorPolicyVehicleEnquiryValidator = motorPolicyVehicleEnquiryValidator;
+	@ManagedProperty(value = "#{MotorEnquiryValidator}")
+	private IDataValidator<MotorEnquiry> enquiryValidator;
+	
+	public void setEnquiryValidator(IDataValidator<MotorEnquiry> enquiryValidator) {
+		this.enquiryValidator = enquiryValidator;
 	}
 
 	private Date policyStartDate;
 	private Date policyEndDate;
 	private String policyNo;
 	private String registrationNo;
-	private MotorPolicy mp;
-	private MotorPolicyVehicleLink mpv;
+	private MotorEnquiry mpq;
 	// Search Result Lists
 	private List<MotorEnquiryDTO> results;
-	private boolean valid = true;
-	ValidationResult policyResult;
-	ValidationResult vehicleResult;
-
 	// init
 	@PostConstruct
 	public void init() {
 		setDefaultDates();
-		createNewMotorPolicyVehicleLink();
-		createNewPolicyNo();
-	}
-
-	public void createNewPolicyNo() {
-		mp = new MotorPolicy();
-		results = new ArrayList<>();
-	}
-
-	public void createNewMotorPolicyVehicleLink() {
-		mpv = new MotorPolicyVehicleLink();
 	}
 
 	private void setDefaultDates() {
@@ -92,42 +65,28 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 	// Search Method
 	public void search() {
 		try {
-			setMotorPolicyEnquiry();
-//			ValidationResult result = motorPolicyValidator.validate(mp, true);
-//			ValidationResult result1 = motorPolicyVehicleEnquiryValidator.validate(mpv, true);
+			setMotorEnquiry();
+			
+			ValidationResult result = enquiryValidator.validate(mpq, true);
+			
 			System.out.println("startdate: " + policyStartDate + ", enddate: " + policyEndDate + ", policyNo: "
 					+ policyNo + ", registrationNo: " + registrationNo);
-			// Validate only if input is provided
-			if (policyNo != null && !policyNo.trim().isEmpty()) {
-				policyResult = motorPolicyValidator.validate(mp, true);
-				if (!policyResult.isVerified()) {
-					valid = false;
-				}
-			}
-
-			if (registrationNo != null && !registrationNo.trim().isEmpty()) {
-				vehicleResult = motorPolicyVehicleEnquiryValidator.validate(mpv, true);
-				if (!vehicleResult.isVerified()) {
-					valid = false;
-				}
-			}
-
-			if (valid) {
+			if (result.isVerified()) {
+				
 				results = policyEnquiryService.search(policyStartDate, policyEndDate, policyNo, registrationNo);
+				
 				System.out.println("success__________________________");
 			} else {
 				System.out.println("Validation failed for vehicle.");
-				for (ErrorMessage e : policyResult.getErrorMeesages()) {
-					addErrorMessage(null, e.getErrorcode(), e.getParams());
-					System.out.println("Validation failed for vehicle1.");
-				}
-				for (ErrorMessage e : vehicleResult.getErrorMeesages()) {
-					addErrorMessage(null, e.getErrorcode(), e.getParams());
-					System.out.println("Validation failed for vehicle2.");
-				}
-			}
-
-		} catch (Exception e) {
+//				for(ErrorMessage e : result.getErrorMeesages()) {
+//					addErrorMessage(null, e.getErrorcode(), e.getParams());
+//					System.out.println(e.getErrorcode().toString() + "::::" + e.getParams().toString());
+//				}	
+		        for(ErrorMessage e: result.getErrorMeesages()) {
+		        	addErrorMessage(null , e.getErrorcode(), e.getParams());
+		        }
+		}		
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -138,13 +97,15 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 		this.policyNo = null;
 		this.registrationNo = null;
 		this.results = new ArrayList<>();
+		this.mpq = new MotorEnquiry();
 	}
 
-	public void setMotorPolicyEnquiry() {
-		mp.setPolicyStartDate(policyStartDate);
-		mp.setPolicyEndDate(policyEndDate);
-		mp.setPolicyNo(policyNo);
-		mpv.setRegistrationNo(registrationNo);
+	public void setMotorEnquiry() {
+		mpq = new MotorEnquiry();
+		mpq.setPolicyStartDate(policyStartDate);
+		mpq.setPolicyEndDate(policyEndDate);
+		mpq.setPolicyNo(policyNo);
+		mpq.setRegistrationNo(registrationNo);
 	}
 
 	// Getters and setters for all fields
@@ -179,14 +140,6 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 	public void setRegistrationNo(String registrationNo) {
 		this.registrationNo = registrationNo;
 	}
-//
-//	public List<MotorPolicyVehicleLink> getVehicleLinkResults() {
-//		return results;
-//	}
-//
-//	public void setVehicleLinkResults(List<MotorPolicyVehicleLink> vehicleLinkResults) {
-//		this.results = vehicleLinkResults;
-//	}
 
 	public List<MotorEnquiryDTO> getResults() {
 		return results;
@@ -196,20 +149,14 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 		this.results = results;
 	}
 
-	public MotorPolicy getMp() {
-		return mp;
+	public MotorEnquiry getMpq() {
+		return mpq;
 	}
 
-	public void setMp(MotorPolicy mp) {
-		this.mp = mp;
+	public void setMpq(MotorEnquiry mpq) {
+		this.mpq = mpq;
 	}
 
-	public MotorPolicyVehicleLink getMpv() {
-		return mpv;
-	}
-
-	public void setMpv(MotorPolicyVehicleLink mpv) {
-		this.mpv = mpv;
-	}
+	
 
 }
