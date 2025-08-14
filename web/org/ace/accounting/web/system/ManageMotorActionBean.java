@@ -1,5 +1,6 @@
 package org.ace.accounting.web.system;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -86,6 +87,18 @@ public class ManageMotorActionBean extends BaseBean{
         addVehicleList.add(vehicle);
         vehicle = new MotorPolicyVehicleLink();
     }
+	
+	public String getCustomerLabel() {
+	    if (motorPolicy.getCustomerType() == null) {
+	        return "Customer Name";
+	    }
+	    if ("Person".equals(motorPolicy.getCustomerType())) {
+	        return "Enter your name";
+	    } else if ("Organization".equals(motorPolicy.getCustomerType())) {
+	        return "Enter organization name";
+	    }
+	    return "Customer Name";
+	}
 	
 	public void addNewVehicleInfo() {
 	    vehicle.setActsOfGod(selectedAdditionalCovers.contains("ActsOfGod"));
@@ -310,7 +323,7 @@ public class ManageMotorActionBean extends BaseBean{
 	        FacesContext.getCurrentInstance().validationFailed();
 	        FacesContext.getCurrentInstance().addMessage(null,
 	                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                    "Please add at least one vehicle before proceeding.", null));
+	                    "Please add at least one vehicle before  proceeding.", null));
 	    }
 	}
 	
@@ -326,6 +339,13 @@ public class ManageMotorActionBean extends BaseBean{
 
 	        for (MotorPolicyVehicleLink v : addVehicleList) {
 	        	motorPolicy.addVehicleLink(v);
+	        }
+	        
+	        if (motorPolicy.getProposalNo() == null || motorPolicy.getProposalNo().isEmpty()) {
+	            LocalDate now = LocalDate.now();
+	            String month = String.format("%02d", now.getMonthValue());
+	            int year = now.getYear();
+	            motorPolicy.setProposalNo("MTR/PO/" + month + "-" + year);
 	        }
 
 	        motorPolicyService.addNewMotorPolicy(motorPolicy);

@@ -57,6 +57,8 @@ public class MotorPolicy implements Serializable{
 	
 	private String policyNo;
 	
+	private String proposalNo;
+	
 	private Date submittedDate;
 	
 	private Date policyStartDate;
@@ -215,5 +217,13 @@ public class MotorPolicy implements Serializable{
 
 	public void setBasicEntity(BasicEntity basicEntity) {
 		this.basicEntity = basicEntity;
+	}
+
+	public String getProposalNo() {
+		return proposalNo;
+	}
+
+	public void setProposalNo(String proposalNo) {
+		this.proposalNo = proposalNo;
 	}
 }
