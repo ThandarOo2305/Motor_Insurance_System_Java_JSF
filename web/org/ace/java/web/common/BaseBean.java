@@ -81,7 +81,7 @@ public class BaseBean {
             text = getBundle().getString(id);
         } catch (MissingResourceException e) {
 //            text = "!! key " + id + " not found !!";
-        	text = "!!Warning: " + id;
+        	text = "!!Warning:: " + id;
         }
         if (params != null) {
             MessageFormat mf = new MessageFormat(text);

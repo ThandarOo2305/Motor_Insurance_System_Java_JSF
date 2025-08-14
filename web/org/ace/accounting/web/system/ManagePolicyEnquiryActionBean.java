@@ -47,6 +47,8 @@ public class ManagePolicyEnquiryActionBean {
 	private Date policyEndDate;
 	private String policyNo;
 	private String registrationNo;
+	private MotorPolicy mp = new MotorPolicy();
+	private MotorPolicyVehicleLink mpv = new MotorPolicyVehicleLink();
 	// Search Result Lists
 	private List<MotorEnquiryDTO> results;
 
@@ -117,6 +119,22 @@ public class ManagePolicyEnquiryActionBean {
 
 	public void setResults(List<MotorEnquiryDTO> results) {
 		this.results = results;
+	}
+	
+	public MotorPolicy getMp() {
+		return mp;
+	}
+
+	public void setMp(MotorPolicy mp) {
+		this.mp = mp;
+	}
+
+	public MotorPolicyVehicleLink getMpv() {
+		return mpv;
+	}
+
+	public void setMpv(MotorPolicyVehicleLink mpv) {
+		this.mpv = mpv;
 	}
 
 }

@@ -13,12 +13,12 @@ public class MotorPolicyEnquiryValidator implements IDataValidator<MotorPolicy> 
 	    String formId = "motorEntryForm";
 
 	    String policyNo = motorPolicy.getPolicyNo();
-	    String regPattern = "^MP-\\d{4}-\\d{6}$"; // Format: MP-2024-000123
+	    String regPattern = "^MTR-\\d{2}-\\d{6}$"; // Format: MTR-25-000123
 
 	    if (policyNo == null || !policyNo.matches(regPattern)) {
 	        result.addErrorMessage(
 	            formId + ":policyNo",
-	            "Invalid Policy No. Format. Expected: MP-2024-000123"
+	            "Invalid Policy No. Format. Expected: MTR-25-000123"
 	        );
 	    }
 
