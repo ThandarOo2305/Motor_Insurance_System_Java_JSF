@@ -55,6 +55,9 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 	private MotorPolicyVehicleLink mpv;
 	// Search Result Lists
 	private List<MotorEnquiryDTO> results;
+	private boolean valid = true;
+	ValidationResult policyResult;
+	ValidationResult vehicleResult;
 
 	// init
 	@PostConstruct
@@ -90,21 +93,36 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 	public void search() {
 		try {
 			setMotorPolicyEnquiry();
-			ValidationResult result = motorPolicyValidator.validate(mp, true);
-			ValidationResult result1 = motorPolicyVehicleEnquiryValidator.validate(mpv, true);
+//			ValidationResult result = motorPolicyValidator.validate(mp, true);
+//			ValidationResult result1 = motorPolicyVehicleEnquiryValidator.validate(mpv, true);
 			System.out.println("startdate: " + policyStartDate + ", enddate: " + policyEndDate + ", policyNo: "
 					+ policyNo + ", registrationNo: " + registrationNo);
-			if (result.isVerified() && result1.isVerified()) {
+			// Validate only if input is provided
+			if (policyNo != null && !policyNo.trim().isEmpty()) {
+				policyResult = motorPolicyValidator.validate(mp, true);
+				if (!policyResult.isVerified()) {
+					valid = false;
+				}
+			}
+
+			if (registrationNo != null && !registrationNo.trim().isEmpty()) {
+				vehicleResult = motorPolicyVehicleEnquiryValidator.validate(mpv, true);
+				if (!vehicleResult.isVerified()) {
+					valid = false;
+				}
+			}
+
+			if (valid) {
 				results = policyEnquiryService.search(policyStartDate, policyEndDate, policyNo, registrationNo);
 				System.out.println("success__________________________");
 			} else {
 				System.out.println("Validation failed for vehicle.");
-				for (ErrorMessage e : result.getErrorMeesages()) {
+				for (ErrorMessage e : policyResult.getErrorMeesages()) {
 					addErrorMessage(null, e.getErrorcode(), e.getParams());
 					System.out.println("Validation failed for vehicle1.");
 				}
-				for (ErrorMessage e1 : result1.getErrorMeesages()) {
-					addErrorMessage(null, e1.getErrorcode(), e1.getParams());
+				for (ErrorMessage e : vehicleResult.getErrorMeesages()) {
+					addErrorMessage(null, e.getErrorcode(), e.getParams());
 					System.out.println("Validation failed for vehicle2.");
 				}
 			}
