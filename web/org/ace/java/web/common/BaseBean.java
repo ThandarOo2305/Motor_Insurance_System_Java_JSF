@@ -89,6 +89,11 @@ public class BaseBean {
         }
         return text;
     }
+    protected void addInfoMessage(String messageKey, Object... params) {
+        String message = getMessage(messageKey, params);
+        FacesContext.getCurrentInstance().addMessage(null,
+            new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
+    }
 
     protected void addWranningMessage(String id, String errorCode, Object... params) {
         String message = getMessage(errorCode, params);
