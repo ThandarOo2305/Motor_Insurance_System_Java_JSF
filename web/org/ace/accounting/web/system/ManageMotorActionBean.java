@@ -367,30 +367,17 @@ public class ManageMotorActionBean extends BaseBean{
 		return "/ui/system/home.xhtml?faces-redirect=true";
 	}
 	
-	// Select a vehicle for editing
-	public void editVehicle(MotorPolicyVehicleLink selectedVehicle) {
-	    // Set the vehicle to be edited
-	    this.vehicle = selectedVehicle;
+	/*
+	 * public void editVehicle(MotorPolicyVehicleLink selectedVehicle) {
+	 * this.vehicle = selectedVehicle; if(vehicle.getCovers() != null &&
+	 * !vehicle.getCovers().isEmpty()) { this.selectedAdditionalCovers =
+	 * Arrays.asList(vehicle.getCovers().split(",")); } else {
+	 * this.selectedAdditionalCovers = new ArrayList<>(); } }
+	 */
 
-	    // You might want to set the selectedAdditionalCovers for editing UI
-	    selectedAdditionalCovers = new ArrayList<>();
-	    if (vehicle.isActsOfGod()) selectedAdditionalCovers.add("ActsOfGod");
-	    if (vehicle.isNilExcess()) selectedAdditionalCovers.add("NilExcess");
-	    if (vehicle.isSrcc()) selectedAdditionalCovers.add("SRCC");
-	    if (vehicle.isTheft()) selectedAdditionalCovers.add("Theft");
-	    if (vehicle.isWarRisk()) selectedAdditionalCovers.add("WarRisk");
-	    if (vehicle.isBetterment()) selectedAdditionalCovers.add("Betterment");
-	    if (vehicle.isPaAndMt()) selectedAdditionalCovers.add("PA_MT");
-	    if (vehicle.isSunRoof()) selectedAdditionalCovers.add("SunRoof");
-	    if (vehicle.isThirdParty()) selectedAdditionalCovers.add("ThirdParty");
-	    if (vehicle.isWindScreen()) selectedAdditionalCovers.add("WindScreen");
-	}
-
-	// Delete a vehicle from the list
 	public void deleteVehicle(MotorPolicyVehicleLink selectedVehicle) {
 	    addVehicleList.remove(selectedVehicle);
 	    
-	    // After delete, recalc discounts and premiums
 	    applyFleetDiscount();
 	    updatePremiumValuesToVehicles();
 	}

@@ -139,7 +139,7 @@
 								<h:outputText for="customer" styleClass="input-label" />
 								<p:inputText id="customer"
 									value="#{ManageMotorActionBean.motorPolicy.customerName}"
-									required="true" />
+									required="true" requiredMessage="Customer Name is required." />
 
 								<h:outputText value="" />
 								<p:message display="text" for="saleChannel" />
@@ -147,7 +147,7 @@
 									styleClass="input-label mandatory" />
 								<p:selectOneMenu id="saleChannel"
 									value="#{ManageMotorActionBean.motorPolicy.saleChannel}"
-									required="true">
+									required="true" requiredMessage="Sale Channel is required.">
 									<f:selectItem itemLabel="Select Sale Channel" itemValue="" />
 									<f:selectItem itemLabel="AGENT" itemValue="AGENT" />
 									<f:selectItem itemLabel="DIRECT" itemValue="DIRECT" />
@@ -161,7 +161,7 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="policyNo"
 									value="#{ManageMotorActionBean.motorPolicy.policyNo}"
-									required="true" />
+									required="true" requiredMessage="Policy Number is required." />
 
 								<h:outputText value="" />
 								<p:message display="text" for="submitDate" />
@@ -186,22 +186,13 @@
 									pattern="dd-MM-yyyy" showIcon="true">
 								</p:datePicker>
 
-								<!-- <h:outputText value="" />
-								<p:message display="text" for="endDate" />
-								<h:outputText for="endDate" value="Policy End Date"
-									styleClass="input-label mandatory" />
-								<p:datePicker id="endDate"
-									value="#{ManageMotorActionBean.motorPolicy.policyEndDate}"
-									pattern="dd-MM-yyyy" showIcon="true">
-								</p:datePicker> -->
-
 								<h:outputText value="" />
 								<p:message display="text" for="period" />
 								<h:outputText for="period" value="Period (Month)"
 									styleClass="input-label mandatory" />
 								<p:inputText id="period"
 									value="#{ManageMotorActionBean.motorPolicy.period}"
-									required="true" />
+									required="true" requiredMessage="Period is required." />
 
 								<h:outputText value="" />
 								<p:message display="text" for="paymentType" />
@@ -209,7 +200,7 @@
 									styleClass="input-label mandatory" />
 								<p:selectOneMenu id="paymentType"
 									value="#{ManageMotorActionBean.motorPolicy.paymentType}"
-									required="true">
+									required="true" requiredMessage="Payment Type is required.">
 									<f:selectItem itemLabel="Select Payment Type" itemValue="" />
 									<f:selectItem itemLabel="LUMSUM" itemValue="LUMSUM" />
 									<f:selectItem itemLabel="SEMI_ANNUAL" itemValue="SEMI_ANNUAL" />
@@ -223,7 +214,7 @@
 									styleClass="input-label mandatory" />
 								<p:selectOneMenu id="branch"
 									value="#{ManageMotorActionBean.motorPolicy.branch}"
-									required="true">
+									required="true" requiredMessage="Branch is required.">
 									<f:selectItem itemLabel="HEAD OFFICE" itemValue="HEAD OFFICE" />
 									<f:selectItem itemLabel="YANGON" itemValue="YANGON" />
 									<f:selectItem itemLabel="MANDALAY" itemValue="MANDALAY" />
@@ -238,7 +229,7 @@
 									styleClass="input-label mandatory" />
 								<p:selectOneMenu id="currency"
 									value="#{ManageMotorActionBean.motorPolicy.currencyType}"
-									required="true">
+									required="true" requiredMessage="Currency is required.">
 									<f:selectItem itemLabel="Selected Currency" itemValue="" />
 									<f:selectItem itemLabel="MMK" itemValue="MMK" />
 									<f:selectItem itemLabel="USD" itemValue="USD" />
@@ -279,7 +270,8 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="registrationNo"
 									value="#{ManageMotorActionBean.vehicle.registrationNo}"
-									required="#{empty ManageMotorActionBean.addVehicleList}" />
+									required="#{empty ManageMotorActionBean.addVehicleList}"
+									requiredMessage="registration Number is required." />
 
 								<h:outputText value="" />
 								<p:message display="text" for="model" />
@@ -287,7 +279,8 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="model"
 									value="#{ManageMotorActionBean.vehicle.model}"
-									required="#{empty ManageMotorActionBean.addVehicleList}" />
+									required="#{empty ManageMotorActionBean.addVehicleList}"
+									requiredMessage="Model is required." />
 
 								<h:outputText value="" />
 								<p:message display="text" for="engineNo" />
@@ -295,7 +288,8 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="engineNo"
 									value="#{ManageMotorActionBean.vehicle.engineNo}"
-									required="#{empty ManageMotorActionBean.addVehicleList}" />
+									required="#{empty ManageMotorActionBean.addVehicleList}"
+									requiredMessage="Engine Number is required." />
 
 								<h:outputText value="" />
 								<p:message display="text" for="chassisNo" />
@@ -303,7 +297,8 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="chassisNo"
 									value="#{ManageMotorActionBean.vehicle.chassisNo}"
-									required="#{empty ManageMotorActionBean.addVehicleList}" />
+									required="#{empty ManageMotorActionBean.addVehicleList}"
+									requiredMessage="Chassis Number is required." />
 
 								<h:outputText value="" />
 								<p:message display="text" for="yearOfManufacture" />
@@ -471,19 +466,29 @@
 						<p:column headerText="Sum Insured">
 							<h:outputText value="#{vehicle.sumInsured}" />
 						</p:column>
-						<!-- <p:column headerText="Edit" style="width:5%; text-align:center;">
-							<p:commandButton icon="pi pi-pencil" title="Edit"
-								actionListener="#{ManageMotorActionBean.editVehicle(vehicle)}"
-								update=":motorEntryFrom:vehicleDialog"
-								oncomplete="PF('vehicleDialog').show()" />
-						</p:column>
+						<!-- Edit Button -->
+						<!-- <p:commandButton icon="pi pi-pencil" title="Edit"
+							actionListener="#{ManageMotorActionBean.editVehicle(vehicle)}"
+							update=":motorEntryForm:vehicleDialog" process="@this"
+							oncomplete="PF('vehicleDialog').show()" /> -->
 
-						<p:column headerText="Delete" style="width:5%; text-align:center;">
-							<p:commandButton icon="pi pi-trash" title="Delete"
-								actionListener="#{ManageMotorActionBean.deleteVehicle(vehicle)}"
-								update=":motorEntryForm:vehicleTable" process="@this"
-								onclick="return confirm('Are you sure you want to delete this vehicle?');" />
-						</p:column> -->
+						<!-- Delete Button -->
+						<p:commandButton icon="pi pi-trash" title="Delete"
+							actionListener="#{ManageMotorActionBean.deleteVehicle(vehicle)}"
+							update=":motorEntryForm:vehicleTable" process="@this"
+							onclick="PF('confirmDelete').show(); return false;" />
+
+						<p:confirmDialog widgetVar="confirmDelete"
+							message="Are you sure you want to delete this vehicle?"
+							header="Confirm Delete" icon="pi pi-exclamation-triangle">
+							<p:commandButton value="Yes"
+								oncomplete="PF('confirmDelete').hide()"
+								actionListener="#{ManageMotorActionBean.confirmDeleteVehicle(vehicle)}"
+								update=":motorEntryForm:vehicleTable" />
+							<p:commandButton value="No" onclick="PF('confirmDelete').hide()"
+								type="button" />
+						</p:confirmDialog>
+
 					</p:dataTable>
 
 					<!-- Navigation Buttons: Back & Next -->
@@ -648,8 +653,6 @@
 							value="#{ManageMotorActionBean.vehicle.productType}"
 							required="true" />
 
-						Add other fields similarly
-
 						<h:outputLabel value="Additional Covers:" />
 						<p:selectManyCheckbox id="additionalCovers"
 							value="#{ManageMotorActionBean.selectedAdditionalCovers}"
@@ -675,7 +678,7 @@
 					<p:commandButton value="Cancel"
 						onclick="PF('vehicleDialog').hide();return false;" />
 				</h:form>
-			</p:dialog> -->
-		</h:form>
+			</p:dialog>
+ -->		</h:form>
 	</ui:define>
 </ui:composition>
