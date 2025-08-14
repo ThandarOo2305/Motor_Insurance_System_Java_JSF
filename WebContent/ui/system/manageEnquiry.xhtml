@@ -80,7 +80,7 @@
 	</h:outputStylesheet>
 		<h:form id="enquiryForm">
 			<p:growl escape="false" globalOnly="true" life="5000"
-				showDetail="true" />
+				showDetail="true" id="growl"/>
 
 			<p:panelGrid id="panelDept" columns="2"
 				columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
@@ -111,7 +111,7 @@
 				</p:panelGrid>
 			</p:panelGrid><br/>
 
-			<p:commandButton value="Search" update="enquiryTableForm:enquiryTable" action="#{ManagePolicyEnquiryActionBean.search}"
+			<p:commandButton value="Search" update="enquiryTableForm:enquiryTable enquiryForm:growl" action="#{ManagePolicyEnquiryActionBean.search}"
 				styleClass="ui-button-danger" style="width: 150px;" />
 			<p:commandButton value="Reset" update=":enquiryForm :enquiryTableForm" action="#{ManagePolicyEnquiryActionBean.reset}" process="@this" 
 				immediate="true" styleClass="ui-button-success" style="width: 150px;" />
