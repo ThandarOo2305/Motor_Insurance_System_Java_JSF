@@ -9,19 +9,16 @@ import org.springframework.stereotype.Service;
 public class MotorPolicyEnquiryValidator implements IDataValidator<MotorPolicy> {
 	@Override
 	public ValidationResult validate(MotorPolicy motorPolicy, boolean transaction) {
-	    ValidationResult result = new ValidationResult();
-	    String formId = "motorEntryForm";
+		ValidationResult result = new ValidationResult();
+		String formId = "motorEntryForm";
 
-	    String policyNo = motorPolicy.getPolicyNo();
-	    String regPattern = "^MTR-\\d{2}-\\d{6}$"; // Format: MTR-25-000123
+		String policyNo = motorPolicy.getPolicyNo();
+		String regPattern = "^MTR-\\d{2}-\\d{6}$"; // Format: MTR-25-000123
 
-	    if (policyNo == null || !policyNo.matches(regPattern)) {
-	        result.addErrorMessage(
-	            formId + ":policyNo",
-	            "Invalid Policy No. Format. Expected: MTR-25-000123"
-	        );
-	    }
+		if (!policyNo.matches(regPattern)) {
+			result.addErrorMessage(formId + ":policyNo", "Invalid Policy No. Format. Expected: MTR-25-000123");
+		}
 
-	    return result;
+		return result;
 	}
 }

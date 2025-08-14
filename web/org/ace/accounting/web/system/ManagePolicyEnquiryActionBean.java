@@ -1,23 +1,27 @@
 package org.ace.accounting.web.system;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.ace.accounting.common.validation.ErrorMessage;
 import org.ace.accounting.common.validation.IDataValidator;
+import org.ace.accounting.common.validation.ValidationResult;
 import org.ace.accounting.system.motor.MotorEnquiryDTO;
 import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
-import org.ace.accounting.system.motor.service.MotorEnquiryService;
 import org.ace.accounting.system.motor.service.interfaces.IMotorEnquiryService;
+import org.ace.java.web.common.BaseBean;
 
 @ManagedBean(name = "ManagePolicyEnquiryActionBean")
 @ViewScoped
-public class ManagePolicyEnquiryActionBean {
+public class ManagePolicyEnquiryActionBean extends BaseBean {
 
 	@ManagedProperty(value = "#{MotorEnquiryService}")
 	private IMotorEnquiryService policyEnquiryService;
@@ -47,18 +51,64 @@ public class ManagePolicyEnquiryActionBean {
 	private Date policyEndDate;
 	private String policyNo;
 	private String registrationNo;
-	private MotorPolicy mp = new MotorPolicy();
-	private MotorPolicyVehicleLink mpv = new MotorPolicyVehicleLink();
+	private MotorPolicy mp;
+	private MotorPolicyVehicleLink mpv;
 	// Search Result Lists
 	private List<MotorEnquiryDTO> results;
+
+	// init
+	@PostConstruct
+	public void init() {
+		setDefaultDates();
+		createNewMotorPolicyVehicleLink();
+		createNewPolicyNo();
+	}
+
+	public void createNewPolicyNo() {
+		mp = new MotorPolicy();
+		results = new ArrayList<>();
+	}
+
+	public void createNewMotorPolicyVehicleLink() {
+		mpv = new MotorPolicyVehicleLink();
+	}
+
+	private void setDefaultDates() {
+		Calendar endCal = Calendar.getInstance();
+		endCal.set(Calendar.HOUR_OF_DAY, 0);// for end date
+		endCal.set(Calendar.MINUTE, 0);
+		endCal.set(Calendar.SECOND, 0);
+		endCal.set(Calendar.MILLISECOND, 0);
+		this.policyEndDate = endCal.getTime();
+
+		Calendar startCal = (Calendar) endCal.clone();// for start date
+		startCal.add(Calendar.DAY_OF_MONTH, -7);
+		this.policyStartDate = startCal.getTime();
+	}
 
 	// Search Method
 	public void search() {
 		try {
+			setMotorPolicyEnquiry();
+			ValidationResult result = motorPolicyValidator.validate(mp, true);
+			ValidationResult result1 = motorPolicyVehicleEnquiryValidator.validate(mpv, true);
 			System.out.println("startdate: " + policyStartDate + ", enddate: " + policyEndDate + ", policyNo: "
 					+ policyNo + ", registrationNo: " + registrationNo);
-			results = policyEnquiryService.search(policyStartDate, policyEndDate, policyNo, registrationNo);
-			System.out.println("success_____________________");
+			if (result.isVerified() && result1.isVerified()) {
+				results = policyEnquiryService.search(policyStartDate, policyEndDate, policyNo, registrationNo);
+				System.out.println("success__________________________");
+			} else {
+				System.out.println("Validation failed for vehicle.");
+				for (ErrorMessage e : result.getErrorMeesages()) {
+					addErrorMessage(null, e.getErrorcode(), e.getParams());
+					System.out.println("Validation failed for vehicle1.");
+				}
+				for (ErrorMessage e1 : result1.getErrorMeesages()) {
+					addErrorMessage(null, e1.getErrorcode(), e1.getParams());
+					System.out.println("Validation failed for vehicle2.");
+				}
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -70,6 +120,13 @@ public class ManagePolicyEnquiryActionBean {
 		this.policyNo = null;
 		this.registrationNo = null;
 		this.results = new ArrayList<>();
+	}
+
+	public void setMotorPolicyEnquiry() {
+		mp.setPolicyStartDate(policyStartDate);
+		mp.setPolicyEndDate(policyEndDate);
+		mp.setPolicyNo(policyNo);
+		mpv.setRegistrationNo(registrationNo);
 	}
 
 	// Getters and setters for all fields
@@ -120,7 +177,7 @@ public class ManagePolicyEnquiryActionBean {
 	public void setResults(List<MotorEnquiryDTO> results) {
 		this.results = results;
 	}
-	
+
 	public MotorPolicy getMp() {
 		return mp;
 	}
