@@ -7,6 +7,7 @@ import org.ace.accounting.system.motor.enumTypes.SaleChannelType;
 
 public class MotorEnquiryDTO {
 	private String policyNo;
+	private String proposalNo;
 	private String registrationNo;
 	private SaleChannelType saleChannel;
 	private String customerName;
@@ -16,9 +17,10 @@ public class MotorEnquiryDTO {
 	private double basicPremium;
 	private Date submittedDate;
 
-	public MotorEnquiryDTO(String policyNo, String registrationNo, SaleChannelType saleChannel, String customerName,
+	public MotorEnquiryDTO(String policyNo, String proposalNo, String registrationNo, SaleChannelType saleChannel, String customerName,
 			BranchType branch, int claimCount, double totalSumInsured, double basicPremium, Date submittedDate) {
 		this.policyNo = policyNo;
+		this.proposalNo = proposalNo;
 		this.registrationNo = registrationNo;
 		this.saleChannel = saleChannel;
 		this.customerName = customerName;
@@ -35,6 +37,14 @@ public class MotorEnquiryDTO {
 
 	public void setPolicyNo(String policyNo) {
 		this.policyNo = policyNo;
+	}
+	
+	public String getProposalNo() {
+		return proposalNo;
+	}
+
+	public void setProposalNo(String proposalNo) {
+		this.proposalNo = proposalNo;
 	}
 
 	public String getRegistrationNo() {

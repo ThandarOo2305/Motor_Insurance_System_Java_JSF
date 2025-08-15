@@ -37,8 +37,8 @@ public class MotorEnquiryService implements IMotorEnquiryService {
 //		   .append("mp.submittedDate) ")
 //		   .append("FROM MotorPolicyVehicleLink mv ")
 //		   .append("JOIN mv.motorPolicy mp ")
-//		   .append("WHERE 1=1 ");
-		StringBuffer hql = new StringBuffer("SELECT new org.ace.accounting.system.motor.MotorEnquiryDTO(mp.policyNo, mv.registrationNo, mp.saleChannel, ");
+//		   .append("WHERE 1=1 ");	
+		StringBuffer hql = new StringBuffer("SELECT new org.ace.accounting.system.motor.MotorEnquiryDTO(mp.policyNo, mp.proposalNo, mv.registrationNo, mp.saleChannel, ");
         hql.append("mp.customerName, mp.branch, mv.claimCount, mv.sumInsured, ");
         hql.append("mv.basicTermPremium, mp.submittedDate)");
         hql.append("FROM MotorPolicy mp JOIN mp.vehicleLinks mv WHERE 1=1");
