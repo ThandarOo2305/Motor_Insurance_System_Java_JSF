@@ -385,6 +385,10 @@ public class ManageMotorActionBean extends BaseBean{
 	    addInfoMessage(null, "Vehicle updated successfully");
 	}
 	
+	public int getCurrentYear() {
+	    return LocalDate.now().getYear();
+	}
+	
 	public BranchType[] getBranchType() {
 		return BranchType.values();
 	}
