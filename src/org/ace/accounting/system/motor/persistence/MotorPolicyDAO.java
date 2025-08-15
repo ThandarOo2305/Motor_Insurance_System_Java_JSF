@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.persistence.interfaces.IMotorPolicyDAO;
@@ -99,4 +100,23 @@ public class MotorPolicyDAO extends BasicDAO implements IMotorPolicyDAO {
 			throw translate("Failed to delete Motor Policy", pe);
 		}
 	}
+	
+	public String findLastProposalNoByMonthYear(String monthYear) throws DAOException {
+	    try {
+	        TypedQuery<String> query = em.createQuery(
+	            "SELECT mp.proposalNo " +
+	            "FROM MotorPolicy mp " +
+	            "WHERE mp.proposalNo LIKE CONCAT('MRT/PO/______/', :monthYear) " +
+	            "ORDER BY CAST(SUBSTRING(mp.proposalNo, 8, 6) AS int) DESC",
+	            String.class
+	        );
+	        query.setParameter("monthYear", monthYear);
+	        query.setMaxResults(1);
+	        return query.getSingleResult();
+	    } catch (NoResultException e) {
+	        return null;
+	    }
+	}
+
+
 }

@@ -18,4 +18,6 @@ public interface IMotorPolicyDAO {
 	public MotorPolicy update(MotorPolicy motorPolicy) throws DAOException;
 	
 	public void delete(MotorPolicy motorPolicy) throws DAOException;
+	
+	public String findLastProposalNoByMonthYear(String monthYear) throws DAOException;
 }

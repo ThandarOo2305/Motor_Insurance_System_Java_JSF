@@ -1,5 +1,6 @@
 package org.ace.accounting.system.motor.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -41,7 +42,7 @@ public class MotorPolicyService extends BaseService implements IMotorPolicyServi
 	        throw new SystemException(e.getErrorCode(), "Failed to find MotorPolicy by policy number", e);
 	    }
 	}
-	
+	 
 	// Read ( return type Boolean for policyNo )
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public boolean existsMotorPolicyByPolicyNo(String policyNo) throws SystemException {
@@ -82,4 +83,28 @@ public class MotorPolicyService extends BaseService implements IMotorPolicyServi
 			throw new SystemException(e.getErrorCode(), "Failed to delete Motor Policy", e);
 		}
 	}
+	
+	@Override
+	public String generateProposalNo() throws SystemException {
+	    LocalDate now = LocalDate.now();
+	    String monthYear = String.format("%02d-%d", now.getMonthValue(), now.getYear());
+	    String prefix = "MRT/PO/";
+
+	    String lastProposalNo = motorPolicyDAO.findLastProposalNoByMonthYear(monthYear);
+
+	    int nextNumber = 1;
+	    if (lastProposalNo != null && lastProposalNo.trim().startsWith(prefix)) {
+	        String[] parts = lastProposalNo.trim().split("/");
+	        if (parts.length >= 4) {
+	            try {
+	                nextNumber = Integer.parseInt(parts[2].trim()) + 1;
+	            } catch (NumberFormatException ignored) {
+	                nextNumber = 1;
+	            }
+	        }
+	    }
+
+	    return String.format("%s%06d/%s", prefix, nextNumber, monthYear);
+	}
+
 }

@@ -6,7 +6,6 @@ import org.ace.accounting.common.validation.IDataValidator;
 import org.ace.accounting.common.validation.ValidationResult;
 import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyService;
-import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyVehicleLinkService;
 import org.springframework.stereotype.Service;
 
 @Service(value = "MotorPolicyValidator")

@@ -341,12 +341,7 @@ public class ManageMotorActionBean extends BaseBean{
 	        	motorPolicy.addVehicleLink(v);
 	        }
 	        
-	        if (motorPolicy.getProposalNo() == null || motorPolicy.getProposalNo().isEmpty()) {
-	            LocalDate now = LocalDate.now();
-	            String month = String.format("%02d", now.getMonthValue());
-	            int year = now.getYear();
-	            motorPolicy.setProposalNo("MTR/PO/" + month + "-" + year);
-	        }
+	        motorPolicy.setProposalNo(motorPolicyService.generateProposalNo());
 
 	        motorPolicyService.addNewMotorPolicy(motorPolicy);
 
@@ -383,7 +378,6 @@ public class ManageMotorActionBean extends BaseBean{
 	}
 	
 	public void saveEditedVehicle() {
-	    // Set additional covers from selectedAdditionalCovers to vehicle
 	    vehicle.setActsOfGod(selectedAdditionalCovers.contains("ActsOfGod"));
 	    vehicle.setNilExcess(selectedAdditionalCovers.contains("NilExcess"));
 	    vehicle.setSrcc(selectedAdditionalCovers.contains("SRCC"));
@@ -395,11 +389,9 @@ public class ManageMotorActionBean extends BaseBean{
 	    vehicle.setThirdParty(selectedAdditionalCovers.contains("ThirdParty"));
 	    vehicle.setWindScreen(selectedAdditionalCovers.contains("WindScreen"));
 
-	    // Recalculate discounts and premiums
 	    applyFleetDiscount();
 	    updatePremiumValuesToVehicles();
 
-	    // Clear selectedAdditionalCovers to avoid confusion on next edit
 	    selectedAdditionalCovers.clear();
 
 	    addInfoMessage(null, "Vehicle updated successfully");
