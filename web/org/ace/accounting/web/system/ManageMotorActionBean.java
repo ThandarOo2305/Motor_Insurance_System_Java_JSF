@@ -88,18 +88,6 @@ public class ManageMotorActionBean extends BaseBean{
         vehicle = new MotorPolicyVehicleLink();
     }
 	
-	public String getCustomerLabel() {
-	    if (motorPolicy.getCustomerType() == null) {
-	        return "Customer Name";
-	    }
-	    if ("Person".equals(motorPolicy.getCustomerType())) {
-	        return "Enter your name";
-	    } else if ("Organization".equals(motorPolicy.getCustomerType())) {
-	        return "Enter organization name";
-	    }
-	    return "Customer Name";
-	}
-	
 	public void addNewVehicleInfo() {
 	    vehicle.setActsOfGod(selectedAdditionalCovers.contains("ActsOfGod"));
 	    vehicle.setNilExcess(selectedAdditionalCovers.contains("NilExcess"));

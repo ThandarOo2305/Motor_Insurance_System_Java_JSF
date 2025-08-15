@@ -132,6 +132,7 @@
 									layout="lineDirection">
 									<f:selectItem itemLabel="Person" itemValue="Person" />
 									<f:selectItem itemLabel="Organization" itemValue="Organization" />
+									<p:ajax update="customer" process="@this" />
 								</p:selectOneRadio>
 
 								<h:outputText value="" />
@@ -139,7 +140,11 @@
 								<h:outputText for="customer" styleClass="input-label" />
 								<p:inputText id="customer"
 									value="#{ManageMotorActionBean.motorPolicy.customerName}"
-									required="true" requiredMessage="Customer Name is required." />
+									required="true" requiredMessage="Customer Name is required."
+									placeholder="#{ManageMotorActionBean.motorPolicy.customerType 
+									eq 'Person' ? 'Enter Your Name' : (
+									ManageMotorActionBean.motorPolicy.customerType 
+									eq 'Organization' ? 'Enter Organization Name' : '')}" />
 
 								<h:outputText value="" />
 								<p:message display="text" for="saleChannel" />
@@ -473,21 +478,12 @@
 							oncomplete="PF('vehicleDialog').show()" /> -->
 
 						<!-- Delete Button -->
-						<p:commandButton icon="pi pi-trash" title="Delete"
-							actionListener="#{ManageMotorActionBean.deleteVehicle(vehicle)}"
-							update=":motorEntryForm:vehicleTable" process="@this"
-							onclick="PF('confirmDelete').show(); return false;" />
-
-						<p:confirmDialog widgetVar="confirmDelete"
-							message="Are you sure you want to delete this vehicle?"
-							header="Confirm Delete" icon="pi pi-exclamation-triangle">
-							<p:commandButton value="Yes"
-								oncomplete="PF('confirmDelete').hide()"
-								actionListener="#{ManageMotorActionBean.confirmDeleteVehicle(vehicle)}"
-								update=":motorEntryForm:vehicleTable" />
-							<p:commandButton value="No" onclick="PF('confirmDelete').hide()"
-								type="button" />
-						</p:confirmDialog>
+						<p:column>
+							<p:commandButton icon="pi pi-trash" title="Delete"
+								actionListener="#{ManageMotorActionBean.deleteVehicle(vehicle)}"
+								update=":motorEntryForm:vehicleTable" process="@this"
+								onclick="PF('confirmDelete').show(); return false;" />
+						</p:column>
 
 					</p:dataTable>
 
@@ -638,6 +634,15 @@
 					</p:panel>
 				</p:tab>
 			</p:wizard>
+			<p:confirmDialog widgetVar="confirmDelete"
+				message="Are you sure you want to delete this vehicle?"
+				header="Confirm Delete" icon="pi pi-exclamation-triangle">
+				<p:commandButton value="Yes" oncomplete="PF('confirmDelete').hide()"
+					actionListener="#{ManageMotorActionBean.confirmDeleteVehicle(vehicle)}"
+					update=":motorEntryForm:vehicleTable" />
+				<p:commandButton value="No" onclick="PF('confirmDelete').hide()"
+					type="button" />
+			</p:confirmDialog>
 			<!-- <p:dialog header="Edit Vehicle" widgetVar="vehicleDialog"
 				modal="true" resizable="false" closable="true">
 				<h:form id="vehicleEditForm">
@@ -679,6 +684,7 @@
 						onclick="PF('vehicleDialog').hide();return false;" />
 				</h:form>
 			</p:dialog>
- -->		</h:form>
+ -->
+		</h:form>
 	</ui:define>
 </ui:composition>
