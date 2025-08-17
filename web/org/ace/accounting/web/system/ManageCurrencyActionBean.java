@@ -83,7 +83,7 @@ public class ManageCurrencyActionBean extends BaseBean {
 				handleSysException(ex);
 			}
 		} else {
-			for (ErrorMessage message : result.getErrorMeesages()) {
+			for (ErrorMessage message : result.getErrorMessages()) {
 				addErrorMessage(message.getId(), message.getErrorcode(), message.getParams());
 			}
 		}
@@ -101,7 +101,7 @@ public class ManageCurrencyActionBean extends BaseBean {
 				handleSysException(ex);
 			}
 		} else {
-			for (ErrorMessage message : result.getErrorMeesages()) {
+			for (ErrorMessage message : result.getErrorMessages()) {
 				addErrorMessage(message.getId(), message.getErrorcode(), message.getParams());
 			}
 			loadCurrency();
@@ -120,7 +120,7 @@ public class ManageCurrencyActionBean extends BaseBean {
 				handleSysException(ex);
 			}
 		} else {
-			for (ErrorMessage message : result.getErrorMeesages()) {
+			for (ErrorMessage message : result.getErrorMessages()) {
 				addErrorMessage(null, message.getErrorcode(), message.getParams());
 			}
 		}

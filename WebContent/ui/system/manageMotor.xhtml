@@ -258,6 +258,7 @@
 							- mandatory fields</span>
 					</p:panel>
 				</p:tab>
+				
 				<p:tab title="Vehicle Info">
 					<p:panel id="vehicleInfoPanel" header="Vehicle Info">
 						<p:panelGrid id="vehiclePanel" columns="2"
@@ -443,7 +444,7 @@
 							<p:commandButton id="addBtn"
 								value="#{label['COMMON_ADDNEW_BTN']}"
 								action="#{ManageMotorActionBean.addNewVehicleInfo}"
-								update="vehicleTable vehiclePanel growl" process="@form"
+								update="vehicleTable vehiclePanel growl" process="vehiclePanel"
 								style="width: 70px;"
 								oncomplete="PF('vehicleTable').clearFilters();" />
 						</h:panelGrid>
@@ -518,10 +519,11 @@
 							type="button" onclick="PF('motorWizard').back();" />
 						<p:commandButton value="Next →" icon="pi pi-arrow-right"
 							iconPos="right" styleClass="ui-button-success"
-							process="@this #{empty ManageMotorActionBean.addVehicleList ? 'vehicleInfoPanel' : ''}"
-							update="@form"
+							process="@this"
+							immediate="true"
+							update=":motorEntryForm:vehicleTable :motorEntryForm:growl"
 							actionListener="#{ManageMotorActionBean.checkVehicleTable}"
-							oncomplete="if (!args.validationFailed) PF('motorWizard').next();" />
+							oncomplete="PF('motorWizard').next();" />
 					</p:outputPanel>
 
 					<!-- Cancel Button + Mandatory Fields Note -->

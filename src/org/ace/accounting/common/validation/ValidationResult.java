@@ -19,7 +19,7 @@ public class ValidationResult {
 		errormessages.add(new ErrorMessage(id, errorcode, params));
 	}
 
-	public List<ErrorMessage> getErrorMeesages() {
+	public List<ErrorMessage> getErrorMessages() {
 		return errormessages;
 	}	
 }

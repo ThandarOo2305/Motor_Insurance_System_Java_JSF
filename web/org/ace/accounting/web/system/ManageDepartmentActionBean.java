@@ -104,7 +104,7 @@ public class ManageDepartmentActionBean extends BaseBean {
 			}
 
 		} else {
-			for (ErrorMessage message : result.getErrorMeesages()) {
+			for (ErrorMessage message : result.getErrorMessages()) {
 				addErrorMessage(message.getId(), message.getErrorcode(), message.getParams());
 			}
 		}

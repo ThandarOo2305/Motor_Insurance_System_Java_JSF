@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.ace.accounting.common.CurrencyType;
 import org.ace.accounting.common.validation.ErrorMessage;
@@ -112,7 +113,7 @@ public class ManageMotorActionBean extends BaseBean{
 	        System.out.println("success in add vehicle to list");
 	    } else {
 	        System.out.println("Validation failed for vehicle.");
-	        for(ErrorMessage e: result.getErrorMeesages()) {
+	        for(ErrorMessage e: result.getErrorMessages()) {
 	        	addErrorMessage(null , e.getErrorcode(), e.getParams());
 	        }
 	    }
@@ -134,24 +135,25 @@ public class ManageMotorActionBean extends BaseBean{
     }
 	
 	public String onFlowProcess(FlowEvent event) {
-	    if ("policyInfo".equals(event.getOldStep())) {
-	        ValidationResult result = motorPolicyValidator.validate(motorPolicy, true);
-	        if (!result.isVerified()) {
-	            return event.getOldStep();
-	        }
-	    }
-
-	    if ("vehicleInfo".equals(event.getOldStep())) {
-	        if (addVehicleList == null || addVehicleList.isEmpty()) {
-	            ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
-	            if (!result.isVerified()) {
-	                return event.getOldStep();
-	            }
-	        }
-	    }
-
-	    return event.getNewStep();
-	}
+        if ("policyInfo".equals(event.getOldStep())) {
+            ValidationResult result = motorPolicyValidator.validate(motorPolicy, true);
+            if (!result.isVerified()) {
+                for (ErrorMessage e : result.getErrorMessages()) {
+                    addErrorMessage(null, e.getErrorcode(), e.getParams());
+                }
+                return event.getOldStep();
+            }
+        }
+        if ("vehicleInfo".equals(event.getOldStep())) {
+            if (addVehicleList == null || addVehicleList.isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error", "Please add at least one vehicle before proceeding."));
+                return event.getOldStep();
+            }
+        }
+        return event.getNewStep();
+    }
 	
 	public double oneYearBasicPremiumCalculation(MotorPolicyVehicleLink v) {
 		double rate = v.getProductType().equals("Private") ? privateRate : commercialRate;
@@ -306,14 +308,14 @@ public class ManageMotorActionBean extends BaseBean{
 	    }
 	}
 	
-	public void checkVehicleTable() {
-	    if (addVehicleList == null || addVehicleList.isEmpty()) {
-	        FacesContext.getCurrentInstance().validationFailed();
-	        FacesContext.getCurrentInstance().addMessage(null,
-	                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                    "Please add at least one vehicle before  proceeding.", null));
-	    }
-	}
+	public void checkVehicleTable(ActionEvent event) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (addVehicleList == null || addVehicleList.isEmpty()) {
+            context.addMessage(null, 
+                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error", "Please add at least one vehicle before proceeding."));
+        }
+    }
 	
 	public String submitPolicy() {
 	    try {

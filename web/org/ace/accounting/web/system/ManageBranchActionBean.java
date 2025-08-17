@@ -98,7 +98,7 @@ public class ManageBranchActionBean extends BaseBean {
 				handleSysException(ex);
 			}
 		} else {
-			for (ErrorMessage message : result.getErrorMeesages()) {
+			for (ErrorMessage message : result.getErrorMessages()) {
 				addErrorMessage(null, message.getErrorcode(), message.getParams());
 			}
 		}

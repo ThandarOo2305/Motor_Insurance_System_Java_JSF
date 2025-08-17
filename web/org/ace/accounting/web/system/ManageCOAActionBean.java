@@ -132,7 +132,7 @@ public class ManageCOAActionBean extends BaseBean {
 				handleSysException(ex);
 			}
 		} else {
-			for (ErrorMessage message : result.getErrorMeesages()) {
+			for (ErrorMessage message : result.getErrorMessages()) {
 				addErrorMessage(message.getId(), message.getErrorcode(), message.getParams());
 			}
 		}
@@ -151,7 +151,7 @@ public class ManageCOAActionBean extends BaseBean {
 			}
 		} else {
 
-			for (ErrorMessage message : result.getErrorMeesages()) {
+			for (ErrorMessage message : result.getErrorMessages()) {
 				addErrorMessage(message.getId(), message.getErrorcode(), message.getParams());
 			}
 		}
@@ -171,7 +171,7 @@ public class ManageCOAActionBean extends BaseBean {
 			}
 
 		} else {
-			for (ErrorMessage message : result.getErrorMeesages()) {
+			for (ErrorMessage message : result.getErrorMessages()) {
 				addErrorMessage(message.getId(), message.getErrorcode(), message.getParams());
 			}
 		}
