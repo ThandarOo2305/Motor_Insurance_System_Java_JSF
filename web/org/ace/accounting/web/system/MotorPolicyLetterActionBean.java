@@ -39,14 +39,13 @@ public class MotorPolicyLetterActionBean extends BaseBean {
     public void setPropertiesManager(PropertiesManager propertiesManager) {
         this.propertiesManager = propertiesManager;
     }
-
+	
     private final String reportName = "motorPolicyLetter";
     private final String fileName = "MotorPolicyLetter";
     private final String pdfDirPath = "/pdf-report/" + reportName + "/" + System.currentTimeMillis() + "/";
     private final String dirPath = getWebRootPath() + pdfDirPath;
 
     private MotorPolicyDTO policy;
-    //private StreamedContent download;
 
     @PostConstruct
     public void init() {
@@ -62,19 +61,19 @@ public class MotorPolicyLetterActionBean extends BaseBean {
                 return;
             }
 
-            Map<String, Object> parameters = new HashMap<>();
-            
+            Map<String, Object> parameters = new HashMap<String, Object>();
+			//String runDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+
             parameters.put("customerName", policy.getCustomerName());
             parameters.put("policyNo", policy.getPolicyNo());
             parameters.put("proposalNo", policy.getProposalNo());
             parameters.put("sumInsured", policy.getSumInsured());
-            parameters.put("premiumTerm", policy.getBasicTermPremium());
-            parameters.put("additionalPremium", policy.getAddOnTermPremium());
+            parameters.put("basicTermPremium", policy.getBasicTermPremium());
+            parameters.put("addOnTermPremium", policy.getAddOnTermPremium());
             parameters.put("totalPremium", policy.getTotalPremium());
 
             JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 
            
