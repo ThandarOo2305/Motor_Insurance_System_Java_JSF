@@ -62,7 +62,6 @@ public class MotorPolicyLetterActionBean extends BaseBean {
             }
 
             Map<String, Object> parameters = new HashMap<String, Object>();
-			//String runDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
             parameters.put("customerName", policy.getCustomerName());
             parameters.put("policyNo", policy.getPolicyNo());
