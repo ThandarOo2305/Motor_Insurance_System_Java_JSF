@@ -2,7 +2,7 @@ package org.ace.accounting.system.motor;
 
 import java.util.Date;
 
-import org.ace.accounting.system.motor.enumTypes.BranchType;
+import org.ace.accounting.system.branch.Branch;
 import org.ace.accounting.system.motor.enumTypes.SaleChannelType;
 
 public class MotorEnquiryDTO {
@@ -11,14 +11,14 @@ public class MotorEnquiryDTO {
 	private String registrationNo;
 	private SaleChannelType saleChannel;
 	private String customerName;
-	private BranchType branch;
+	private Branch branch;
 	private int claimCount;
 	private double totalSumInsured;
 	private double basicPremium;
 	private Date submittedDate;
 
 	public MotorEnquiryDTO(String policyNo, String proposalNo, String registrationNo, SaleChannelType saleChannel, String customerName,
-			BranchType branch, int claimCount, double totalSumInsured, double basicPremium, Date submittedDate) {
+			Branch branch, int claimCount, double totalSumInsured, double basicPremium, Date submittedDate) {
 		this.policyNo = policyNo;
 		this.proposalNo = proposalNo;
 		this.registrationNo = registrationNo;
@@ -63,11 +63,11 @@ public class MotorEnquiryDTO {
 		this.saleChannel = saleChannel;
 	}
 
-	public BranchType getBranch() {
+	public Branch getBranch() {
 		return branch;
 	}
 
-	public void setBranch(BranchType branch) {
+	public void setBranch(Branch branch) {
 		this.branch = branch;
 	}
 

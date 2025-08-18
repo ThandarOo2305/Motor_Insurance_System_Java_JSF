@@ -107,6 +107,7 @@
 }
 	</h:outputStylesheet>
 		<h:form id="motorEntryForm">
+			<p:messages id="messages" autoUpdate="true" />
 			<p:growl escape="false" globalOnly="true" life="5000" id="growl"
 				showDetail="true" />
 			<h:outputText value="Add New Motor Policy" styleClass="title" />
@@ -261,8 +262,8 @@
 
 							<p:commandButton value="Next →" icon="pi pi-arrow-right"
 								iconPos="right" styleClass="ui-button-success"
-								action="#{ManageMotorActionBean.nextStep}"
-								process="policyInfoPanel" update="@form" />
+								process="policyInfoPanel" update="@form"
+								action="#{ManageMotorActionBean.nextStep}" />
 						</p:outputPanel>
 
 						<!-- Mandatory Fields Note -->
@@ -296,8 +297,7 @@
 								<h:outputText for="model" value="Model"
 									styleClass="input-label mandatory" />
 								<p:inputText id="model"
-									value="#{ManageMotorActionBean.vehicle.model}"
-									required="true"
+									value="#{ManageMotorActionBean.vehicle.model}" required="true"
 									requiredMessage="Model is required." />
 
 								<h:outputText value="" />
@@ -306,8 +306,7 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="engineNo"
 									value="#{ManageMotorActionBean.vehicle.engineNo}"
-									required="true"
-									requiredMessage="Engine Number is required."
+									required="true" requiredMessage="Engine Number is required."
 									placeholder="e.g., F16B1234567">
 								</p:inputText>
 
@@ -317,8 +316,7 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="chassisNo"
 									value="#{ManageMotorActionBean.vehicle.chassisNo}"
-									required="true"
-									requiredMessage="Chassis Number is required."
+									required="true" requiredMessage="Chassis Number is required."
 									placeholder="e.g., 1HGCM82633A004352">
 								</p:inputText>
 
@@ -328,8 +326,7 @@
 									value="Year of Manufacture" styleClass="input-label mandatory" />
 								<p:inputText id="yearOfManufacture"
 									value="#{ManageMotorActionBean.vehicle.yearOfManufacture}"
-									required="true"
-									placeholder="yyyy">
+									required="true" placeholder="yyyy">
 								</p:inputText>
 
 								<h:outputText value="" />
@@ -498,38 +495,35 @@
 							oncomplete="PF('vehicleDialog').show()" /> -->
 
 						<!-- Delete Button -->
-						<p:column>
-							<p:commandButton styleClass="red-button" icon="fa fa-trash"
-								title="Delete"
-								actionListener="#{ManageMotorActionBean.deleteVehicle(vehicle)}"
-								update=":motorEntryForm:vehicleTable" process="@this"
-								onclick="PF('confirmDelete').show(); return false;" />
+						<p:column style="width:4%;">
+							<p:commandButton styleClass="red-button" icon="fa fa-times"
+								action="#{ManageMotorActionBean.deleteVehicle(vehicle)}"
+								update=":motorEntryForm:vehicleTable :motorEntryForm:messages">
+								<p:confirm header="Confirmation"
+									message="Are you sure you want to delete this vehicle?"
+									icon="fa fa-exclamation-triangle" />
+							</p:commandButton>
 						</p:column>
 
 					</p:dataTable>
 
-					<p:confirmDialog widgetVar="confirmDelete"
-						message="Are you sure you want to delete this vehicle?"
-						header="Confirm Delete" icon="pi pi-exclamation-triangle"
-						closable="true" appendTo="@(body)">
-						<p:commandButton value="Yes"
-							oncomplete="PF('confirmDelete').hide()"
-							actionListener="#{ManageMotorActionBean.deleteVehicle(vehicle)}"
-							update=":motorEntryForm:vehicleTable" />
-						<p:commandButton value="No" onclick="PF('confirmDelete').hide()"
-							type="button" />
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Yes" type="button"
+							styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="fa fa-times" />
 					</p:confirmDialog>
 
 					<!-- Navigation Buttons: Back & Next -->
 					<p:outputPanel
 						style="width: 100%; display: flex; justify-content: space-between;">
 						<p:commandButton value="← Back" styleClass="ui-button-secondary"
-							action="#{ManageMotorActionBean.backStep}" process="@this"
-							update="@form" />
+							update="@form" process="@this"
+							action="#{ManageMotorActionBean.backStep}"
+							oncomplete="PF('motorWizard').back();" />
 						<p:commandButton value="Next →" icon="pi pi-arrow-right"
-							iconPos="right" styleClass="ui-button-success"
-							action="#{ManageMotorActionBean.nextStep}"
-							process="@this" update="@form" />
+							iconPos="right" styleClass="ui-button-success" process="@this"
+							update="@form" action="#{ManageMotorActionBean.nextStep}" />
 					</p:outputPanel>
 
 					<!-- Cancel Button + Mandatory Fields Note -->
@@ -655,8 +649,9 @@
 								styleClass="ui-button-success" process="@form" update="@form"
 								oncomplete="PF('motorWizard').loadStep('policyInfo');" />
 							<p:commandButton value="← Back" styleClass="ui-button-secondary"
-								action="#{ManageMotorActionBean.backStep}" process="@this"
-								update="@form" />
+								process="@form" update="@form"
+								action="#{ManageMotorActionBean.backStep}"
+								oncomplete="PF('motorWizard').loadStep('#{ManageMotorActionBean.currentStep}');" />
 							<p:commandButton value="Cancel" icon="pi pi-times"
 								styleClass="ui-button-danger" style="margin-left:10px;"
 								action="#{ManageMotorActionBean.cancel}" process="@this" />
