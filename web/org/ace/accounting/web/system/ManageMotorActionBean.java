@@ -179,17 +179,15 @@ public class ManageMotorActionBean extends BaseBean{
 
     // Move to previous step
     public void backStep() {
-        switch (currentStep) {
-            case "VehicleInfo":
-                currentStep = "PolicyInfo";
-                break;
-            case "PremiumInfo":
-                currentStep = "VehicleInfo";
-                break;
-        }
-
-        PrimeFaces.current().executeScript("PF('motorWizard').loadStep('" + currentStep + "')");
-    }
+		System.out.println("In backstep");
+		if ("VehicleInfo".equals(currentStep)) {
+			currentStep = "PolicyInfo";
+		} else if ("PremiumInfo".equals(currentStep)) {
+			currentStep = "VehicleInfo";
+		}
+		
+	    PrimeFaces.current().executeScript("PF('motorWizard').loadStep('" + currentStep + "')");
+	}
 
     // Validate fields for each step
     public boolean validateCurrentStep(String step) {
