@@ -12,19 +12,22 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Version;
 
 import org.ace.accounting.common.BasicEntity;
 import org.ace.accounting.common.TableName;
-import org.ace.accounting.system.motor.enumTypes.BranchType;
+import org.ace.accounting.system.branch.Branch;
 import org.ace.accounting.system.motor.enumTypes.CurrencyType;
 import org.ace.accounting.system.motor.enumTypes.CustomerType;
 import org.ace.accounting.system.motor.enumTypes.PaymentType;
@@ -38,67 +41,68 @@ import org.ace.java.component.idgen.service.IDInterceptor;
 		@NamedQuery(name = "MotorPolicy.findAll", query = "SELECT mp FROM MotorPolicy mp ORDER BY mp.customerName ASC"),
 		@NamedQuery(name = "MotorPolicy.findByCustomerName", query = "SELECT mp FROM MotorPolicy mp WHERE mp.customerName = :customerName") })
 @EntityListeners(IDInterceptor.class)
-public class MotorPolicy implements Serializable{
-	
+public class MotorPolicy implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "MOTORPOLICY_GEN")
 	@Column(name = "policyId")
 	private String id;
-	
+
 	@Enumerated(EnumType.STRING)
 	private CustomerType customerType;
-	
+
 	private String customerName;
-	
+
 	@Enumerated(EnumType.STRING)
 	private SaleChannelType saleChannel;
-	
+
 	private String policyNo;
-	
+
 	private String proposalNo;
-	
+
 	private Date submittedDate;
-	
+
 	private Date policyStartDate;
-	
+
 	private Date policyEndDate;
-	
+
 	private int period;
-	
+
 	@Enumerated(EnumType.STRING)
 	private PaymentType paymentType;
-	
-	@Enumerated(EnumType.STRING)
-	private BranchType branch;
-	
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "BRANCHID", referencedColumnName = "ID")
+	private Branch branch;
+
 	@Enumerated(EnumType.STRING)
 	private CurrencyType currencyType;
-	
+
 	@Version
 	private int version;
-	
+
 	@Embedded
 	private BasicEntity basicEntity;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "motorPolicy")
 	private List<MotorPolicyVehicleLink> vehicleLinks = new ArrayList<>();
-	
-	public void addVehicleLink(MotorPolicyVehicleLink vehicleLink) {
-        vehicleLinks.add(vehicleLink);
-        vehicleLink.setMotorPolicy(this);
-    }
 
-    public void removeVehicleLink(MotorPolicyVehicleLink vehicleLink) {
-        vehicleLinks.remove(vehicleLink);
-        vehicleLink.setMotorPolicy(null);
-    }
-    
-    public MotorPolicy() {
-		
+	public void addVehicleLink(MotorPolicyVehicleLink vehicleLink) {
+		vehicleLinks.add(vehicleLink);
+		vehicleLink.setMotorPolicy(this);
 	}
-	
+
+	public void removeVehicleLink(MotorPolicyVehicleLink vehicleLink) {
+		vehicleLinks.remove(vehicleLink);
+		vehicleLink.setMotorPolicy(null);
+	}
+
+	public MotorPolicy() {
+
+	}
+
 	public List<MotorPolicyVehicleLink> getMotorPolicyVehicleLinks() {
 		return vehicleLinks;
 	}
@@ -106,7 +110,7 @@ public class MotorPolicy implements Serializable{
 	public void setMotorPolicyVehicleLinks(List<MotorPolicyVehicleLink> vehicleLinks) {
 		this.vehicleLinks = vehicleLinks;
 	}
-	
+
 	public CustomerType getCustomerType() {
 		return customerType;
 	}
@@ -187,12 +191,20 @@ public class MotorPolicy implements Serializable{
 		this.paymentType = paymentType;
 	}
 
-	public BranchType getBranch() {
+	public Branch getBranch() {
 		return branch;
 	}
 
-	public void setBranch(BranchType branch) {
+	public void setBranch(Branch branch) {
 		this.branch = branch;
+	}
+
+	public List<MotorPolicyVehicleLink> getVehicleLinks() {
+		return vehicleLinks;
+	}
+
+	public void setVehicleLinks(List<MotorPolicyVehicleLink> vehicleLinks) {
+		this.vehicleLinks = vehicleLinks;
 	}
 
 	public CurrencyType getCurrencyType() {

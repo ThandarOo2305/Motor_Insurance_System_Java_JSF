@@ -18,6 +18,7 @@ import org.ace.accounting.common.validation.ErrorMessage;
 import org.ace.accounting.common.validation.IDataValidator;
 import org.ace.accounting.common.validation.MessageId;
 import org.ace.accounting.common.validation.ValidationResult;
+import org.ace.accounting.system.branch.Branch;
 import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.enumTypes.BranchType;
@@ -28,6 +29,7 @@ import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyVehicleLin
 import org.ace.java.component.SystemException;
 import org.ace.java.web.common.BaseBean;
 import org.primefaces.event.FlowEvent;
+import org.primefaces.event.SelectEvent;
 
 @ManagedBean(name = "ManageMotorActionBean")
 @ViewScoped
@@ -134,9 +136,16 @@ public class ManageMotorActionBean extends BaseBean{
         return String.join(", ", covers);
     }
 	
+	public void returnBranch(SelectEvent event) {
+	    Branch branch = (Branch) event.getObject();
+	    motorPolicy.setBranch(branch);
+	  }
+	
 	public String onFlowProcess(FlowEvent event) {
-        if ("policyInfo".equals(event.getOldStep())) {
+        if ("PolicyInfo".equals(event.getOldStep())) {
+        	System.out.println("Policy Validation!");
             ValidationResult result = motorPolicyValidator.validate(motorPolicy, true);
+            System.out.println("Policy Validation2!");
             if (!result.isVerified()) {
                 for (ErrorMessage e : result.getErrorMessages()) {
                     addErrorMessage(null, e.getErrorcode(), e.getParams());
@@ -144,7 +153,7 @@ public class ManageMotorActionBean extends BaseBean{
                 return event.getOldStep();
             }
         }
-        if ("vehicleInfo".equals(event.getOldStep())) {
+        if ("VehicleInfo".equals(event.getOldStep())) {
             if (addVehicleList == null || addVehicleList.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null, 
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,

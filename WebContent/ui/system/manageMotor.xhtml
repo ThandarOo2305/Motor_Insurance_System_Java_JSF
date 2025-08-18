@@ -114,7 +114,7 @@
 				flowListener="#{ManageMotorActionBean.onFlowProcess}"
 				widgetVar="motorWizard" showNavBar="false" backLabel="Back"
 				nextLabel="Next">
-				<p:tab title="Policy Info">
+				<p:tab title="PolicyInfo">
 					<p:panel id="policyInfoPanel" header="Policy Info">
 						<p:panelGrid id="panelDept" columns="2"
 							columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
@@ -214,19 +214,31 @@
 								</p:selectOneMenu>
 
 								<h:outputText value="" />
-								<p:message display="text" for="branch" />
-								<h:outputText for="branch" value="Branch"
+								<p:message display="text" for="branchId" />
+								<h:outputText for="branchId" value="Branch"
 									styleClass="input-label mandatory" />
-								<p:selectOneMenu id="branch"
-									value="#{ManageMotorActionBean.motorPolicy.branch}"
-									required="true" requiredMessage="Branch is required.">
-									<f:selectItem itemLabel="HEAD OFFICE" itemValue="HEAD OFFICE" />
-									<f:selectItem itemLabel="YANGON" itemValue="YANGON" />
-									<f:selectItem itemLabel="MANDALAY" itemValue="MANDALAY" />
-									<f:selectItem itemLabel="MAGWAY" itemValue="MAGWAY" />
-									<f:selectItem itemLabel="NAYPYITAW" itemValue="NAYPYITAW" />
-									<f:selectItem itemLabel="PYAY" itemValue="PYAY" />
-								</p:selectOneMenu>
+								<p:panelGrid styleClass="ui-panelgrid-blank"
+									id="branchPanelGroup">
+									<div style="margin-top: -5px; margin-left: -5px;"
+										class="ui-g ui-fluid" id="branchPanelGroup">
+										<div class="ui-inputgroup ui-g-12 ui-lg-12 ui-lg-12">
+											<p:commandButton styleClass="green-button"
+												icon="fa fa-search"
+												actionListener="#{ManageMotorActionBean.selectBranch()}"
+												id="selectBranchDialogLink" process="@this">
+												<p:ajax event="dialogReturn"
+													listener="#{ManageMotorActionBean.returnBranch}"
+													update="branchId" />
+											</p:commandButton>
+											<p:inputText id="branchId"
+												value="#{ManageMotorActionBean.motorPolicy.branch == null ? '' : ManageMotorActionBean.motorPolicy.branch.name}"
+												readonly="true" />
+											<p:commandButton styleClass="red-button" icon="fa fa-times"
+												action="#{ManageMotorActionBean.motorPolicy.setBranch(null)}"
+												process="@this" update="branchId" />
+										</div>
+									</div>
+								</p:panelGrid>
 
 								<h:outputText value="" />
 								<p:message display="text" for="currency" />
@@ -258,8 +270,8 @@
 							- mandatory fields</span>
 					</p:panel>
 				</p:tab>
-				
-				<p:tab title="Vehicle Info">
+
+				<p:tab title="VehicleInfo">
 					<p:panel id="vehicleInfoPanel" header="Vehicle Info">
 						<p:panelGrid id="vehiclePanel" columns="2"
 							columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
@@ -297,7 +309,7 @@
 									required="#{empty ManageMotorActionBean.addVehicleList}"
 									requiredMessage="Engine Number is required."
 									placeholder="e.g., F16B1234567">
-									<f:validateRegex pattern="[A-Za-z0-9]{5,17}" />
+									<!-- <f:validateRegex pattern="[A-Za-z0-9]{5,17}" /> -->
 								</p:inputText>
 
 								<h:outputText value="" />
@@ -309,7 +321,7 @@
 									required="#{empty ManageMotorActionBean.addVehicleList}"
 									requiredMessage="Chassis Number is required."
 									placeholder="e.g., 1HGCM82633A004352">
-									<f:validateRegex pattern="[A-HJ-NPR-Z0-9]{17}" />
+									<!-- <f:validateRegex pattern="[A-HJ-NPR-Z0-9]{17}" /> -->
 								</p:inputText>
 
 								<h:outputText value="" />
@@ -320,8 +332,8 @@
 									value="#{ManageMotorActionBean.vehicle.yearOfManufacture}"
 									required="#{empty ManageMotorActionBean.addVehicleList}"
 									placeholder="yyyy">
-									<f:validateLongRange minimum="1900"
-										maximum="#{ManageMotorActionBean.currentYear}" />
+									<!-- <f:validateLongRange minimum="1900"
+										maximum="#{ManageMotorActionBean.currentYear}" /> -->
 								</p:inputText>
 
 								<h:outputText value="" />
@@ -364,7 +376,7 @@
 								<p:inputText id="cubicCapacity"
 									value="#{ManageMotorActionBean.vehicle.cubicCapacity}"
 									required="#{empty ManageMotorActionBean.addVehicleList}">
-									<f:validateLongRange minimum="100" maximum="5000" />
+									<!-- <f:validateLongRange minimum="100" maximum="5000" /> -->
 								</p:inputText>
 
 								<h:outputText value="" />
@@ -444,7 +456,7 @@
 							<p:commandButton id="addBtn"
 								value="#{label['COMMON_ADDNEW_BTN']}"
 								action="#{ManageMotorActionBean.addNewVehicleInfo}"
-								update="vehicleTable vehiclePanel growl" process="vehiclePanel"
+								update="vehicleTable vehiclePanel growl" process="@form"
 								style="width: 70px;"
 								oncomplete="PF('vehicleTable').clearFilters();" />
 						</h:panelGrid>
@@ -503,7 +515,8 @@
 
 					<p:confirmDialog widgetVar="confirmDelete"
 						message="Are you sure you want to delete this vehicle?"
-						header="Confirm Delete" icon="pi pi-exclamation-triangle" closable="true" appendTo="@(body)">
+						header="Confirm Delete" icon="pi pi-exclamation-triangle"
+						closable="true" appendTo="@(body)">
 						<p:commandButton value="Yes"
 							oncomplete="PF('confirmDelete').hide()"
 							actionListener="#{ManageMotorActionBean.deleteVehicle(vehicle)}"
@@ -518,8 +531,7 @@
 						<p:commandButton value="← Back" styleClass="ui-button-secondary"
 							type="button" onclick="PF('motorWizard').back();" />
 						<p:commandButton value="Next →" icon="pi pi-arrow-right"
-							iconPos="right" styleClass="ui-button-success"
-							process="@this"
+							iconPos="right" styleClass="ui-button-success" process="@this"
 							immediate="true"
 							update=":motorEntryForm:vehicleTable :motorEntryForm:growl"
 							actionListener="#{ManageMotorActionBean.checkVehicleTable}"

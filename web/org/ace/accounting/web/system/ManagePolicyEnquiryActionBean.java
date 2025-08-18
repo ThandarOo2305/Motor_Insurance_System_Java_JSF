@@ -82,7 +82,7 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 //					addErrorMessage(null, e.getErrorcode(), e.getParams());
 //					System.out.println(e.getErrorcode().toString() + "::::" + e.getParams().toString());
 //				}	
-		        for(ErrorMessage e: result.getErrorMeesages()) {
+		        for(ErrorMessage e: result.getErrorMessages()) {
 		        	addErrorMessage(null , e.getErrorcode(), e.getParams());
 		        }
 		}		

@@ -21,6 +21,7 @@ public class MotorPolicyValidator implements IDataValidator<MotorPolicy>{
         String policyNo = motorPolicy.getPolicyNo();
         int period = motorPolicy.getPeriod();
         
+        System.out.println("in policy validator");
         String regPattern = "^MTR-\\d{2}-\\d{6}$"; // Format: MTR-25-000123
         if (!policyNo.isEmpty() && !policyNo.matches(regPattern)) {
 			result.addErrorMessage(formId + ":policyNo", "Invalid Policy No. Format. Expected: MTR-25-000123");
