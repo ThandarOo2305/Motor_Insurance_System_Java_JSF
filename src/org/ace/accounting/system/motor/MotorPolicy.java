@@ -75,7 +75,7 @@ public class MotorPolicy implements Serializable {
 	private PaymentType paymentType;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "branch", referencedColumnName = "ID")
+	@JoinColumn(name = "BRANCHID", referencedColumnName = "ID")
 	private Branch branch;
 
 	@Enumerated(EnumType.STRING)

@@ -11,7 +11,7 @@ public class MotorEnquiryDTO {
 	private String registrationNo;
 	private SaleChannelType saleChannel;
 	private String customerName;
-	private Branch branch;
+	private String branch;
 	private int claimCount;
 	private double totalSumInsured;
 	private double basicPremium;
@@ -24,7 +24,7 @@ public class MotorEnquiryDTO {
 		this.registrationNo = registrationNo;
 		this.saleChannel = saleChannel;
 		this.customerName = customerName;
-		this.branch = branch;
+		this.branch = branch.getName();
 		this.claimCount = claimCount;
 		this.totalSumInsured = totalSumInsured;
 		this.basicPremium = basicPremium;
@@ -63,11 +63,11 @@ public class MotorEnquiryDTO {
 		this.saleChannel = saleChannel;
 	}
 
-	public Branch getBranch() {
+	public String getBranch() {
 		return branch;
 	}
 
-	public void setBranch(Branch branch) {
+	public void setBranch(String branch) {
 		this.branch = branch;
 	}
 
