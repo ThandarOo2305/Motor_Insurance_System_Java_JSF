@@ -112,9 +112,9 @@
 			<h:outputText value="Add New Motor Policy" styleClass="title" />
 			<p:wizard id="motorWizard"
 				flowListener="#{ManageMotorActionBean.onFlowProcess}"
-				widgetVar="motorWizard" showNavBar="false" backLabel="Back"
-				nextLabel="Next">
-				<p:tab title="PolicyInfo">
+				step="#{ManageMotorActionBean.currentStep}" widgetVar="motorWizard"
+				showNavBar="false">
+				<p:tab title="Policy Info" id="PolicyInfo">
 					<p:panel id="policyInfoPanel" header="Policy Info">
 						<p:panelGrid id="panelDept" columns="2"
 							columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
@@ -261,8 +261,8 @@
 
 							<p:commandButton value="Next →" icon="pi pi-arrow-right"
 								iconPos="right" styleClass="ui-button-success"
-								process="@this policyInfoPanel" update="@form"
-								onclick="PF('motorWizard').next();" />
+								action="#{ManageMotorActionBean.nextStep}"
+								process="policyInfoPanel" update="@form" />
 						</p:outputPanel>
 
 						<!-- Mandatory Fields Note -->
@@ -271,7 +271,7 @@
 					</p:panel>
 				</p:tab>
 
-				<p:tab title="VehicleInfo">
+				<p:tab title="Vehicle Info" id="VehicleInfo">
 					<p:panel id="vehicleInfoPanel" header="Vehicle Info">
 						<p:panelGrid id="vehiclePanel" columns="2"
 							columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
@@ -288,7 +288,7 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="registrationNo"
 									value="#{ManageMotorActionBean.vehicle.registrationNo}"
-									required="#{empty ManageMotorActionBean.addVehicleList}"
+									required="true"
 									requiredMessage="registration Number is required." />
 
 								<h:outputText value="" />
@@ -297,7 +297,7 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="model"
 									value="#{ManageMotorActionBean.vehicle.model}"
-									required="#{empty ManageMotorActionBean.addVehicleList}"
+									required="true"
 									requiredMessage="Model is required." />
 
 								<h:outputText value="" />
@@ -306,10 +306,9 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="engineNo"
 									value="#{ManageMotorActionBean.vehicle.engineNo}"
-									required="#{empty ManageMotorActionBean.addVehicleList}"
+									required="true"
 									requiredMessage="Engine Number is required."
 									placeholder="e.g., F16B1234567">
-									<!-- <f:validateRegex pattern="[A-Za-z0-9]{5,17}" /> -->
 								</p:inputText>
 
 								<h:outputText value="" />
@@ -318,10 +317,9 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="chassisNo"
 									value="#{ManageMotorActionBean.vehicle.chassisNo}"
-									required="#{empty ManageMotorActionBean.addVehicleList}"
+									required="true"
 									requiredMessage="Chassis Number is required."
 									placeholder="e.g., 1HGCM82633A004352">
-									<!-- <f:validateRegex pattern="[A-HJ-NPR-Z0-9]{17}" /> -->
 								</p:inputText>
 
 								<h:outputText value="" />
@@ -330,10 +328,8 @@
 									value="Year of Manufacture" styleClass="input-label mandatory" />
 								<p:inputText id="yearOfManufacture"
 									value="#{ManageMotorActionBean.vehicle.yearOfManufacture}"
-									required="#{empty ManageMotorActionBean.addVehicleList}"
+									required="true"
 									placeholder="yyyy">
-									<!-- <f:validateLongRange minimum="1900"
-										maximum="#{ManageMotorActionBean.currentYear}" /> -->
 								</p:inputText>
 
 								<h:outputText value="" />
@@ -342,7 +338,7 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="typeOfBody"
 									value="#{ManageMotorActionBean.vehicle.typeOfBody}"
-									required="#{empty ManageMotorActionBean.addVehicleList}" />
+									required="true" />
 
 								<h:outputText value="" />
 								<p:message display="text" for="manufacture" />
@@ -363,7 +359,7 @@
 									styleClass="input-label mandatory" />
 								<p:selectOneMenu id="productType"
 									value="#{ManageMotorActionBean.vehicle.productType}"
-									required="#{empty ManageMotorActionBean.addVehicleList}">
+									required="true">
 									<f:selectItem itemLabel="Selected Product Type" itemValue="" />
 									<f:selectItem itemLabel="Private" itemValue="Private" />
 									<f:selectItem itemLabel="Commercial" itemValue="Commercial" />
@@ -375,8 +371,7 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="cubicCapacity"
 									value="#{ManageMotorActionBean.vehicle.cubicCapacity}"
-									required="#{empty ManageMotorActionBean.addVehicleList}">
-									<!-- <f:validateLongRange minimum="100" maximum="5000" /> -->
+									required="true">
 								</p:inputText>
 
 								<h:outputText value="" />
@@ -400,7 +395,7 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="estimateSumInsured"
 									value="#{ManageMotorActionBean.vehicle.estimatePresentSumInsurance}"
-									required="#{empty ManageMotorActionBean.addVehicleList}" />
+									required="true" />
 
 								<h:outputText value="" />
 								<p:message display="text" for="claimCount" />
@@ -529,13 +524,12 @@
 					<p:outputPanel
 						style="width: 100%; display: flex; justify-content: space-between;">
 						<p:commandButton value="← Back" styleClass="ui-button-secondary"
-							type="button" onclick="PF('motorWizard').back();" />
+							action="#{ManageMotorActionBean.backStep}" process="@this"
+							update="@form" />
 						<p:commandButton value="Next →" icon="pi pi-arrow-right"
-							iconPos="right" styleClass="ui-button-success" process="@this"
-							immediate="true"
-							update=":motorEntryForm:vehicleTable :motorEntryForm:growl"
-							actionListener="#{ManageMotorActionBean.checkVehicleTable}"
-							oncomplete="PF('motorWizard').next();" />
+							iconPos="right" styleClass="ui-button-success"
+							action="#{ManageMotorActionBean.nextStep}"
+							process="@this" update="@form" />
 					</p:outputPanel>
 
 					<!-- Cancel Button + Mandatory Fields Note -->
@@ -547,7 +541,7 @@
 					</div>
 				</p:tab>
 
-				<p:tab title="Premium Info">
+				<p:tab title="Premium Info" id="PremiumInfo">
 					<p:panel header="Motor Premium" style="margin-top:20px;">
 						<p:dataTable var="vehicle"
 							value="#{ManageMotorActionBean.addVehicleList}"
@@ -660,9 +654,9 @@
 								action="#{ManageMotorActionBean.submitPolicy}"
 								styleClass="ui-button-success" process="@form" update="@form"
 								oncomplete="PF('motorWizard').loadStep('policyInfo');" />
-							<p:commandButton value="← Back" icon="pi pi-arrow-left"
-								styleClass="ui-button-secondary" style="margin-left:10px;"
-								type="button" onclick="PF('motorWizard').back();" />
+							<p:commandButton value="← Back" styleClass="ui-button-secondary"
+								action="#{ManageMotorActionBean.backStep}" process="@this"
+								update="@form" />
 							<p:commandButton value="Cancel" icon="pi pi-times"
 								styleClass="ui-button-danger" style="margin-left:10px;"
 								action="#{ManageMotorActionBean.cancel}" process="@this" />

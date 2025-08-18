@@ -28,6 +28,7 @@ import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyService;
 import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyVehicleLinkService;
 import org.ace.java.component.SystemException;
 import org.ace.java.web.common.BaseBean;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.SelectEvent;
 
@@ -141,28 +142,91 @@ public class ManageMotorActionBean extends BaseBean{
 	    motorPolicy.setBranch(branch);
 	  }
 	
-	public String onFlowProcess(FlowEvent event) {
-        if ("PolicyInfo".equals(event.getOldStep())) {
-        	System.out.println("Policy Validation!");
+	private String currentStep = "PolicyInfo";
+
+    public String getCurrentStep() {
+        return currentStep;
+    }
+
+    public void setCurrentStep(String currentStep) {
+        this.currentStep = currentStep;
+    }
+
+    // Move to next step
+    public void nextStep() {
+        if (!validateCurrentStep(currentStep)) {
+            return; // stay on current step if validation fails
+        }
+
+        switch (currentStep) {
+        case "PolicyInfo":
+            currentStep = "VehicleInfo";
+            break;
+        case "VehicleInfo":
+            if (addVehicleList == null || addVehicleList.isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "At least one vehicle must be added before continuing.", null));
+                return;
+            }
+            currentStep = "PremiumInfo";
+            break;
+        }
+
+        // Update wizard UI step via JS
+        PrimeFaces.current().executeScript("PF('motorWizard').loadStep('" + currentStep + "')");
+    }
+
+    // Move to previous step
+    public void backStep() {
+        switch (currentStep) {
+            case "VehicleInfo":
+                currentStep = "PolicyInfo";
+                break;
+            case "PremiumInfo":
+                currentStep = "VehicleInfo";
+                break;
+        }
+
+        PrimeFaces.current().executeScript("PF('motorWizard').loadStep('" + currentStep + "')");
+    }
+
+    // Validate fields for each step
+    public boolean validateCurrentStep(String step) {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        if ("PolicyInfo".equals(step)) {
             ValidationResult result = motorPolicyValidator.validate(motorPolicy, true);
-            System.out.println("Policy Validation2!");
             if (!result.isVerified()) {
                 for (ErrorMessage e : result.getErrorMessages()) {
                     addErrorMessage(null, e.getErrorcode(), e.getParams());
                 }
-                return event.getOldStep();
+                return false;
             }
         }
-        if ("VehicleInfo".equals(event.getOldStep())) {
+
+        if ("VehicleInfo".equals(step)) {
             if (addVehicleList == null || addVehicleList.isEmpty()) {
-                FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "Error", "Please add at least one vehicle before proceeding."));
-                return event.getOldStep();
+                context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "Error", "Please add at least one vehicle before proceeding."));
+                return false;
             }
         }
-        return event.getNewStep();
+
+        return true;
     }
+
+    // Keep existing FlowEvent listener
+    public String onFlowProcess(FlowEvent event) {
+        if (!validateCurrentStep(event.getOldStep())) {
+            return event.getOldStep(); // prevent moving forward
+        }
+
+        currentStep = event.getNewStep();
+        return currentStep;
+    }
+
 	
 	public double oneYearBasicPremiumCalculation(MotorPolicyVehicleLink v) {
 		double rate = v.getProductType().equals("Private") ? privateRate : commercialRate;
@@ -317,13 +381,14 @@ public class ManageMotorActionBean extends BaseBean{
 	    }
 	}
 	
-	public void checkVehicleTable(ActionEvent event) {
+	public Boolean checkVehicleTable(ActionEvent event) {
         FacesContext context = FacesContext.getCurrentInstance();
         if (addVehicleList == null || addVehicleList.isEmpty()) {
             context.addMessage(null, 
                 new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Error", "Please add at least one vehicle before proceeding."));
         }
+        return true;
     }
 	
 	public String submitPolicy() {

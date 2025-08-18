@@ -39,7 +39,8 @@ import org.ace.java.component.idgen.service.IDInterceptor;
 @TableGenerator(name = "MOTORPOLICY_GEN", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VAL", pkColumnValue = "MOTORPOLICY_GEN", allocationSize = 10)
 @NamedQueries(value = {
 		@NamedQuery(name = "MotorPolicy.findAll", query = "SELECT mp FROM MotorPolicy mp ORDER BY mp.customerName ASC"),
-		@NamedQuery(name = "MotorPolicy.findByCustomerName", query = "SELECT mp FROM MotorPolicy mp WHERE mp.customerName = :customerName") })
+		@NamedQuery(name = "MotorPolicy.findByCustomerName", query = "SELECT mp FROM MotorPolicy mp WHERE mp.customerName = :customerName"),
+		@NamedQuery(name = "MotorPolicy.findByPolicyNo", query = "SELECT mp FROM MotorPolicy mp WHERE mp.policyNo = :policyNo")})
 @EntityListeners(IDInterceptor.class)
 public class MotorPolicy implements Serializable {
 

@@ -38,20 +38,20 @@ public class MotorPolicyVehicleValidator implements IDataValidator<MotorPolicyVe
         String engineNo = motorPolicyVehicleLink.getEngineNo();
         if (engineNo == null || engineNo.trim().isEmpty()) {
             result.addErrorMessage(formId + ":engineNo", "Engine No is required.");
-        } else if (!engineNo.matches("^[A-Z0-9-]{5,20}$")) {
-            // Example: only allow alphanumeric & dashes, length 5–20
+        } else if (!engineNo.matches("^[A-Z0-9-]{5,17}$")) {
+            // Example: only allow alphanumeric & dashes, length 5–17
             result.addErrorMessage(formId + ":engineNo",
-                    "Invalid Engine No. Must be 5–20 alphanumeric characters.");
+                    "Invalid Engine No. Must be 5–17 alphanumeric characters.");
         }
 
         /* ---------------- Chassis No ---------------- */
         String chassisNo = motorPolicyVehicleLink.getChassisNo();
         if (chassisNo == null || chassisNo.trim().isEmpty()) {
             result.addErrorMessage(formId + ":chassisNo", "Chassis No is required.");
-        } else if (!chassisNo.matches("^[A-Z0-9-]{5,25}$")) {
-            // Example: typical chassis numbers are alphanumeric, 5–25 chars
+        } else if (!chassisNo.matches("^[A-Z0-9-]{17}$")) {
+            // Example: typical chassis numbers are alphanumeric, 17 chars
             result.addErrorMessage(formId + ":chassisNo",
-                    "Invalid Chassis No. Must be 5–25 alphanumeric characters.");
+                    "Invalid Chassis No. Must be 17 alphanumeric characters.");
         }
 
         /* ---------------- Year of Manufacture ---------------- */
@@ -59,7 +59,7 @@ public class MotorPolicyVehicleValidator implements IDataValidator<MotorPolicyVe
         int currentYear = Year.now().getValue();
         if (yearOfManufacture == null) {
             result.addErrorMessage(formId + ":yearOfManufacture", "Year of Manufacture is required.");
-        } else if (yearOfManufacture < 1900 || yearOfManufacture > currentYear) {
+        } else if (yearOfManufacture < 1980 || yearOfManufacture > currentYear) {
             result.addErrorMessage(formId + ":yearOfManufacture",
                     "Invalid Year of Manufacture. Must be between 1900 and " + currentYear + ".");
         }
