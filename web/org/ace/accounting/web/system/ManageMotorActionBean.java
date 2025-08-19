@@ -506,6 +506,16 @@ public class ManageMotorActionBean extends BaseBean{
         return true;
     }
 	
+	private boolean submitted;   // default = false
+
+	public boolean isSubmitted() {
+	    return submitted;
+	}
+
+	public void setSubmitted(boolean submitted) {
+	    this.submitted = submitted;
+	}
+	
 	public String submitPolicy() {
 	    try {
 	        calculateAndSetPolicyEndDate();
@@ -523,18 +533,22 @@ public class ManageMotorActionBean extends BaseBean{
 	        motorPolicy.setProposalNo(motorPolicyService.generateProposalNo());
 
 	        motorPolicyService.addNewMotorPolicy(motorPolicy);
+	        
+	        this.submitted = true;
 
 	        addInfoMessage(null, MessageId.INSERT_SUCCESS, motorPolicy.getPolicyNo());
 	        addInfoMessage(null, MessageId.INSERT_SUCCESS, vehicle.getRegistrationNo());
-
-	        createNewMotorPolicyInfo();
-	        createNewVehicleInfo();
-	        selectedAdditionalCovers.clear();
+//
+//	        createNewMotorPolicyInfo();
+//	        createNewVehicleInfo();
+//	        selectedAdditionalCovers.clear();
+//	        
+	       
 	    } catch (SystemException ex) {
 	        handleSysException(ex);
 	    }
 	    
-	    return "/ui/system/home.xhtml?faces-redirect=true";
+	    return null;
 	}
 	
 	public String cancel() {

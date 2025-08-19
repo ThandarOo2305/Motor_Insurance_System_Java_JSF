@@ -447,8 +447,8 @@
 							<p:commandButton id="addBtn"
 								value="#{label['COMMON_ADDNEW_BTN']}"
 								action="#{ManageMotorActionBean.addNewVehicleInfo}"
-								update="vehicleTable vehiclePanel growl"
-								process="@form" style="width: 70px;"
+								update="vehicleTable vehiclePanel growl" process="@form"
+								style="width: 70px;"
 								oncomplete="PF('vehicleTable').clearFilters();" />
 						</h:panelGrid>
 					</p:panel>
@@ -487,7 +487,7 @@
 						<p:column headerText="Sum Insured">
 							<h:outputText value="#{vehicle.sumInsured}" />
 						</p:column>
-						
+
 						<!-- Delete Button -->
 						<p:column style="width:4%;">
 							<p:commandButton styleClass="red-button" icon="fa fa-times"
@@ -637,10 +637,18 @@
 
 						<!-- Buttons -->
 						<div class="button-row">
+							<!-- Submit Policy -->
 							<p:commandButton value="Submit Policy" icon="pi pi-check"
 								action="#{ManageMotorActionBean.submitPolicy}"
 								styleClass="ui-button-success" process="@form" update="@form"
-								oncomplete="PF('motorWizard').loadStep('policyInfo');" />
+								disabled="#{ManageMotorActionBean.submitted}" />
+
+							<!-- Generate Report -->
+							<p:commandButton value="Generate Report" icon="pi pi-file"
+								action="#{MotorPolicyLetterActionBean.generateReport}"
+								styleClass="ui-button-info" process="@this" update="@form"
+								disabled="#{!ManageMotorActionBean.submitted}" />
+
 							<p:commandButton value="← Back" styleClass="ui-button-secondary"
 								process="@form" update="@form"
 								action="#{ManageMotorActionBean.backStep}"
