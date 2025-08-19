@@ -78,10 +78,6 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 				System.out.println("success__________________________");
 			} else {
 				System.out.println("Validation failed for vehicle.");
-//				for(ErrorMessage e : result.getErrorMeesages()) {
-//					addErrorMessage(null, e.getErrorcode(), e.getParams());
-//					System.out.println(e.getErrorcode().toString() + "::::" + e.getParams().toString());
-//				}	
 		        for(ErrorMessage e: result.getErrorMessages()) {
 		        	addErrorMessage(null , e.getErrorcode(), e.getParams());
 		        }
