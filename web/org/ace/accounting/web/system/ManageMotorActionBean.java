@@ -1,25 +1,34 @@
 package org.ace.accounting.web.system;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.ace.accounting.common.CurrencyType;
+import org.ace.accounting.common.PropertiesManager;
 import org.ace.accounting.common.validation.ErrorMessage;
 import org.ace.accounting.common.validation.IDataValidator;
 import org.ace.accounting.common.validation.MessageId;
 import org.ace.accounting.common.validation.ValidationResult;
 import org.ace.accounting.system.branch.Branch;
 import org.ace.accounting.system.motor.MotorPolicy;
+import org.ace.accounting.system.motor.MotorPolicyDTO;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.enumTypes.BranchType;
 import org.ace.accounting.system.motor.enumTypes.PaymentType;
@@ -29,8 +38,21 @@ import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyService;
 import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyVehicleLinkService;
 import org.ace.java.component.SystemException;
 import org.ace.java.web.common.BaseBean;
+import org.apache.commons.io.FileUtils;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 @ManagedBean(name = "ManageMotorActionBean")
 @ViewScoped
@@ -60,6 +82,13 @@ public class ManageMotorActionBean extends BaseBean{
 	public void setMotorPolicyVehicleValidator(IDataValidator<MotorPolicyVehicleLink> motorPolicyVehicleValidator) {
 		this.motorPolicyVehicleValidator = motorPolicyVehicleValidator;
 	}
+	
+	@ManagedProperty(value = "#{PropertiesManager}")
+    private PropertiesManager propertiesManager;
+
+    public void setPropertiesManager(PropertiesManager propertiesManager) {
+        this.propertiesManager = propertiesManager;
+    }
 	
 	private MotorPolicy motorPolicy;
 	private MotorPolicyVehicleLink vehicle;
@@ -578,7 +607,109 @@ public class ManageMotorActionBean extends BaseBean{
 	        context.addMessage("motorEntryForm:growl",
 	            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Vehicle list or vehicle not initialized."));
 	    }
-	}	
+	}
+	
+	private final String reportName = "motorPolicyLetter";
+	private final String fileName = "MotorPolicyLetter";
+	private final String pdfDirPath = "/pdf-report/" + reportName + "/" + System.currentTimeMillis() + "/";
+	private final String dirPath = getWebRootPath() + pdfDirPath;
+
+	public void generateReport() {
+	    if (addVehicleList == null || addVehicleList.isEmpty()) {
+	        addErrorMessage(null, "Cannot generate report: No vehicles found in policy.");
+	        return;
+	    }
+
+	    String pdfFilePath = dirPath + fileName + ".pdf"; // Construct path here
+	    try (InputStream inputStream = Thread.currentThread().getContextClassLoader()
+	            .getResourceAsStream("motorPolicyLetter.jrxml")) {
+
+	        if (inputStream == null) {
+	            addErrorMessage(null, "Report design file not found");
+	            return;
+	        }
+
+	        Map<String, Object> parameters = new HashMap<>();
+	        parameters.put("customerName", motorPolicy.getCustomerName());
+	        parameters.put("policyNo", motorPolicy.getPolicyNo());
+	        parameters.put("proposalNo", motorPolicy.getProposalNo());
+
+	        double sumInsuredTotal = addVehicleList.stream()
+	                .mapToDouble(MotorPolicyVehicleLink::getSumInsured).sum();
+	        double basicPremiumTotal = addVehicleList.stream()
+	                .mapToDouble(MotorPolicyVehicleLink::getBasicTermPremium).sum();
+	        double addOnPremiumTotal = addVehicleList.stream()
+	                .mapToDouble(MotorPolicyVehicleLink::getAddOnTermPremium).sum();
+	        double totalPremium = addVehicleList.stream()
+	                .mapToDouble(MotorPolicyVehicleLink::getTotalPremium).sum();
+
+	        parameters.put("sumInsuredTotal", sumInsuredTotal);
+	        parameters.put("basicPremiumTotal", basicPremiumTotal);
+	        parameters.put("addOnPremiumTotal", addOnPremiumTotal);
+	        parameters.put("totalPremium", totalPremium);
+
+	        JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+	        JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+
+	        // Use addVehicleList here
+	        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(addVehicleList);
+	        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, ds);
+
+	        File pdfFile = new File(pdfFilePath);
+	        FileUtils.forceMkdir(pdfFile.getParentFile()); // Create parent directories
+
+	        JasperExportManager.exportReportToPdfFile(jasperPrint, pdfFilePath);
+
+	        addInfoMessage(null, "Report generated successfully!");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        addErrorMessage(null, "Report Generation Failed: " + e.getMessage());
+	    }
+	}
+
+	public StreamedContent getDownload() {
+	    try {
+	        String pdfFilePath = dirPath + fileName + ".pdf";
+	        File file = new File(pdfFilePath);
+
+	        // Generate report if PDF does not exist
+	        if (!file.exists()) {
+	            generateReport();
+	        }
+
+	        if (!file.exists()) {
+	            addErrorMessage(null, "Download Failed: PDF file could not be generated.");
+	            return null;
+	        }
+
+	        InputStream input = new FileInputStream(file);
+	        ExternalContext ext = FacesContext.getCurrentInstance().getExternalContext();
+
+	        return new DefaultStreamedContent(input, ext.getMimeType(file.getName()), file.getName());
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        addErrorMessage(null, "Download Failed: " + e.getMessage());
+	        return null;
+	    }
+	}
+	
+	public String getFileName() {
+		return fileName;
+	}
+
+	public String getPdfDirPath() {
+		return pdfDirPath;
+	}
+
+	public String getDirPath() {
+		return dirPath;
+	}
+
+	public String getPdfFullPath() {
+	    return pdfDirPath + fileName + ".pdf";
+	}
+    
 	public int getCurrentYear() {
 	    return LocalDate.now().getYear();
 	}

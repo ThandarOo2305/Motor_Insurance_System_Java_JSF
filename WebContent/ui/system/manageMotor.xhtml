@@ -644,9 +644,11 @@
 								disabled="#{ManageMotorActionBean.submitted}" />
 
 							<!-- Generate Report -->
-							<p:commandButton value="Generate Report" icon="pi pi-file"
-								action="#{MotorPolicyLetterActionBean.generateReport}"
-								styleClass="ui-button-info" process="@this" update="@form"
+							<p:commandButton value="Preview" icon="pi pi-file"
+								action="#{ManageMotorActionBean.generateReport}"
+								styleClass="ui-button-info" process="@this"
+								update=":motorEntryForm:previewDialog :motorEntryForm:growl"
+								oncomplete="PF('previewDlg').show()"
 								disabled="#{!ManageMotorActionBean.submitted}" />
 
 							<p:commandButton value="← Back" styleClass="ui-button-secondary"
@@ -660,6 +662,21 @@
 							<h:outputText value="* - mandatory fields"
 								styleClass="cancel-note" />
 						</div>
+
+						<p:dialog id="previewDialog" header="Policy Report"
+							widgetVar="previewDlg" modal="true" resizable="true"
+							maximizable="true" width="800" height="600" appendTo="@(body)">
+
+							<object type="application/pdf"
+								data="#{request.contextPath}#{ManageMotorActionBean.pdfDirPath}#{ManageMotorActionBean.fileName}.pdf"
+								width="100%" height="100%">
+								<p>
+									Your browser does not support embedded PDF.
+									<h:outputLink
+										value="#{request.contextPath}#{ManageMotorActionBean.pdfDirPath}#{ManageMotorActionBean.fileName}.pdf">Download</h:outputLink>
+								</p>
+							</object>
+						</p:dialog>
 					</p:panel>
 				</p:tab>
 			</p:wizard>
