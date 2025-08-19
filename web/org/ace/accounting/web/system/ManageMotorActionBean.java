@@ -67,7 +67,7 @@ public class ManageMotorActionBean extends BaseBean{
 	private double privateRate = 1.072;
 	private double commercialRate = 1.734;
 	private double fleetDiscountRate = 10;
-	
+	private boolean sameVehicleNo = false;
 	private List<String> selectedAdditionalCovers;
 	private MotorPolicyVehicleLink editingVehicle;
 	
@@ -115,9 +115,30 @@ public class ManageMotorActionBean extends BaseBean{
 	    System.out.println("createNewVehicleInfo: New vehicle initialized");
 	}
 	
+	public void vehicleWithRegistrationNoExist() {
+		for(MotorPolicyVehicleLink ve: addVehicleList) {
+			if(vehicle.getRegistrationNo().trim().equals(ve.getRegistrationNo().trim())) {
+				sameVehicleNo = true;
+			}
+		}
+	}
+	
+	//method for adding vehicle to list also registration number
 	public void addVehicle() {
-        addVehicleList.add(vehicle);
-        vehicle = new MotorPolicyVehicleLink();
+		System.out.println("in addVehicle method");
+		if(addVehicleList != null || !addVehicleList.isEmpty()) {
+			vehicleWithRegistrationNoExist();
+		}
+		if(sameVehicleNo == false) {
+			addVehicleList.add(vehicle);
+			vehicle = new MotorPolicyVehicleLink();
+	        createNewVehicleInfo();
+		}else {
+			sameVehicleNo = false;
+			FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Warning", "There is already a vehicle with same registration number.Choose different registration number"));
+		}
+        
     }
 	
 	public void addNewVehicleInfo() {
@@ -134,8 +155,9 @@ public class ManageMotorActionBean extends BaseBean{
 
 	    ValidationResult result = motorPolicyVehicleValidator.validate(vehicle, true);
 	    if(result.isVerified()) {
-	        addVehicleList.add(vehicle);
-	        createNewVehicleInfo();
+//	        addVehicleList.add(vehicle);
+	    	addVehicle();
+//	        createNewVehicleInfo();
 	        selectedAdditionalCovers.clear();
 	        
 	        applyFleetDiscount();
@@ -143,6 +165,9 @@ public class ManageMotorActionBean extends BaseBean{
 	        System.out.println("success in add vehicle to list");
 	    } else {
 	        System.out.println("Validation failed for vehicle.");
+	        for(ErrorMessage e: result.getErrorMessages()) {
+	        	addErrorMessage(null , e.getErrorcode(), e.getParams());
+	        }
 	    }
 	}
 
