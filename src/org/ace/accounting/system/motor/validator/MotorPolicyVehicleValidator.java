@@ -20,7 +20,7 @@ public class MotorPolicyVehicleValidator implements IDataValidator<MotorPolicyVe
 	@Override
 	public ValidationResult validate(MotorPolicyVehicleLink motorPolicyVehicleLink, boolean transaction) {
 		ValidationResult result = new ValidationResult();
-		String formId = "MotorEntryForm";
+		String formId = "motorEntryForm";
 		String registraionnumber = motorPolicyVehicleLink.getRegistrationNo();
 
 		String regPattern = "^[A-Z]{3} [0-9][A-Z]/[0-9]{4}$";

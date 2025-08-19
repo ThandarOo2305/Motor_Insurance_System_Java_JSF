@@ -17,7 +17,7 @@ public class MotorPolicyValidator implements IDataValidator<MotorPolicy>{
 	@Override
 	public ValidationResult validate(MotorPolicy motorPolicy, boolean transaction) {
         ValidationResult result = new ValidationResult();
-        String formId = "MotorEntryForm";
+        String formId = "motorEntryForm";
         String policyNo = motorPolicy.getPolicyNo();
         int period = motorPolicy.getPeriod();
         
