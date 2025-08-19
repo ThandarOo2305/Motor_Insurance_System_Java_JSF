@@ -23,6 +23,7 @@ import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.enumTypes.BranchType;
 import org.ace.accounting.system.motor.enumTypes.PaymentType;
+import org.ace.accounting.system.motor.enumTypes.ProductType;
 import org.ace.accounting.system.motor.enumTypes.SaleChannelType;
 import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyService;
 import org.ace.accounting.system.motor.service.interfaces.IMotorPolicyVehicleLinkService;
@@ -315,10 +316,11 @@ public class ManageMotorActionBean extends BaseBean{
         return currentStep;
     }
 
-	
 	public double oneYearBasicPremiumCalculation(MotorPolicyVehicleLink v) {
-		double rate = v.getProductType().equals("Private") ? privateRate : commercialRate;
 		
+		System.out.println("Product Type: " + v.getProductType());
+		
+		double rate = (v.getProductType() == ProductType.Private) ? privateRate : commercialRate;	
 		double oneYearBasicPremium = v.getSumInsured() * (rate / 100);
 		
 		return oneYearBasicPremium;
