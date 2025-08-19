@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="motorPolicyLetter" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0b4b8d0b-0312-4f20-9e1b-f495c64da7c0">
-	<parameter name="customerName" class="java.lang.String"/>
-	<parameter name="policyNo" class="java.lang.String"/>
-	<parameter name="proposalNo" class="java.lang.String"/>
-	<parameter name="sumInsured" class="java.lang.Double"/>
-	<parameter name="basicTermPremium" class="java.lang.Double"/>
-	<parameter name="addOnTermPremium" class="java.lang.Double"/>
-	<parameter name="totalPremium" class="java.lang.Double"/>
+	<parameter name="Customer Name" class="java.lang.String"/>
+	<parameter name="Policy No" class="java.lang.String"/>
+	<parameter name="Proposal No" class="java.lang.String"/>
+	<parameter name="Sum Insured" class="java.lang.Double"/>
+	<parameter name="Basic Term Premium" class="java.lang.Double"/>
+	<parameter name="Add On Term Premium" class="java.lang.Double"/>
+	<parameter name="Total Premium" class="java.lang.Double"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -18,7 +18,7 @@
 		<band height="61" splitType="Stretch">
 			<staticText>
 				<reportElement x="180" y="13" width="200" height="30" uuid="8a6355ce-ae47-42ec-9ec5-4d8dd895a6ce"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[	"Motor Insurance"]]></text>
@@ -29,32 +29,32 @@
 		<band height="83" splitType="Stretch">
 			<staticText>
 				<reportElement x="2" y="0" width="178" height="30" uuid="a473276a-326b-4445-b389-38d77f523a4b"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA["To"]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="1" y="31" width="179" height="30" uuid="6e14db85-a202-4485-88b3-3d49aa21fc6c"/>
-				<textElement>
+				<reportElement x="1" y="38" width="179" height="30" uuid="6e14db85-a202-4485-88b3-3d49aa21fc6c"/>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{customerName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Customer Name}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="83" splitType="Stretch">
 			<staticText>
-				<reportElement x="2" y="35" width="552" height="39" uuid="6b23eee3-b69a-45ad-bc30-450e97278758"/>
-				<textElement>
+				<reportElement x="2" y="34" width="552" height="39" uuid="6b23eee3-b69a-45ad-bc30-450e97278758"/>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA["We appreciate your choice our company and warmly inform you that, your proposal of fire insurance has been approved and fire insurance premium is as follow"]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="3" width="379" height="30" uuid="4806cc2c-dab8-4958-b0b3-9a4f4bc27030"/>
-				<textElement textAlignment="Left">
+				<reportElement x="1" y="2" width="379" height="30" uuid="4806cc2c-dab8-4958-b0b3-9a4f4bc27030"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA["Motor Insurance And Premium charges"]]></text>
@@ -65,63 +65,63 @@
 		<band height="414" splitType="Stretch">
 			<staticText>
 				<reportElement x="3" y="2" width="176" height="30" uuid="54b0dcef-d217-47d0-bbb8-13039967295f"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA["Policy No:"]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="3" y="29" width="176" height="30" uuid="ee654c39-1546-439c-8c64-0c747080579a"/>
-				<textElement>
+				<reportElement x="204" y="2" width="176" height="30" uuid="ee654c39-1546-439c-8c64-0c747080579a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{policyNo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Policy No}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="2" y="60" width="178" height="30" uuid="24372c6d-b0fa-4d72-b6d8-96a0e19d0acd"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA["Proposal No:"]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="3" y="92" width="177" height="30" uuid="f5d4770b-04f5-45c2-b02e-acf0f1bf83bd"/>
-				<textElement>
+				<reportElement x="200" y="60" width="177" height="30" uuid="f5d4770b-04f5-45c2-b02e-acf0f1bf83bd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{proposalNo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Proposal No}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="195" width="179" height="30" uuid="ab01fd09-0191-4b00-b68a-fbd4f73bcc93"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA["Basic Term Premium:"]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="1" y="226" width="178" height="30" uuid="3f2ffebb-6bd8-44d0-99a7-2b102245e555"/>
-				<textElement>
+				<reportElement x="200" y="195" width="178" height="30" uuid="3f2ffebb-6bd8-44d0-99a7-2b102245e555"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{basicTermPremium}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Basic Term Premium}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="1" y="127" width="179" height="30" uuid="e45b1bfb-d7dc-409c-a98a-07a30c2205da"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA["Sum Insured:"]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="3" y="162" width="177" height="30" uuid="3260abff-cb76-495a-9ac2-f44e65ca57ec"/>
-				<textElement>
+				<reportElement x="199" y="127" width="177" height="30" uuid="3260abff-cb76-495a-9ac2-f44e65ca57ec"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{sumInsured}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Sum Insured}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="3" y="375" width="551" height="39" uuid="f322b23c-8ed7-4693-8884-19b8ed21589f"/>
-				<textElement>
+				<reportElement x="3" y="356" width="551" height="52" uuid="f322b23c-8ed7-4693-8884-19b8ed21589f"/>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Please accept our wishes that is healthy and wealthy come to you. Thank you for your strong support of our services.
@@ -129,59 +129,61 @@
 			</staticText>
 			<staticText>
 				<reportElement x="2" y="258" width="179" height="30" uuid="6fb8d9c1-d755-4034-ae72-bbddff1b765a"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA["AddOnTerm Premium:"]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="1" y="286" width="179" height="30" uuid="8902515e-aa08-4a69-9bfd-4e6f0136ed2d"/>
-				<textElement>
+				<reportElement x="199" y="258" width="179" height="30" uuid="8902515e-aa08-4a69-9bfd-4e6f0136ed2d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{addOnTermPremium}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Add On Term Premium}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="1" y="312" width="179" height="30" uuid="f48286d0-9678-49b4-9f47-ab4f4f17e9be"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA["Total Premium:"]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="2" y="344" width="175" height="30" uuid="c121808f-99df-4d7a-99c8-93d3a54f6748"/>
-				<textElement>
+				<reportElement x="201" y="312" width="175" height="30" uuid="c121808f-99df-4d7a-99c8-93d3a54f6748"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{totalPremium}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Total Premium}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="78" splitType="Stretch">
+		<band height="81" splitType="Stretch">
 			<staticText>
-				<reportElement x="2" y="11" width="167" height="30" uuid="ca0e635b-ef69-4669-a166-336178b31aec"/>
-				<textElement>
+				<reportElement x="2" y="8" width="178" height="30" uuid="ca0e635b-ef69-4669-a166-336178b31aec"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA["Thank You,"
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="46" width="167" height="30" uuid="2853f7ba-c66e-4f52-9441-f9159c974b67"/>
-				<textElement>
+				<reportElement x="0" y="46" width="181" height="30" uuid="2853f7ba-c66e-4f52-9441-f9159c974b67"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["Yours Sincerely,"
+				<text><![CDATA["Yours Sincerely," 
+
 
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="285" y="4" width="195" height="30" uuid="1fefc808-5463-4d5e-8fa4-b2cc94369f79"/>
-				<textElement textAlignment="Center">
+				<reportElement x="376" y="47" width="181" height="30" uuid="660d6e9e-1c57-42c7-ad74-d07a2cf5ab1c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["Authorized Signature"
+				<text><![CDATA["Authorized Signature" 
+
 
 ]]></text>
 			</staticText>
