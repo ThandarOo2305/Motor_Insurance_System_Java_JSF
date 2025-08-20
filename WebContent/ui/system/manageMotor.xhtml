@@ -339,24 +339,45 @@
 									value="#{ManageMotorActionBean.vehicle.hirePurchaseCompany}" />
 							</p:panelGrid>
 
-							<h:panelGroup columns="1" style="margin-top:10px;">
-								<h:outputText value="Additional Cover" style="font-weight:bold; margin-bottom:5px;"/>
-								<p:selectManyCheckbox
-									value="#{ManageMotorActionBean.selectedAdditionalCovers}"
-									layout="grid" columns="2" style="margin-top:5px; border-spacing:8px 4px; display:table; margin-left:auto; margin-right:auto;">
+							<h:panelGroup style="margin-top:10px;">
+								<h:outputText value="Additional Cover"
+									style="font-weight:bold; margin-bottom:5px;" />
 
-									<f:selectItem itemLabel="Acts Of God" itemValue="ActsOfGod" />
-									<f:selectItem itemLabel="Nil Excess" itemValue="NilExcess" />
-									<f:selectItem itemLabel="SRCC" itemValue="SRCC" /> 
-									<f:selectItem itemLabel="Theft" itemValue="Theft" />
-									<f:selectItem itemLabel="War Risk" itemValue="WarRisk" />
-									<f:selectItem itemLabel="Betterment" itemValue="Betterment" />
-									<f:selectItem itemLabel="PAAndMT" itemValue="PA_MT" />
-									<f:selectItem itemLabel="Sun Roof" itemValue="SunRoof" />
-									<f:selectItem itemLabel="Third Party" itemValue="ThirdParty" />
-									<f:selectItem itemLabel="Wind Screen" itemValue="WindScreen" />
-								</p:selectManyCheckbox>
+								<p:panelGrid columns="2" layout="grid"
+									styleClass="ui-panelgrid-blank ui-fluid"
+									style="margin-top:10px; column-gap: 30px;">
+
+									<!-- Column 1 (5 checkboxes) -->
+									<h:panelGroup layout="block" style="margin-left:100px;">
+										<p:selectManyCheckbox
+											value="#{ManageMotorActionBean.selectedAdditionalCovers}"
+											layout="pageDirection">
+											<f:selectItem itemLabel="Acts Of God" itemValue="ActsOfGod" />
+											<f:selectItem itemLabel="Nil Excess" itemValue="NilExcess" />
+											<f:selectItem itemLabel="SRCC" itemValue="SRCC" />
+											<f:selectItem itemLabel="Theft" itemValue="Theft" />
+											<f:selectItem itemLabel="War Risk" itemValue="WarRisk" />
+										</p:selectManyCheckbox>
+									</h:panelGroup>
+									<!-- Column 2 (5 checkboxes) -->
+									<h:panelGroup layout="block" style="margin-left:100px;">
+										<p:selectManyCheckbox
+											value="#{ManageMotorActionBean.selectedAdditionalCovers}"
+											layout="pageDirection">
+											<f:selectItem itemLabel="Betterment" itemValue="Betterment" />
+											<f:selectItem itemLabel="PAAndMT" itemValue="PA_MT" />
+											<f:selectItem itemLabel="Sun Roof" itemValue="SunRoof" />
+											<f:selectItem itemLabel="Third Party" itemValue="ThirdParty" />
+											<f:selectItem itemLabel="Wind Screen" itemValue="WindScreen" />
+										</p:selectManyCheckbox>
+									</h:panelGroup>
+
+								</p:panelGrid>
 							</h:panelGroup>
+
+
+
+
 						</p:panelGrid>
 						<h:panelGrid columns="1" style="margin-top:-2px;">
 							<p:commandButton id="addBtn"
@@ -604,8 +625,7 @@
 									icon="pi pi-times" />
 							</p:confirmDialog>
 							<br />
-							<h:outputText value="* - mandatory fields"
-								style="color: red;" />
+							<h:outputText value="* - mandatory fields" style="color: red;" />
 						</div>
 
 						<p:dialog id="previewDialog" header="Policy Report"
