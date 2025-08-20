@@ -566,7 +566,7 @@ public class ManageMotorActionBean extends BaseBean{
 	        this.submitted = true;
 
 	        addInfoMessage(null, MessageId.INSERT_SUCCESS, motorPolicy.getPolicyNo());
-	        addInfoMessage(null, MessageId.INSERT_SUCCESS, vehicle.getRegistrationNo());
+//	        addInfoMessage(null, MessageId.INSERT_SUCCESS, vehicle.getRegistrationNo());
 //
 //	        createNewMotorPolicyInfo();
 //	        createNewVehicleInfo();
@@ -615,12 +615,17 @@ public class ManageMotorActionBean extends BaseBean{
 	private final String dirPath = getWebRootPath() + pdfDirPath;
 
 	public void generateReport() {
+		
+		List<MotorPolicyVehicleLink> addVehicleList = motorPolicy.getMotorPolicyVehicleLinks();
+		
 	    if (addVehicleList == null || addVehicleList.isEmpty()) {
 	        addErrorMessage(null, "Cannot generate report: No vehicles found in policy.");
 	        return;
 	    }
 
-	    String pdfFilePath = dirPath + fileName + ".pdf"; // Construct path here
+	    String pdfFilePath = dirPath + fileName + ".pdf";
+	    System.out.println("generateReport: Writing PDF to " + dirPath + fileName + ".pdf");
+
 	    try (InputStream inputStream = Thread.currentThread().getContextClassLoader()
 	            .getResourceAsStream("motorPolicyLetter.jrxml")) {
 
@@ -630,9 +635,12 @@ public class ManageMotorActionBean extends BaseBean{
 	        }
 
 	        Map<String, Object> parameters = new HashMap<>();
-	        parameters.put("customerName", motorPolicy.getCustomerName());
-	        parameters.put("policyNo", motorPolicy.getPolicyNo());
-	        parameters.put("proposalNo", motorPolicy.getProposalNo());
+	        System.out.println("Customer Name = " + motorPolicy.getCustomerName());
+	        System.out.println("Policy No     = " + motorPolicy.getPolicyNo());
+	        System.out.println("Proposal No   = " + motorPolicy.getProposalNo());
+	        parameters.put("Customer Name", motorPolicy.getCustomerName());
+	        parameters.put("Policy No", motorPolicy.getPolicyNo());
+	        parameters.put("Proposal No", motorPolicy.getProposalNo());
 
 	        double sumInsuredTotal = addVehicleList.stream()
 	                .mapToDouble(MotorPolicyVehicleLink::getSumInsured).sum();
@@ -643,10 +651,10 @@ public class ManageMotorActionBean extends BaseBean{
 	        double totalPremium = addVehicleList.stream()
 	                .mapToDouble(MotorPolicyVehicleLink::getTotalPremium).sum();
 
-	        parameters.put("sumInsuredTotal", sumInsuredTotal);
-	        parameters.put("basicPremiumTotal", basicPremiumTotal);
-	        parameters.put("addOnPremiumTotal", addOnPremiumTotal);
-	        parameters.put("totalPremium", totalPremium);
+	        parameters.put("Sum Insured", sumInsuredTotal);
+	        parameters.put("Basic Term Premium", basicPremiumTotal);
+	        parameters.put("Add On Term Premium", addOnPremiumTotal);
+	        parameters.put("Total Premium", totalPremium);
 
 	        JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
 	        JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
@@ -670,6 +678,7 @@ public class ManageMotorActionBean extends BaseBean{
 	public StreamedContent getDownload() {
 	    try {
 	        String pdfFilePath = dirPath + fileName + ".pdf";
+	        System.out.println("getDownload: Looking for PDF at " + pdfFilePath);
 	        File file = new File(pdfFilePath);
 
 	        // Generate report if PDF does not exist
