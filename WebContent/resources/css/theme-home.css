@@ -258,7 +258,7 @@ form .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-hea
     background: url('#{request.contextPath}/images/ui-bg_highlight-soft.png') !important;
 }
 .ui-widget-content{
-	background: #00aab4; 
+	background: #ffffff; 
 }
 
 
