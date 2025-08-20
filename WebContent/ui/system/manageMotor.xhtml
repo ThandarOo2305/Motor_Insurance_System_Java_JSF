@@ -157,8 +157,24 @@
 						<!-- Cancel & Next Buttons in One Line -->
 						<p:outputPanel
 							style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-							<p:commandButton value="Cancel" styleClass="ui-button-danger"
-								action="#{ManageMotorActionBean.cancel}" process="@this" />
+							<p:commandButton value="Cancel"
+								onclick="PF('cancelConfirmDlg').show(); return false;"
+								style="margin-right: 5px;" />
+
+							<p:confirmDialog widgetVar="cancelConfirmDlg"
+								header="Confirmation" message="Are you sure you want to cancel?"
+								appendTo="@(body)" closable="true" closeOnEscape="true">
+
+								<p:commandButton value="Yes"
+									action="#{ManageMotorActionBean.cancel}" process="@this"
+									update="@form"
+									oncomplete="if(!args.validationFailed) {PF('cancelConfirmDlg').hide();}"
+									icon="pi pi-check" />
+
+								<p:commandButton value="No"
+									onclick="PF('cancelConfirmDlg').hide()" type="button"
+									icon="pi pi-times" />
+							</p:confirmDialog>
 
 							<p:commandButton value="Next →" icon="pi pi-arrow-right"
 								iconPos="right" styleClass="ui-button-success"
@@ -243,12 +259,6 @@
 									styleClass="input-label" />
 								<p:inputText id="manufacture"
 									value="#{ManageMotorActionBean.vehicle.manufacture}" />
-							</p:panelGrid>
-
-							<!-- Right column -->
-							<p:panelGrid columns="2"
-								columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-								styleClass="ui-panelgrid-blank ui-fluid">
 
 								<h:outputText value="" />
 								<p:message display="text" for="productType" />
@@ -261,6 +271,12 @@
 									<f:selectItem itemLabel="Private" itemValue="Private" />
 									<f:selectItem itemLabel="Commercial" itemValue="Commercial" />
 								</p:selectOneMenu>
+							</p:panelGrid>
+
+							<!-- Right column -->
+							<p:panelGrid columns="2"
+								columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+								styleClass="ui-panelgrid-blank ui-fluid">
 
 								<h:outputText value="" />
 								<p:message display="text" for="cubicCapacity" />
@@ -323,17 +339,15 @@
 									value="#{ManageMotorActionBean.vehicle.hirePurchaseCompany}" />
 							</p:panelGrid>
 
-							<h:panelGroup styleClass="additional-cover-box">
-								<h:outputText value="Additional Cover"
-									styleClass="section-title" />
-
+							<h:panelGroup columns="1" style="margin-top:10px;">
+								<h:outputText value="Additional Cover" style="font-weight:bold; margin-bottom:5px;"/>
 								<p:selectManyCheckbox
 									value="#{ManageMotorActionBean.selectedAdditionalCovers}"
-									layout="grid" columns="2" styleClass="cover-checkbox">
+									layout="grid" columns="2" style="margin-top:5px; border-spacing:8px 4px; display:table; margin-left:auto; margin-right:auto;">
 
 									<f:selectItem itemLabel="Acts Of God" itemValue="ActsOfGod" />
 									<f:selectItem itemLabel="Nil Excess" itemValue="NilExcess" />
-									<f:selectItem itemLabel="SRCC" itemValue="SRCC" />
+									<f:selectItem itemLabel="SRCC" itemValue="SRCC" /> 
 									<f:selectItem itemLabel="Theft" itemValue="Theft" />
 									<f:selectItem itemLabel="War Risk" itemValue="WarRisk" />
 									<f:selectItem itemLabel="Betterment" itemValue="Betterment" />
@@ -423,9 +437,24 @@
 
 					<!-- Cancel Button + Mandatory Fields Note -->
 					<div style="margin-top: 10px;">
-						<p:commandButton value="Cancel" styleClass="ui-button-danger"
-							style="margin-bottom: 5px;"
-							action="#{ManageMotorActionBean.cancel}" process="@this" />
+						<p:commandButton value="Cancel"
+							onclick="PF('cancelConfirmDlg').show(); return false;"
+							style="margin-right: 5px;" />
+
+						<p:confirmDialog widgetVar="cancelConfirmDlg"
+							header="Confirmation" message="Are you sure you want to cancel?"
+							appendTo="@(body)" closable="true" closeOnEscape="true">
+
+							<p:commandButton value="Yes"
+								action="#{ManageMotorActionBean.cancel}" process="@this"
+								update="@form"
+								oncomplete="if(!args.validationFailed) {PF('cancelConfirmDlg').hide();}"
+								icon="pi pi-check" />
+
+							<p:commandButton value="No"
+								onclick="PF('cancelConfirmDlg').hide()" type="button"
+								icon="pi pi-times" />
+						</p:confirmDialog>
 						<br /> <span style="color: red;">* - mandatory fields</span>
 					</div>
 				</p:tab>
@@ -556,12 +585,27 @@
 								process="@form" update="@form"
 								action="#{ManageMotorActionBean.backStep}"
 								oncomplete="PF('motorWizard').loadStep('#{ManageMotorActionBean.currentStep}');" />
-							<p:commandButton value="Cancel" icon="pi pi-times"
-								styleClass="ui-button-danger" style="margin-left:10px;"
-								action="#{ManageMotorActionBean.cancel}" process="@this" />
+							<p:commandButton value="Cancel"
+								onclick="PF('cancelConfirmDlg').show(); return false;"
+								style="margin-right: 5px;" />
+
+							<p:confirmDialog widgetVar="cancelConfirmDlg"
+								header="Confirmation" message="Are you sure you want to cancel?"
+								appendTo="@(body)" closable="true" closeOnEscape="true">
+
+								<p:commandButton value="Yes"
+									action="#{ManageMotorActionBean.cancel}" process="@this"
+									update="@form"
+									oncomplete="if(!args.validationFailed) {PF('cancelConfirmDlg').hide();}"
+									icon="pi pi-check" />
+
+								<p:commandButton value="No"
+									onclick="PF('cancelConfirmDlg').hide()" type="button"
+									icon="pi pi-times" />
+							</p:confirmDialog>
 							<br />
 							<h:outputText value="* - mandatory fields"
-								styleClass="cancel-note" />
+								style="color: red;" />
 						</div>
 
 						<p:dialog id="previewDialog" header="Policy Report"
