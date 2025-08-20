@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.ace.accounting.system.motor.MotorEnquiryDTO;
+import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.persistence.interfaces.IMotorPolicyEnquiryDAO;
 import org.ace.accounting.system.motor.service.interfaces.IMotorEnquiryService;
 import org.springframework.stereotype.Service;
@@ -64,4 +65,14 @@ public class MotorEnquiryService implements IMotorEnquiryService {
         
         return motorPolicyEnquiryDAO.search(hql.toString(), paramMap);
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public MotorPolicy findByPolicyNo(String policyNo) {
+        try {
+            return motorPolicyEnquiryDAO.findByPolicyNo(policyNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

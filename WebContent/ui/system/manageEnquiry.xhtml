@@ -80,7 +80,7 @@
 	</h:outputStylesheet>
 		<h:form id="enquiryForm">
 			<p:growl escape="false" globalOnly="true" life="5000"
-				showDetail="true" id="growl"/>
+				showDetail="true" id="growl" />
 
 			<p:panelGrid id="panelDept" columns="2"
 				columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
@@ -88,89 +88,294 @@
 				<p:panelGrid columns="2"
 					columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
 					styleClass="ui-panelgrid-blank ui-fluid">
-					
-					<h:outputText for="startDate" value="Policy Start Date"/>
-					<p:calendar id="startDate" value="#{ManagePolicyEnquiryActionBean.policyStartDate}" pattern="dd-MM-yyyy"/>
-						
-					<h:outputText for="endDate" value="Policy End Date"/>
-					<p:calendar id="endDate" value="#{ManagePolicyEnquiryActionBean.policyEndDate}" pattern="dd-MM-yyyy"/>
+
+					<h:outputText for="startDate" value="Policy Start Date" />
+					<p:calendar id="startDate"
+						value="#{ManagePolicyEnquiryActionBean.policyStartDate}"
+						pattern="dd-MM-yyyy" />
+
+					<h:outputText for="endDate" value="Policy End Date" />
+					<p:calendar id="endDate"
+						value="#{ManagePolicyEnquiryActionBean.policyEndDate}"
+						pattern="dd-MM-yyyy" />
 
 				</p:panelGrid>
 				<p:panelGrid columns="2"
 					columnClasses="ui-grid-col-3, ui-grid-col-9" layout="grid"
-					styleClass="ui-panelgrid-blank ui-fluid">			
+					styleClass="ui-panelgrid-blank ui-fluid">
 
 					<h:outputText for="policyNo" value="Policy No."
 						styleClass="input-label" />
-					<p:inputText id="policyNo" value="#{ManagePolicyEnquiryActionBean.policyNo}" />
-					
+					<p:inputText id="policyNo"
+						value="#{ManagePolicyEnquiryActionBean.policyNo}" />
+
 					<h:outputText for="registrationNo" value="Registration No."
 						styleClass="input-label" />
-					<p:inputText id="registrationNo" value="#{ManagePolicyEnquiryActionBean.registrationNo}" />
+					<p:inputText id="registrationNo"
+						value="#{ManagePolicyEnquiryActionBean.registrationNo}" />
 
 				</p:panelGrid>
-			</p:panelGrid><br/>
+			</p:panelGrid>
+			<br />
 
-			<p:commandButton value="Search" update="enquiryTableForm:enquiryTable enquiryForm:growl" action="#{ManagePolicyEnquiryActionBean.search}"
+			<p:commandButton value="Search"
+				update="enquiryTableForm:enquiryTable enquiryForm:growl"
+				action="#{ManagePolicyEnquiryActionBean.search}"
 				styleClass="ui-button-danger" style="width: 150px;" />
-			<p:commandButton value="Reset" update=":enquiryForm :enquiryTableForm" action="#{ManagePolicyEnquiryActionBean.reset}" process="@this" 
-				immediate="true" styleClass="ui-button-success" style="width: 150px;" />
-		</h:form><br/>
+			<p:commandButton value="Reset"
+				update=":enquiryForm :enquiryTableForm"
+				action="#{ManagePolicyEnquiryActionBean.reset}" process="@this"
+				immediate="true" styleClass="ui-button-success"
+				style="width: 150px;" />
+		</h:form>
+		<br />
 
 		<h:form id="enquiryTableForm">
-
 			<p:dataTable var="enquiry"
 				value="#{ManagePolicyEnquiryActionBean.results}" id="enquiryTable"
 				paginator="true" rows="10" style="width:100%"
 				widgetVar="enquiryTable"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="5,10,15" rowKey="#{enquiry.policyNo}" reflow="true"
-				rowIndexVar="var" paginatorPosition="bottom">
-				
+				rowsPerPageTemplate="5,10,15" rowKey="#{enquiry.policyNo}"
+				reflow="true" rowIndexVar="var" paginatorPosition="bottom">
+
 				<p:column headerText="Policy No">
 					<h:outputText value="#{enquiry.policyNo}" />
 				</p:column>
-				
+
 				<p:column headerText="Proposal No">
 					<h:outputText value="#{enquiry.proposalNo}" />
 				</p:column>
-				
+
 				<p:column headerText="Registration No">
 					<h:outputText value="#{enquiry.registrationNo}" />
 				</p:column>
-				
+
 				<p:column headerText="Sale Channel">
 					<h:outputText value="#{enquiry.saleChannel}" />
 				</p:column>
-				
+
 				<p:column headerText="Customer">
 					<h:outputText value="#{enquiry.customerName}" />
 				</p:column>
-				
+
 				<p:column headerText="Branch">
 					<h:outputText value="#{enquiry.branch}" />
 				</p:column>
-				
+
 				<p:column headerText="Claim Count">
 					<h:outputText value="#{enquiry.claimCount}" />
 				</p:column>
-				
+
 				<p:column headerText="Total Sum Isured">
 					<h:outputText value="#{enquiry.totalSumInsured}" />
 				</p:column>
-				
+
 				<p:column headerText="Basic Premium">
 					<h:outputText value="#{enquiry.basicPremium}" />
 				</p:column>
-				
+
 				<p:column headerText="Submitted Date" width="7%">
-					<h:outputText value="#{enquiry.submittedDate}" >
+					<h:outputText value="#{enquiry.submittedDate}">
 						<f:convertDateTime pattern="#{ApplicationSetting.dateFormat}"
 							timeZone="#{ApplicationSetting.timeZone}" />
 					</h:outputText>
 				</p:column>
-				
+
+				<p:column headerText="Details"
+					style="width:100px; text-align:center;">
+					<p:commandButton icon="fa fa-eye" title="View Details"
+						action="#{ManagePolicyEnquiryActionBean.viewDetails(enquiry)}"
+						update=":enquiryDetailDialogPanel"
+						oncomplete="PF('enquiryDetailDialog').show()" />
+				</p:column>
+
+				<p:column headerText="Print">
+					<p:commandButton value="Document" icon="pi pi-file"
+						action="#{ManageMotorActionBean.generateReport}" process="@this"
+						update=":previewDialog"
+						oncomplete="PF('previewDlg').show()" />
+				</p:column>
+
 			</p:dataTable>
 		</h:form>
+
+		<p:dialog id="enquiryDetailDialogPanel" header="Enquiry Details"
+			widgetVar="enquiryDetailDialog" modal="true" resizable="false"
+			width="600" appendTo="@(body)">
+			<p:tabView>
+				<!-- Policy Information Tab -->
+				<p:tab title="Policy Info">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Customer Type:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.customerType}" />
+							
+						<h:outputText value="Customer Name:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.customerName}" />
+							
+						<h:outputText value="Sale Channel:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.saleChannel}" />
+							
+						<h:outputText value="Policy No:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.policyNo}" />
+
+						<h:outputText value="Proposal No:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.proposalNo}" />
+							
+						<h:outputText value="Submitted Date:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.submittedDate}">
+							<f:convertDateTime pattern="#{ApplicationSetting.dateFormat}"
+								timeZone="#{ApplicationSetting.timeZone}" />
+						</h:outputText>
+							
+						<h:outputText value="Policy Start Date:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.policyStartDate}" />
+							
+						<h:outputText value="Period:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.period}" />
+							
+						<h:outputText value="Payment Type:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.paymentType}" />
+
+						<h:outputText value="Branch:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.branch.getName()}" />
+							
+						<h:outputText value="Currency Type:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.currencyType}" />
+					</h:panelGrid>
+				</p:tab>
+
+				<!-- Customer Information Tab -->
+				<p:tab title="Vehicle Info">
+					<h:panelGrid columns="2" cellpadding="5">
+					
+						<h:outputText value="Registration No:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].registrationNo}" />
+						
+						<h:outputText value="Model:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].model}" />
+							
+						<h:outputText value="Engine No:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].engineNo}" />
+							
+						<h:outputText value="Chassis No:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].chassisNo}" />
+						
+						<h:outputText value="Year Of Manufacture:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].yearOfManufacture}" />
+							
+						<h:outputText value="Type Of Body:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].typeOfBody}" />
+							
+						<h:outputText value="Manufacture:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].manufacture}" />
+							
+						<h:outputText value="Product Type:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].productType}" />
+							
+						<h:outputText value="Cubic Capacity:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].cubicCapacity}" />
+							
+						<h:outputText value="Seating:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].seating}" />
+							
+						<h:outputText value="Sum Insured:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].sumInsured}" />
+							
+						<h:outputText value="Estimate present Sum Insurance:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].estimatePresentSumInsurance}" />
+							
+						<h:outputText value="Claim Count:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].claimCount}" />
+							
+						<h:outputText value="NCB Count:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].ncbCount}" />
+							
+						<h:outputText value="NCB Amount:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].ncbAmount}" />
+							
+						<h:outputText value="Hire Purchase Company:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].hirePurchaseCompany}" />
+					</h:panelGrid>
+				</p:tab>
+
+				<p:tab title="Premium Info">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Total Sum Insured:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].sumInsured}" />
+
+						<h:outputText value="One Year Basic Premium:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].oneYearBasicPremium}" />
+							
+						<h:outputText value="One Year Add On Premium:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].oneYearAddonPremium}" />
+						
+						<h:outputText value="Basic Term Premium:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].basicTermPremium}" />
+							
+						<h:outputText value="Add On Term Premium:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].addOnTermPremium}" />
+						
+						<h:outputText value="Fleet Discount:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].fleetDiscount}" />
+							
+						<h:outputText value="Total Premium:" />
+						<h:outputText
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].totalPremium}" />
+												
+					</h:panelGrid>
+				</p:tab>
+
+			</p:tabView>
+		</p:dialog>
+
+		<p:dialog id="previewDialog" header="Policy Report"
+			widgetVar="previewDlg" modal="true" resizable="true"
+			maximizable="true" width="800" height="600" appendTo="@(body)">
+
+			<object type="application/pdf"
+				data="#{request.contextPath}#{ManageMotorActionBean.pdfDirPath}#{ManageMotorActionBean.fileName}.pdf"
+				width="100%" height="100%">
+				<p>
+					Your browser does not support embedded PDF.
+					<h:outputLink
+						value="#{request.contextPath}#{ManageMotorActionBean.pdfDirPath}#{ManageMotorActionBean.fileName}.pdf">Download</h:outputLink>
+				</p>
+			</object>
+		</p:dialog>
+
 	</ui:define>
 </ui:composition>
