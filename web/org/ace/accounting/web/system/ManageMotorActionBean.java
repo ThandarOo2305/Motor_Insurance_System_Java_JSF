@@ -659,9 +659,7 @@ public class ManageMotorActionBean extends BaseBean{
 	        JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
 	        JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
 
-	        // Use addVehicleList here
-	        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(addVehicleList);
-	        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, ds);
+	        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 
 	        File pdfFile = new File(pdfFilePath);
 	        FileUtils.forceMkdir(pdfFile.getParentFile()); // Create parent directories
