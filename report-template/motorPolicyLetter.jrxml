@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="motorPolicyLetter" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0b4b8d0b-0312-4f20-9e1b-f495c64da7c0">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="Customer Name" class="java.lang.String"/>
 	<parameter name="Policy No" class="java.lang.String"/>
 	<parameter name="Proposal No" class="java.lang.String"/>
@@ -15,9 +16,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="61" splitType="Stretch">
+		<band height="44" splitType="Stretch">
 			<staticText>
-				<reportElement x="180" y="13" width="200" height="30" uuid="8a6355ce-ae47-42ec-9ec5-4d8dd895a6ce"/>
+				<reportElement x="180" y="-4" width="200" height="30" uuid="8a6355ce-ae47-42ec-9ec5-4d8dd895a6ce"/>
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
@@ -62,7 +63,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="414" splitType="Stretch">
+		<band height="408" splitType="Stretch">
 			<staticText>
 				<reportElement x="3" y="2" width="176" height="30" uuid="54b0dcef-d217-47d0-bbb8-13039967295f"/>
 				<textElement verticalAlignment="Middle">
@@ -190,9 +191,9 @@
 		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="67" splitType="Stretch"/>
+		<band height="23" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="25" splitType="Stretch"/>
 	</summary>
 </jasperReport>
