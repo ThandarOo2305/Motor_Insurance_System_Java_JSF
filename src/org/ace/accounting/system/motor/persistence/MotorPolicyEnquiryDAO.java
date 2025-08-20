@@ -3,12 +3,13 @@ package org.ace.accounting.system.motor.persistence;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.ace.accounting.system.motor.MotorEnquiryDTO;
-import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
+import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.persistence.interfaces.IMotorPolicyEnquiryDAO;
 import org.ace.java.component.persistence.BasicDAO;
 import org.ace.java.component.persistence.exception.DAOException;
@@ -39,4 +40,25 @@ public class MotorPolicyEnquiryDAO extends BasicDAO implements IMotorPolicyEnqui
 		}
 //		return result;
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public MotorPolicy findByPolicyNo(String policyNo) throws DAOException {
+	    MotorPolicy result = null;
+	    try {
+	        String jpql = "SELECT DISTINCT m FROM MotorPolicy m " +
+	                      "LEFT JOIN FETCH m.vehicleLinks v " +
+	                      "WHERE m.policyNo = :policyNo";
+
+	        TypedQuery<MotorPolicy> q = em.createQuery(jpql, MotorPolicy.class);
+	        q.setParameter("policyNo", policyNo);
+
+	        result = q.getSingleResult();
+	    } catch (NoResultException e) {
+	        return null;
+	    } catch (PersistenceException pe) {
+	        throw translate("Failed to find MotorPolicy with policyNo : " + policyNo, pe);
+	    }
+	    return result;
+	}
+
 }

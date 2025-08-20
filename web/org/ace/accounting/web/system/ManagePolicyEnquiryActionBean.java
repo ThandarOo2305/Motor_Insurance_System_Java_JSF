@@ -15,6 +15,7 @@ import org.ace.accounting.common.validation.IDataValidator;
 import org.ace.accounting.common.validation.ValidationResult;
 import org.ace.accounting.system.motor.MotorEnquiry;
 import org.ace.accounting.system.motor.MotorEnquiryDTO;
+import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.service.interfaces.IMotorEnquiryService;
 import org.ace.java.web.common.BaseBean;
 
@@ -43,6 +44,29 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 	private MotorEnquiry mpq;
 	// Search Result Lists
 	private List<MotorEnquiryDTO> results;
+	
+	private MotorPolicy selectedPolicy;
+
+	public MotorPolicy getSelectedPolicy() {
+	    return selectedPolicy;
+	}
+
+	public void setSelectedPolicy(MotorPolicy selectedPolicy) {
+	    this.selectedPolicy = selectedPolicy;
+	}
+	
+	public void viewDetails(MotorEnquiryDTO enquiry) {
+	    if (enquiry != null && enquiry.getPolicyNo() != null) {
+	        try {
+	            // Fetch full MotorPolicy with vehicle links
+	            selectedPolicy = policyEnquiryService.findByPolicyNo(enquiry.getPolicyNo());
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            addErrorMessage(null, "Failed to load policy details");
+	        }
+	    }
+	}
+	
 	// init
 	@PostConstruct
 	public void init() {
