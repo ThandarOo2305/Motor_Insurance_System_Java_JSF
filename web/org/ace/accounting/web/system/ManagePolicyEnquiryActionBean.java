@@ -1,14 +1,21 @@
 package org.ace.accounting.web.system;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import org.ace.accounting.common.validation.ErrorMessage;
 import org.ace.accounting.common.validation.IDataValidator;
@@ -18,6 +25,18 @@ import org.ace.accounting.system.motor.MotorEnquiryDTO;
 import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.service.interfaces.IMotorEnquiryService;
 import org.ace.java.web.common.BaseBean;
+import org.apache.commons.io.FileUtils;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 @ManagedBean(name = "ManagePolicyEnquiryActionBean")
 @ViewScoped
@@ -127,6 +146,110 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 		mpq.setPolicyNo(policyNo);
 		mpq.setRegistrationNo(registrationNo);
 	}
+	
+	private final String reportName = "motorPolicyEnquiryLetter";
+	private final String fileName = "MotorPolicyEnquiryLetter";
+	private final String pdfDirPath = "/pdf-report/" + reportName + "/" + System.currentTimeMillis() + "/";
+	private final String dirPath = getWebRootPath() + pdfDirPath;
+
+	public void generateReport() {
+		
+		if (results == null || results.isEmpty()) {
+	        addErrorMessage(null, "No search results to generate report");
+	        return;
+	    }
+
+	    // Example: take the first result, or better, use selectedPolicy/selected DTO
+	    MotorEnquiryDTO dto = results.get(0);
+
+		String pdfFilePath = dirPath + fileName + ".pdf";
+		System.out.println("generateReport: Writing PDF to " + dirPath + fileName + ".pdf");
+
+		try (InputStream inputStream = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("motorPolicyEnquiry.jrxml")) {
+
+			if (inputStream == null) {
+				addErrorMessage(null, "Report design file not found");
+				return;
+			}
+
+			Map<String, Object> parameters = new HashMap<>();
+			System.out.println("Customer Name = " + dto.getCustomerName());
+			System.out.println("Policy No     = " + dto.getPolicyNo());
+			System.out.println("Proposal No   = " + dto.getProposalNo());
+			parameters.put("CustomerName", dto.getCustomerName());
+			parameters.put("PolicyNo", dto.getPolicyNo());
+			parameters.put("ProposalNo", dto.getProposalNo());
+			parameters.put("RegistrationNo", dto.getRegistrationNo());
+			parameters.put("SaleChannel", dto.getSaleChannel().name());
+			parameters.put("Branch", dto.getBranch());
+			parameters.put("ClaimCount", dto.getClaimCount());
+
+			parameters.put("TotalSumInsured", dto.getTotalSumInsured());
+			parameters.put("BasicPremium", dto.getBasicPremium());
+			parameters.put("SubmittedDate", dto.getSubmittedDate());
+
+			JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+			JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+
+			File pdfFile = new File(pdfFilePath);
+			FileUtils.forceMkdir(pdfFile.getParentFile()); // Create parent directories
+
+			JasperExportManager.exportReportToPdfFile(jasperPrint, pdfFilePath);
+
+			addInfoMessage(null, "Report generated successfully!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			addErrorMessage(null, "Report Generation Failed: " + e.getMessage());
+		}
+	}
+
+	public StreamedContent getDownload() {
+		try {
+			String pdfFilePath = dirPath + fileName + ".pdf";
+			System.out.println("getDownload: Looking for PDF at " + pdfFilePath);
+			File file = new File(pdfFilePath);
+
+			// Generate report if PDF does not exist
+			if (!file.exists()) {
+				generateReport();
+			}
+
+			if (!file.exists()) {
+				addErrorMessage(null, "Download Failed: PDF file could not be generated.");
+				return null;
+			}
+
+			InputStream input = new FileInputStream(file);
+			ExternalContext ext = FacesContext.getCurrentInstance().getExternalContext();
+
+			return new DefaultStreamedContent(input, ext.getMimeType(file.getName()), file.getName());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			addErrorMessage(null, "Download Failed: " + e.getMessage());
+			return null;
+		}
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public String getPdfDirPath() {
+		return pdfDirPath;
+	}
+
+	public String getDirPath() {
+		return dirPath;
+	}
+
+	public String getPdfFullPath() {
+		return pdfDirPath + fileName + ".pdf";
+	}
+
 
 	// Getters and setters for all fields
 	public Date getPolicyStartDate() {

@@ -168,11 +168,15 @@
 				</p:column>
 
 				<p:column headerText="Total Sum Isured">
-					<h:outputText value="#{enquiry.totalSumInsured}" />
+					<h:outputText value="#{enquiry.totalSumInsured}">
+						<f:convertNumber pattern="#,##0.00" />
+					</h:outputText>
 				</p:column>
 
 				<p:column headerText="Basic Premium">
-					<h:outputText value="#{enquiry.basicPremium}" />
+					<h:outputText value="#{enquiry.basicPremium}">
+						<f:convertNumber pattern="#,##0.00" />
+					</h:outputText>
 				</p:column>
 
 				<p:column headerText="Submitted Date" width="7%">
@@ -192,7 +196,7 @@
 
 				<p:column headerText="Print">
 					<p:commandButton value="Document" icon="pi pi-file"
-						action="#{ManageMotorActionBean.generateReport}" process="@this"
+						action="#{ManagePolicyEnquiryActionBean.generateReport}" process="@this"
 						update=":previewDialog"
 						oncomplete="PF('previewDlg').show()" />
 				</p:column>
@@ -302,11 +306,15 @@
 							
 						<h:outputText value="Sum Insured:" />
 						<h:outputText
-							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].sumInsured}" />
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].sumInsured}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 							
 						<h:outputText value="Estimate present Sum Insurance:" />
 						<h:outputText
-							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].estimatePresentSumInsurance}" />
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].estimatePresentSumInsurance}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 							
 						<h:outputText value="Claim Count:" />
 						<h:outputText
@@ -318,7 +326,9 @@
 							
 						<h:outputText value="NCB Amount:" />
 						<h:outputText
-							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].ncbAmount}" />
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].ncbAmount}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 							
 						<h:outputText value="Hire Purchase Company:" />
 						<h:outputText
@@ -330,31 +340,45 @@
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:outputText value="Total Sum Insured:" />
 						<h:outputText
-							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].sumInsured}" />
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].sumInsured}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 
 						<h:outputText value="One Year Basic Premium:" />
 						<h:outputText
-							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].oneYearBasicPremium}" />
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].oneYearBasicPremium}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 							
 						<h:outputText value="One Year Add On Premium:" />
 						<h:outputText
-							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].oneYearAddonPremium}" />
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].oneYearAddonPremium}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 						
 						<h:outputText value="Basic Term Premium:" />
 						<h:outputText
-							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].basicTermPremium}" />
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].basicTermPremium}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 							
 						<h:outputText value="Add On Term Premium:" />
 						<h:outputText
-							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].addOnTermPremium}" />
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].addOnTermPremium}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 						
 						<h:outputText value="Fleet Discount:" />
 						<h:outputText
-							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].fleetDiscount}" />
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].fleetDiscount}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 							
 						<h:outputText value="Total Premium:" />
 						<h:outputText
-							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].totalPremium}" />
+							value="#{ManagePolicyEnquiryActionBean.selectedPolicy.vehicleLinks[0].totalPremium}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 												
 					</h:panelGrid>
 				</p:tab>
@@ -362,17 +386,17 @@
 			</p:tabView>
 		</p:dialog>
 
-		<p:dialog id="previewDialog" header="Policy Report"
+		<p:dialog id="previewDialog" header="Policy Enquiry Report"
 			widgetVar="previewDlg" modal="true" resizable="true"
 			maximizable="true" width="800" height="600" appendTo="@(body)">
 
 			<object type="application/pdf"
-				data="#{request.contextPath}#{ManageMotorActionBean.pdfDirPath}#{ManageMotorActionBean.fileName}.pdf"
+				data="#{request.contextPath}#{ManagePolicyEnquiryActionBean.pdfDirPath}#{ManagePolicyEnquiryActionBean.fileName}.pdf"
 				width="100%" height="100%">
 				<p>
 					Your browser does not support embedded PDF.
 					<h:outputLink
-						value="#{request.contextPath}#{ManageMotorActionBean.pdfDirPath}#{ManageMotorActionBean.fileName}.pdf">Download</h:outputLink>
+						value="#{request.contextPath}#{ManagePolicyEnquiryActionBean.pdfDirPath}#{ManagePolicyEnquiryActionBean.fileName}.pdf">Download</h:outputLink>
 				</p>
 			</object>
 		</p:dialog>

@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -579,15 +580,6 @@ public class ManageMotorActionBean extends BaseBean {
 		}
 	}
 
-	public Boolean checkVehicleTable(ActionEvent event) {
-		FacesContext context = FacesContext.getCurrentInstance();
-		if (addVehicleList == null || addVehicleList.isEmpty()) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-					"Please add at least one vehicle before proceeding."));
-		}
-		return true;
-	}
-
 	private boolean submitted; // default = false
 
 	public boolean isSubmitted() {
@@ -619,12 +611,10 @@ public class ManageMotorActionBean extends BaseBean {
 			this.submitted = true;
 
 			addInfoMessage(null, MessageId.INSERT_SUCCESS, motorPolicy.getPolicyNo());
-//	        addInfoMessage(null, MessageId.INSERT_SUCCESS, vehicle.getRegistrationNo());
-//
+
 //	        createNewMotorPolicyInfo();
 //	        createNewVehicleInfo();
-//	        selectedAdditionalCovers.clear();
-//	        
+//	        selectedAdditionalCovers.clear();        
 
 		} catch (SystemException ex) {
 			handleSysException(ex);
@@ -725,9 +715,28 @@ public class ManageMotorActionBean extends BaseBean {
 			System.out.println("Customer Name = " + motorPolicy.getCustomerName());
 			System.out.println("Policy No     = " + motorPolicy.getPolicyNo());
 			System.out.println("Proposal No   = " + motorPolicy.getProposalNo());
-			parameters.put("Customer Name", motorPolicy.getCustomerName());
-			parameters.put("Policy No", motorPolicy.getPolicyNo());
-			parameters.put("Proposal No", motorPolicy.getProposalNo());
+			parameters.put("CustomerName", motorPolicy.getCustomerName());
+			parameters.put("PolicyNo", motorPolicy.getPolicyNo());
+			parameters.put("ProposalNo", motorPolicy.getProposalNo());
+			
+			// Join all Registration Nos with comma
+			String registrationNos = addVehicleList.stream()
+			        .map(MotorPolicyVehicleLink::getRegistrationNo)
+			        .collect(Collectors.joining(", "));
+
+			// Join all Add-On Covers with comma
+			String addOnCoversAll = addVehicleList.stream()
+			        .map(v -> {
+			            String covers = getAdditionalCoversAsString(v);
+			            return (covers != null && !covers.isEmpty()) ? covers : "None";
+			        })
+			        .collect(Collectors.joining(", "));
+
+			parameters.put("RegistrationNo", registrationNos);
+			parameters.put("AddOnCovers", addOnCoversAll);
+
+
+
 
 			double sumInsuredTotal = addVehicleList.stream().mapToDouble(MotorPolicyVehicleLink::getSumInsured).sum();
 			double basicPremiumTotal = addVehicleList.stream().mapToDouble(MotorPolicyVehicleLink::getBasicTermPremium)
@@ -736,10 +745,10 @@ public class ManageMotorActionBean extends BaseBean {
 					.sum();
 			double totalPremium = addVehicleList.stream().mapToDouble(MotorPolicyVehicleLink::getTotalPremium).sum();
 
-			parameters.put("Sum Insured", sumInsuredTotal);
-			parameters.put("Basic Term Premium", basicPremiumTotal);
-			parameters.put("Add On Term Premium", addOnPremiumTotal);
-			parameters.put("Total Premium", totalPremium);
+			parameters.put("SumInsured", sumInsuredTotal);
+			parameters.put("BasicTermPremium", basicPremiumTotal);
+			parameters.put("AddOnTermPremium", addOnPremiumTotal);
+			parameters.put("TotalPremium", totalPremium);
 
 			JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
 			JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);

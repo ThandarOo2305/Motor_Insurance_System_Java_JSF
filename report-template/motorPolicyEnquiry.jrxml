@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="motorPolicyEnquiry" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9c34bdb4-e52a-43c8-9bdb-6bef918a25fe">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="CustomerName" class="java.lang.String"/>
+	<parameter name="PolicyNo" class="java.lang.String"/>
+	<parameter name="ProposalNo" class="java.lang.String"/>
+	<parameter name="RegistrationNo" class="java.lang.String"/>
+	<parameter name="SaleChannel" class="java.lang.String"/>
+	<parameter name="Branch" class="java.lang.String"/>
+	<parameter name="ClaimCount" class="java.lang.Integer"/>
+	<parameter name="TotalSumInsured" class="java.lang.Double"/>
+	<parameter name="BasicPremium" class="java.lang.Double"/>
+	<parameter name="SubmittedDate" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement x="180" y="-9" width="200" height="30" uuid="df51316a-314a-42b7-9818-4465ea16f8f1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[	Motor Insurance]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="0" width="178" height="30" uuid="ed1cba36-2fdc-4e54-a6ec-db69822b1bab"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[To]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="31" width="179" height="30" uuid="2f323d8c-7cd2-4930-a79b-b340b637e669"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CustomerName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="1" width="379" height="30" uuid="c196f0ec-fb7c-4146-911e-77a90e6b03a9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Motor Insurance And Enquiry ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="393" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="1" width="178" height="30" uuid="9a713db5-cc06-4991-8ff9-1b5e40fdcc42"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Policy No:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="121" width="178" height="30" uuid="6217d30e-dc78-443e-8197-d367433b5dde"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Sale Channel:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="81" width="178" height="30" uuid="22b34bd0-ef95-4dc2-b56e-55f8151a88a1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Registration No:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="41" width="178" height="30" uuid="8d0a5461-a25d-45e7-ba77-146897055590"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Proposal No:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="160" width="178" height="30" uuid="0f86fb15-b140-4cf8-ae09-97bebfc25a06"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Customer Name:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="200" width="178" height="30" uuid="1ae17e10-2fe4-463d-87b3-1d287068c592"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Branch:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="241" width="178" height="30" uuid="5f9adddf-43dc-4249-93f9-3fd0a6ff66f5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Claim Count:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="281" width="178" height="30" uuid="1c438956-f654-4f1f-a94b-718a633787eb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Total Sum Insured:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="323" width="178" height="30" uuid="eea8e140-545a-4aba-a7e1-9e6f8abf6cec"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Basic Premium:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="361" width="178" height="30" uuid="681615c6-34cb-4c26-a956-0ad70048f7aa"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Submitted Date:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="280" y="1" width="179" height="30" uuid="08afc4b7-99ab-4260-868e-35b310a2d1ec"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PolicyNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="39" width="179" height="30" uuid="684ddc08-1934-46fc-a366-2cd7d3aa47cf"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ProposalNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="281" y="78" width="179" height="30" uuid="6685c043-6a2c-42a3-a22d-ac609e599a2f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RegistrationNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="119" width="179" height="30" uuid="12eece99-3b9c-4bad-baff-6122d49e9590"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SaleChannel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="159" width="179" height="30" uuid="8736c673-1853-4f93-947e-e7d9991f8b5b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CustomerName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="200" width="179" height="30" uuid="94f4c633-d26c-4c65-b5be-49db4a4e8808"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Branch}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="239" width="179" height="30" uuid="ca30b763-5d5e-4a35-9226-5eced67e4db0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ClaimCount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="278" width="179" height="30" uuid="aea0dce6-71cb-4a16-a84e-1e58b02e510b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0.00").format($P{TotalSumInsured})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="281" y="319" width="179" height="30" uuid="9d8db792-3384-41e3-855a-e2e77108015a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0.00").format($P{BasicPremium})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="281" y="361" width="179" height="30" uuid="1c1ed2a6-7191-46f2-a56c-d438f9ba1fb5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd-MM-yyyy").format($P{SubmittedDate})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="95" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="12" width="178" height="30" uuid="1a20f4bd-b7fc-4ae8-bf6f-97e61f0b2de6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Thank You,
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="63" width="181" height="30" uuid="8c6d1ebe-1a64-413a-8cdd-f74db0b9a24e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Yours Sincerely,
+
+
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="373" y="62" width="181" height="30" uuid="41080785-3746-40c2-9964-17777a2a815c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Authorized Signature
+
+
+]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

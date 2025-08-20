@@ -243,7 +243,7 @@
 									value="Year of Manufacture" styleClass="input-label mandatory" />
 								<p:inputText id="yearOfManufacture"
 									value="#{ManageMotorActionBean.vehicle.yearOfManufacture}"
-									required="true" placeholder="yyyy">
+									required="true" placeholder="yyyy" requiredMessage="Year Of Manufacture is Required!">
 								</p:inputText>
 
 								<h:outputText value="" />
@@ -252,7 +252,7 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="typeOfBody"
 									value="#{ManageMotorActionBean.vehicle.typeOfBody}"
-									required="true" />
+									required="true" requiredMessage="Type of Body is Required!" />
 
 								<h:outputText value="" />
 								<p:message display="text" for="manufacture" />
@@ -267,7 +267,7 @@
 									styleClass="input-label mandatory" />
 								<p:selectOneMenu id="productType"
 									value="#{ManageMotorActionBean.vehicle.productType}"
-									required="true">
+									required="true" requiredMessage="Product Type is Required!">
 									<f:selectItem itemLabel="Selected Product Type" itemValue="" />
 									<f:selectItem itemLabel="Private" itemValue="Private" />
 									<f:selectItem itemLabel="Commercial" itemValue="Commercial" />
@@ -285,7 +285,7 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="cubicCapacity"
 									value="#{ManageMotorActionBean.vehicle.cubicCapacity}"
-									required="true">
+									required="true" requiredMessage="Cubic Capacity is required!">
 								</p:inputText>
 
 								<h:outputText value="" />
@@ -300,7 +300,9 @@
 								<h:outputText for="sumInsured" value="Sum Insured"
 									styleClass="input-label" />
 								<p:inputText id="sumInsured"
-									value="#{ManageMotorActionBean.vehicle.sumInsured}" />
+									value="#{ManageMotorActionBean.vehicle.sumInsured}">
+									<f:convertNumber pattern="#,##0.00" />
+								</p:inputText>
 
 								<h:outputText value="" />
 								<p:message display="text" for="estimateSumInsured" />
@@ -309,7 +311,9 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="estimateSumInsured"
 									value="#{ManageMotorActionBean.vehicle.estimatePresentSumInsurance}"
-									required="true" />
+									required="true" requiredMessage="Estimate Present Sum Insurance is required!">
+									<f:convertNumber pattern="#,##0.00" />
+								</p:inputText>
 
 								<h:outputText value="" />
 								<p:message display="text" for="claimCount" />
@@ -340,41 +344,6 @@
 									value="#{ManageMotorActionBean.vehicle.hirePurchaseCompany}" />
 							</p:panelGrid>
 
-							<!-- <h:panelGroup style="margin-top:10px;">
-								<h:outputText value="Additional Cover"
-									style="font-weight:bold; margin-bottom:5px;" />
-
-								<p:panelGrid columns="2" layout="grid"
-									styleClass="ui-panelgrid-blank ui-fluid"
-									style="margin-top:10px; column-gap: 30px;">
-
-									Column 1 (5 checkboxes)
-									<h:panelGroup layout="block" style="margin-left:100px;">
-										<p:selectManyCheckbox
-											value="#{ManageMotorActionBean.selectedAdditionalCovers}"
-											layout="pageDirection">
-											<f:selectItem itemLabel="Acts Of God" itemValue="ActsOfGod" />
-											<f:selectItem itemLabel="Nil Excess" itemValue="NilExcess" />
-											<f:selectItem itemLabel="SRCC" itemValue="SRCC" />
-											<f:selectItem itemLabel="Theft" itemValue="Theft" />
-											<f:selectItem itemLabel="War Risk" itemValue="WarRisk" />
-										</p:selectManyCheckbox>
-									</h:panelGroup>
-									Column 2 (5 checkboxes)
-									<h:panelGroup layout="block" style="margin-left:100px;">
-										<p:selectManyCheckbox
-											value="#{ManageMotorActionBean.selectedAdditionalCovers}"
-											layout="pageDirection">
-											<f:selectItem itemLabel="Betterment" itemValue="Betterment" />
-											<f:selectItem itemLabel="PAAndMT" itemValue="PA_MT" />
-											<f:selectItem itemLabel="Sun Roof" itemValue="SunRoof" />
-											<f:selectItem itemLabel="Third Party" itemValue="ThirdParty" />
-											<f:selectItem itemLabel="Wind Screen" itemValue="WindScreen" />
-										</p:selectManyCheckbox>
-									</h:panelGroup>
-
-								</p:panelGrid>
-							</h:panelGroup> -->
 							<h:panelGroup columns="1" style="margin-top:10px;">
 								<h:outputText value="Additional Cover"
 									style="font-weight:bold; margin-bottom:5px;" />
@@ -401,6 +370,7 @@
 								</p:panelGrid>
 							</h:panelGroup>
 						</p:panelGrid>
+						
 						<h:panelGrid columns="1" style="margin-top:-2px;">
 							<p:commandButton id="addBtn"
 								value="#{label['COMMON_ADDNEW_BTN']}"
@@ -409,7 +379,7 @@
 								update="vehicleTable vehiclePanel growl" process="@form"
 								style="width: 70px;"
 								oncomplete="PF('vehicleTable').clearFilters();" />
-							<p:commandButton id="editBtn" value="Update"
+							<p:commandButton id="editBtn" value="#{label['COMMON_UPDATE_BTN']}"
 								rendered="#{ManageMotorActionBean.editMode}"
 								action="#{ManageMotorActionBean.addNewVehicleInfo}"
 								update="vehicleTable vehiclePanel @form" process="@form"
@@ -451,7 +421,9 @@
 								value="#{ManageMotorActionBean.getAdditionalCoversAsString(vehicle)}" />
 						</p:column>
 						<p:column headerText="Sum Insured">
-							<h:outputText value="#{vehicle.sumInsured}" />
+							<h:outputText value="#{vehicle.sumInsured}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
 						</p:column>
 
 						<!-- edit Button -->
@@ -464,7 +436,7 @@
 					
 						<!-- Delete Button -->
 						<p:column style="width:4%;">
-							<p:commandButton styleClass="red-button" icon="fa fa-times"
+							<p:commandButton styleClass="red-button" icon="fa fa-exclamation-triangle"
 								action="#{ManageMotorActionBean.deleteVehicle(vehicle)}"
 								update=":motorEntryForm:vehicleTable :motorEntryForm:growl @form"
 								process="@this">

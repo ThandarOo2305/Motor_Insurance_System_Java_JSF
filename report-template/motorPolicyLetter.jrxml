@@ -2,13 +2,15 @@
 <!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="motorPolicyLetter" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0b4b8d0b-0312-4f20-9e1b-f495c64da7c0">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<parameter name="Customer Name" class="java.lang.String"/>
-	<parameter name="Policy No" class="java.lang.String"/>
-	<parameter name="Proposal No" class="java.lang.String"/>
-	<parameter name="Sum Insured" class="java.lang.Double"/>
-	<parameter name="Basic Term Premium" class="java.lang.Double"/>
-	<parameter name="Add On Term Premium" class="java.lang.Double"/>
-	<parameter name="Total Premium" class="java.lang.Double"/>
+	<parameter name="CustomerName" class="java.lang.String"/>
+	<parameter name="PolicyNo" class="java.lang.String"/>
+	<parameter name="ProposalNo" class="java.lang.String"/>
+	<parameter name="RegistrationNo" class="java.lang.String"/>
+	<parameter name="AddOnCovers" class="java.lang.String"/>
+	<parameter name="SumInsured" class="java.lang.Double"/>
+	<parameter name="BasicTermPremium" class="java.lang.Double"/>
+	<parameter name="AddOnTermPremium" class="java.lang.Double"/>
+	<parameter name="TotalPremium" class="java.lang.Double"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -40,7 +42,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{Customer Name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{CustomerName}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -76,7 +78,7 @@
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{Policy No}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{PolicyNo}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="2" y="60" width="178" height="30" uuid="24372c6d-b0fa-4d72-b6d8-96a0e19d0acd"/>
@@ -85,13 +87,38 @@
 				</textElement>
 				<text><![CDATA[Proposal No:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="200" y="60" width="177" height="30" uuid="f5d4770b-04f5-45c2-b02e-acf0f1bf83bd"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{Proposal No}]]></textFieldExpression>
-			</textField>
+			<!-- Registration No -->
+<staticText>
+    <reportElement x="2" y="95" width="178" height="30" uuid="11111111-aaaa-1111-aaaa-111111111111"/>
+    <textElement verticalAlignment="Middle">
+        <font size="14"/>
+    </textElement>
+    <text><![CDATA[Registration No:]]></text>
+</staticText>
+<textField>
+    <reportElement x="200" y="95" width="350" height="30" uuid="22222222-bbbb-2222-bbbb-222222222222"/>
+    <textElement verticalAlignment="Middle" textAlignment="Left">
+        <font size="14"/>
+    </textElement>
+    <textFieldExpression><![CDATA[$P{RegistrationNo}]]></textFieldExpression>
+</textField>
+
+<!-- Add-On Covers -->
+<staticText>
+    <reportElement x="2" y="130" width="178" height="30" uuid="33333333-cccc-3333-cccc-333333333333"/>
+    <textElement verticalAlignment="Middle">
+        <font size="14"/>
+    </textElement>
+    <text><![CDATA[Additional Covers:]]></text>
+</staticText>
+<textField isStretchWithOverflow="true">
+    <reportElement x="200" y="130" width="350" height="30" uuid="44444444-dddd-4444-dddd-444444444444"/>
+    <textElement verticalAlignment="Middle" textAlignment="Left">
+        <font size="14"/>
+    </textElement>
+    <textFieldExpression><![CDATA[$P{AddOnCovers}]]></textFieldExpression>
+</textField>
+
 			<staticText>
 				<reportElement x="0" y="195" width="179" height="30" uuid="ab01fd09-0191-4b00-b68a-fbd4f73bcc93"/>
 				<textElement verticalAlignment="Middle">
@@ -104,7 +131,7 @@
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{Basic Term Premium}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0.00").format($P{BasicTermPremium})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="1" y="127" width="179" height="30" uuid="e45b1bfb-d7dc-409c-a98a-07a30c2205da"/>
@@ -118,7 +145,7 @@
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{Sum Insured}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0.00").format($P{SumInsured})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="3" y="356" width="551" height="52" uuid="f322b23c-8ed7-4693-8884-19b8ed21589f"/>
@@ -140,7 +167,7 @@
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{Add On Term Premium}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0.00").format($P{AddOnTermPremium})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="1" y="312" width="179" height="30" uuid="f48286d0-9678-49b4-9f47-ab4f4f17e9be"/>
@@ -154,7 +181,7 @@
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{Total Premium}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0.00").format($P{TotalPremium})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
