@@ -75,7 +75,8 @@
 									styleClass="input-label mandatory" />
 								<p:datePicker id="submitDate"
 									value="#{ManageMotorActionBean.motorPolicy.submittedDate}"
-									pattern="dd-MM-yyyy" showIcon="true">
+									showIcon="true" pattern="#{ApplicationSetting.dateFormat}" 
+									timeZone="#{ApplicationSetting.timeZone}">
 								</p:datePicker>
 
 							</p:panelGrid>

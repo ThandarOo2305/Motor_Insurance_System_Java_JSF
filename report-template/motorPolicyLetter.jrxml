@@ -22,7 +22,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA[	"Motor Insurance"]]></text>
+				<text><![CDATA[	Motor Insurance]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -33,7 +33,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["To"]]></text>
+				<text><![CDATA[To]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="1" y="38" width="179" height="30" uuid="6e14db85-a202-4485-88b3-3d49aa21fc6c"/>
@@ -51,14 +51,14 @@
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["We appreciate your choice our company and warmly inform you that, your proposal of fire insurance has been approved and fire insurance premium is as follow"]]></text>
+				<text><![CDATA[We appreciate your choice our company and warmly inform you that, your proposal of fire insurance has been approved and fire insurance premium is as follow]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="2" width="379" height="30" uuid="4806cc2c-dab8-4958-b0b3-9a4f4bc27030"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["Motor Insurance And Premium charges"]]></text>
+				<text><![CDATA[Motor Insurance And Premium charges]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -69,7 +69,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["Policy No:"]]></text>
+				<text><![CDATA[Policy No:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="204" y="2" width="176" height="30" uuid="ee654c39-1546-439c-8c64-0c747080579a"/>
@@ -83,7 +83,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["Proposal No:"]]></text>
+				<text><![CDATA[Proposal No:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="200" y="60" width="177" height="30" uuid="f5d4770b-04f5-45c2-b02e-acf0f1bf83bd"/>
@@ -97,7 +97,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["Basic Term Premium:"]]></text>
+				<text><![CDATA[Basic Term Premium:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="200" y="195" width="178" height="30" uuid="3f2ffebb-6bd8-44d0-99a7-2b102245e555"/>
@@ -111,7 +111,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["Sum Insured:"]]></text>
+				<text><![CDATA[Sum Insured:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="199" y="127" width="177" height="30" uuid="3260abff-cb76-495a-9ac2-f44e65ca57ec"/>
@@ -133,7 +133,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["AddOnTerm Premium:"]]></text>
+				<text><![CDATA[AddOnTerm Premium:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="199" y="258" width="179" height="30" uuid="8902515e-aa08-4a69-9bfd-4e6f0136ed2d"/>
@@ -147,7 +147,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["Total Premium:"]]></text>
+				<text><![CDATA[Total Premium:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="201" y="312" width="175" height="30" uuid="c121808f-99df-4d7a-99c8-93d3a54f6748"/>
@@ -165,7 +165,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["Thank You,"
+				<text><![CDATA[Thank You,
 ]]></text>
 			</staticText>
 			<staticText>
@@ -173,7 +173,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["Yours Sincerely," 
+				<text><![CDATA[Yours Sincerely,
 
 
 ]]></text>
@@ -183,7 +183,7 @@
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA["Authorized Signature" 
+				<text><![CDATA[Authorized Signature
 
 
 ]]></text>

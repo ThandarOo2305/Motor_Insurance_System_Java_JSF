@@ -23,6 +23,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.ace.accounting.common.BasicEntity;
@@ -62,7 +64,8 @@ public class MotorPolicy implements Serializable {
 	private String policyNo;
 
 	private String proposalNo;
-
+	
+	@Temporal(TemporalType.DATE)
 	private Date submittedDate;
 
 	private Date policyStartDate;
