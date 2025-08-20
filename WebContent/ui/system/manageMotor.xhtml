@@ -75,7 +75,7 @@
 									styleClass="input-label mandatory" />
 								<p:datePicker id="submitDate"
 									value="#{ManageMotorActionBean.motorPolicy.submittedDate}"
-									showIcon="true" pattern="#{ApplicationSetting.dateFormat}" 
+									showIcon="true" pattern="#{ApplicationSetting.dateFormat}"
 									timeZone="#{ApplicationSetting.timeZone}">
 								</p:datePicker>
 
@@ -340,7 +340,7 @@
 									value="#{ManageMotorActionBean.vehicle.hirePurchaseCompany}" />
 							</p:panelGrid>
 
-							<h:panelGroup style="margin-top:10px;">
+							<!-- <h:panelGroup style="margin-top:10px;">
 								<h:outputText value="Additional Cover"
 									style="font-weight:bold; margin-bottom:5px;" />
 
@@ -348,7 +348,7 @@
 									styleClass="ui-panelgrid-blank ui-fluid"
 									style="margin-top:10px; column-gap: 30px;">
 
-									<!-- Column 1 (5 checkboxes) -->
+									Column 1 (5 checkboxes)
 									<h:panelGroup layout="block" style="margin-left:100px;">
 										<p:selectManyCheckbox
 											value="#{ManageMotorActionBean.selectedAdditionalCovers}"
@@ -360,7 +360,7 @@
 											<f:selectItem itemLabel="War Risk" itemValue="WarRisk" />
 										</p:selectManyCheckbox>
 									</h:panelGroup>
-									<!-- Column 2 (5 checkboxes) -->
+									Column 2 (5 checkboxes)
 									<h:panelGroup layout="block" style="margin-left:100px;">
 										<p:selectManyCheckbox
 											value="#{ManageMotorActionBean.selectedAdditionalCovers}"
@@ -374,20 +374,49 @@
 									</h:panelGroup>
 
 								</p:panelGrid>
+							</h:panelGroup> -->
+							<h:panelGroup columns="1" style="margin-top:10px;">
+								<h:outputText value="Additional Cover"
+									style="font-weight:bold; margin-bottom:5px;" />
+								<p:panelGrid columns="1"
+									columnClasses="ui-grid-col-12"
+									layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+
+									<p:selectManyCheckbox
+										value="#{ManageMotorActionBean.selectedAdditionalCovers}"
+										layout="grid" columns="2"
+										style="margin-top:5px; border-spacing:8px 4px; display:table; margin-left:auto; margin-right:auto; width: 100%;">
+
+										<f:selectItem itemLabel="Acts Of God" itemValue="ActsOfGod" />
+										<f:selectItem itemLabel="Nil Excess" itemValue="NilExcess" />
+										<f:selectItem itemLabel="SRCC" itemValue="SRCC" />
+										<f:selectItem itemLabel="Theft" itemValue="Theft" />
+										<f:selectItem itemLabel="War Risk" itemValue="WarRisk" />
+										<f:selectItem itemLabel="Betterment" itemValue="Betterment" />
+										<f:selectItem itemLabel="PAAndMT" itemValue="PA_MT" />
+										<f:selectItem itemLabel="Sun Roof" itemValue="SunRoof" />
+										<f:selectItem itemLabel="Third Party" itemValue="ThirdParty" />
+										<f:selectItem itemLabel="Wind Screen" itemValue="WindScreen" />
+									</p:selectManyCheckbox>
+								</p:panelGrid>
 							</h:panelGroup>
-
-
-
-
 						</p:panelGrid>
 						<h:panelGrid columns="1" style="margin-top:-2px;">
 							<p:commandButton id="addBtn"
 								value="#{label['COMMON_ADDNEW_BTN']}"
+								rendered="#{!ManageMotorActionBean.editMode}"
 								action="#{ManageMotorActionBean.addNewVehicleInfo}"
 								update="vehicleTable vehiclePanel growl" process="@form"
 								style="width: 70px;"
 								oncomplete="PF('vehicleTable').clearFilters();" />
+							<p:commandButton id="editBtn" value="Update"
+								rendered="#{ManageMotorActionBean.editMode}"
+								action="#{ManageMotorActionBean.addNewVehicleInfo}"
+								update="vehicleTable vehiclePanel @form" process="@form"
+								style="width: 70px;"
+								oncomplete="PF('vehicleTable').clearFilters();" />
 						</h:panelGrid>
+
 					</p:panel>
 
 					<p:dataTable var="vehicle"
@@ -425,11 +454,19 @@
 							<h:outputText value="#{vehicle.sumInsured}" />
 						</p:column>
 
+						<!-- edit Button -->
+						<p:column style="width:4%;">
+							<p:commandButton styleClass="green-button" icon="fa fa-paint-brush"
+								action="#{ManageMotorActionBean.editVehicle(vehicle)}"
+								update="@form" process="@this">
+							</p:commandButton>
+						</p:column>
+					
 						<!-- Delete Button -->
 						<p:column style="width:4%;">
 							<p:commandButton styleClass="red-button" icon="fa fa-times"
 								action="#{ManageMotorActionBean.deleteVehicle(vehicle)}"
-								update=":motorEntryForm:vehicleTable :motorEntryForm:growl"
+								update=":motorEntryForm:vehicleTable :motorEntryForm:growl @form"
 								process="@this">
 								<p:confirm header="Confirmation"
 									message="Are you sure you want to delete this vehicle?"
