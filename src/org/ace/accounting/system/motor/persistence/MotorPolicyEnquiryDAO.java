@@ -23,10 +23,7 @@ public class MotorPolicyEnquiryDAO extends BasicDAO implements IMotorPolicyEnqui
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<MotorEnquiryDTO> search(String sqlquery, Map<String, Object> params) throws DAOException {
-//		List<MotorPolicyVehicleLink> result = null;
-		try {
-//			Query q = em.createQuery(sqlquery);
-			
+		try {			
 			TypedQuery<MotorEnquiryDTO> q= em.createQuery(sqlquery, MotorEnquiryDTO.class);
 			// set parameters for query
 			for (Map.Entry<String, Object> entry : params.entrySet()) {
@@ -37,7 +34,6 @@ public class MotorPolicyEnquiryDAO extends BasicDAO implements IMotorPolicyEnqui
 		} catch (PersistenceException pe) {
 			throw translate("Failed to find", pe);
 		}
-//		return result;
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)

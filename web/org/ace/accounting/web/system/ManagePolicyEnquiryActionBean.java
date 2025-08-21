@@ -66,6 +66,11 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 	private List<MotorEnquiryDTO> results;
 	
 	private MotorPolicy selectedPolicy;
+	
+	private final String reportName = "motorPolicyEnquiryLetter";
+	private final String fileName = "MotorPolicyEnquiryLetter";
+	private final String pdfDirPath = "/pdf-report/" + reportName + "/" + System.currentTimeMillis() + "/";
+	private final String dirPath = getWebRootPath() + pdfDirPath;
 
 	public MotorPolicy getSelectedPolicy() {
 	    return selectedPolicy;
@@ -78,10 +83,8 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 	public void viewDetails(MotorEnquiryDTO enquiry) {
 	    if (enquiry != null && enquiry.getPolicyNo() != null) {
 	        try {
-	            // Fetch full MotorPolicy with vehicle links
 	            selectedPolicy = policyEnquiryService.findByPolicyNo(enquiry.getPolicyNo());
 	            System.out.println("Vehicle links count = " + selectedPolicy.getVehicleLinks().size());
-//	            System.out.println("Additional Covers = " + getAdditionalCoversAsString(selectedPolicy));
 	            } catch (Exception e) {
 	            e.printStackTrace();
 	            addErrorMessage(null, "Failed to load policy details");
@@ -89,30 +92,6 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 	    }
 	}
 	
-//	public String getAdditionalCoversAsString(MotorPolicy policy) {
-//	    if (policy == null || policy.getVehicleLinks() == null || policy.getVehicleLinks().isEmpty()) {
-//	        return "";
-//	    }
-//
-//	    // Example: Take first vehicle. You can loop if needed.
-//	    MotorPolicyVehicleLink vehicle = policy.getVehicleLinks().get(0);
-//	    List<String> covers = new ArrayList<>();
-//
-//	    if (Boolean.TRUE.equals(vehicle.isActsOfGod())) covers.add("Acts Of God");
-//	    if (Boolean.TRUE.equals(vehicle.isNilExcess())) covers.add("Nil Excess");
-//	    if (Boolean.TRUE.equals(vehicle.isSrcc())) covers.add("SRCC");
-//	    if (Boolean.TRUE.equals(vehicle.isTheft())) covers.add("Theft");
-//	    if (Boolean.TRUE.equals(vehicle.isWarRisk())) covers.add("War Risk");
-//	    if (Boolean.TRUE.equals(vehicle.isBetterment())) covers.add("Betterment");
-//	    if (Boolean.TRUE.equals(vehicle.isPaAndMt())) covers.add("PA and MT");
-//	    if (Boolean.TRUE.equals(vehicle.isSunRoof())) covers.add("Sun Roof");
-//	    if (Boolean.TRUE.equals(vehicle.isThirdParty())) covers.add("Third Party");
-//	    if (Boolean.TRUE.equals(vehicle.isWindScreen())) covers.add("Wind Screen");
-//
-//	    return String.join(", ", covers);
-//	}
-
-
 	// init
 	@PostConstruct
 	public void init() {
@@ -173,11 +152,6 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 		mpq.setPolicyNo(policyNo);
 		mpq.setRegistrationNo(registrationNo);
 	}
-	
-	private final String reportName = "motorPolicyEnquiryLetter";
-	private final String fileName = "MotorPolicyEnquiryLetter";
-	private final String pdfDirPath = "/pdf-report/" + reportName + "/" + System.currentTimeMillis() + "/";
-	private final String dirPath = getWebRootPath() + pdfDirPath;
 
 	public void generateReport() {
 		
@@ -325,8 +299,6 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 
 	public void setMpq(MotorEnquiry mpq) {
 		this.mpq = mpq;
-	}
-
-	
+	}	
 
 }
