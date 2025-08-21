@@ -715,9 +715,11 @@ public class ManageMotorActionBean extends BaseBean {
 			System.out.println("Customer Name = " + motorPolicy.getCustomerName());
 			System.out.println("Policy No     = " + motorPolicy.getPolicyNo());
 			System.out.println("Proposal No   = " + motorPolicy.getProposalNo());
+			System.out.println("Submitted Date = " + motorPolicy.getSubmittedDate());
 			parameters.put("CustomerName", motorPolicy.getCustomerName());
 			parameters.put("PolicyNo", motorPolicy.getPolicyNo());
 			parameters.put("ProposalNo", motorPolicy.getProposalNo());
+			parameters.put("SubmittedDate", motorPolicy.getSubmittedDate());
 			
 			// Join all Registration Nos with comma
 			String registrationNos = addVehicleList.stream()

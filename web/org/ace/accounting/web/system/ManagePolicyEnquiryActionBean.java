@@ -23,6 +23,7 @@ import org.ace.accounting.common.validation.ValidationResult;
 import org.ace.accounting.system.motor.MotorEnquiry;
 import org.ace.accounting.system.motor.MotorEnquiryDTO;
 import org.ace.accounting.system.motor.MotorPolicy;
+import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.service.interfaces.IMotorEnquiryService;
 import org.ace.java.web.common.BaseBean;
 import org.apache.commons.io.FileUtils;
@@ -79,13 +80,39 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 	        try {
 	            // Fetch full MotorPolicy with vehicle links
 	            selectedPolicy = policyEnquiryService.findByPolicyNo(enquiry.getPolicyNo());
-	        } catch (Exception e) {
+	            System.out.println("Vehicle links count = " + selectedPolicy.getVehicleLinks().size());
+//	            System.out.println("Additional Covers = " + getAdditionalCoversAsString(selectedPolicy));
+	            } catch (Exception e) {
 	            e.printStackTrace();
 	            addErrorMessage(null, "Failed to load policy details");
 	        }
 	    }
 	}
 	
+//	public String getAdditionalCoversAsString(MotorPolicy policy) {
+//	    if (policy == null || policy.getVehicleLinks() == null || policy.getVehicleLinks().isEmpty()) {
+//	        return "";
+//	    }
+//
+//	    // Example: Take first vehicle. You can loop if needed.
+//	    MotorPolicyVehicleLink vehicle = policy.getVehicleLinks().get(0);
+//	    List<String> covers = new ArrayList<>();
+//
+//	    if (Boolean.TRUE.equals(vehicle.isActsOfGod())) covers.add("Acts Of God");
+//	    if (Boolean.TRUE.equals(vehicle.isNilExcess())) covers.add("Nil Excess");
+//	    if (Boolean.TRUE.equals(vehicle.isSrcc())) covers.add("SRCC");
+//	    if (Boolean.TRUE.equals(vehicle.isTheft())) covers.add("Theft");
+//	    if (Boolean.TRUE.equals(vehicle.isWarRisk())) covers.add("War Risk");
+//	    if (Boolean.TRUE.equals(vehicle.isBetterment())) covers.add("Betterment");
+//	    if (Boolean.TRUE.equals(vehicle.isPaAndMt())) covers.add("PA and MT");
+//	    if (Boolean.TRUE.equals(vehicle.isSunRoof())) covers.add("Sun Roof");
+//	    if (Boolean.TRUE.equals(vehicle.isThirdParty())) covers.add("Third Party");
+//	    if (Boolean.TRUE.equals(vehicle.isWindScreen())) covers.add("Wind Screen");
+//
+//	    return String.join(", ", covers);
+//	}
+
+
 	// init
 	@PostConstruct
 	public void init() {

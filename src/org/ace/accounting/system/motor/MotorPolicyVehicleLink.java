@@ -101,7 +101,7 @@ public class MotorPolicyVehicleLink implements Serializable{
 	@Embedded
 	private BasicEntity basicEntity;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "policyId", nullable = false)
 	private MotorPolicy motorPolicy;
     
