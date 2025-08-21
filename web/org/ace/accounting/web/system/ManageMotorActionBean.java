@@ -150,64 +150,62 @@ public class ManageMotorActionBean extends BaseBean {
 	}
 
 	public void vehicleWithRegistrationNoExist() {
-	    sameVehicleNo = false;
-	    sameVehicle = null;
+		sameVehicleNo = false;
+		sameVehicle = null;
 
-	    for (MotorPolicyVehicleLink ve : addVehicleList) {
-	        if (vehicle.getRegistrationNo().trim().equalsIgnoreCase(ve.getRegistrationNo().trim())) {
-	            sameVehicleNo = true;
-	            setSameVehicle(ve);
-	            break;
-	        }
-	    }
+		for (MotorPolicyVehicleLink ve : addVehicleList) {
+			if (vehicle.getRegistrationNo().trim().equalsIgnoreCase(ve.getRegistrationNo().trim())) {
+				sameVehicleNo = true;
+				setSameVehicle(ve);
+				break;
+			}
+		}
 	}
+
 	public void addVehicle() {
-	    System.out.println("In addVehicle method");
+		System.out.println("In addVehicle method");
 
-	    if (addVehicleList == null) {
-	        addVehicleList = new ArrayList<>();
-	    }
+		if (addVehicleList == null) {
+			addVehicleList = new ArrayList<>();
+		}
 
-	    vehicleWithRegistrationNoExist();
+		vehicleWithRegistrationNoExist();
 
-	    if (editMode) {
-	        // in edit mode
-	        if (sameVehicleNo && !sameVehicle.equals(editingVehicle)) {
-	            // conflict with another vehicle
-	            FacesContext.getCurrentInstance().addMessage(null,
-	                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Warning", 
-	                    "Another vehicle with the same registration number already exists."));
-	            return;
-	        }
+		if (editMode) {
+			// in edit mode
+			if (sameVehicleNo && !sameVehicle.equals(editingVehicle)) {
+				// conflict with another vehicle
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Warning", "Another vehicle with the same registration number already exists."));
+				return;
+			}
 
-	        // update the existing vehicle in the list
-	        int index = addVehicleList.indexOf(editingVehicle);
-	        if (index != -1) {
-	            addVehicleList.set(index, vehicle); // Optional if `vehicle == editingVehicle`
-	        }
+			// update the existing vehicle in the list
+			int index = addVehicleList.indexOf(editingVehicle);
+			if (index != -1) {
+				addVehicleList.set(index, vehicle); // Optional if `vehicle == editingVehicle`
+			}
 
-	        editMode = false;
-	        editingVehicle = null;
-	        createNewVehicleInfo();
+			editMode = false;
+			editingVehicle = null;
+			createNewVehicleInfo();
 
-	        FacesContext.getCurrentInstance().addMessage(null,
-	            new FacesMessage(FacesMessage.SEVERITY_INFO, "Updated", "Vehicle updated successfully."));
-	    } else {
-	        // add mode
-	        if (sameVehicleNo) {
-	            FacesContext.getCurrentInstance().addMessage(null,
-	                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Warning", 
-	                    "There is already a vehicle with the same registration number."));
-	        } else {
-	            addVehicleList.add(vehicle);
-	            createNewVehicleInfo();
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Updated", "Vehicle updated successfully."));
+		} else {
+			// add mode
+			if (sameVehicleNo) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Warning", "There is already a vehicle with the same registration number."));
+			} else {
+				addVehicleList.add(vehicle);
+				createNewVehicleInfo();
 
-	            FacesContext.getCurrentInstance().addMessage(null,
-	                new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Vehicle added successfully."));
-	        }
-	    }
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Vehicle added successfully."));
+			}
+		}
 	}
-
 
 	public void addNewVehicleInfo() {
 		System.out.println("Selected covers: " + selectedAdditionalCovers);
@@ -310,6 +308,7 @@ public class ManageMotorActionBean extends BaseBean {
 					return;
 				}
 				currentStep = "PremiumInfo";
+				resetVehicleForm();
 				System.out.println(
 						"nextStep: Set currentStep to PremiumInfo, addVehicleList size: " + addVehicleList.size());
 				break;
@@ -337,6 +336,7 @@ public class ManageMotorActionBean extends BaseBean {
 		}
 
 		if ("VehicleInfo".equals(currentStep)) {
+			resetVehicleForm();
 			currentStep = "PolicyInfo";
 			System.out.println("backStep: Set currentStep to PolicyInfo");
 		} else if ("PremiumInfo".equals(currentStep)) {
@@ -346,6 +346,13 @@ public class ManageMotorActionBean extends BaseBean {
 			System.err.println("backStep: Invalid currentStep: " + currentStep);
 			currentStep = "PolicyInfo";
 		}
+	}
+
+	private void resetVehicleForm() {
+		createNewVehicleInfo();
+		selectedAdditionalCovers.clear();
+		editMode = false;
+		editingVehicle = null;
 	}
 
 	// Validate fields for each step
@@ -718,25 +725,19 @@ public class ManageMotorActionBean extends BaseBean {
 			parameters.put("CustomerName", motorPolicy.getCustomerName());
 			parameters.put("PolicyNo", motorPolicy.getPolicyNo());
 			parameters.put("ProposalNo", motorPolicy.getProposalNo());
-			
+
 			// Join all Registration Nos with comma
-			String registrationNos = addVehicleList.stream()
-			        .map(MotorPolicyVehicleLink::getRegistrationNo)
-			        .collect(Collectors.joining(", "));
+			String registrationNos = addVehicleList.stream().map(MotorPolicyVehicleLink::getRegistrationNo)
+					.collect(Collectors.joining(", "));
 
 			// Join all Add-On Covers with comma
-			String addOnCoversAll = addVehicleList.stream()
-			        .map(v -> {
-			            String covers = getAdditionalCoversAsString(v);
-			            return (covers != null && !covers.isEmpty()) ? covers : "None";
-			        })
-			        .collect(Collectors.joining(", "));
+			String addOnCoversAll = addVehicleList.stream().map(v -> {
+				String covers = getAdditionalCoversAsString(v);
+				return (covers != null && !covers.isEmpty()) ? covers : "None";
+			}).collect(Collectors.joining(", "));
 
 			parameters.put("RegistrationNo", registrationNos);
 			parameters.put("AddOnCovers", addOnCoversAll);
-
-
-
 
 			double sumInsuredTotal = addVehicleList.stream().mapToDouble(MotorPolicyVehicleLink::getSumInsured).sum();
 			double basicPremiumTotal = addVehicleList.stream().mapToDouble(MotorPolicyVehicleLink::getBasicTermPremium)

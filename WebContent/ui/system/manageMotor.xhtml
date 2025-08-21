@@ -191,187 +191,190 @@
 
 				<p:tab title="Vehicle Info" id="VehicleInfo">
 					<p:panel id="vehicleInfoPanel" header="Vehicle Info">
-						<p:panelGrid id="vehiclePanel" columns="2"
-							columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
-							styleClass="ui-panelgrid-blank ui-fluid">
-
-							<!-- Left column -->
-							<p:panelGrid columns="2"
-								columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+						<p:outputPanel id="vehicleFormWrapper">
+							<p:panelGrid id="vehiclePanel" columns="2"
+								columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
 								styleClass="ui-panelgrid-blank ui-fluid">
 
-								<h:outputText value="" />
-								<p:message display="text" for="registrationNo" />
-								<h:outputText for="registrationNo" value="Registration No"
-									styleClass="input-label mandatory" />
-								<p:inputText id="registrationNo"
-									value="#{ManageMotorActionBean.vehicle.registrationNo}"
-									required="true"
-									requiredMessage="registration Number is required." />
+								<!-- Left column -->
+								<p:panelGrid columns="2"
+									columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+									styleClass="ui-panelgrid-blank ui-fluid" id="left">
 
-								<h:outputText value="" />
-								<p:message display="text" for="model" />
-								<h:outputText for="model" value="Model"
-									styleClass="input-label mandatory" />
-								<p:inputText id="model"
-									value="#{ManageMotorActionBean.vehicle.model}" required="true"
-									requiredMessage="Model is required." />
+									<h:outputText value="" />
+									<p:message display="text" for="registrationNo" />
+									<h:outputText for="registrationNo" value="Registration No"
+										styleClass="input-label mandatory" />
+									<p:inputText id="registrationNo"
+										value="#{ManageMotorActionBean.vehicle.registrationNo}"
+										required="true"
+										requiredMessage="registration Number is required." />
 
-								<h:outputText value="" />
-								<p:message display="text" for="engineNo" />
-								<h:outputText for="engineNo" value="Engine No"
-									styleClass="input-label mandatory" />
-								<p:inputText id="engineNo"
-									value="#{ManageMotorActionBean.vehicle.engineNo}"
-									required="true" requiredMessage="Engine Number is required."
-									placeholder="e.g., F16B1234567">
-								</p:inputText>
+									<h:outputText value="" />
+									<p:message display="text" for="model" />
+									<h:outputText for="model" value="Model"
+										styleClass="input-label mandatory" />
+									<p:inputText id="model"
+										value="#{ManageMotorActionBean.vehicle.model}" required="true"
+										requiredMessage="Model is required." />
 
-								<h:outputText value="" />
-								<p:message display="text" for="chassisNo" />
-								<h:outputText for="chassisNo" value="Chassis No"
-									styleClass="input-label mandatory" />
-								<p:inputText id="chassisNo"
-									value="#{ManageMotorActionBean.vehicle.chassisNo}"
-									required="true" requiredMessage="Chassis Number is required."
-									placeholder="e.g., 1HGCM82633A004352">
-								</p:inputText>
+									<h:outputText value="" />
+									<p:message display="text" for="engineNo" />
+									<h:outputText for="engineNo" value="Engine No"
+										styleClass="input-label mandatory" />
+									<p:inputText id="engineNo"
+										value="#{ManageMotorActionBean.vehicle.engineNo}"
+										required="true" requiredMessage="Engine Number is required."
+										placeholder="e.g., F16B1234567">
+									</p:inputText>
 
-								<h:outputText value="" />
-								<p:message display="text" for="yearOfManufacture" />
-								<h:outputText for="yearOfManufacture"
-									value="Year of Manufacture" styleClass="input-label mandatory" />
-								<p:inputText id="yearOfManufacture"
-									value="#{ManageMotorActionBean.vehicle.yearOfManufacture}"
-									required="true" placeholder="yyyy" requiredMessage="Year Of Manufacture is Required!">
-								</p:inputText>
+									<h:outputText value="" />
+									<p:message display="text" for="chassisNo" />
+									<h:outputText for="chassisNo" value="Chassis No"
+										styleClass="input-label mandatory" />
+									<p:inputText id="chassisNo"
+										value="#{ManageMotorActionBean.vehicle.chassisNo}"
+										required="true" requiredMessage="Chassis Number is required."
+										placeholder="e.g., 1HGCM82633A004352">
+									</p:inputText>
 
-								<h:outputText value="" />
-								<p:message display="text" for="typeOfBody" />
-								<h:outputText for="typeOfBody" value="Type of Body"
-									styleClass="input-label mandatory" />
-								<p:inputText id="typeOfBody"
-									value="#{ManageMotorActionBean.vehicle.typeOfBody}"
-									required="true" requiredMessage="Type of Body is Required!" />
+									<h:outputText value="" />
+									<p:message display="text" for="yearOfManufacture" />
+									<h:outputText for="yearOfManufacture"
+										value="Year of Manufacture" styleClass="input-label mandatory" />
+									<p:inputText id="yearOfManufacture"
+										value="#{ManageMotorActionBean.vehicle.yearOfManufacture}"
+										required="true" placeholder="yyyy"
+										requiredMessage="Year Of Manufacture is Required!">
+									</p:inputText>
 
-								<h:outputText value="" />
-								<p:message display="text" for="manufacture" />
-								<h:outputText for="manufacture" value="Manufacture"
-									styleClass="input-label" />
-								<p:inputText id="manufacture"
-									value="#{ManageMotorActionBean.vehicle.manufacture}" />
+									<h:outputText value="" />
+									<p:message display="text" for="typeOfBody" />
+									<h:outputText for="typeOfBody" value="Type of Body"
+										styleClass="input-label mandatory" />
+									<p:inputText id="typeOfBody"
+										value="#{ManageMotorActionBean.vehicle.typeOfBody}"
+										required="true" requiredMessage="Type of Body is Required!" />
 
-								<h:outputText value="" />
-								<p:message display="text" for="productType" />
-								<h:outputText for="productType" value="Product Type"
-									styleClass="input-label mandatory" />
-								<p:selectOneMenu id="productType"
-									value="#{ManageMotorActionBean.vehicle.productType}"
-									required="true" requiredMessage="Product Type is Required!">
-									<f:selectItem itemLabel="Selected Product Type" itemValue="" />
-									<f:selectItem itemLabel="Private" itemValue="Private" />
-									<f:selectItem itemLabel="Commercial" itemValue="Commercial" />
-								</p:selectOneMenu>
-							</p:panelGrid>
+									<h:outputText value="" />
+									<p:message display="text" for="manufacture" />
+									<h:outputText for="manufacture" value="Manufacture"
+										styleClass="input-label" />
+									<p:inputText id="manufacture"
+										value="#{ManageMotorActionBean.vehicle.manufacture}" />
 
-							<!-- Right column -->
-							<p:panelGrid columns="2"
-								columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
-								styleClass="ui-panelgrid-blank ui-fluid">
-
-								<h:outputText value="" />
-								<p:message display="text" for="cubicCapacity" />
-								<h:outputText for="cubicCapacity" value="Cubic Capacity"
-									styleClass="input-label mandatory" />
-								<p:inputText id="cubicCapacity"
-									value="#{ManageMotorActionBean.vehicle.cubicCapacity}"
-									required="true" requiredMessage="Cubic Capacity is required!">
-								</p:inputText>
-
-								<h:outputText value="" />
-								<p:message display="text" for="seating" />
-								<h:outputText for="seating" value="Seating"
-									styleClass="input-label" />
-								<p:inputText id="seating"
-									value="#{ManageMotorActionBean.vehicle.seating}" />
-
-								<h:outputText value="" />
-								<p:message display="text" for="sumInsured" />
-								<h:outputText for="sumInsured" value="Sum Insured"
-									styleClass="input-label" />
-								<p:inputText id="sumInsured"
-									value="#{ManageMotorActionBean.vehicle.sumInsured}">
-									<f:convertNumber pattern="#,##0.00" />
-								</p:inputText>
-
-								<h:outputText value="" />
-								<p:message display="text" for="estimateSumInsured" />
-								<h:outputText for="estimateSumInsured"
-									value="Estimate Present Sum Insured"
-									styleClass="input-label mandatory" />
-								<p:inputText id="estimateSumInsured"
-									value="#{ManageMotorActionBean.vehicle.estimatePresentSumInsurance}"
-									required="true" requiredMessage="Estimate Present Sum Insurance is required!">
-									<f:convertNumber pattern="#,##0.00" />
-								</p:inputText>
-
-								<h:outputText value="" />
-								<p:message display="text" for="claimCount" />
-								<h:outputText for="claimCount" value="Claim Count"
-									styleClass="input-label" />
-								<p:inputText id="claimCount"
-									value="#{ManageMotorActionBean.vehicle.claimCount}" />
-
-								<h:outputText value="" />
-								<p:message display="text" for="ncbCount" />
-								<h:outputText for="ncbCount" value="NCB Count"
-									styleClass="input-label" />
-								<p:inputText id="ncbCount"
-									value="#{ManageMotorActionBean.vehicle.ncbCount}" />
-
-								<h:outputText value="" />
-								<p:message display="text" for="ncbAmount" />
-								<h:outputText for="ncbAmount" value="NCB Amount"
-									styleClass="input-label" />
-								<p:inputText id="ncbAmount"
-									value="#{ManageMotorActionBean.vehicle.ncbAmount}" />
-
-								<h:outputText value="" />
-								<p:message display="text" for="hirePurchaseCompany" />
-								<h:outputText for="hirePurchaseCompany"
-									value="Hire Purchase Company" styleClass="input-label" />
-								<p:inputText id="hirePurchaseCompany"
-									value="#{ManageMotorActionBean.vehicle.hirePurchaseCompany}" />
-							</p:panelGrid>
-
-							<h:panelGroup columns="1" style="margin-top:10px;">
-								<h:outputText value="Additional Cover"
-									style="font-weight:bold; margin-bottom:5px;" />
-								<p:panelGrid columns="1"
-									columnClasses="ui-grid-col-12"
-									layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
-
-									<p:selectManyCheckbox
-										value="#{ManageMotorActionBean.selectedAdditionalCovers}"
-										layout="grid" columns="2"
-										style="margin-top:5px; border-spacing:8px 4px; display:table; margin-left:auto; margin-right:auto; width: 100%;">
-
-										<f:selectItem itemLabel="Acts Of God" itemValue="ActsOfGod" />
-										<f:selectItem itemLabel="Nil Excess" itemValue="NilExcess" />
-										<f:selectItem itemLabel="SRCC" itemValue="SRCC" />
-										<f:selectItem itemLabel="Theft" itemValue="Theft" />
-										<f:selectItem itemLabel="War Risk" itemValue="WarRisk" />
-										<f:selectItem itemLabel="Betterment" itemValue="Betterment" />
-										<f:selectItem itemLabel="PAAndMT" itemValue="PA_MT" />
-										<f:selectItem itemLabel="Sun Roof" itemValue="SunRoof" />
-										<f:selectItem itemLabel="Third Party" itemValue="ThirdParty" />
-										<f:selectItem itemLabel="Wind Screen" itemValue="WindScreen" />
-									</p:selectManyCheckbox>
+									<h:outputText value="" />
+									<p:message display="text" for="productType" />
+									<h:outputText for="productType" value="Product Type"
+										styleClass="input-label mandatory" />
+									<p:selectOneMenu id="productType"
+										value="#{ManageMotorActionBean.vehicle.productType}"
+										required="true" requiredMessage="Product Type is Required!">
+										<f:selectItem itemLabel="Selected Product Type" itemValue="" />
+										<f:selectItem itemLabel="Private" itemValue="Private" />
+										<f:selectItem itemLabel="Commercial" itemValue="Commercial" />
+									</p:selectOneMenu>
 								</p:panelGrid>
-							</h:panelGroup>
-						</p:panelGrid>
-						
-						<h:panelGrid columns="1" style="margin-top:-2px;">
+
+								<!-- Right column -->
+								<p:panelGrid columns="2"
+									columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"
+									styleClass="ui-panelgrid-blank ui-fluid" id="right">
+
+									<h:outputText value="" />
+									<p:message display="text" for="cubicCapacity" />
+									<h:outputText for="cubicCapacity" value="Cubic Capacity"
+										styleClass="input-label mandatory" />
+									<p:inputText id="cubicCapacity"
+										value="#{ManageMotorActionBean.vehicle.cubicCapacity}"
+										required="true" requiredMessage="Cubic Capacity is required!">
+									</p:inputText>
+
+									<h:outputText value="" />
+									<p:message display="text" for="seating" />
+									<h:outputText for="seating" value="Seating"
+										styleClass="input-label" />
+									<p:inputText id="seating"
+										value="#{ManageMotorActionBean.vehicle.seating}" />
+
+									<h:outputText value="" />
+									<p:message display="text" for="sumInsured" />
+									<h:outputText for="sumInsured" value="Sum Insured"
+										styleClass="input-label" />
+									<p:inputText id="sumInsured"
+										value="#{ManageMotorActionBean.vehicle.sumInsured}">
+										<f:convertNumber pattern="#,##0.00" />
+									</p:inputText>
+
+									<h:outputText value="" />
+									<p:message display="text" for="estimateSumInsured" />
+									<h:outputText for="estimateSumInsured"
+										value="Estimate Present Sum Insured"
+										styleClass="input-label mandatory" />
+									<p:inputText id="estimateSumInsured"
+										value="#{ManageMotorActionBean.vehicle.estimatePresentSumInsurance}"
+										required="true"
+										requiredMessage="Estimate Present Sum Insurance is required!">
+										<f:convertNumber pattern="#,##0.00" />
+									</p:inputText>
+
+									<h:outputText value="" />
+									<p:message display="text" for="claimCount" />
+									<h:outputText for="claimCount" value="Claim Count"
+										styleClass="input-label" />
+									<p:inputText id="claimCount"
+										value="#{ManageMotorActionBean.vehicle.claimCount}" />
+
+									<h:outputText value="" />
+									<p:message display="text" for="ncbCount" />
+									<h:outputText for="ncbCount" value="NCB Count"
+										styleClass="input-label" />
+									<p:inputText id="ncbCount"
+										value="#{ManageMotorActionBean.vehicle.ncbCount}" />
+
+									<h:outputText value="" />
+									<p:message display="text" for="ncbAmount" />
+									<h:outputText for="ncbAmount" value="NCB Amount"
+										styleClass="input-label" />
+									<p:inputText id="ncbAmount"
+										value="#{ManageMotorActionBean.vehicle.ncbAmount}" />
+
+									<h:outputText value="" />
+									<p:message display="text" for="hirePurchaseCompany" />
+									<h:outputText for="hirePurchaseCompany"
+										value="Hire Purchase Company" styleClass="input-label" />
+									<p:inputText id="hirePurchaseCompany"
+										value="#{ManageMotorActionBean.vehicle.hirePurchaseCompany}" />
+								</p:panelGrid>
+
+								<h:panelGroup columns="1" style="margin-top:10px;">
+									<h:outputText value="Additional Cover"
+										style="font-weight:bold; margin-bottom:5px;" />
+									<p:panelGrid columns="1" columnClasses="ui-grid-col-12"
+										layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+										id="addon">
+
+										<p:selectManyCheckbox
+											value="#{ManageMotorActionBean.selectedAdditionalCovers}"
+											layout="grid" columns="2"
+											style="margin-top:5px; border-spacing:8px 4px; display:table; margin-left:auto; margin-right:auto; width: 100%;">
+
+											<f:selectItem itemLabel="Acts Of God" itemValue="ActsOfGod" />
+											<f:selectItem itemLabel="Nil Excess" itemValue="NilExcess" />
+											<f:selectItem itemLabel="SRCC" itemValue="SRCC" />
+											<f:selectItem itemLabel="Theft" itemValue="Theft" />
+											<f:selectItem itemLabel="War Risk" itemValue="WarRisk" />
+											<f:selectItem itemLabel="Betterment" itemValue="Betterment" />
+											<f:selectItem itemLabel="PAAndMT" itemValue="PA_MT" />
+											<f:selectItem itemLabel="Sun Roof" itemValue="SunRoof" />
+											<f:selectItem itemLabel="Third Party" itemValue="ThirdParty" />
+											<f:selectItem itemLabel="Wind Screen" itemValue="WindScreen" />
+										</p:selectManyCheckbox>
+									</p:panelGrid>
+								</h:panelGroup>
+							</p:panelGrid>
+						</p:outputPanel>
+						<h:panelGrid columns="1" style="margin-top:-2px;" id="btns">
 							<p:commandButton id="addBtn"
 								value="#{label['COMMON_ADDNEW_BTN']}"
 								rendered="#{!ManageMotorActionBean.editMode}"
@@ -379,7 +382,8 @@
 								update="vehicleTable vehiclePanel growl" process="@form"
 								style="width: 70px;"
 								oncomplete="PF('vehicleTable').clearFilters();" />
-							<p:commandButton id="editBtn" value="#{label['COMMON_UPDATE_BTN']}"
+							<p:commandButton id="editBtn"
+								value="#{label['COMMON_UPDATE_BTN']}"
 								rendered="#{ManageMotorActionBean.editMode}"
 								action="#{ManageMotorActionBean.addNewVehicleInfo}"
 								update="vehicleTable vehiclePanel @form" process="@form"
@@ -428,15 +432,26 @@
 
 						<!-- edit Button -->
 						<p:column style="width:4%;">
-							<p:commandButton styleClass="green-button" icon="fa fa-paint-brush"
+							<p:commandButton styleClass="green-button"
+								icon="fa fa-paint-brush"
 								action="#{ManageMotorActionBean.editVehicle(vehicle)}"
-								update="@form" process="@this">
+								update=":motorEntryForm:vehicleFormWrapper :motorEntryForm:btns"
+								process="@this" immediate="true"
+								oncomplete="PF('vehicleTable').clearFilters();">
+								<p:resetInput target=":motorEntryForm:vehicleFormWrapper" />
 							</p:commandButton>
 						</p:column>
-					
 						<!-- Delete Button -->
 						<p:column style="width:4%;">
-							<p:commandButton styleClass="red-button" icon="fa fa-exclamation-triangle"
+							<!-- <p:commandButton styleClass="green-button"
+								icon="fa fa-paint-brush"
+								action="#{ManageMotorActionBean.editVehicle(vehicle)}"
+								update=":motorEntryForm:vehiclePanel :motorEntryForm:left :motorEntryForm:right :motorEntryForm:addon :motorEntryForm:btns"
+								process="@this">
+							</p:commandButton> -->
+
+							<p:commandButton styleClass="red-button"
+								icon="fa fa-exclamation-triangle"
 								action="#{ManageMotorActionBean.deleteVehicle(vehicle)}"
 								update=":motorEntryForm:vehicleTable :motorEntryForm:growl @form"
 								process="@this">
