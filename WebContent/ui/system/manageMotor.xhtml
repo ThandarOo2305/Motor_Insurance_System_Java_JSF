@@ -28,7 +28,7 @@
 								<p:message display="text" for="customerType" />
 								<h:outputText for="customerType" value="Customer Type"
 									styleClass="input-label mandatory" />
-								<p:selectOneRadio id="customerType"
+								<p:selectOneRadio id="customerType" required="true" requiredMessage="Customer Type is required!"
 									value="#{ManageMotorActionBean.motorPolicy.customerType}"
 									layout="lineDirection">
 									<f:selectItem itemLabel="Person" itemValue="Person" />
@@ -73,7 +73,7 @@
 								<p:message display="text" for="submitDate" />
 								<h:outputText for="submitDate" value="Submit Date"
 									styleClass="input-label mandatory" />
-								<p:datePicker id="submitDate"
+								<p:datePicker id="submitDate" required="true" requiredMessage="Submitted Date is required!"
 									value="#{ManageMotorActionBean.motorPolicy.submittedDate}"
 									showIcon="true" pattern="#{ApplicationSetting.dateFormat}"
 									timeZone="#{ApplicationSetting.timeZone}">
@@ -88,7 +88,7 @@
 								<p:message display="text" for="startDate" />
 								<h:outputText for="startDate" value="Policy Start Date"
 									styleClass="input-label mandatory" />
-								<p:datePicker id="startDate"
+								<p:datePicker id="startDate" required="true" requiredMessage="Policy Start Date is required!"
 									value="#{ManageMotorActionBean.motorPolicy.policyStartDate}"
 									pattern="dd-MM-yyyy" showIcon="true">
 								</p:datePicker>
@@ -118,7 +118,7 @@
 								<h:outputText value="" />
 								<p:message display="text" for="branchId" />
 								<h:outputText for="branchId" value="Branch"
-									styleClass="input-label mandatory" />
+									styleClass="input-label" />
 								<p:panelGrid styleClass="ui-panelgrid-blank"
 									id="branchPanelGroup">
 									<div style="margin-top: -5px; margin-left: -5px;"
@@ -133,7 +133,7 @@
 													update="branchId" />
 											</p:commandButton>
 											<p:inputText id="branchId"
-												value="#{ManageMotorActionBean.motorPolicy.branch == null ? '' : ManageMotorActionBean.motorPolicy.branch.name}"
+												value="#{ManageMotorActionBean.motorPolicy.branch.name}"
 												readonly="true" />
 											<p:commandButton styleClass="red-button" icon="fa fa-times"
 												action="#{ManageMotorActionBean.motorPolicy.setBranch(null)}"
@@ -243,7 +243,7 @@
 									<h:outputText for="yearOfManufacture"
 										value="Year of Manufacture" styleClass="input-label mandatory" />
 									<p:inputText id="yearOfManufacture"
-										value="#{ManageMotorActionBean.vehicle.yearOfManufacture}"
+										value="#{ManageMotorActionBean.yearOfManufactureStr}"
 										required="true" placeholder="yyyy"
 										requiredMessage="Year Of Manufacture is Required!">
 									</p:inputText>
@@ -300,8 +300,8 @@
 									<h:outputText value="" />
 									<p:message display="text" for="sumInsured" />
 									<h:outputText for="sumInsured" value="Sum Insured"
-										styleClass="input-label" />
-									<p:inputText id="sumInsured"
+										styleClass="input-label mandatory" />
+									<p:inputText id="sumInsured" required="true"
 										value="#{ManageMotorActionBean.vehicle.sumInsured}">
 										<f:convertNumber pattern="#,##0.00" />
 									</p:inputText>

@@ -808,6 +808,18 @@ public class ManageMotorActionBean extends BaseBean {
 		return LocalDate.now().getYear();
 	}
 
+	public String getYearOfManufactureStr() {
+	    return vehicle.getYearOfManufacture() == 0 ? "" : String.valueOf(vehicle.getYearOfManufacture());
+	}
+
+	public void setYearOfManufactureStr(String year) {
+	    if (year == null || year.isEmpty()) {
+	        vehicle.setYearOfManufacture(0);
+	    } else {
+	        vehicle.setYearOfManufacture(Integer.parseInt(year));
+	    }
+	}
+
 	public CurrencyType[] getCurrencyType() {
 		return CurrencyType.values();
 	}
