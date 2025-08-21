@@ -23,6 +23,7 @@ import org.ace.accounting.common.validation.ValidationResult;
 import org.ace.accounting.system.motor.MotorEnquiry;
 import org.ace.accounting.system.motor.MotorEnquiryDTO;
 import org.ace.accounting.system.motor.MotorPolicy;
+import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.service.interfaces.IMotorEnquiryService;
 import org.ace.java.web.common.BaseBean;
 import org.apache.commons.io.FileUtils;
@@ -65,6 +66,11 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 	private List<MotorEnquiryDTO> results;
 	
 	private MotorPolicy selectedPolicy;
+	
+	private final String reportName = "motorPolicyEnquiryLetter";
+	private final String fileName = "MotorPolicyEnquiryLetter";
+	private final String pdfDirPath = "/pdf-report/" + reportName + "/" + System.currentTimeMillis() + "/";
+	private final String dirPath = getWebRootPath() + pdfDirPath;
 
 	public MotorPolicy getSelectedPolicy() {
 	    return selectedPolicy;
@@ -77,9 +83,9 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 	public void viewDetails(MotorEnquiryDTO enquiry) {
 	    if (enquiry != null && enquiry.getPolicyNo() != null) {
 	        try {
-	            // Fetch full MotorPolicy with vehicle links
 	            selectedPolicy = policyEnquiryService.findByPolicyNo(enquiry.getPolicyNo());
-	        } catch (Exception e) {
+	            System.out.println("Vehicle links count = " + selectedPolicy.getVehicleLinks().size());
+	            } catch (Exception e) {
 	            e.printStackTrace();
 	            addErrorMessage(null, "Failed to load policy details");
 	        }
@@ -146,11 +152,6 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 		mpq.setPolicyNo(policyNo);
 		mpq.setRegistrationNo(registrationNo);
 	}
-	
-	private final String reportName = "motorPolicyEnquiryLetter";
-	private final String fileName = "MotorPolicyEnquiryLetter";
-	private final String pdfDirPath = "/pdf-report/" + reportName + "/" + System.currentTimeMillis() + "/";
-	private final String dirPath = getWebRootPath() + pdfDirPath;
 
 	public void generateReport() {
 		
@@ -298,8 +299,6 @@ public class ManagePolicyEnquiryActionBean extends BaseBean {
 
 	public void setMpq(MotorEnquiry mpq) {
 		this.mpq = mpq;
-	}
-
-	
+	}	
 
 }

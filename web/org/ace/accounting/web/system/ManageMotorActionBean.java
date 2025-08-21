@@ -31,7 +31,6 @@ import org.ace.accounting.system.branch.Branch;
 import org.ace.accounting.system.motor.MotorPolicy;
 import org.ace.accounting.system.motor.MotorPolicyDTO;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
-import org.ace.accounting.system.motor.enumTypes.BranchType;
 import org.ace.accounting.system.motor.enumTypes.PaymentType;
 import org.ace.accounting.system.motor.enumTypes.ProductType;
 import org.ace.accounting.system.motor.enumTypes.SaleChannelType;
@@ -104,6 +103,13 @@ public class ManageMotorActionBean extends BaseBean {
 	private MotorPolicyVehicleLink editingVehicle;
 	private boolean editMode = false;
 	private MotorPolicyVehicleLink sameVehicle;
+	private String currentStep = "PolicyInfo";
+	private boolean submitted;
+	
+	private final String reportName = "motorPolicyLetter";
+	private final String fileName = "MotorPolicyLetter";
+	private final String pdfDirPath = "/pdf-report/" + reportName + "/" + System.currentTimeMillis() + "/";
+	private final String dirPath = getWebRootPath() + pdfDirPath;
 
 	@PostConstruct
 	private void init() {
@@ -161,7 +167,7 @@ public class ManageMotorActionBean extends BaseBean {
 			}
 		}
 	}
-
+	
 	public void addVehicle() {
 		System.out.println("In addVehicle method");
 
@@ -264,8 +270,6 @@ public class ManageMotorActionBean extends BaseBean {
 		Branch branch = (Branch) event.getObject();
 		motorPolicy.setBranch(branch);
 	}
-
-	private String currentStep = "PolicyInfo";
 
 	public String getCurrentStep() {
 		return currentStep;
@@ -503,7 +507,7 @@ public class ManageMotorActionBean extends BaseBean {
 	}
 
 	public void applyFleetDiscount() {
-		int fleetThreshold = 2;
+		int fleetThreshold = 10;
 		double discountRate = fleetDiscountRate / 100;
 
 		if (addVehicleList.size() < fleetThreshold) {
@@ -586,8 +590,6 @@ public class ManageMotorActionBean extends BaseBean {
 			System.out.println("Invalid start date or period for calculating policy end date.");
 		}
 	}
-
-	private boolean submitted; // default = false
 
 	public boolean isSubmitted() {
 		return submitted;
@@ -693,11 +695,6 @@ public class ManageMotorActionBean extends BaseBean {
 		}
 	}
 
-	private final String reportName = "motorPolicyLetter";
-	private final String fileName = "MotorPolicyLetter";
-	private final String pdfDirPath = "/pdf-report/" + reportName + "/" + System.currentTimeMillis() + "/";
-	private final String dirPath = getWebRootPath() + pdfDirPath;
-
 	public void generateReport() {
 
 		List<MotorPolicyVehicleLink> addVehicleList = motorPolicy.getMotorPolicyVehicleLinks();
@@ -722,10 +719,12 @@ public class ManageMotorActionBean extends BaseBean {
 			System.out.println("Customer Name = " + motorPolicy.getCustomerName());
 			System.out.println("Policy No     = " + motorPolicy.getPolicyNo());
 			System.out.println("Proposal No   = " + motorPolicy.getProposalNo());
+			System.out.println("Submitted Date = " + motorPolicy.getSubmittedDate());
 			parameters.put("CustomerName", motorPolicy.getCustomerName());
 			parameters.put("PolicyNo", motorPolicy.getPolicyNo());
 			parameters.put("ProposalNo", motorPolicy.getProposalNo());
-
+			parameters.put("SubmittedDate", motorPolicy.getSubmittedDate());
+			
 			// Join all Registration Nos with comma
 			String registrationNos = addVehicleList.stream().map(MotorPolicyVehicleLink::getRegistrationNo)
 					.collect(Collectors.joining(", "));
@@ -739,17 +738,10 @@ public class ManageMotorActionBean extends BaseBean {
 			parameters.put("RegistrationNo", registrationNos);
 			parameters.put("AddOnCovers", addOnCoversAll);
 
-			double sumInsuredTotal = addVehicleList.stream().mapToDouble(MotorPolicyVehicleLink::getSumInsured).sum();
-			double basicPremiumTotal = addVehicleList.stream().mapToDouble(MotorPolicyVehicleLink::getBasicTermPremium)
-					.sum();
-			double addOnPremiumTotal = addVehicleList.stream().mapToDouble(MotorPolicyVehicleLink::getAddOnTermPremium)
-					.sum();
-			double totalPremium = addVehicleList.stream().mapToDouble(MotorPolicyVehicleLink::getTotalPremium).sum();
-
-			parameters.put("SumInsured", sumInsuredTotal);
-			parameters.put("BasicTermPremium", basicPremiumTotal);
-			parameters.put("AddOnTermPremium", addOnPremiumTotal);
-			parameters.put("TotalPremium", totalPremium);
+			parameters.put("SumInsured", getTotalSumInsured());
+			parameters.put("BasicTermPremium", getTotalBasicTermPremium());
+			parameters.put("AddOnTermPremium", getTotalAddOnTermPremium());
+			parameters.put("TotalPremium", getTotalTotalPremium());
 
 			JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
 			JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
@@ -814,10 +806,6 @@ public class ManageMotorActionBean extends BaseBean {
 
 	public int getCurrentYear() {
 		return LocalDate.now().getYear();
-	}
-
-	public BranchType[] getBranchType() {
-		return BranchType.values();
 	}
 
 	public CurrencyType[] getCurrencyType() {
