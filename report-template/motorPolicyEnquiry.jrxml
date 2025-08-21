@@ -139,63 +139,63 @@
 			</staticText>
 			<textField>
 				<reportElement x="280" y="1" width="179" height="30" uuid="08afc4b7-99ab-4260-868e-35b310a2d1ec"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{PolicyNo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="280" y="39" width="179" height="30" uuid="684ddc08-1934-46fc-a366-2cd7d3aa47cf"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ProposalNo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="281" y="78" width="179" height="30" uuid="6685c043-6a2c-42a3-a22d-ac609e599a2f"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{RegistrationNo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="280" y="119" width="179" height="30" uuid="12eece99-3b9c-4bad-baff-6122d49e9590"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{SaleChannel}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="280" y="159" width="179" height="30" uuid="8736c673-1853-4f93-947e-e7d9991f8b5b"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{CustomerName}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="280" y="200" width="179" height="30" uuid="94f4c633-d26c-4c65-b5be-49db4a4e8808"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{Branch}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="280" y="239" width="179" height="30" uuid="ca30b763-5d5e-4a35-9226-5eced67e4db0"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ClaimCount}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="280" y="278" width="179" height="30" uuid="aea0dce6-71cb-4a16-a84e-1e58b02e510b"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0.00").format($P{TotalSumInsured})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="281" y="319" width="179" height="30" uuid="9d8db792-3384-41e3-855a-e2e77108015a"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0.00").format($P{BasicPremium})]]></textFieldExpression>
