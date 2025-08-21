@@ -20,9 +20,6 @@ public class MotorPolicyVehicleLinkService extends BaseService implements IMotor
 	@Resource(name="MotorPolicyVehicleLinkDAO")
 	private IMotorPolicyVehicleLinkDAO vehicleDao;
 	
-//	@Resource(name="IMotorPolicyVehicleLinkService")
-//	private IMotorPolicyVehicleLinkService vehicleService;
-	
 	@Transactional(propagation= Propagation.REQUIRED, readOnly=true)
 	public List<MotorPolicyVehicleLink> findAllMotorPolicyVehicleLinks() throws SystemException {
 		List<MotorPolicyVehicleLink> result=null;
@@ -45,33 +42,6 @@ public class MotorPolicyVehicleLinkService extends BaseService implements IMotor
 		        throw new SystemException(e.getErrorCode(), "Failed to find vehicleLink by registration number: " + registrationNo, e);
 		    }
 		    return result;
-	}
-	
-	@Transactional(propagation= Propagation.REQUIRED)
-	public void addNewMotorPolicyVehicleLink(MotorPolicyVehicleLink link) throws SystemException {
-		try {
-			vehicleDao.insert(link);
-		} catch (DAOException e) {
-			throw new SystemException(e.getErrorCode(), "Failed to add new vehicleLink", e);
-		}
-	}
-	
-	@Transactional(propagation= Propagation.REQUIRED)
-	public void updateMotorPolicyVehicleLink(MotorPolicyVehicleLink link) throws SystemException {
-		try {
-			vehicleDao.update(link);
-		} catch (DAOException e) {
-			throw new SystemException(e.getErrorCode(), "Failed to update vehicleLink", e);
-		}
-	}
-	
-	@Transactional(propagation= Propagation.REQUIRED)
-	public void deleteMotorPolicyVehicleLink(MotorPolicyVehicleLink link) throws SystemException {
-		try {
-			vehicleDao.delete(link);
-		} catch (DAOException e) {
-			throw new SystemException(e.getErrorCode(), "Failed to delete vehicleLink", e);
-		}
 	}
 
 	@Transactional(propagation= Propagation.REQUIRED)

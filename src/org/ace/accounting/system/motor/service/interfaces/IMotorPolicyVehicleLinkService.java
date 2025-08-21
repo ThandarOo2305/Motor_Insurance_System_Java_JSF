@@ -11,11 +11,5 @@ public interface IMotorPolicyVehicleLinkService {
 	
 	public MotorPolicyVehicleLink findMotorPolicyVehicleLinkByRegistrationNo(String registrationNo) throws SystemException;
 	
-	public void addNewMotorPolicyVehicleLink(MotorPolicyVehicleLink link) throws SystemException;
-
-	public void updateMotorPolicyVehicleLink(MotorPolicyVehicleLink link) throws SystemException;
-
-	public void deleteMotorPolicyVehicleLink(MotorPolicyVehicleLink link) throws SystemException;
-	
 	public boolean existsByRegistrationNo(String registrationNo) throws SystemException;
 }

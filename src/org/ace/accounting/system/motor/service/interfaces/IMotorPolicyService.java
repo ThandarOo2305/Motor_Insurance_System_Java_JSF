@@ -14,10 +14,6 @@ public interface IMotorPolicyService {
 	public boolean existsMotorPolicyByPolicyNo(String policyNo) throws SystemException;
 	
 	public void addNewMotorPolicy(MotorPolicy motorPolicy) throws SystemException;
-
-	public void updateMotorPolicy(MotorPolicy motorPolicy) throws SystemException;
-
-	public void deleteMotorPolicy(MotorPolicy motorPolicy) throws SystemException;
 	
 	public String generateProposalNo() throws SystemException;
 }

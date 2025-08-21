@@ -76,30 +76,6 @@ public class MotorPolicyDAO extends BasicDAO implements IMotorPolicyDAO {
 			throw translate("Failed to insert Motor Policy", pe);
 		}
 	}
-
-	// Update
-	@Transactional(propagation = Propagation.REQUIRED)
-	public MotorPolicy update(MotorPolicy motorPolicy) throws DAOException {
-		try {
-			MotorPolicy updated = em.merge(motorPolicy);
-			em.flush();
-			return updated;
-		} catch (PersistenceException pe) {
-			throw translate("Failed to update Motor Policy", pe);
-		}
-	}
-
-	// Delete
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void delete(MotorPolicy motorPolicy) throws DAOException {
-		try {
-			MotorPolicy managedMotorPolicy = em.merge(motorPolicy);
-			em.remove(managedMotorPolicy);
-			em.flush();
-		} catch (PersistenceException pe) {
-			throw translate("Failed to delete Motor Policy", pe);
-		}
-	}
 	
 	public String findLastProposalNoByMonthYear(String monthYear) throws DAOException {
 	    try {

@@ -43,38 +43,6 @@ public class MotorPolicyVehicleLinkDAO extends BasicDAO implements IMotorPolicyV
 		return result;
 	   
 	}
-
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void insert(MotorPolicyVehicleLink link) throws DAOException {
-		try {
-			em.persist(link);
-			em.flush();
-		} catch (PersistenceException pe) {
-			throw translate("Failed to insert VehicleLink", pe);
-		}
-	}
-	
-	@Transactional(propagation = Propagation.REQUIRED)
-	public MotorPolicyVehicleLink update(MotorPolicyVehicleLink link) throws DAOException {
-		try {
-			em.merge(link);
-			em.flush();
-		} catch (PersistenceException pe) {
-			throw translate("Failed to update Vehicle", pe);
-		}
-		return link;
-	}
-	
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void delete(MotorPolicyVehicleLink link) throws DAOException {
-		try {
-			MotorPolicyVehicleLink updatedMotorPolicyVehicleLink= em.merge(link);
-			em.remove(updatedMotorPolicyVehicleLink);
-			em.flush();
-		} catch (PersistenceException pe) {
-			throw translate("Failed to delete VehicleLink", pe);
-		}
-	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean existsByRegistrationNo(String registrationNo) throws DAOException {

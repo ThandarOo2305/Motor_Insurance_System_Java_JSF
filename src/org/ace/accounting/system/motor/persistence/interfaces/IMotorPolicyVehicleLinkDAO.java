@@ -11,12 +11,6 @@ public interface IMotorPolicyVehicleLinkDAO {
 	
 	public MotorPolicyVehicleLink findByRegistrationNo(String registrationNo) throws DAOException;
 	
-	public void insert(MotorPolicyVehicleLink link) throws DAOException;
-	
-	public MotorPolicyVehicleLink update(MotorPolicyVehicleLink link) throws DAOException;
-	
-	public void delete(MotorPolicyVehicleLink link) throws DAOException;
-	
 	public boolean existsByRegistrationNo(String registrationNO) throws DAOException;
 
 }

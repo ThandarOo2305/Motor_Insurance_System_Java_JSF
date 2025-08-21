@@ -63,26 +63,6 @@ public class MotorPolicyService extends BaseService implements IMotorPolicyServi
 			throw new SystemException(e.getErrorCode(), "Failed to insert Motor Policy", e);
 		}
 	}
-
-	// Update
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void updateMotorPolicy(MotorPolicy motorPolicy) throws SystemException {
-		try {
-			motorPolicyDAO.update(motorPolicy);
-		} catch (DAOException e) {
-			throw new SystemException(e.getErrorCode(), "Failed to update Motor Policy", e);
-		}
-	}
-
-	// Delete
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void deleteMotorPolicy(MotorPolicy motorPolicy) throws SystemException {
-		try {
-			motorPolicyDAO.delete(motorPolicy);
-		} catch (DAOException e) {
-			throw new SystemException(e.getErrorCode(), "Failed to delete Motor Policy", e);
-		}
-	}
 	
 	@Override
 	public String generateProposalNo() throws SystemException {
