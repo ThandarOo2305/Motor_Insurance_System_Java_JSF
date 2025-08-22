@@ -19,7 +19,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 
 import org.ace.accounting.common.CurrencyType;
 import org.ace.accounting.common.PropertiesManager;
@@ -29,7 +28,6 @@ import org.ace.accounting.common.validation.MessageId;
 import org.ace.accounting.common.validation.ValidationResult;
 import org.ace.accounting.system.branch.Branch;
 import org.ace.accounting.system.motor.MotorPolicy;
-import org.ace.accounting.system.motor.MotorPolicyDTO;
 import org.ace.accounting.system.motor.MotorPolicyVehicleLink;
 import org.ace.accounting.system.motor.enumTypes.PaymentType;
 import org.ace.accounting.system.motor.enumTypes.ProductType;
