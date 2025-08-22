@@ -533,25 +533,6 @@ public class ManageMotorActionBean extends BaseBean {
 		}
 	}
 
-	public double totalPremiunCalculation() {
-		double totalPremium = 0.0;
-
-		for (MotorPolicyVehicleLink v : addVehicleList) {
-			double basic = basicTermPremiumCalculation(v, motorPolicy.getPaymentType());
-			double addOn = basicTermAddOnPremium(v, motorPolicy.getPaymentType());
-
-			double vehiclePremium = basic + addOn;
-
-			if (v.isFleet()) {
-				vehiclePremium -= v.getFleetDiscount();
-			}
-
-			totalPremium += vehiclePremium;
-		}
-
-		return totalPremium;
-	}
-
 	private void updatePremiumValuesToVehicles() {
 		for (MotorPolicyVehicleLink v : addVehicleList) {
 			double oneYearBasic = oneYearBasicPremiumCalculation(v);
@@ -618,10 +599,6 @@ public class ManageMotorActionBean extends BaseBean {
 			this.submitted = true;
 
 			addInfoMessage(null, MessageId.INSERT_SUCCESS, motorPolicy.getPolicyNo());
-
-//	        createNewMotorPolicyInfo();
-//	        createNewVehicleInfo();
-//	        selectedAdditionalCovers.clear();        
 
 		} catch (SystemException ex) {
 			handleSysException(ex);
