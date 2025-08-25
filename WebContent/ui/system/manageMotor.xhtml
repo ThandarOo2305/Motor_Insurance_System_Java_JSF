@@ -28,7 +28,8 @@
 								<p:message display="text" for="customerType" />
 								<h:outputText for="customerType" value="Customer Type"
 									styleClass="input-label mandatory" />
-								<p:selectOneRadio id="customerType" required="true" requiredMessage="Customer Type is required!"
+								<p:selectOneRadio id="customerType" required="true"
+									requiredMessage="Customer Type is required!"
 									value="#{ManageMotorActionBean.motorPolicy.customerType}"
 									layout="lineDirection">
 									<f:selectItem itemLabel="Person" itemValue="Person" />
@@ -67,13 +68,15 @@
 									styleClass="input-label mandatory" />
 								<p:inputText id="policyNo"
 									value="#{ManageMotorActionBean.motorPolicy.policyNo}"
-									required="true" requiredMessage="Policy Number is required." />
+									required="true" requiredMessage="Policy Number is required."
+									placeholder="eg. MTR-00-000000" />
 
 								<h:outputText value="" />
 								<p:message display="text" for="submitDate" />
 								<h:outputText for="submitDate" value="Submit Date"
 									styleClass="input-label mandatory" />
-								<p:datePicker id="submitDate" required="true" requiredMessage="Submitted Date is required!"
+								<p:datePicker id="submitDate" required="true"
+									requiredMessage="Submitted Date is required!"
 									value="#{ManageMotorActionBean.motorPolicy.submittedDate}"
 									showIcon="true" pattern="#{ApplicationSetting.dateFormat}"
 									timeZone="#{ApplicationSetting.timeZone}">
@@ -88,7 +91,8 @@
 								<p:message display="text" for="startDate" />
 								<h:outputText for="startDate" value="Policy Start Date"
 									styleClass="input-label mandatory" />
-								<p:datePicker id="startDate" required="true" requiredMessage="Policy Start Date is required!"
+								<p:datePicker id="startDate" required="true"
+									requiredMessage="Policy Start Date is required!"
 									value="#{ManageMotorActionBean.motorPolicy.policyStartDate}"
 									pattern="dd-MM-yyyy" showIcon="true">
 								</p:datePicker>
@@ -109,7 +113,7 @@
 									value="#{ManageMotorActionBean.motorPolicy.paymentType}"
 									required="true" requiredMessage="Payment Type is required.">
 									<f:selectItem itemLabel="Select Payment Type" itemValue="" />
-									<f:selectItem itemLabel="LUMSUM" itemValue="LUMSUM" />
+									<f:selectItem itemLabel="LUMPSUM" itemValue="LUMPSUM" />
 									<f:selectItem itemLabel="SEMI_ANNUAL" itemValue="SEMI_ANNUAL" />
 									<f:selectItem itemLabel="QUARTER" itemValue="QUARTER" />
 									<f:selectItem itemLabel="MONTHLY" itemValue="MONTHLY" />
@@ -208,7 +212,8 @@
 									<p:inputText id="registrationNo"
 										value="#{ManageMotorActionBean.vehicle.registrationNo}"
 										required="true"
-										requiredMessage="registration Number is required." />
+										requiredMessage="registration Number is required."
+										placeholder="eg. YGN 1A/1111" />
 
 									<h:outputText value="" />
 									<p:message display="text" for="model" />

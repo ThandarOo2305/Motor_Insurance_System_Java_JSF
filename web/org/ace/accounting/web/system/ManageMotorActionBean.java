@@ -699,12 +699,10 @@ public class ManageMotorActionBean extends BaseBean {
 			parameters.put("PolicyNo", motorPolicy.getPolicyNo());
 			parameters.put("ProposalNo", motorPolicy.getProposalNo());
 			parameters.put("SubmittedDate", motorPolicy.getSubmittedDate());
-			
-			// Join all Registration Nos with comma
-			String registrationNos = addVehicleList.stream().map(MotorPolicyVehicleLink::getRegistrationNo)
+			 
+			String registrationNos = addVehicleList.stream().map(v -> v.getRegistrationNo())
 					.collect(Collectors.joining(", "));
 
-			// Join all Add-On Covers with comma
 			String addOnCoversAll = addVehicleList.stream().map(v -> {
 				String covers = getAdditionalCoversAsString(v);
 				return (covers != null && !covers.isEmpty()) ? covers : "None";
@@ -864,13 +862,12 @@ public class ManageMotorActionBean extends BaseBean {
 		return total > 0 ? total : 0;
 	}
 
-	// Total sums for footer
 	public double getTotalSumInsured() {
 		return addVehicleList.stream().mapToDouble(MotorPolicyVehicleLink::getSumInsured).sum();
 	}
 
 	public double getTotalOneYearBasicPremium() {
-		return addVehicleList.stream().mapToDouble(this::getOneYearBasicPremium).sum();
+		return addVehicleList.stream().mapToDouble(v -> getOneYearBasicPremium(v)).sum();
 	}
 
 	public double getTotalOneYearAddOnPremium() {

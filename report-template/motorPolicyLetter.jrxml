@@ -142,28 +142,28 @@
 </textField>
 
 			<staticText>
-				<reportElement x="3" y="165" width="179" height="30" uuid="ab01fd09-0191-4b00-b68a-fbd4f73bcc93"/>
+				<reportElement x="3" y="200" width="179" height="30" uuid="ab01fd09-0191-4b00-b68a-fbd4f73bcc93"/>
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Basic Term Premium:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="204" y="165" width="178" height="30" uuid="3f2ffebb-6bd8-44d0-99a7-2b102245e555"/>
+				<reportElement x="204" y="200" width="178" height="30" uuid="3f2ffebb-6bd8-44d0-99a7-2b102245e555"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0.00").format($P{BasicTermPremium})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="3" y="200" width="179" height="30" uuid="e45b1bfb-d7dc-409c-a98a-07a30c2205da"/>
+				<reportElement x="3" y="165" width="179" height="30" uuid="e45b1bfb-d7dc-409c-a98a-07a30c2205da"/>
 				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Sum Insured:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="204" y="200" width="177" height="30" uuid="3260abff-cb76-495a-9ac2-f44e65ca57ec"/>
+				<reportElement x="204" y="165" width="177" height="30" uuid="3260abff-cb76-495a-9ac2-f44e65ca57ec"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>

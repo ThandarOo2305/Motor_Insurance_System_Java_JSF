@@ -22,7 +22,7 @@ public class MotorPolicyVehicleValidator implements IDataValidator<MotorPolicyVe
 		ValidationResult result = new ValidationResult();
 		String formId = "motorEntryForm";
 		String registraionnumber = motorPolicyVehicleLink.getRegistrationNo();
-
+ 
 		String regPattern = "^[A-Z]{3} [0-9][A-Z]/[0-9]{4}$";
 		if (registraionnumber == null || !registraionnumber.matches(regPattern)) {
 			result.addErrorMessage(formId + ":registrationNo",
