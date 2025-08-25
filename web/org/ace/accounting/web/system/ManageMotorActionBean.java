@@ -357,7 +357,6 @@ public class ManageMotorActionBean extends BaseBean {
 		editingVehicle = null;
 	}
 
-	// Validate fields for each step
 	public boolean validateCurrentStep(String step) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		System.out.println("validateCurrentStep: Validating step: " + (step != null ? step : "null"));
@@ -409,7 +408,6 @@ public class ManageMotorActionBean extends BaseBean {
 		return true;
 	}
 
-	// Keep existing FlowEvent listener
 	public String onFlowProcess(FlowEvent event) {
 		String oldStep = event.getOldStep();
 		String newStep = event.getNewStep();
@@ -417,7 +415,7 @@ public class ManageMotorActionBean extends BaseBean {
 
 		if (!validateCurrentStep(oldStep)) {
 			System.out.println("Validation failed, staying on step: " + oldStep);
-			return oldStep; // Prevent moving forward
+			return oldStep;
 		}
 
 		currentStep = newStep;
@@ -615,9 +613,8 @@ public class ManageMotorActionBean extends BaseBean {
 		System.out.println("in edit vehicle method");
 		this.vehicle = vehicle;
 		this.editMode = true;
-		this.editingVehicle = vehicle; // store original reference
+		this.editingVehicle = vehicle;
 
-		// Re-bind selected covers if needed
 		selectedAdditionalCovers = new ArrayList<>();
 		if (vehicle.isActsOfGod())
 			selectedAdditionalCovers.add("ActsOfGod");
@@ -722,7 +719,7 @@ public class ManageMotorActionBean extends BaseBean {
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 
 			File pdfFile = new File(pdfFilePath);
-			FileUtils.forceMkdir(pdfFile.getParentFile()); // Create parent directories
+			FileUtils.forceMkdir(pdfFile.getParentFile());
 
 			JasperExportManager.exportReportToPdfFile(jasperPrint, pdfFilePath);
 
@@ -739,7 +736,6 @@ public class ManageMotorActionBean extends BaseBean {
 			System.out.println("getDownload: Looking for PDF at " + pdfFilePath);
 			File file = new File(pdfFilePath);
 
-			// Generate report if PDF does not exist
 			if (!file.exists()) {
 				generateReport();
 			}

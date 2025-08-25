@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository("MotorPolicyEnquiryDAO")
 public class MotorPolicyEnquiryDAO extends BasicDAO implements IMotorPolicyEnquiryDAO {
 
-	
-	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<MotorEnquiryDTO> search(String sqlquery, Map<String, Object> params) throws DAOException {
 		try {			
